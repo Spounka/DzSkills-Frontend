@@ -38,13 +38,14 @@ function EditProfile() {
                 <Box
                     sx={{
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(15, minmax(0, 1fr))',
+                        gridTemplateColumns: 'repeat(13, minmax(0, 1fr))',
                         width: "100%",
                         maxWidth: '100%',
-                        gap: theme.spacing(8),
+                        gap: theme.spacing(2),
                         marginBottom: '5rem',
                         paddingRight: theme.spacing(14),
                         paddingLeft: theme.spacing(14),
+                        pt: theme.spacing(10),
                     }}
                 >
                     <Card
