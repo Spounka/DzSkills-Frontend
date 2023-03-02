@@ -6,6 +6,48 @@ import {
     semibold,
 } from "./assets/fonts/fonts";
 
+declare module "@mui/material/styles" {
+    interface Theme {
+        status: {
+            danger: React.CSSProperties["color"];
+        };
+    }
+
+    interface Palette {
+        gray: {
+            main: string;
+            secondary?: string;
+            light?: string;
+            dark?: string;
+            contrastText?: string;
+        };
+    }
+
+    interface PaletteOptions {
+        gray?: {
+            main: string;
+            secondary?: string;
+            light?: string;
+            dark?: string;
+            contrastText?: string;
+        };
+    }
+
+    interface PaletteColor {
+        darker?: string;
+    }
+
+    interface SimplePaletteColorOptions {
+        darker?: string;
+    }
+
+    interface ThemeOptions {
+        status: {
+            danger: React.CSSProperties["color"];
+        };
+    }
+}
+
 declare module "@mui/material" {
     interface PaletteOptions {
         blue?: {
