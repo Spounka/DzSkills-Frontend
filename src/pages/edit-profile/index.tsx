@@ -1,9 +1,12 @@
-import { useTheme } from '@mui/material';
+import { Typography, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
+import { Container } from '@mui/system';
+import SideBar from './components/side-bar';
 
+import { EditPasswordForm } from './EditPasswordForm';
 import TopNavigationBar from './components/top-bar';
+import EditProfileContent from './EditProfileContent';
 
 function EditProfile() {
     const theme = useTheme()
@@ -52,15 +55,27 @@ function EditProfile() {
                         <SideBar />
                     </Container>
                     <EditProfileContent />
+                    <Typography sx={{
+                        gridColumnStart: 5,
+                        gridColumnEnd: 14,
+                        px: 2
+                    }}
+                        variant={'h5'}
+                        fontWeight={500}
+                        color={'gray.title'}
+                    >
+                        كلمة السر
+                    </Typography>
 
-                        }}>
-                        Hello There
-                    </Card>
+                    <EditPasswordForm />
+
                 </Box>
             </Grid>
 
         </Grid>
     )
 }
+
+
 
 export default EditProfile

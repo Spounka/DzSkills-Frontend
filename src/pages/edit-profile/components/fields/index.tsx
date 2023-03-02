@@ -10,7 +10,7 @@ const SytledOutline = styled(OutlinedInput)<OutlinedInputProps>(({ theme }) => (
         color: theme.palette.gray.dark,
     },
 }));
-export default function EditProfileField({ name, type, text, multiline }: any) {
+export default function EditProfileField({ name, type, text, multiline, grow }: any) {
     const theme = useTheme();
     return <>
         <Box sx={{
@@ -18,7 +18,7 @@ export default function EditProfileField({ name, type, text, multiline }: any) {
             display: 'flex',
             flexDirection: 'column',
             grow: 'true',
-            flexGrow: '1'
+            flexGrow: grow ? '1' : '0'
         }}>
             <Typography fontWeight={600} sx={{
                 px: theme.spacing(2),
@@ -39,7 +39,6 @@ export default function EditProfileField({ name, type, text, multiline }: any) {
                     rows={2}
                     sx={{
                         borderRadius: theme.spacing(),
-                        flexGrow: 'true',
                         fontWeight: theme.typography.body1,
                         color: theme.palette.gray.main,
                     }} />
@@ -52,7 +51,6 @@ export default function EditProfileField({ name, type, text, multiline }: any) {
                     fullWidth={true}
                     sx={{
                         borderRadius: theme.spacing(),
-                        flexGrow: 'true',
                         fontWeight: theme.typography.body1,
                         color: theme.palette.gray.main,
                     }} />

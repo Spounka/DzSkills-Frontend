@@ -15,7 +15,7 @@ const SideBarLink = ({ url, text, props }: sidebarProps) => {
         isActive ? { color: theme.palette.primary.main }
             : { color: theme.palette.gray.dark }
     }>
-        <Typography variant="subtitle1" fontWeight={600}
+        <Typography fontWeight={600} variant="subtitle1"
             sx={{
                 p: `${theme.spacing(2)} ${theme.spacing(4)}`,
             }}
