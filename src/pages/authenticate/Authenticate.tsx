@@ -60,7 +60,7 @@ function Autenticate({ }: props) {
                             gridColumnEnd: 9,
                         }}>
 
-                        <FullWidthTab tabs={tabs} panels={panels} />
+                        <FullWidthTab tabs={tabs} panels={panels} startState={0} />
                     </Card>
                 </Box>
             </Grid>

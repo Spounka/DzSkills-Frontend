@@ -7,10 +7,11 @@ import { TabPanel } from './TabPanel';
 interface props {
     tabs: React.ReactElement[];
     panels: React.ReactElement[];
+    startState?: number
 }
 
-function FullWidthTab({ tabs, panels }: props) {
-    const [value, setValue] = React.useState(0);
+function FullWidthTab({ tabs, panels, startState }: props) {
+    const [value, setValue] = React.useState(startState || 0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
