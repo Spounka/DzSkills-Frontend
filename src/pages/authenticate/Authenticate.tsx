@@ -18,8 +18,8 @@ function a11yProps(index: number) {
 
 function Autenticate({ }: props) {
     const tabs = [
-        <Tab disableRipple label="حساب جديد" {...a11yProps(1)} />,
-        <Tab disableRipple label="تسجيل الدخول" {...a11yProps(0)} />,
+        <Tab disableRipple label="حساب جديد" {...a11yProps(0)} />,
+        <Tab disableRipple label="تسجيل الدخول" {...a11yProps(1)} />,
     ]
 
     const panels = [
