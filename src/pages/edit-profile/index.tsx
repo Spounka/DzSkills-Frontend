@@ -26,9 +26,10 @@ function EditProfile() {
                 <TopNavigationBar />
             </Grid>
 
-            <Grid item xs={14} container
+            <Grid item xs={13} container
                 sx={{
                     backgroundColor: 'gray.secondary',
+                    pt: theme.spacing(10),
                 }}
                 style={{
                     padding: 0,
