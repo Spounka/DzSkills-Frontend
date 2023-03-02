@@ -10,7 +10,7 @@ const SytledOutline = styled(OutlinedInput)<OutlinedInputProps>(({ theme }) => (
         color: theme.palette.gray.dark,
     },
 }));
-export function EditProfileField({ name, type, text, multiline }: any) {
+export default function EditProfileField({ name, type, text, multiline }: any) {
     const theme = useTheme();
     return <>
         <Box sx={{
