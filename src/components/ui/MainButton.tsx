@@ -11,11 +11,12 @@ export function MainButton({ text, color, sx, ...other }: props) {
     const theme = useTheme();
 
     return <Button size="large" variant="contained" sx={{
+        bgcolor: `${color || theme.palette.secondary.main}`,
         color: 'white',
         border: `${color || theme.palette.secondary.main} 2px solid`,
         alignSelf: 'center',
         px: 5,
-        borderRadius: '.5rem',
+        borderRadius: '.5rem .5rem .5rem .5rem !important',
         transition: 'ease-in-out',
         transitionProperty: 'all',
         transitionDuration: '200ms',
@@ -25,7 +26,6 @@ export function MainButton({ text, color, sx, ...other }: props) {
             border: `${color} 2px solid`,
             color: `${color}`,
         }
-
     }}
         {...other}
 
