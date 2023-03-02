@@ -17,7 +17,6 @@ function EditProfile() {
 
             <Grid item xs={14} sx={{
                 width: '100%',
-                px: 0,
             }}
                 style={{
                     paddingLeft: '0',
