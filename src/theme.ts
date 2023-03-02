@@ -7,18 +7,13 @@ import {
 } from "./assets/fonts/fonts";
 
 declare module "@mui/material/styles" {
-    interface Theme {
-        status: {
-            danger: React.CSSProperties["color"];
-        };
-    }
-
     interface Palette {
         gray: {
             main: string;
             secondary?: string;
             light?: string;
             dark?: string;
+            title?: string;
             contrastText?: string;
         };
     }
@@ -29,6 +24,7 @@ declare module "@mui/material/styles" {
             secondary?: string;
             light?: string;
             dark?: string;
+            title?: string;
             contrastText?: string;
         };
     }
@@ -50,19 +46,13 @@ declare module "@mui/material/styles" {
 
 declare module "@mui/material" {
     interface PaletteOptions {
-        blue?: {
-            main: string;
-            secondary?: string;
-            light?: string;
-            dark?: string;
-            contrastText?: string;
-        };
         gray?: {
             main: string;
             secondary?: string;
             light?: string;
             dark?: string;
             contrastText?: string;
+            title?: string;
         };
     }
 }
@@ -86,6 +76,7 @@ const theme = createTheme({
             secondary: "#EBEBF3",
             light: "#CCCCCC",
             dark: "#51515D",
+            title: "#2B2B2B",
         },
     },
     typography: {
