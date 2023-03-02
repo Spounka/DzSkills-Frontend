@@ -48,16 +48,10 @@ function EditProfile() {
                         pt: theme.spacing(10),
                     }}
                 >
-                    <Card
-                        elevation={0}
-                        sx={{
-                            gridColumnStart: 6,
-                            gridColumnEnd: 18,
-                            maxWidth: '100%',
-                            minHeight: "70vh",
-                            marginTop: theme.spacing(10),
-                            py: theme.spacing(5),
-                            px: theme.spacing(16)
+                    <Container sx={{ gridColumnStart: 1, gridColumnEnd: 4, }} style={{ paddingLeft: '0', paddingRight: '0', }} >
+                        <SideBar />
+                    </Container>
+                    <EditProfileContent />
 
                         }}>
                         Hello There
