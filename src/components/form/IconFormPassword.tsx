@@ -5,9 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 function IconFormPassword({ placeholder, ...other }: any) {
     const [showPassword, setShowPassword] = React.useState(false);
-
-
-
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
