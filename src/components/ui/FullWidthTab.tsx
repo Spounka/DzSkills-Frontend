@@ -1,16 +1,25 @@
-import { Tabs } from '@mui/material';
+import { Tab, Tabs } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { TabPanel } from './TabPanel';
 
 
 interface props {
-    tabs: React.ReactElement[];
+    tabLabels: string[];
     panels: React.ReactElement[];
     startState?: number
 }
 
-function FullWidthTab({ tabs, panels, startState }: props) {
+function a11yProps(index: number) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
+
+
+function FullWidthTab({ tabLabels, panels, startState }: props) {
     const [value, setValue] = React.useState(startState || 0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -42,12 +51,14 @@ function FullWidthTab({ tabs, panels, startState }: props) {
                         },
                     }}
                 >
-                    {tabs.map((tab) => tab)}
+                    {tabLabels.map((label, index) => {
+                        return <Tab disableRipple label={label} {...a11yProps(index)} key={uuidv4()} />
+                    })}
                 </Tabs>
             </Box>
             {panels.map((panel, index) => {
                 return (
-                    <TabPanel value={value} index={index} key={index}>
+                    <TabPanel value={value} index={index} key={uuidv4()}>
                         {panel}
                     </TabPanel>
                 )

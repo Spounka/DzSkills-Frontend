@@ -1,14 +1,17 @@
 import { Avatar, ButtonGroup, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
+import { useSelector } from 'react-redux';
 import { MainButton } from '../../components/ui/MainButton';
-import UploadSvgIcon from '../../components/UploadSvgIcon';
+import UploadSvgIcon from '../../components/ui/UploadSvgIcon';
+import { selectUser } from '../../redux/userSlice';
 import EditProfileField from './components/fields';
 import EditProfileColumn from './components/fields-column';
 import SocialMediaInput from './SocialMediaInput';
 
 export default function EditProfileContent({ }) {
     const theme = useTheme();
+    const user = useSelector(selectUser)
     return (
         <Card elevation={0} sx={{
             gridColumnStart: 5,
@@ -46,30 +49,40 @@ export default function EditProfileContent({ }) {
             </Box>
 
             <EditProfileColumn>
-                <EditProfileField grow
+                <EditProfileField
+                    grow
                     name={'first_name'}
                     type={'text'}
-                    text={'الإسم الأول'} />
-                <EditProfileField grow
-                    name={'first_name'}
-                    type={'text'}
-                    text={'اسم العائلة'} />
+                    placeholder={user.user.first_name}
+                    label={'الإسم الأول'} />
+                <EditProfileField
+                    grow
+                    name={'last_name'}
+                    type={'label'}
+                    placeholder={user.user.last_name}
+                    label={'اسم العائلة'} />
             </EditProfileColumn>
             <EditProfileColumn>
-                <EditProfileField grow
-                    name={'speciality'}
+                <EditProfileField
+                    grow
+                    name={'email'}
                     type={'email'}
-                    text={'البريد الإلكتروني'} />
-                <EditProfileField grow
+                    placeholder={user.user.email}
+                    label={'البريد الإلكتروني'} />
+                <EditProfileField
+                    grow
                     name={'speciality'}
-                    type={'text'}
-                    text={'التخصص'} />
+                    type={'label'}
+                    placeholder={user.user.speciality}
+                    label={'التخصص'} />
             </EditProfileColumn>
             <EditProfileColumn>
-                <EditProfileField grow
+                <EditProfileField
+                    grow
                     name={'description'}
-                    type={'text'}
-                    text={'وصف'}
+                    type={'label'}
+                    placeholder={user.user.description}
+                    label={'وصف'}
                     multiline />
             </EditProfileColumn>
             <SocialMediaInput text={'Facebook'} name={'facebook_url'} placeholder={'https://facebook.com/'} />

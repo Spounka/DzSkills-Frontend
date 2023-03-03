@@ -10,7 +10,17 @@ const SytledOutline = styled(OutlinedInput)<OutlinedInputProps>(({ theme }) => (
         color: theme.palette.gray.dark,
     },
 }));
-export default function EditProfileField({ name, type, text, multiline, grow }: any) {
+
+interface props {
+    name: string,
+    type: string,
+    label: string,
+    placeholder?: string,
+    multiline?: boolean,
+    grow?: boolean,
+}
+
+export default function EditProfileField({ name, type, label, placeholder, multiline, grow }: props) {
     const theme = useTheme();
     return <>
         <Box sx={{
@@ -25,13 +35,14 @@ export default function EditProfileField({ name, type, text, multiline, grow }: 
                 pb: theme.spacing(2),
                 color: theme.palette.gray.dark,
             }}>
-                {text}
+                {label}
             </Typography>
             {multiline ?
 
                 <SytledOutline
                     name={name}
                     type={type}
+                    placeholder={placeholder}
                     color="secondary"
                     size={'small'}
                     fullWidth={true}
@@ -46,6 +57,7 @@ export default function EditProfileField({ name, type, text, multiline, grow }: 
                 <SytledOutline
                     name={name}
                     type={type}
+                    placeholder={placeholder}
                     color="secondary"
                     size={'small'}
                     fullWidth={true}

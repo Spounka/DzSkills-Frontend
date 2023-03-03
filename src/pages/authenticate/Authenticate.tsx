@@ -9,17 +9,10 @@ interface props {
 
 }
 
-function a11yProps(index: number) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
-}
-
 function Autenticate({ }: props) {
     const tabs = [
-        <Tab disableRipple label="حساب جديد" {...a11yProps(0)} />,
-        <Tab disableRipple label="تسجيل الدخول" {...a11yProps(1)} />,
+        "حساب جديد",
+        "تسجيل الدخول",
     ]
 
     const panels = [
@@ -60,7 +53,7 @@ function Autenticate({ }: props) {
                             gridColumnEnd: 9,
                         }}>
 
-                        <FullWidthTab tabs={tabs} panels={panels} startState={0} />
+                        <FullWidthTab tabLabels={tabs} panels={panels} startState={1} />
                     </Card>
                 </Box>
             </Grid>

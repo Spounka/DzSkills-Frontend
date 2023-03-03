@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 
 export interface TabPanelProps {
@@ -15,11 +14,8 @@ export function TabPanel({ children, index, value, ...other }: TabPanelProps) {
             {...other}
         >
             {value === index &&
-                <Box sx={{
-                    // px: 6,
-                    // py: 8
-                }}>
-                    <Typography>{children}</Typography>
+                <Box>
+                    {children}
                 </Box>}
         </div>
     );

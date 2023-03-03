@@ -19,11 +19,21 @@ export function EditPasswordForm({ }) {
     }}>
 
         <EditProfileColumn>
-            <EditProfileField name={'current_password'} text={'كلمة السر الحالية'} type={'password'} />
+            <EditProfileField
+                name={'current_password'}
+                label={'كلمة السر الحالية'}
+                type={'password'} />
         </EditProfileColumn>
         <EditProfileColumn>
-            <EditProfileField grow name={'password1'} text={'كلمة السر الجديدة'} type={'password'} />
-            <EditProfileField grow name={'password2'} text={'تأكيد كلمة السر'} type={'password'} />
+            <EditProfileField
+                name={'password1'}
+                label={'كلمة السر الجديدة'}
+                type={'password'} />
+            <EditProfileField
+                grow
+                name={'password2'}
+                label={'تأكيد كلمة السر'}
+                type={'password'} />
         </EditProfileColumn>
         <ButtonGroup sx={{
             transition: 'all ease-in-out 300ms',
