@@ -1,4 +1,4 @@
-import { Paper, Stack, TextField, Typography, useTheme } from '@mui/material'
+import { Stack, TextField, Typography, useTheme } from '@mui/material'
 import { useFormik } from 'formik'
 import { useMutation } from 'react-query'
 import { useDispatch } from 'react-redux'
@@ -7,7 +7,7 @@ import * as Yup from 'yup'
 import IconFormPassword from '../../../../components/form/IconFormPassword'
 import { MainButton } from '../../../../components/ui/MainButton'
 import { updateUser } from '../../../../redux/userSlice'
-import { login } from '../../api/login'
+import { login } from '../../api/authenticate'
 import AuthFormsHeader from '../form-header'
 
 
@@ -25,44 +25,39 @@ const initialValues = {
     password: '',
 }
 
-interface props {
-    errors?: string | any
-}
-
-function ErrorField({ errors }: props) {
-    const theme = useTheme()
-    return (
-        <Paper elevation={0} sx={{
-            bgcolor: theme.palette.error.light,
-            py: theme.spacing(),
-            px: theme.spacing(),
-            borderRadius: theme.spacing(),
-        }}>
-            <Typography
-                variant={'subtitle1'}
-                color={'white'}
-            >{errors}</Typography>
-        </Paper>
-    )
-
-}
 export default function Login() {
     const theme = useTheme()
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const query = useMutation({
         mutationKey: ['login'],
-        mutationFn: ({ email, password }: { email: string, password: string }) => login({ email, password }),
-        onSuccess: (response) => {
+        mutationFn: ({ email, password, fn }: any) => {
+            console.log(fn);
+            return login({ email, password, fn })
+        },
+        onSuccess: (response: any) => {
             dispatch(updateUser(response))
+            localStorage.setItem('access_token', response.access_token)
+            localStorage.setItem('refresh_token', response.refresh_token)
             navigate('/profile');
-        }
+        },
+        onError: (error: any) => console.log(error)
 
     })
+
     const formik = useFormik({
         initialValues: initialValues,
         validationSchema: validationSchema,
-        onSubmit: ({ email, password }) => query.mutate({ email, password })
+        onSubmit: async ({ email, password }, actions) => {
+            actions.setSubmitting(true)
+            async function fn() {
+                query.mutate({ email, password })
+                // actions.setSubmitting(false)
+            }
+            await fn();
+        },
+        validateOnMount: false
+
     })
     return (
         <Stack spacing={2} width={'100%'} sx={{
@@ -93,14 +88,20 @@ export default function Login() {
                         value={formik.values.password}
                         onChange={formik.handleChange}
                         error={formik.touched.password && Boolean(formik.errors.password)}
-                        name="password" placeholder={"هنا كلمة السر"} />
+                        name="password"
+                        placeholder={"هنا كلمة السر"} />
                     {formik.touched.password && formik.errors.password ? <>
                         <Typography variant={'caption'} color={'error'} sx={{
                             px: theme.spacing(2),
                             m: 0
                         }} >{formik.errors.password}</Typography>
                     </> : null}
-                    <MainButton type={'submit'} text={'تسجيل الدخول'} color={theme.palette.secondary.main} />
+                    <MainButton
+                        type={'submit'}
+                        color={theme.palette.secondary.main}
+                        text={'تسجيل الدخول'}
+                        spin={formik.isSubmitting}
+                    />
 
                     <Link to="password-reset" style={{
                         color: `${theme.palette.secondary.main}`,

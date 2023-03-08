@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { MainButton } from '../../components/ui/MainButton';
 import UploadSvgIcon from '../../components/ui/UploadSvgIcon';
 import { selectUser } from '../../redux/userSlice';
+import useLogin from '../authenticate/hooks/useLogin';
 import EditProfileField from './components/fields';
 import EditProfileColumn from './components/fields-column';
 import SocialMediaInput from './SocialMediaInput';
@@ -12,6 +13,7 @@ import SocialMediaInput from './SocialMediaInput';
 export default function EditProfileContent({ }) {
     const theme = useTheme();
     const user = useSelector(selectUser)
+    const [query] = useLogin()
     return (
         <Card elevation={0} sx={{
             gridColumnStart: 5,
@@ -48,18 +50,19 @@ export default function EditProfileContent({ }) {
                     text={'تحميل صورة'} color={theme.palette.primary.main} />
             </Box>
 
+
             <EditProfileColumn>
                 <EditProfileField
                     grow
                     name={'first_name'}
                     type={'text'}
-                    placeholder={user.user.first_name}
+                    placeholder={query.data?.first_name}
                     label={'الإسم الأول'} />
                 <EditProfileField
                     grow
                     name={'last_name'}
                     type={'label'}
-                    placeholder={user.user.last_name}
+                    placeholder={query.data?.last_name}
                     label={'اسم العائلة'} />
             </EditProfileColumn>
             <EditProfileColumn>
@@ -67,7 +70,7 @@ export default function EditProfileContent({ }) {
                     grow
                     name={'email'}
                     type={'email'}
-                    placeholder={user.user.email}
+                    placeholder={query.data?.email}
                     label={'البريد الإلكتروني'} />
                 <EditProfileField
                     grow
@@ -97,4 +100,5 @@ export default function EditProfileContent({ }) {
             </ButtonGroup>
         </Card>
     );
+
 }

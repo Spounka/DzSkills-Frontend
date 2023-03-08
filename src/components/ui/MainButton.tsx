@@ -1,22 +1,23 @@
 import { Button, SxProps, useTheme } from "@mui/material";
 
 interface props {
-    text: string,
+    text?: string,
     color?: string | undefined,
     sx?: SxProps,
     type?: "button" | 'reset' | 'submit';
+    spin?: boolean;
 }
 
 
-export function MainButton({ text, color, sx, type, ...other }: props) {
+export function MainButton({ text, color, sx, type, spin, ...other }: props) {
     const theme = useTheme();
-
     return <Button size="large"
+        className={'group'}
         variant="contained"
         type={type}
         sx={{
             bgcolor: `${color || theme.palette.secondary.main}`,
-            color: 'white',
+            color: spin ? 'transparent' : 'white',
             border: `${color || theme.palette.secondary.main} 2px solid`,
             alignSelf: 'center',
             px: 5,
@@ -28,12 +29,15 @@ export function MainButton({ text, color, sx, type, ...other }: props) {
             '&:hover': {
                 bgcolor: 'white',
                 border: `${color} 2px solid`,
-                color: `${color}`,
+                color: spin ? 'transparent' : `${color}`,
             }
         }}
+        disabled={spin}
         {...other}
 
     >
-        {text}
+
+        {spin && <div className='h-6 w-6 border-t-2 mx-auto border-white group-hover:border-black rounded-t-full animate-spin'> </div>}
+        {!spin && text}
     </Button>;
 }

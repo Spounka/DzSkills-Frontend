@@ -33,7 +33,7 @@ const SideBar = () => {
             height: 'full',
             boxShadow: '0px 5px 15px #00000029',
             borderRadius: theme.spacing(2),
-            mt: theme.spacing(10),
+            mt: theme.spacing(1),
             pt: theme.spacing(5),
         }}
             elevation={0}

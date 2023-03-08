@@ -18,9 +18,11 @@ interface props {
     placeholder?: string,
     multiline?: boolean,
     grow?: boolean,
+    rows?: number,
+    typographyProps?: any,
 }
 
-export default function EditProfileField({ name, type, label, placeholder, multiline, grow }: props) {
+export default function EditProfileField({ name, type, label, placeholder, multiline, grow, rows, typographyProps }: props) {
     const theme = useTheme();
     return <>
         <Box sx={{
@@ -34,7 +36,9 @@ export default function EditProfileField({ name, type, label, placeholder, multi
                 px: theme.spacing(2),
                 pb: theme.spacing(2),
                 color: theme.palette.gray.dark,
-            }}>
+            }}
+                {...typographyProps}
+            >
                 {label}
             </Typography>
             {multiline ?
@@ -47,7 +51,7 @@ export default function EditProfileField({ name, type, label, placeholder, multi
                     size={'small'}
                     fullWidth={true}
                     multiline
-                    rows={2}
+                    rows={rows || 2}
                     sx={{
                         borderRadius: theme.spacing(),
                         fontWeight: theme.typography.body1,

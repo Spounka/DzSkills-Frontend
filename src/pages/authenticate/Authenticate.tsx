@@ -1,4 +1,4 @@
-import { Card, Grid, Tab } from "@mui/material";
+import { Card, Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import AuthenticationTopBar from "../../components/ui/AuthenticationTopBar";
 import FullWidthTab from "../../components/ui/FullWidthTab";
@@ -10,6 +10,7 @@ interface props {
 }
 
 function Autenticate({ }: props) {
+    // const login = useLogin()
     const tabs = [
         "حساب جديد",
         "تسجيل الدخول",

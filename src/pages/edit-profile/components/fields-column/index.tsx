@@ -8,6 +8,7 @@ export default function EditProfileColumn({ children }: any) {
             width: "full",
             display: 'flex',
             flexGrow: '1',
+            maxHeight: '100%',
             gap: theme.spacing(2)
         }}>
             {children}

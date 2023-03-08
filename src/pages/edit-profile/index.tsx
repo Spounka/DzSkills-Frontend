@@ -7,9 +7,13 @@ import SideBar from './components/side-bar';
 import { EditPasswordForm } from './EditPasswordForm';
 import TopNavigationBar from './components/top-bar';
 import EditProfileContent from './EditProfileContent';
+import useLogin from '../authenticate/hooks/useLogin';
 
 function EditProfile() {
     const theme = useTheme()
+    const [query] = useLogin()
+    if (!query.isSuccess)
+        return <></>
     return (
         <Grid container columns={14} direction='column' spacing={5} id={'main-grid-container'}
             sx={{

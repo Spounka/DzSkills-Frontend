@@ -16,6 +16,15 @@ declare module "@mui/material/styles" {
             title?: string;
             contrastText?: string;
         };
+        purple: {
+            main: string;
+            secondary?: string;
+            light?: string;
+            dark?: string;
+            darker?: string;
+            title?: string;
+            contrastText?: string;
+        };
     }
 
     interface PaletteOptions {
@@ -24,6 +33,15 @@ declare module "@mui/material/styles" {
             secondary?: string;
             light?: string;
             dark?: string;
+            title?: string;
+            contrastText?: string;
+        };
+        purple?: {
+            main: string;
+            secondary?: string;
+            light?: string;
+            dark?: string;
+            darker?: string;
             title?: string;
             contrastText?: string;
         };
@@ -54,6 +72,15 @@ declare module "@mui/material" {
             contrastText?: string;
             title?: string;
         };
+        purple?: {
+            main: string;
+            secondary?: string;
+            light?: string;
+            dark?: string;
+            darker?: string;
+            title?: string;
+            contrastText?: string;
+        };
     }
 }
 declare module "@mui/material/Button" {
@@ -77,6 +104,10 @@ const theme = createTheme({
             light: "#CCCCCC",
             dark: "#51515D",
             title: "#2B2B2B",
+        },
+        purple: {
+            main: "#5353AD",
+            light: "#58548E",
         },
     },
     typography: {

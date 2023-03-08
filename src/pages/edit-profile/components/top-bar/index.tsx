@@ -1,5 +1,6 @@
 import { Notifications, ShoppingBag } from '@mui/icons-material';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/system';
 import { Link } from 'react-router-dom';
 import logo from '../../../../assets/png/logo@2x.png';
@@ -33,18 +34,50 @@ export default function TopNavigationBar() {
             display: 'flex',
             gap: theme.spacing(5)
         }}>
-            <Link to="/courses">
-                كورسات
-            </Link>
-            <Link to="/about">
-                من نحن
-            </Link>
-            <Link to="/teachers">
-                المدربون
-            </Link>
-            <Link to="/contact">
-                تواصل
-            </Link>
+            <Typography variant={'subtitle1'} fontWeight={600} sx={{
+                transition: 'all ease 300ms',
+                "&:hover": {
+                    color: 'primary.main',
+                }
+            }}>
+                <Link to="/courses" style={{}}>
+                    كورسات
+                </Link>
+            </Typography>
+
+            <Typography variant={'subtitle1'} fontWeight={600} sx={{
+                transition: 'all ease 100ms',
+                "&:hover": {
+                    color: 'primary.main',
+                }
+            }}>
+                <Link to="/about">
+                    من نحن
+                </Link>
+            </Typography>
+
+            <Typography variant={'subtitle1'} fontWeight={600} sx={{
+                transition: 'all ease 100ms',
+                "&:hover": {
+                    color: 'primary.main',
+                }
+            }}>
+                <Link to="/teachers">
+                    المدربون
+                </Link>
+            </Typography>
+
+            <Typography variant={'subtitle1'} fontWeight={600} sx={{
+                transition: 'all ease 100ms',
+                "&:hover": {
+                    color: 'primary.main',
+                }
+            }}>
+
+                <Link to="/contact">
+                    تواصل
+                </Link>
+            </Typography>
         </Box>
         <Box sx={{
             gridColumnStart: 11,

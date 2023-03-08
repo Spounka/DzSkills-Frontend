@@ -15,12 +15,15 @@ export async function signUp({
     first_name,
     last_name,
 }: any) {
-    const { data } = await axiosInstance.post("/rest-auth/login", {
-        first_name,
-        last_name,
-        email,
-        password1,
-        password2,
-    });
+    const { data } = await axiosInstance.post(
+        "/rest-auth/registration/",
+        {
+            first_name,
+            last_name,
+            email,
+            password1,
+            password2,
+        }
+    );
     return data;
 }
