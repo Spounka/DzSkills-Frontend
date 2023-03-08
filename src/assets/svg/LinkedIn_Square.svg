@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="34"
+   height="34"
+   viewBox="0 0 34 34"
+   version="1.1"
+   id="svg28"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs11" />
+  <g
+     id="Group_35"
+     data-name="Group 35"
+     transform="translate(-1504,-1405)">
+    <rect
+       id="bg-4"
+       data-name="bg"
+       width="34"
+       height="34"
+       rx="4"
+       transform="translate(1504,1405)"
+       fill="#0077b5"
+       x="0"
+       y="0" />
+    <path
+       id="linked_in"
+       d="M 4.443,2.226 A 2.221,2.221 0 1 1 2.221,0 2.224,2.224 0 0 1 4.443,2.226 Z"
+       transform="translate(1511.79,1412.794)"
+       fill="#f8f8f8" />
+    <path
+       id="linked_in-2"
+       data-name="linked_in"
+       d="M 0.3,6.088 H 4.1 V 18.417 H 0.3 Z"
+       transform="translate(1511.79,1412.794)"
+       fill="#f8f8f8" />
+    <path
+       id="linked_in-3"
+       data-name="linked_in"
+       d="m 10.215,6.088 h -3.8 v 12.329 h 3.8 v -6.308 c 0,-1.457 0.464,-2.919 2.316,-2.919 2.093,0 2.081,1.906 2.071,3.383 -0.013,1.93 0.018,3.9 0.018,5.845 h 3.8 V 11.91 C 18.388,7.755 17.377,5.841 14.053,5.841 A 4.6,4.6 0 0 0 10.215,7.67 Z"
+       transform="translate(1511.79,1412.794)"
+       fill="#f8f8f8" />
+  </g>
+</svg>
