@@ -1,0 +1,10 @@
+version: '3.3'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./dist:/var/www/dzskills
+      - ./nginx/nginx-setup.conf:/etc/nginx/conf.d/default.conf:ro
