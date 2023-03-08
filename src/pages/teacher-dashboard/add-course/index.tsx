@@ -28,7 +28,6 @@ function TeacherAddCourse() {
             <Box
                 display={'grid'}
                 gridTemplateColumns={'repeat(26 , 1fr)'}
-                // gridTemplateRows={'repeat(6, 1fr)'}
                 gridColumn={'7 / -1'}
                 rowGap={3}
                 padding={0}
