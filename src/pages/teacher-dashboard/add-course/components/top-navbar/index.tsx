@@ -1,16 +1,4 @@
-import Grid from '@mui/material/Grid'
-import React from 'react'
+import { DashboardTopbar } from './DashboardTopbar';
 
-function TopNavbar() {
-    return (
-        <nav>
-            <Grid container columns={10} sx={{
-                
-            }}>
 
-            </Grid>
-        </nav>
-    )
-}
-
-export default TopNavbar
+export default { DashboardTopbar };

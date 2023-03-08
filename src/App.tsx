@@ -3,6 +3,7 @@ import Authenticate from './pages/authenticate/Authenticate'
 import EditProfile from './pages/edit-profile'
 import NotFound from './pages/not-found/NotFound'
 import PasswordForgotten from './pages/password-forgotten'
+import Playground from './pages/playground'
 import Profile from './pages/profile'
 import TeacherAddCourse from './pages/teacher-dashboard/add-course'
 
@@ -27,6 +28,8 @@ function App() {
                     <Route path="accounts" element={<span>Account</span>} />
                 </Route>
             </Route>
+            <Route path="/playground" element={<Playground />} />
+
 
             <Route path="*" element={<NotFound />} />
         </Routes>
