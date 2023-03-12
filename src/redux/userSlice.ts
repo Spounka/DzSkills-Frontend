@@ -2,28 +2,30 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../stores/store";
 
 export interface User {
-    access_token: string;
-    profile_picture: string;
+    access_token?: string;
     user: {
+        pk: number;
         username: string;
         email: string;
         first_name: string;
         last_name: string;
         description: string;
         speciality: string;
+        profile_image: string;
     };
 }
 
 const initialState = {
     access_token: "",
-    profile_picture: "",
     user: {
+        pk: 1,
         username: "",
         email: "",
         first_name: "",
         last_name: "",
         description: "",
         speciality: "",
+        profile_image: "",
     },
 };
 
@@ -34,8 +36,8 @@ const userSlice = createSlice({
         updateUser: (state, action: PayloadAction<User>) => {
             return {
                 ...state,
-                profile_picture: action.payload.profile_picture,
-                access_token: action.payload.access_token,
+                access_token:
+                    action.payload.access_token || state.access_token,
                 user: { ...action.payload.user },
             };
         },

@@ -31,11 +31,12 @@ export default function Login() {
     const navigate = useNavigate()
     const query = useMutation({
         mutationKey: ['login'],
-        mutationFn: ({ email, password, fn }: any) => {
-            console.log(fn);
-            return login({ email, password, fn })
+        mutationFn: ({ email, password }: any) => {
+            return login({ email, password })
         },
         onSuccess: (response: any) => {
+            console.log(response);
+
             dispatch(updateUser(response))
             localStorage.setItem('access_token', response.access_token)
             localStorage.setItem('refresh_token', response.refresh_token)

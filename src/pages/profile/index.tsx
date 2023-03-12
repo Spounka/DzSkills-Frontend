@@ -7,9 +7,9 @@ import { useSelector } from 'react-redux'
 import bg from '../../assets/png/background.png'
 import course from '../../assets/png/course card.png'
 import facebook from '../../assets/svg/Facebook_Square.svg'
-import gps from '../../assets/svg/place gray.svg'
 import instagram from '../../assets/svg/Instagram_Square.svg'
 import linkedin from '../../assets/svg/LinkedIn_Square.svg'
+import gps from '../../assets/svg/place gray.svg'
 import twitter from '../../assets/svg/Twitter_Square.svg'
 import { RootState } from '../../stores/store'
 import useLogin from '../authenticate/hooks/useLogin'
@@ -107,7 +107,6 @@ function ProfileContent() {
                     justifyContent: 'center',
                     gap: theme.spacing(1),
                     height: '100%',
-                    // pt: theme.spacing(8),
                 }}>
                     <Typography variant={'h5'}>
                         {`${user.user.first_name} ${user.user.last_name}`}
@@ -153,7 +152,7 @@ function ProfileContent() {
                     paddingRight: 'auto',
                     gap: theme.spacing(6),
                 }} flexGrow={'1'}>
-                    <Avatar sx={{
+                    <Avatar src={user.user.profile_image} sx={{
                         width: theme.spacing(26),
                         height: theme.spacing(26),
                     }} />

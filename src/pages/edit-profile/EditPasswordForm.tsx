@@ -44,7 +44,7 @@ export function EditPasswordForm({ }) {
             }} text={'حفظ'} color={theme.palette.primary.main} />
             <MainButton {...{
                 fullWidth: true
-            }} text={'نبذ'} color={theme.palette.error.main} />
+            }} text={'إلغاء'} color={theme.palette.error.main} />
         </ButtonGroup>
     </Card>);
 }

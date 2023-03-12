@@ -96,7 +96,7 @@ export default function EditProfileContent({ }) {
                 gap: 4,
             }}>
                 <MainButton {...{ fullWidth: true }} text={'حفظ'} color={theme.palette.primary.main} />
-                <MainButton {...{ fullWidth: true }} text={'نبذ'} color={theme.palette.error.main} />
+                <MainButton {...{ fullWidth: true }} text={'إلغاء'} color={theme.palette.error.main} />
             </ButtonGroup>
         </Card>
     );

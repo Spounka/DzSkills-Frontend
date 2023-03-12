@@ -1,15 +1,6 @@
-import { OutlinedInput, OutlinedInputProps, styled, Typography, useTheme } from '@mui/material';
+import { Typography, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
-
-const SytledOutline = styled(OutlinedInput)<OutlinedInputProps>(({ theme }) => ({
-    transition: 'all 100ms ease',
-    '&.MuiOutlinedInput-input:hover': {
-        padding: 100,
-    },
-    '&.Mui-focused': {
-        color: theme.palette.gray.dark,
-    },
-}));
+import { StyledOutline } from '../../../../components/form/StyledOutline';
 
 interface props {
     name: string,
@@ -22,7 +13,16 @@ interface props {
     typographyProps?: any,
 }
 
-export default function EditProfileField({ name, type, label, placeholder, multiline, grow, rows, typographyProps }: props) {
+export default function EditProfileField({
+    name,
+    type,
+    label,
+    placeholder,
+    multiline,
+    grow,
+    rows,
+    typographyProps
+}: props) {
     const theme = useTheme();
     return <>
         <Box sx={{
@@ -43,7 +43,7 @@ export default function EditProfileField({ name, type, label, placeholder, multi
             </Typography>
             {multiline ?
 
-                <SytledOutline
+                <StyledOutline
                     name={name}
                     type={type}
                     placeholder={placeholder}
@@ -52,24 +52,16 @@ export default function EditProfileField({ name, type, label, placeholder, multi
                     fullWidth={true}
                     multiline
                     rows={rows || 2}
-                    sx={{
-                        borderRadius: theme.spacing(),
-                        fontWeight: theme.typography.body1,
-                        color: theme.palette.gray.main,
-                    }} />
+                />
                 :
-                <SytledOutline
+                <StyledOutline
                     name={name}
                     type={type}
                     placeholder={placeholder}
                     color="secondary"
                     size={'small'}
                     fullWidth={true}
-                    sx={{
-                        borderRadius: theme.spacing(),
-                        fontWeight: theme.typography.body1,
-                        color: theme.palette.gray.main,
-                    }} />
+                />
             }
         </Box>
     </>;
