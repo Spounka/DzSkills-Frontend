@@ -1,21 +1,28 @@
 import { Route, Routes } from 'react-router-dom'
 import Authenticate from './pages/authenticate/Authenticate'
+import BuyCourse from './pages/buy-course'
+import ViewCourse from './pages/course'
 import EditProfile from './pages/edit-profile'
+import LandingPage from './pages/landing-page/'
 import NotFound from './pages/not-found/NotFound'
 import PasswordForgotten from './pages/password-forgotten'
 import Playground from './pages/playground'
 import Profile from './pages/profile'
+import Invoices from './pages/profile-invoices'
 import TeacherAddCourse from './pages/teacher-dashboard/add-course'
+import WatchCourse from './pages/view-course'
 
 function App() {
 
     return (
         <Routes>
+            <Route path="" element={<LandingPage />} />
             <Route path="/login" element={<Authenticate />} />
             <Route path="/password-forgotten" element={<PasswordForgotten />} />
             <Route path="/profile">
                 <Route path="" element={<Profile />} />
                 <Route path="edit" element={<EditProfile />} />
+                <Route path="cart" element={<Invoices />} />
             </Route>
             <Route path="/dashboard">
                 <Route path="teacher">
@@ -28,9 +35,14 @@ function App() {
                     <Route path="accounts" element={<span>Account</span>} />
                 </Route>
             </Route>
+            <Route path="/courses">
+                <Route path=":id">
+                    <Route path="" element={<ViewCourse />} />
+                    <Route path="watch" element={<WatchCourse />} />
+                    <Route path="buy" element={<BuyCourse />} />
+                </Route>
+            </Route>
             <Route path="/playground" element={<Playground />} />
-
-
             <Route path="*" element={<NotFound />} />
         </Routes>
     )

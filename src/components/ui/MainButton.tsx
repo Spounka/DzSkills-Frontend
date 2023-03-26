@@ -30,8 +30,20 @@ export function MainButton({ text, color, sx, type, spin, ...other }: props) {
                 bgcolor: 'white',
                 border: `${color} 2px solid`,
                 color: spin ? 'transparent' : `${color}`,
+                '.MuiButton-endIcon': {
+                    stroke: color,
+                    fill: color,
+                }
+            },
+            '.MuiButton-endIcon': {
+                transition: 'ease-in-out',
+                transitionProperty: 'all',
+                transitionDuration: '350ms',
+                stroke: `white`,
+                fill: `white`,
             }
         }}
+
         disabled={spin}
         {...other}
 

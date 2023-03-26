@@ -1,7 +1,7 @@
 import { Button, Typography } from '@mui/material';
 import { Box, SxProps, useTheme } from '@mui/system';
 import { useState } from 'react';
-import uploadImg from '../../../assets/svg/upload gray.svg';
+import uploadImg from '../../assets/svg/upload gray.svg';
 
 interface UploadFileInputProps {
     inputName: string;

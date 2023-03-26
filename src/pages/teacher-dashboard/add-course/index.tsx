@@ -1,4 +1,4 @@
-import { Card } from '@mui/material';
+import { Avatar, Card, Typography } from '@mui/material';
 import { Box, useTheme } from '@mui/system';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
@@ -12,7 +12,12 @@ import { DashboardTopbar } from './components/top-navbar/DashboardTopbar';
 function TeacherAddCourse() {
     const theme = useTheme()
     useLogin()
-    const [drawerOpen, setDrawerOpen] = useState(true);
+    const [drawerOpen, setDrawerOpen] = useState(false);
+
+    function toggleDrawer() {
+        setDrawerOpen(val => !val)
+    }
+
     const query = useMutation({
         mutationFn: (p: any) => submitCourse(p),
         onSuccess: () => console.log('hello there'),
@@ -63,7 +68,7 @@ function TeacherAddCourse() {
                 height={'100%'}
             >
 
-                <DashboardTopbar />
+                <DashboardTopbar onNotificationClick={toggleDrawer} />
                 <Box sx={{
                     gridColumn: '1 / -8',
                     gridRow: '3'
@@ -81,18 +86,11 @@ function TeacherAddCourse() {
                     gridRow: '3',
                     display: 'flex',
                     justifyContent: 'center',
-                    mt: 3,
                     width: '100%',
                     overflow: 'hidden',
 
                 }}>
-                    <Card sx={{
-                        transition: 'all ease-out 300ms',
-                        width: '100%',
-                        transform: 'translate(-100%, 0)'
-                    }}>
-                        Hello There
-                    </Card>
+                    <NotificationsBar drawerOpen={drawerOpen} />
                 </Box>
             </Box >
         </Box >
@@ -100,4 +98,98 @@ function TeacherAddCourse() {
 }
 
 
+
+interface NotificationsProps {
+    drawerOpen: boolean
+}
+function NotificationsBar({ drawerOpen }: NotificationsProps) {
+    const theme = useTheme()
+    return (<Card sx={{
+        transition: 'all ease-out 300ms',
+        transform: drawerOpen ? 'translate(0, 0)' : 'translate(-105%, 0)',
+        p: 2,
+        mt: 0,
+        bgcolor: theme.palette.purple.light,
+        color: 'white',
+        borderRadius: `0 ${theme.spacing()} ${theme.spacing()} 0`,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 7,
+        position: 'fixed',
+        left: 0,
+        width: '20%',
+        height: '80%'
+    }}>
+        <Typography variant={'subtitle2'} fontWeight={400}>
+            التنبيهات
+        </Typography>
+        <Box gap={2} display={'flex'} flexDirection={'column'}>
+
+            <Box display={"flex"} gap={2}>
+                <Avatar sx={{
+                    width: theme.spacing(6),
+                    height: theme.spacing(6),
+                    aspectRatio: '1/1',
+                    flexGrow: '1'
+                }} />
+                <Box display={'flex'} flexDirection={'column'}>
+                    <Typography variant={'caption'} fontWeight={400}>
+                        اشتراك جديد
+                    </Typography>
+                    <Typography variant={'caption'} fontWeight={300}>
+                        قام اسم المستخدم بالاشتراك في كورس اسم الكورس
+                    </Typography>
+                </Box>
+            </Box>
+            <Box display={"flex"} gap={2}>
+                <Avatar sx={{
+                    width: theme.spacing(6),
+                    height: theme.spacing(6),
+                    aspectRatio: '1/1',
+                    flexGrow: '1'
+                }} />
+                <Box display={'flex'} flexDirection={'column'}>
+                    <Typography variant={'caption'} fontWeight={400}>
+                        اشتراك جديد
+                    </Typography>
+                    <Typography variant={'caption'} fontWeight={300}>
+                        قام اسم المستخدم بالاشتراك في كورس اسم الكورس
+                    </Typography>
+                </Box>
+            </Box>
+            <Box display={"flex"} gap={2}>
+                <Avatar sx={{
+                    width: theme.spacing(6),
+                    height: theme.spacing(6),
+                    aspectRatio: '1/1',
+                    flexGrow: '1'
+                }} />
+                <Box display={'flex'} flexDirection={'column'}>
+                    <Typography variant={'caption'} fontWeight={400}>
+                        اشتراك جديد
+                    </Typography>
+                    <Typography variant={'caption'} fontWeight={300}>
+                        قام اسم المستخدم بالاشتراك في كورس اسم الكورس
+                    </Typography>
+                </Box>
+            </Box>
+            <Box display={"flex"} gap={2}>
+                <Avatar sx={{
+                    width: theme.spacing(6),
+                    height: theme.spacing(6),
+                    aspectRatio: '1/1',
+                    flexGrow: '1'
+                }} />
+                <Box display={'flex'} flexDirection={'column'}>
+                    <Typography variant={'caption'} fontWeight={400}>
+                        اشتراك جديد
+                    </Typography>
+                    <Typography variant={'caption'} fontWeight={300}>
+                        قام اسم المستخدم بالاشتراك في كورس اسم الكورس
+                    </Typography>
+                </Box>
+            </Box>
+        </Box>
+    </Card>);
+}
 export default TeacherAddCourse

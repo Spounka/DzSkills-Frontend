@@ -4,10 +4,10 @@ import Grid from '@mui/material/Grid';
 import { Container } from '@mui/system';
 import SideBar from './components/side-bar';
 
-import { EditPasswordForm } from './EditPasswordForm';
-import TopNavigationBar from './components/top-bar';
-import EditProfileContent from './EditProfileContent';
+import TopNavigationBar from '../../components/top-bar';
 import useLogin from '../authenticate/hooks/useLogin';
+import { EditPasswordForm } from './EditPasswordForm';
+import EditProfileContent from './EditProfileContent';
 
 function EditProfile() {
     const theme = useTheme()

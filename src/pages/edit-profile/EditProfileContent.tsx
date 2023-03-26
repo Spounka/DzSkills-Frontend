@@ -32,10 +32,12 @@ export default function EditProfileContent({ }) {
                 flexDirection: 'row',
                 gap: theme.spacing(8),
             }}>
-                <Avatar sx={{
-                    width: theme.spacing(26),
-                    height: theme.spacing(26),
-                }} />
+                <Avatar
+                    src={query.data.profile_image}
+                    sx={{
+                        width: theme.spacing(26),
+                        height: theme.spacing(26),
+                    }} />
                 <MainButton sx={{ borderRadius: theme.spacing(2), px: theme.spacing(6), py: theme.spacing(1.5) }}
                     {...{
                         size: "large",

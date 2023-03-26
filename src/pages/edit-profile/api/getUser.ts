@@ -50,10 +50,8 @@ export async function getUser(
         .then((response) => {
             if (!response) throw Error("failed");
             if (response.data.access === undefined) {
-                console.log("old token valid");
                 return localStorage.getItem("access_token");
             } else {
-                console.log("setting new token");
                 localStorage.setItem(
                     "access_token",
                     response.data.access
@@ -62,7 +60,6 @@ export async function getUser(
             }
         })
         .catch((error) => {
-            console.log("error occured");
             throw Error(error);
         })
         .then(async (access) => {

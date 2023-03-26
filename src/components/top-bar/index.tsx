@@ -3,8 +3,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/system';
 import { Link } from 'react-router-dom';
-import logo from '../../../../assets/png/logo@2x.png';
-import Profile from '../../../../assets/svg/Profile icon.svg';
+import logo from '../../assets/png/logo@2x.png';
+import Profile from '../../assets/svg/Profile icon.svg';
 
 export default function TopNavigationBar() {
     const theme = useTheme();

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="874" viewBox="0 0 1920 874">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_65" data-name="Rectangle 65" width="1920" height="874" transform="translate(140 2269.643)" fill="#2e2e2e"/>
+    </clipPath>
+  </defs>
+  <g id="blured_image" data-name="blured image" transform="translate(0 -135)">
+    <g id="image" transform="translate(-140 -2134.643)">
+      <g id="container" clip-path="url(#clip-path)">
+        <rect id="Rectangle_180" data-name="Rectangle 180" width="1920" height="874" transform="translate(140 2269.643)" fill="#2e2e2e"/>
+        <g id="image_icon" data-name="image icon" transform="translate(855.031 2464.335)">
+          <rect id="Rectangle_66" data-name="Rectangle 66" width="482.412" height="487.236" rx="26" fill="#cecece"/>
+          <circle id="Ellipse_1" data-name="Ellipse 1" cx="36.181" cy="36.181" r="36.181" transform="translate(303.92 91.658)" fill="#5a5a5a"/>
+          <path id="Polygon_2" data-name="Polygon 2" d="M76.027,9.855a7,7,0,0,1,11.967,0l69.571,114.587a7,7,0,0,1-5.984,10.633H12.439a7,7,0,0,1-5.984-10.633Z" transform="translate(236.382 246.03)" fill="#fff"/>
+          <path id="Polygon_1" data-name="Polygon 1" d="M109.738,10.32a7,7,0,0,1,12.082,0L225.39,187.253a7,7,0,0,1-6.041,10.536H12.209a7,7,0,0,1-6.041-10.536Z" transform="translate(86.834 183.317)" fill="#414141"/>
+        </g>
+      </g>
+    </g>
+    <rect id="blur" width="1920" height="874" transform="translate(0 135)" fill="#2e2e2e"/>
+  </g>
+</svg>

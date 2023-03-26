@@ -10,7 +10,6 @@ interface props {
 }
 
 function Autenticate({ }: props) {
-    // const login = useLogin()
     const tabs = [
         "حساب جديد",
         "تسجيل الدخول",

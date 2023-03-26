@@ -4,7 +4,7 @@ import { Box, useTheme } from '@mui/system';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { MainButton } from '../../../../../components/ui/MainButton';
-import { LessonsAccordion } from '../../LessonsAccordion';
+import { LessonsAccordion } from '../lesson/LessonsAccordion';
 import { ChapterFields } from './ChapterFields';
 
 interface Chapter {

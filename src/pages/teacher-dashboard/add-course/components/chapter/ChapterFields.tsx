@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import { StyledOutline } from '../../../components/form/StyledOutline';
-import { UploadFileInput } from '../../../components/form/UploadFileInput';
+import { StyledOutline } from '../../../../../components/form/StyledOutline';
+import { UploadFileInput } from '../../../../../components/form/UploadFileInput';
 
 export function ChapterFields({ index, chapter, setChapter }: any) {
     function handleChapterTitleChange(e: any) {
