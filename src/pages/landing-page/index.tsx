@@ -3,26 +3,26 @@ import Grid from "@mui/material/Grid"
 import { useTheme } from "@mui/material/styles"
 import Typography from "@mui/material/Typography"
 import { useQuery } from "react-query"
+import { v4 as uuidv4 } from 'uuid'
 import blurredBg from "../../assets/svg/blured image.svg"
 import TopNavigationBar from "../../components/top-bar"
 import { getCourses } from "./api/getAllCourses"
 import CourseCard from "./CourseCard"
 import { TrendingCoursesCarousel } from "./TrendingCoursesCarousel"
-import { v4 as uuidv4 } from 'uuid'
 
 function LandingPage() {
     const theme = useTheme()
+    const token = localStorage.getItem('access_token')
 
     const query = useQuery({
         queryKey: ['courses'],
-        queryFn: () => getCourses(),
+        queryFn: () => getCourses(token),
         staleTime: 1000 * 60 * 60,
     })
     if (query.isError)
         return <Typography>Error Occured</Typography>
     if (query.isLoading)
         return <Typography>Loading...</Typography>
-
     return (
         <Grid
             container
@@ -93,7 +93,7 @@ function LandingPage() {
                         px: theme.spacing(14),
                         pb: 5,
                     }}>
-                    {query.data?.data.map((info: any) => {
+                    {query.data?.map((info: any) => {
                         console.log(info);
 
                         return (

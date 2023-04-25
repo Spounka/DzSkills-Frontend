@@ -6,7 +6,6 @@ import { getUser } from '../../edit-profile/api/getUser'
 
 function useLogin() {
     const location = window.location.href
-    const url = new URL(location)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()

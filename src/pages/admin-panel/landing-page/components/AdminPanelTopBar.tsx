@@ -1,20 +1,22 @@
-import { Avatar, OutlinedInput, Typography } from '@mui/material';
-import Card from '@mui/material/Card';
-import { Box, useTheme } from '@mui/system';
-import purpleNotification from '../../../../../assets/svg/notification purple.svg';
-import { MainButton } from '../../../../../components/ui/MainButton';
-import useLogin from '../../../../authenticate/hooks/useLogin';
+import { Avatar, Card, OutlinedInput, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
+import { MainButton } from '../../../../components/ui/MainButton';
+import NotificationsIcon from '../../../../components/ui/NotificationsIcon';
+import useLogin from '../../../authenticate/hooks/useLogin';
 
 interface props {
     onNotificationClick: () => void;
+    title: string;
+    subtitle?: string;
+    mainColor: string;
 }
-
-export function DashboardTopbar({ onNotificationClick }: props) {
+export function AdminPanelTopBar({ onNotificationClick, title, subtitle, mainColor }: props) {
     const [query] = useLogin();
 
     const theme = useTheme();
     if (!query.isSuccess)
-        return <></>
+        return <></>;
     return (
         <Card
             elevation={0}
@@ -27,16 +29,16 @@ export function DashboardTopbar({ onNotificationClick }: props) {
                 boxShadow: '7px 20px 40px #00000014',
                 borderRadius: theme.spacing(),
                 gridColumn: '1 / -3',
-                gridRow: 'span 2',
+                gridRow: '1',
                 py: '1rem',
             }}>
             <Box gridColumn={'span 6'}>
-                <Typography variant={'h6'} fontWeight={600} color={'purple.main'}>
-                    اضف كورس جديد
+                <Typography variant={'h6'} fontWeight={600} color={mainColor}>
+                    {title}
                 </Typography>
-                <Typography variant={'caption'} fontWeight={300} color={'gray.main'}>
-                    كلها في مكـــــان واحد لك
-                </Typography>
+                {subtitle && <Typography variant={'caption'} fontWeight={300} color={'gray.main'}>
+                    {subtitle}
+                </Typography>}
             </Box>
             <OutlinedInput placeholder={'ابحث عن الدورة المناسبة لك'}
                 sx={{
@@ -49,22 +51,30 @@ export function DashboardTopbar({ onNotificationClick }: props) {
                     color: 'gray.main',
                     fontWeight: 400,
                     // @ts-ignore
-                    fontSize: theme.typography.subtitle2
+                    fontSize: theme.typography.subtitle2,
+
+
                 }}
-                endAdornment={<MainButton text={'بحث'} color={theme.palette.purple.main}
-                    sx={{
-                        height: theme.spacing(4),
-                        width: 'auto'
-                    }} />} />
-            <img
+                endAdornment={
+                    <MainButton text={'بحث'} color={mainColor}
+                        sx={{
+                            height: theme.spacing(4),
+                            width: 'auto'
+                        }}
+                    />
+                }
+            />
+
+            <span
                 onClick={onNotificationClick}
-                src={purpleNotification}
-                alt=""
                 style={{
                     gridColumn: '-3',
                     cursor: 'pointer',
                 }}
-            />
+            >
+                <NotificationsIcon width={"20"} height={"26"} fill={mainColor} />
+            </span>
+
             <Avatar src={query.data?.profile_image}
                 sx={{
                     gridColumn: '-1',

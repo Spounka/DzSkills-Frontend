@@ -4,8 +4,9 @@ import Grid from '@mui/material/Grid'
 import Image from 'mui-image'
 import { useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import pdf_icon from '../../assets/png/pdf@2x.png'
+import receipt from '../../assets/sfp01.pdf'
 import uploadImg from '../../assets/svg/upload gray.svg'
 import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar'
 import DownloadSvgIcon from '../../components/ui/DownloadSvgIcon'
@@ -27,6 +28,7 @@ function BuyCourse() {
     const id: number = parseInt(params.id)
     const theme = useTheme();
     const [fileName, setFileName] = useState<File>()
+    const navigate = useNavigate()
 
     const token = localStorage.getItem('access_token')
 
@@ -49,7 +51,7 @@ function BuyCourse() {
         const form = document.querySelector('form')
         if (form) {
             let formData = new FormData(form)
-            formData.append('course', id.toString())
+            formData.append('course', id)
             mutation.mutate(formData)
         }
     }
@@ -114,7 +116,7 @@ function BuyCourse() {
                                     gap: 4
                                 }}>
                                 <Image
-                                    src={query.data?.data.thumbnail}
+                                    src={query.data?.thumbnail || ""}
                                     height={'40%'}
                                 />
 
@@ -139,7 +141,7 @@ function BuyCourse() {
                                                 direction: "ltr"
                                             }}
                                         >
-                                            {query.data?.data.price} DA
+                                            {query.data?.price} DA
                                         </Typography>
                                     </Box>
 
@@ -163,7 +165,7 @@ function BuyCourse() {
                                                 direction: "ltr"
                                             }}
                                         >
-                                            {query.data?.data.price} DA
+                                            {query.data?.price} DA
                                         </Typography>
                                     </Box>
                                 </Box>
@@ -189,7 +191,7 @@ function BuyCourse() {
                                             direction: "ltr"
                                         }}
                                     >
-                                        {query.data?.data.price} DA
+                                        {query.data?.price} DA
                                     </Typography>
                                 </Box>
                             </Box>
@@ -220,21 +222,30 @@ function BuyCourse() {
                                     >
                                         يرجى تحميل معلومات الدفع الخاصة بالموقع من هنا
                                     </Typography>
-                                    <MainButton
-                                        sx={{
-                                            borderRadius: theme.spacing(),
-                                            gap: 2,
+                                    <a
+                                        download
+                                        href={receipt}
+                                        style={{
+                                            textDecoration: 'none'
                                         }}
-                                        {...{
-                                            size: "large",
-                                            endIcon: <DownloadSvgIcon
-                                                {...{
-                                                    width: theme.spacing(2),
-                                                    height: theme.spacing(2),
-                                                }} />
-                                        }}
-                                        text={'تحميل'}
-                                        color={theme.palette.primary.main} />
+                                    >
+
+                                        <MainButton
+                                            sx={{
+                                                borderRadius: theme.spacing(),
+                                                gap: 2,
+                                            }}
+                                            {...{
+                                                size: "large",
+                                                endIcon: <DownloadSvgIcon
+                                                    {...{
+                                                        width: theme.spacing(2),
+                                                        height: theme.spacing(2),
+                                                    }} />
+                                            }}
+                                            text={'تحميل'}
+                                            color={theme.palette.primary.main} />
+                                    </a>
                                 </Box>
 
                                 <form
@@ -336,11 +347,13 @@ function BuyCourse() {
                                             type={'submit'}
                                             text={'شراء الآن'}
                                             color={theme.palette.primary.main}
+                                        // {...{ onClick: () => navigate('..') }}
                                         />
 
                                         <MainButton
                                             text={'إلغاء الطلب'}
                                             color={theme.palette.error.main}
+                                            {...{ onClick: () => navigate('..') }}
                                         />
                                     </Box>
                                 </form>

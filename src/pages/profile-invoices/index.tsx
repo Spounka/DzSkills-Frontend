@@ -1,9 +1,11 @@
 import { Box, Card, Container, Divider, Grid, Typography } from '@mui/material'
+import React from 'react'
 import { useQuery } from 'react-query'
 import { v4 as uuidv4 } from 'uuid'
 import TopNavigationBar from '../../components/top-bar'
 import { MainButton } from '../../components/ui/MainButton'
 import theme from '../../theme'
+import { Order } from '../../types/payment'
 import SideBar from '../edit-profile/components/side-bar'
 import { getRelatedOrders } from './api/getOrders'
 
@@ -26,7 +28,11 @@ function Invoices() {
                 return 'مرفوض'
         }
     }
-
+    const invoicesWithUUID = query.data
+        ?.sort((a, b) => -a.date_issued.localeCompare(b.date_issued))
+        .map((order: Order) => {
+            return { ...order, key: uuidv4() }
+        })
     return (
         <Grid container columns={14} direction='column' spacing={5} id={'main-grid-container'}
             sx={{
@@ -98,29 +104,31 @@ function Invoices() {
                             gap: 2,
 
                         }}>
-                            {query.data?.data.map((order: any, index: number) => {
-                                return <>
+                            {invoicesWithUUID?.map((order: Order & { key: string }, index: number) => {
+                                return <React.Fragment
+                                    key={order.key}>
                                     <Box display={'flex'} gap={5}
                                         textAlign={'center'}
-                                        key={uuidv4()}
                                     >
                                         <Typography flexGrow={0}>
                                             {order.id}
                                         </Typography>
                                         <Typography flexGrow={0} alignSelf={'left'}>
-                                            {order.date_issued}
+                                            {new Date(order.date_issued).toLocaleDateString()}
                                         </Typography>
                                         <Typography flexGrow={1}>
-                                            {stateFromCode(order.payment?.status)}
+                                            {stateFromCode(order.payment?.status || "p")}
                                         </Typography>
                                         <Typography flexGrow={0}>
                                             {order.course?.price} DA
                                         </Typography>
-                                        <MainButton text={'عرض'} color={'primary.main'} />
+                                        <a download href={""}>
+                                            <MainButton text={'عرض'} color={'primary.main'} />
+                                        </a>
 
                                     </Box>
-                                    {index < query.data.data.length - 1 && <Divider />}
-                                </>
+                                    {index < invoicesWithUUID?.length - 1 && <Divider />}
+                                </React.Fragment>
                             })}
                         </Box>
                     </Card>

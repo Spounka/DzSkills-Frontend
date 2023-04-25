@@ -3,9 +3,10 @@ import { Box } from '@mui/system';
 import useTheme from '@mui/system/useTheme';
 import { useNavigate } from 'react-router-dom';
 import { MainButton } from '../../components/ui/MainButton';
+import { Course } from '../../types/course';
 
 interface CourseHeaerProps {
-    data: any;
+    data: Course;
 }
 export function CourseHeader({ data }: CourseHeaerProps) {
     const theme = useTheme();

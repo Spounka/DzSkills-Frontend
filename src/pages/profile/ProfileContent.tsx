@@ -55,7 +55,7 @@ export function ProfileContent() {
                         }}
                     >
                         <img src={gps} alt="" />
-                        {`${user.user.speciality || ' الجنسية'}`}
+                        {`${user.user.nationality || ' الجنسية'}`}
                     </Typography>
 
                     <Box display={'flex'} mt={2}>

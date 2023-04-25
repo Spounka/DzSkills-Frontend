@@ -67,8 +67,7 @@ export function ChapterDetails({ chapterIndex, uuid, removeChapter }: props) {
                         width: '100%',
                         px: expanded ? 4 : 2,
                         py: expanded ? 4 : 0,
-                        ":before": {
-                            display: 'none',
+                        ":before": { display: 'none',
                         }
                     }}>
                     <AccordionSummary

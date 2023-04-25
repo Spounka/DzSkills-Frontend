@@ -3,15 +3,16 @@ import { Box } from '@mui/system';
 import useTheme from '@mui/system/useTheme';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
+import facebook from '../../assets/svg/Facebook_Square.svg';
+import instagram from '../../assets/svg/Instagram_Square.svg';
+import linkedin from '../../assets/svg/LinkedIn_Square.svg';
+import twitter from '../../assets/svg/Twitter_Square.svg';
 import TopNavigationBar from '../../components/top-bar';
+import { User } from '../../types/user';
 import NotFound from '../not-found/NotFound';
 import { getCourse } from './api/getCourse';
 import { CourseCells } from './CourseCells';
 import { CourseHeader } from './CourseHeader';
-import facebook from '../../assets/svg/Facebook_Square.svg'
-import instagram from '../../assets/svg/Instagram_Square.svg'
-import twitter from '../../assets/svg/Twitter_Square.svg'
-import linkedin from '../../assets/svg/LinkedIn_Square.svg'
 
 function ViewCourse() {
     const params = useParams()
@@ -31,7 +32,7 @@ function ViewCourse() {
         staleTime: 1000 * 60 * 60 * 24,
 
     })
-    if (query.isError)
+    if (query.isError || !query.data)
         return <>Error</>
     if (query.isLoading)
         return <>Loading...</>
@@ -88,7 +89,7 @@ function ViewCourse() {
                         height: '100%',
                         minHeight: '350px'
                     }}>
-                        <CourseHeader data={query.data?.data} />
+                        <CourseHeader data={query.data} />
                     </Box>
 
                     <Box
@@ -100,7 +101,7 @@ function ViewCourse() {
                             textAlign: 'center',
                         }}
                     >
-                        <CourseCells data={query.data?.data} />
+                        <CourseCells data={query.data} />
                     </Box>
                 </Box>
 
@@ -117,7 +118,7 @@ function ViewCourse() {
                         color: 'white',
                     }}
                 >
-                    <AboutMentor data={query.data?.data} />
+                    <AboutMentor user={query.data.owner} />
                 </Box>
 
             </Grid>
@@ -126,10 +127,10 @@ function ViewCourse() {
 }
 
 interface AboutMentorProps {
-    data: any
+    user: User
 }
 
-function AboutMentor({ data }: AboutMentorProps) {
+function AboutMentor({ user }: AboutMentorProps) {
     const theme = useTheme()
     return (
         <>
@@ -189,7 +190,7 @@ function AboutMentor({ data }: AboutMentorProps) {
                 justifyContent: 'center',
                 alignItems: 'center'
             }}>
-                <Avatar src={data.owner.profile_image}
+                <Avatar src={user.profile_image}
                     sx={{
                         width: '50%',
                         height: 'auto',

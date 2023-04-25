@@ -4,16 +4,23 @@ import Divider from "@mui/material/Divider";
 import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import { NavLink } from "react-router-dom";
+import { Course } from "../../types/course";
 
-export function BestCourseCard({ data, index, currentCourse }: any) {
+interface props {
+    data: Course,
+    index: number,
+    currentCourseIndex: number
+}
+
+export function BestCourseCard({ data, index, currentCourseIndex }: props) {
     const theme = useTheme();
     function getTransformValue() {
-        if (index === currentCourse)
+        if (index === currentCourseIndex)
             return 'translate(0, 0)'
-        if (index > currentCourse) {
+        if (index > currentCourseIndex) {
             return 'translate(200%, 0)'
         }
-        if (index < currentCourse) {
+        if (index < currentCourseIndex) {
             return 'translate(-200%, 0)'
         }
     }

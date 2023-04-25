@@ -1,5 +1,5 @@
 import { Tab, Tabs } from '@mui/material';
-import { Box } from '@mui/system';
+import { Box, SxProps } from '@mui/system';
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { TabPanel } from './TabPanel';
@@ -8,7 +8,8 @@ import { TabPanel } from './TabPanel';
 interface props {
     tabLabels: string[];
     panels: React.ReactElement[];
-    startState?: number
+    startState?: number,
+    sx?: SxProps,
 }
 
 function a11yProps(index: number) {
@@ -19,7 +20,7 @@ function a11yProps(index: number) {
 }
 
 
-function FullWidthTab({ tabLabels, panels, startState }: props) {
+function FullWidthTab({ tabLabels, panels, startState, sx }: props) {
     const [value, setValue] = React.useState(startState || 0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -27,7 +28,7 @@ function FullWidthTab({ tabLabels, panels, startState }: props) {
     };
 
     return (
-        <Box sx={{ width: '100%', height: '100%' }}>
+        <Box sx={{ width: '100%', height: '100%', ...sx }}>
             <Box sx={{
             }} >
                 <Tabs variant='fullWidth' indicatorColor='primary' textColor='inherit'

@@ -1,8 +1,9 @@
 import { Divider } from '@mui/material';
+import { Course } from '../../types/course';
 import { CourseCellDetails } from './CourseCellDetails';
 
 interface CourseCellsProps {
-    data: any;
+    data: Course;
 }
 export function CourseCells({ data }: CourseCellsProps) {
     function getCourseLevel(level: string) {
@@ -30,7 +31,7 @@ export function CourseCells({ data }: CourseCellsProps) {
             <CourseCellDetails title={'المستوى'} text={getCourseLevel(data.course_level)} />
             <Divider orientation='vertical' flexItem />
 
-            <CourseCellDetails title={'الدروس'} text={data.videos_count} />
+            <CourseCellDetails title={'الدروس'} text={data.videos_count.toString()} />
 
             <Divider orientation='vertical' flexItem />
 

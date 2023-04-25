@@ -6,9 +6,9 @@ import { MainButton } from '../../components/ui/MainButton';
 import UploadSvgIcon from '../../components/ui/UploadSvgIcon';
 import { selectUser } from '../../redux/userSlice';
 import useLogin from '../authenticate/hooks/useLogin';
+import SocialMediaInput from './SocialMediaInput';
 import EditProfileField from './components/fields';
 import EditProfileColumn from './components/fields-column';
-import SocialMediaInput from './SocialMediaInput';
 
 export default function EditProfileContent({ }) {
     const theme = useTheme();
@@ -33,7 +33,7 @@ export default function EditProfileContent({ }) {
                 gap: theme.spacing(8),
             }}>
                 <Avatar
-                    src={query.data.profile_image}
+                    src={query.data?.profile_image}
                     sx={{
                         width: theme.spacing(26),
                         height: theme.spacing(26),
@@ -78,15 +78,16 @@ export default function EditProfileContent({ }) {
                     grow
                     name={'speciality'}
                     type={'label'}
-                    placeholder={user.user.speciality}
-                    label={'التخصص'} />
+                    placeholder={user.user.speciality || "التخصص"}
+                    label={'التخصص'}
+                />
             </EditProfileColumn>
             <EditProfileColumn>
                 <EditProfileField
                     grow
                     name={'description'}
                     type={'label'}
-                    placeholder={user.user.description}
+                    placeholder={user.user.description || "وصف"}
                     label={'وصف'}
                     multiline />
             </EditProfileColumn>

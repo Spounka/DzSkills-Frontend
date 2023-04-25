@@ -1,7 +1,8 @@
 import axiosInstance from "../../../globals/axiosInstance";
-import User from "../../../redux/userSlice";
+import { LoginUser } from "../../../redux/userSlice";
+import { User } from "../../../types/user";
 
-export async function updateProfile(values: typeof User) {
+export async function updateProfile(values: LoginUser) {
     const { data } = await axiosInstance.patch("/rest-auth/", values);
     return data;
 }
@@ -18,28 +19,24 @@ export async function verifyToken(token: any) {
     });
 }
 
-export async function verifyOrRefreshToken(
-    token: any,
-    refresh_token: any
-) {
+export async function verifyOrRefreshToken(token: any, refresh_token: any) {
     return await verifyToken(token).catch(async (error: any) => {
         if (error.response && error.response.status === 401) {
-            return await refreshToken(refresh_token).catch(
-                (error) => {
-                    throw Error(error);
-                }
-            );
+            return await refreshToken(refresh_token).catch((error) => {
+                throw Error(error);
+            });
         }
     });
 }
 
 export async function fetchUser(token: string | null) {
-    return await axiosInstance.get("/rest-auth/user/", {
+    const { data } = await axiosInstance.get("/rest-auth/user/", {
         headers: {
-            Authorization: `Bearer ${token}`,
+            "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json",
         },
     });
+    return data as User;
 }
 
 export async function getUser(
@@ -52,10 +49,7 @@ export async function getUser(
             if (response.data.access === undefined) {
                 return localStorage.getItem("access_token");
             } else {
-                localStorage.setItem(
-                    "access_token",
-                    response.data.access
-                );
+                localStorage.setItem("access_token", response.data.access);
                 return response.data.acesss;
             }
         })
@@ -65,7 +59,6 @@ export async function getUser(
         .then(async (access) => {
             return await fetchUser(access);
         })
-        .then((result) => result.data)
         .catch((error) => {
             throw Error(error);
         });

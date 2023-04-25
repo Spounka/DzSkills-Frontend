@@ -58,9 +58,9 @@ export function TrendingCoursesCarousel({ }: any) {
                     color: 'white'
                 }} />
             </IconButton>
-            <BestCourseCard index={0} currentCourse={activeCourse} data={query.data?.data[0]} />
-            <BestCourseCard index={1} currentCourse={activeCourse} data={query.data?.data[1]} />
-            <BestCourseCard index={2} currentCourse={activeCourse} data={query.data?.data[2]} />
+            <BestCourseCard index={0} currentCourseIndex={activeCourse} data={query.data[0]} />
+            <BestCourseCard index={1} currentCourseIndex={activeCourse} data={query.data[1]} />
+            <BestCourseCard index={2} currentCourseIndex={activeCourse} data={query.data[2]} />
         </Box>
     );
 }

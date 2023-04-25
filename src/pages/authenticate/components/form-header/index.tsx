@@ -4,7 +4,11 @@ import google from '../../../../assets/svg/icons8-google.svg';
 import SocialMediaButton from '../social-media-button';
 import SvgIcon from '../svg-icon';
 
-function AuthFormsHeader({ title, subheader }: any) {
+interface props {
+    title: string,
+    subheader: string
+}
+function AuthFormsHeader({ title, subheader }: props) {
     return (
         <>
             <Typography textAlign={"center"} variant={'h5'} fontWeight={500} sx={{
@@ -39,14 +43,15 @@ function AuthFormsHeader({ title, subheader }: any) {
 
 
 function SocialLoginButtons() {
-    return (<> <SocialMediaButton variant="outlined" color="gray">
-        <SvgIcon icon={facebook} style={{
-            maxHeight: '24px',
-            marginLeft: '0.5rem',
-            justifySelf: 'center'
-        }} />
-        متابعة بفايسبوك
-    </SocialMediaButton>
+    return (<>
+        <SocialMediaButton variant="outlined" color="gray">
+            <SvgIcon icon={facebook} style={{
+                maxHeight: '24px',
+                marginLeft: '0.5rem',
+                justifySelf: 'center'
+            }} />
+            متابعة بفايسبوك
+        </SocialMediaButton>
         <SocialMediaButton variant="outlined" color="gray">
             <SvgIcon icon={google} style={{
                 maxHeight: '24px',
@@ -55,6 +60,8 @@ function SocialLoginButtons() {
                 justifySelf: 'center'
             }} />
             متابعة بغوغل
-        </SocialMediaButton></>);
+        </SocialMediaButton>
+    </>
+    );
 }
 export default AuthFormsHeader

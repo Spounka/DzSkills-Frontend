@@ -1,30 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../stores/store";
+import { User } from "../types/user";
 
-export interface User {
+export interface LoginUser {
     access_token?: string;
-    user: {
-        pk: number;
-        username: string;
-        email: string;
-        first_name: string;
-        last_name: string;
-        description: string;
-        speciality: string;
-        profile_image: string;
-    };
+    refresh_token?: string;
+    user: User;
 }
 
 const initialState = {
     access_token: "",
+    refresh_token: "",
     user: {
         pk: 1,
         username: "",
         email: "",
         first_name: "",
         last_name: "",
-        description: "",
-        speciality: "",
         profile_image: "",
     },
 };
@@ -33,11 +25,13 @@ const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        updateUser: (state, action: PayloadAction<User>) => {
+        updateUser: (state, action: PayloadAction<LoginUser>) => {
             return {
                 ...state,
                 access_token:
                     action.payload.access_token || state.access_token,
+                refresh_token:
+                    action.payload.refresh_token || state.refresh_token,
                 user: { ...action.payload.user },
             };
         },

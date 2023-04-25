@@ -3,8 +3,12 @@ import { Divider, Rating, Typography, useTheme } from '@mui/material'
 import { Box } from '@mui/system'
 import Image from 'mui-image'
 import { Link } from 'react-router-dom'
+import { Course } from '../../types/course'
 
-function CourseCard({ course }: any) {
+interface props {
+    course: Course,
+}
+function CourseCard({ course }: props) {
     const theme = useTheme()
     return (
         <Box
@@ -34,7 +38,7 @@ function CourseCard({ course }: any) {
                     }
                 }}>
                 <Box sx={{
-                    height: '35%',
+                    height: '45%',
                     borderRadius: `${theme.spacing(2)} ${theme.spacing(2)} 50% 50%`
                 }}>
                     <Image
