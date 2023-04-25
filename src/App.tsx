@@ -11,10 +11,7 @@ import Profile from './pages/profile'
 import Invoices from './pages/profile-invoices'
 import TeacherAddCourse from './pages/teacher-dashboard/add-course'
 import WatchCourse from './pages/view-course'
-import AdminLandingPage from './pages/admin-panel/landing-page'
-import PaymentManagement from './pages/admin-panel/payment-management'
-import UserManagement from './pages/admin-panel/user-management'
-import AdminCourses from './pages/admin-panel/courses'
+import CourseDetails from './pages/admin-panel/course-details'
 
 function App() {
 
@@ -54,6 +51,7 @@ function App() {
             <Route path="/admin">
                 <Route path="" element={<AdminLandingPage />} />
                 <Route path="courses" element={<AdminCourses />} />
+                <Route path="courses/:id/" element={<CourseDetails />} />
                 <Route path="payments" element={<PaymentManagement />} />
                 <Route path="users" element={<UserManagement />} />
             </Route>
