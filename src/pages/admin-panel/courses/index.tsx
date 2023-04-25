@@ -1,10 +1,17 @@
-import React, { useState } from 'react'
-import useLogin from '../../authenticate/hooks/useLogin'
-import { useTheme } from '@mui/material/styles';
+import { Avatar, Checkbox } from '@mui/material';
 import Box from '@mui/material/Box';
-import { AdminPanelSidebar } from '../landing-page/components/Sidebar';
+import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
+import React, { useState } from 'react';
+import { useQuery } from 'react-query';
+import { v4 as uuidv4 } from 'uuid';
+import { Course } from '../../../types/course';
+import useLogin from '../../authenticate/hooks/useLogin';
+import CourseCard from '../../landing-page/CourseCard';
+import { getCourses } from '../../landing-page/api/getAllCourses';
 import { AdminPanelTopBar } from '../landing-page/components/AdminPanelTopBar';
 import { NotificationsBar } from '../landing-page/components/NotificationsBar';
+import { AdminPanelSidebar } from '../landing-page/components/Sidebar';
 
 function AdminCourses() {
     const theme = useTheme()
@@ -14,6 +21,18 @@ function AdminCourses() {
     function toggleDrawer() {
         setDrawerOpen(val => !val)
     }
+
+    const token = localStorage.getItem('access_token')
+
+    const query = useQuery({
+        queryKey: ['courses'],
+        queryFn: () => getCourses(token),
+        staleTime: 1000 * 60 * 60,
+    })
+    if (query.isError)
+        return <Typography>Error Occured</Typography>
+    if (query.isLoading)
+        return <Typography>Loading...</Typography>
 
     return (
         <Box sx={{
@@ -62,14 +81,84 @@ function AdminCourses() {
                     <Box
                         sx={{
                             display: 'flex',
-                            flexDirection: 'column',
+                            width: '100%',
+                            flexDirection: 'row',
                             gap: 2,
-                            p: 0
-
+                            height: '100%',
+                            // p: 2,
+                            pb: 8,
                         }}
 
                     >
-                        {/* <DisplayTableDataGrid rows={rows} columns={columns} /> */}
+                        <Box
+                            sx={{
+                                flexBasis: '50%',
+                                height: '100%',
+                                width: '100%',
+                                bgcolor: 'white',
+                                mt: theme.spacing(),
+                                pb: theme.spacing(),
+                                maxHeight: '100%',
+                                overflowY: 'scroll',
+                                scrollBehavior: 'smooth',
+                            }}
+                        >
+                            {query.data?.map((course: Course) => {
+                                return (
+                                    <React.Fragment key={uuidv4()}>
+                                        <Box
+                                            sx={{
+                                                p: 2,
+                                                display: 'flex',
+                                                gap: 2,
+                                                alignItems: 'center',
+                                                cursor: 'pointer'
+
+                                            }}>
+                                            <Checkbox color={'secondary'} />
+                                            <Avatar
+                                                src={course.owner.profile_image}
+                                                sx={{
+                                                    width: theme.spacing(12),
+                                                    height: theme.spacing(12),
+                                                }}
+                                            />
+                                            <Box display={'flex'} flexDirection={'column'}>
+                                                <Typography variant='h6'>
+                                                    {course.owner.first_name + " " + course.owner.last_name}
+                                                </Typography>
+                                                <Typography variant='subtitle2' color={'gray.main'}>
+                                                    category
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+
+                                    </React.Fragment>
+                                )
+                            })}
+                        </Box>
+                        <Box
+                            sx={{
+                                display: 'grid',
+                                flexBasis: '50%',
+                                gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                                gridTemplateRows: 'repeat(2, minmax(0, 1fr))',
+                                overflowY: 'scroll',
+                                width: '100%',
+                                maxHeight: '90vh',
+                            }}>
+                            {query.data?.map((info: Course) => {
+                                return (
+                                    <Box
+                                        key={uuidv4()}
+                                    >
+
+                                        <CourseCard course={info} link={info.id.toString() + '/'} />
+                                    </Box>
+                                )
+                            })}
+                        </Box>
+
 
                     </Box>
                 </Box>
