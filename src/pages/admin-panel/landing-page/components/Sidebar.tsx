@@ -10,11 +10,6 @@ import whiteProfile from '../../../../assets/svg/profile white.svg';
 import grayPlay from '../../../../assets/svg/play gray.svg';
 import whitePlay from '../../../../assets/svg/play white.svg';
 
-import grayData from '../../../../assets/svg/data gray.svg';
-import whiteData from '../../../../assets/svg/data white.svg';
-
-
-
 import grayHome from '../../../../assets/svg/home gray.svg';
 import whiteHome from '../../../../assets/svg/home white.svg';
 
@@ -125,12 +120,6 @@ export function AdminPanelSidebar() {
                         iconActive={<img src={whiteProfile} />}
                         iconInactive={<img src={grayProfile} />}
                         label={'المستخدمين'}
-                    />
-                    <AdminPanelSidebarLink
-                        url={'/admin/statistics'}
-                        iconActive={<img src={whiteData} />}
-                        iconInactive={<img src={grayData} />}
-                        label={'الإحصائيات'}
                     />
                     <AdminPanelSidebarLink
                         url={'../account'}
