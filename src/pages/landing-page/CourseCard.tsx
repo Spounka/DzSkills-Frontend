@@ -7,8 +7,9 @@ import { Course } from '../../types/course'
 
 interface props {
     course: Course,
+    link: string,
 }
-function CourseCard({ course }: props) {
+function CourseCard({ course, link }: props) {
     const theme = useTheme()
     return (
         <Box
@@ -74,7 +75,7 @@ function CourseCard({ course }: props) {
 
                     <Box display="flex" alignItems={'center'} justifyContent={'space-between'}>
                         <Box>
-                            <Typography color={'black'} variant={'h6'}>
+                            <Typography color={'black'} variant={'body2'}>
                                 {course.title}
                             </Typography>
                             <Typography color={'gray.main'}>
@@ -91,8 +92,18 @@ function CourseCard({ course }: props) {
                         </Box>
                     </Box>
 
-                    <Box flexGrow={'1'} flexShrink={'1'}>
-                        <Typography color={'gray.main'} variant={'body2'}>
+                    <Box flexGrow={'1'}
+                        sx={{
+                            overflow: 'hidden',
+                            maxHeight: '30%',
+                        }}>
+                        <Typography color={'gray.main'}
+                            variant={'body2'}
+                            sx={{
+                                maxHeight: '20%',
+                                textOverflow: 'ellipsis',
+                                maxWidth: '80%'
+                            }}>
                             {course.description}
                         </Typography>
                     </Box>
@@ -100,7 +111,7 @@ function CourseCard({ course }: props) {
                         <Typography color={'black'} variant={'h6'}>
                             {course.price} DA
                         </Typography>
-                        <Link to={'/courses/' + course.id}>
+                        <Link to={link}>
                             <Typography variant={'subtitle2'} fontWeight={400} color={'#393939'} style={{
                                 textAlign: 'center',
                                 verticalAlign: 'middle',

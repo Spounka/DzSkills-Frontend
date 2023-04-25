@@ -1,14 +1,14 @@
 import Box from "@mui/material/Box"
 import Grid from "@mui/material/Grid"
-import { useTheme } from "@mui/material/styles"
 import Typography from "@mui/material/Typography"
+import { useTheme } from "@mui/material/styles"
 import { useQuery } from "react-query"
 import { v4 as uuidv4 } from 'uuid'
 import blurredBg from "../../assets/svg/blured image.svg"
 import TopNavigationBar from "../../components/top-bar"
-import { getCourses } from "./api/getAllCourses"
 import CourseCard from "./CourseCard"
 import { TrendingCoursesCarousel } from "./TrendingCoursesCarousel"
+import { getCourses } from "./api/getAllCourses"
 
 function LandingPage() {
     const theme = useTheme()
@@ -94,14 +94,12 @@ function LandingPage() {
                         pb: 5,
                     }}>
                     {query.data?.map((info: any) => {
-                        console.log(info);
-
                         return (
                             <Box
                                 key={uuidv4()}
                             >
 
-                                <CourseCard course={info} />
+                                <CourseCard course={info} link={'/courses/' + info.id + '/'} />
                             </Box>
                         )
                     })}
