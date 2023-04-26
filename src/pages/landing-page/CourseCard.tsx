@@ -39,7 +39,6 @@ function CourseCard({ course, link }: props) {
                     }
                 }}>
                 <Box sx={{
-                    height: '45%',
                     borderRadius: `${theme.spacing(2)} ${theme.spacing(2)} 50% 50%`
                 }}>
                     <Image
@@ -52,7 +51,8 @@ function CourseCard({ course, link }: props) {
                         height={'100%'}
 
                         style={{
-                            borderRadius: `${theme.spacing(2)} ${theme.spacing(2)} 0 0`
+                            borderRadius: `${theme.spacing(2)} ${theme.spacing(2)} 0 0`,
+                            aspectRatio: '16/9',
                         }}
                     />
                 </Box>
