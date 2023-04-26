@@ -34,6 +34,8 @@ function AdminCourses() {
     if (query.isLoading)
         return <Typography>Loading...</Typography>
 
+    const users = query.data?.map((course) => course.owner)
+
     return (
         <Box sx={{
             p: 0,

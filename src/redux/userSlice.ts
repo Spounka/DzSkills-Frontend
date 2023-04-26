@@ -18,6 +18,7 @@ const initialState = {
         first_name: "",
         last_name: "",
         profile_image: "",
+        date_joined: "",
     },
 };
 

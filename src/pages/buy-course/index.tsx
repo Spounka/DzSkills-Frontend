@@ -51,7 +51,7 @@ function BuyCourse() {
         const form = document.querySelector('form')
         if (form) {
             let formData = new FormData(form)
-            formData.append('course', id)
+            formData.append('course', id.toString())
             mutation.mutate(formData)
         }
     }

@@ -1,16 +1,18 @@
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import { useState } from 'react';
-import timeOrange from '../../../assets/svg/time-orange.svg';
-import timeBlue from '../../../assets/svg/time-transparent.svg';
-import teaching from '../../../assets/svg/teaching-blue.svg';
-import students from '../../../assets/svg/school-blue.svg';
+import { useQuery } from 'react-query';
 import money from '../../../assets/svg/money-white.svg';
+import students from '../../../assets/svg/school-blue.svg';
+import teaching from '../../../assets/svg/teaching-blue.svg';
+import timeBlue from '../../../assets/svg/time-transparent.svg';
 import useLogin from '../../authenticate/hooks/useLogin';
+import { getAllUsers } from '../user-management/api/getUsers';
 import { InformationCard } from './InformationCard';
 import { AdminPanelTopBar } from './components/AdminPanelTopBar';
 import { NotificationsBar } from './components/NotificationsBar';
 import { AdminPanelSidebar } from './components/Sidebar';
+import { getAllPayments } from '../payment-management/api/payments';
 
 function AdminLandingPage() {
     const theme = useTheme()
@@ -20,6 +22,30 @@ function AdminLandingPage() {
     function toggleDrawer() {
         setDrawerOpen(val => !val)
     }
+
+    const users = useQuery({
+        queryKey: ['users'],
+        queryFn: () => getAllUsers()
+    })
+
+
+    const paymentsQuery = useQuery({
+        queryKey: ['payments'],
+        queryFn: () => getAllPayments(),
+        staleTime: 1000 * 60,
+    })
+
+    if (users.isError)
+        return <>users error...</>
+    if (users.isLoading)
+        return <>users loading...</>
+
+    if (paymentsQuery.isError)
+        return <>paymentsQuery error...</>
+    if (paymentsQuery.isLoading)
+        return <>paymentsQuery loading...</>
+
+
 
     return (
         <Box sx={{
@@ -76,7 +102,7 @@ function AdminLandingPage() {
                     >
                         <InformationCard
                             title={'طلبات معلقة'}
-                            subtitle={'0'}
+                            subtitle={paymentsQuery.data?.length.toString() || '0'}
                             icon={timeBlue}
                             sx={{
                                 flexBasis: '20%',
@@ -85,7 +111,7 @@ function AdminLandingPage() {
                         />
                         <InformationCard
                             title={'عدد الطلبة'}
-                            subtitle={'5'}
+                            subtitle={users.data?.length.toString() || '12'}
                             icon={students}
                             sx={{
                                 flexBasis: '25%',

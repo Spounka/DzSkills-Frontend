@@ -130,7 +130,7 @@ interface AboutMentorProps {
     user: User
 }
 
-function AboutMentor({ user }: AboutMentorProps) {
+export function AboutMentor({ user }: AboutMentorProps) {
     const theme = useTheme()
     return (
         <>

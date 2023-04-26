@@ -3,11 +3,13 @@ import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import { GridColDef } from '@mui/x-data-grid';
 import { useState } from 'react';
+import { useQuery } from 'react-query';
 import useLogin from '../../authenticate/hooks/useLogin';
 import { AdminPanelTopBar } from '../landing-page/components/AdminPanelTopBar';
 import { NotificationsBar } from '../landing-page/components/NotificationsBar';
 import { AdminPanelSidebar } from '../landing-page/components/Sidebar';
 import { DisplayTableDataGrid } from '../payment-management/DisplayTableDataGrid';
+import { getAllUsers } from './api/getUsers';
 
 
 const columns: GridColDef[] = [
@@ -75,24 +77,6 @@ const columns: GridColDef[] = [
     },
 ];
 
-const rows = [
-    {
-        id: 1,
-        avatar: 'src',
-        fullName: 'nazih boudaakar',
-        username: 'spounka',
-        status: 'single'
-    },
-    {
-        id: 2,
-        avatar: 'src',
-        fullName: 'nazih boudaakar',
-        username: 'spounka',
-        status: 'single'
-    },
-];
-
-
 function UserManagement() {
     const theme = useTheme()
     useLogin()
@@ -101,6 +85,25 @@ function UserManagement() {
     function toggleDrawer() {
         setDrawerOpen(val => !val)
     }
+    const query = useQuery({
+        queryKey: ['users'],
+        queryFn: () => getAllUsers()
+    })
+
+    if (query.isLoading)
+        return <>Loading..</>
+    if (query.isError)
+        return <>Error...</>
+
+    const rows = query.data?.map((user) => {
+        return {
+            id: user.pk,
+            avatar: user.profile_image,
+            fullName: user.first_name + " " + user.last_name,
+            username: user.username,
+            status: 'user'
+        }
+    })
 
     return (
         <Box sx={{

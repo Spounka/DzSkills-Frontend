@@ -1,8 +1,9 @@
-export interface User {
+export type User = {
     pk: number;
     username: string;
     email: string;
     first_name: string;
     last_name: string;
     profile_image: string;
-}
+    date_joined: string;
+};
