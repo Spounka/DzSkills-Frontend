@@ -21,15 +21,16 @@ function App() {
     return (
         <Routes>
             {/* User Application */}
-            <Route path="" element={<LandingPage />} />
-            <Route path="/login" element={<Authenticate />} />
-            <Route path="/password-forgotten" element={<PasswordForgotten />} />
+            <Route path="" element={<CoursesPage/>}/>
+            <Route path="/login" element={<Authenticate/>}/>
+            <Route path="/password-forgotten" element={<PasswordForgotten/>}/>
             <Route path="/profile">
                 <Route path="" element={<Profile />} />
                 <Route path="edit" element={<EditProfile />} />
                 <Route path="cart" element={<Invoices />} />
             </Route>
             <Route path="/courses">
+                <Route path="" element={<CoursesPage/>}/>
                 <Route path=":id">
                     <Route path="" element={<ViewCourse />} />
                     <Route path="watch" element={<WatchCourse />} />
