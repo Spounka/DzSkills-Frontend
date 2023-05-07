@@ -1,17 +1,18 @@
-import { Avatar, Checkbox } from '@mui/material';
+import {Avatar, Checkbox} from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
-import React, { useState } from 'react';
-import { useQuery } from 'react-query';
-import { v4 as uuidv4 } from 'uuid';
-import { Course } from '../../../types/course';
+import {useTheme} from '@mui/material/styles';
+import React, {useState} from 'react';
+import {useQuery} from 'react-query';
+import {v4 as uuidv4} from 'uuid';
+import {Course} from '../../../types/course';
 import useLogin from '../../authenticate/hooks/useLogin';
-import CourseCard from '../../landing-page/CourseCard';
-import { getCourses } from '../../landing-page/api/getAllCourses';
-import { AdminPanelTopBar } from '../landing-page/components/AdminPanelTopBar';
-import { NotificationsBar } from '../landing-page/components/NotificationsBar';
-import { AdminPanelSidebar } from '../landing-page/components/Sidebar';
+import CourseCard from '../../courses-page/CourseCard';
+import {getCourses} from '../../courses-page/api/getAllCourses';
+import {AdminPanelTopBar} from '../landing-page/components/AdminPanelTopBar';
+import {NotificationsBar} from '../landing-page/components/NotificationsBar';
+import {AdminPanelSidebar} from '../landing-page/components/Sidebar';
+import {User} from "../../../types/user";
 
 function AdminCourses() {
     const theme = useTheme()
@@ -67,7 +68,7 @@ function AdminCourses() {
                 height={'100%'}
                 width={'100%'}
             >
-                <AdminPanelSidebar />
+                <AdminPanelSidebar/>
             </Box>
             <Box
                 display={'grid'}
@@ -83,9 +84,9 @@ function AdminCourses() {
             >
 
                 <AdminPanelTopBar onNotificationClick={toggleDrawer}
-                    title={'الكورسات'}
-                    subtitle={''}
-                    mainColor={theme.palette.secondary.main} />
+                                  title={'الكورسات'}
+                                  subtitle={''}
+                                  mainColor={theme.palette.secondary.main}/>
                 <Box sx={{
                     gridColumn: '1 / -3',
                     gridRow: '2 / 16',
@@ -129,7 +130,7 @@ function AdminCourses() {
                                                 cursor: 'pointer'
 
                                             }}>
-                                            <Checkbox color={'secondary'} />
+                                            <Checkbox color={'secondary'}/>
                                             <Avatar
                                                 src={user.profile_image}
                                                 sx={{
@@ -167,7 +168,7 @@ function AdminCourses() {
                                         key={uuidv4()}
                                     >
 
-                                        <CourseCard course={info} link={info.id.toString() + '/'} />
+                                        <CourseCard course={info} link={info.id.toString() + '/'}/>
                                     </Box>
                                 )
                             })}
@@ -185,10 +186,10 @@ function AdminCourses() {
                     overflow: 'hidden',
 
                 }}>
-                    <NotificationsBar mainColor={theme.palette.secondary.main} drawerOpen={drawerOpen} />
+                    <NotificationsBar mainColor={theme.palette.secondary.main} drawerOpen={drawerOpen}/>
                 </Box>
-            </Box >
-        </Box >
+            </Box>
+        </Box>
     )
 
 }

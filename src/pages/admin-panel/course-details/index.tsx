@@ -1,14 +1,13 @@
-import { Avatar, Box, Checkbox, Divider, IconButton, MenuItem, Popover, Rating, Typography, colors, useTheme } from '@mui/material';
-import React, { useState } from 'react';
-import { useQuery } from 'react-query';
-import { v4 as uuidv4 } from 'uuid';
-import { Course } from '../../../types/course';
+import {Avatar, Box, Divider, IconButton, MenuItem, Popover, Rating, Typography, useTheme} from '@mui/material';
+import React, {useState} from 'react';
+import {useQuery} from 'react-query';
+import {v4 as uuidv4} from 'uuid';
 import useLogin from '../../authenticate/hooks/useLogin';
-import { getCourses } from '../../landing-page/api/getAllCourses';
-import { InformationCard } from '../landing-page/InformationCard';
-import { AdminPanelTopBar } from '../landing-page/components/AdminPanelTopBar';
-import { NotificationsBar } from '../landing-page/components/NotificationsBar';
-import { AdminPanelSidebar } from '../landing-page/components/Sidebar';
+import {getCourses} from '../../courses-page/api/getAllCourses';
+import {InformationCard} from '../landing-page/InformationCard';
+import {AdminPanelTopBar} from '../landing-page/components/AdminPanelTopBar';
+import {NotificationsBar} from '../landing-page/components/NotificationsBar';
+import {AdminPanelSidebar} from '../landing-page/components/Sidebar';
 
 import facebook from '../../../assets/svg/Facebook_Square.svg';
 import instagram from '../../../assets/svg/Instagram_Square.svg';
@@ -19,14 +18,16 @@ import createBlack from '../../../assets/svg/create-black.svg';
 import deleteWhiteBg from '../../../assets/svg/delete-whitebg.svg';
 import messageWhitebg from '../../../assets/svg/message-whitebg.svg';
 
-import { MoreHoriz, Star } from '@mui/icons-material';
+import {MoreHoriz, Star} from '@mui/icons-material';
 import Image from 'mui-image';
-import { useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import money from '../../../assets/svg/money-white.svg';
 import students from '../../../assets/svg/school-blue.svg';
 import timeBlue from '../../../assets/svg/time-transparent.svg';
-import { getCourse } from '../../course/api/getCourse';
+import {getCourse} from '../../course/api/getCourse';
 import NotFound from '../../not-found/NotFound';
+import {getRelatedStudents, RelatedStudent} from "./api/relatedStudent";
+import {CourseStudent} from "./components/courseStudent";
 
 function CourseDetails() {
     const params = useParams()
@@ -36,7 +37,7 @@ function CourseDetails() {
 
     // @ts-ignore
     if (isNaN(params.id))
-        return <NotFound />
+        return <NotFound/>
 
 
     const id: number = parseInt(params.id)
@@ -111,7 +112,7 @@ function CourseDetails() {
                 height={'100%'}
                 width={'100%'}
             >
-                <AdminPanelSidebar />
+                <AdminPanelSidebar/>
             </Box>
             <Box
                 display={'grid'}
@@ -127,9 +128,9 @@ function CourseDetails() {
             >
 
                 <AdminPanelTopBar onNotificationClick={toggleDrawer}
-                    title={'الكورسات'}
-                    subtitle={''}
-                    mainColor={theme.palette.secondary.main} />
+                                  title={'الكورسات'}
+                                  subtitle={''}
+                                  mainColor={theme.palette.secondary.main}/>
                 <Box sx={{
                     gridColumn: '1 / -3',
                     gridRow: '2 / 16',
@@ -189,7 +190,7 @@ function CourseDetails() {
                                 aria-haspopup="true"
                                 onClick={handleClick}
                             >
-                                <MoreHoriz />
+                                <MoreHoriz/>
                             </IconButton>
                             <Popover
                                 id="long-menu"
@@ -222,8 +223,7 @@ function CourseDetails() {
                                         // }
                                     }
                                 }}
-                                sx={{
-                                }}
+                                sx={{}}
                             >
                                 <MenuItem disableRipple>
                                     <IconButton>
@@ -241,13 +241,13 @@ function CourseDetails() {
                                             bgcolor: 'white',
                                             borderRadius: theme.spacing()
                                         }}>
-                                            <Image src={createBlack} width={'auto'} />
+                                            <Image src={createBlack} width={'auto'}/>
                                         </Box>
                                     </IconButton>
                                 </MenuItem>
                                 <MenuItem disableRipple>
                                     <IconButton>
-                                        <Image src={deleteWhiteBg} width={'auto'} />
+                                        <Image src={deleteWhiteBg} width={'auto'}/>
                                     </IconButton>
                                 </MenuItem>
                             </Popover>
@@ -271,17 +271,18 @@ function CourseDetails() {
                                 flexBasis: '50%',
                                 width: '100%',
                                 p: 1,
-                                pb:0,
+                                pb: 0,
                                 display: 'flex',
                                 flexDirection: 'column',
                             }}>
                             {
                                 // @ts-ignore
                                 <Image width={'auto'}
-                                    src={course.data?.thumbnail}
-                                    sx={{
-                                        aspectRatio: '16/9'
-                                    }}
+                                       src={(course.data?.thumbnail && course.data?.thumbnail) || ""}
+                                    // @ts-ignore
+                                       sx={{
+                                           aspectRatio: '16/9'
+                                       }}
                                 />
                             }
                             <Box
@@ -311,7 +312,7 @@ function CourseDetails() {
                                             {2.5}
                                         </Typography>
                                         <Rating max={1} readOnly value={1}
-                                            emptyIcon={<Star style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                                emptyIcon={<Star style={{opacity: 0.55}} fontSize="inherit"/>}
                                         />
                                     </Box>
                                 </Box>
@@ -331,8 +332,7 @@ function CourseDetails() {
                                 p: 8,
                                 pb: 4,
                                 color: 'white',
-                                // display: 'flex',
-                                // flexDirection: 'column',
+
 
                             }}>
                                 <Avatar src={course.data?.owner.profile_image} sx={{
@@ -359,28 +359,28 @@ function CourseDetails() {
                                                 height: theme.spacing(4)
                                             }}
                                             src={instagram}
-                                            alt="instagram logo" />
+                                            alt="instagram logo"/>
                                         <img
                                             style={{
                                                 width: theme.spacing(4),
                                                 height: theme.spacing(4)
                                             }}
                                             src={linkedin}
-                                            alt="linkedin logo" />
+                                            alt="linkedin logo"/>
                                         <img
                                             style={{
                                                 width: theme.spacing(4),
                                                 height: theme.spacing(4)
                                             }}
                                             src={facebook}
-                                            alt="facebook logo" />
+                                            alt="facebook logo"/>
                                         <img
                                             style={{
                                                 width: theme.spacing(4),
                                                 height: theme.spacing(4)
                                             }}
                                             src={twitter}
-                                            alt="twitter logo" />
+                                            alt="twitter logo"/>
                                     </Box>
 
                                 </Box>
@@ -410,17 +410,7 @@ function CourseDetails() {
                                 <Typography color={'secondary.main'}>
                                     الطلبة
                                 </Typography>
-
-                                {/* <Autocomplete
-                                    blurOnSelect
-                                    renderInput={
-                                        function (params: AutocompleteRenderInputParams): React.ReactNode {
-                                            throw new Error('Function not implemented.');
-                                        }
-                                    }
-                                    options={[]} /> */}
-
-                                <Divider />
+                                <Divider/>
 
                             </Box>
                             {relatedStudentsQuery.data?.map((student: RelatedStudent) => {
@@ -442,10 +432,10 @@ function CourseDetails() {
                     overflow: 'hidden',
 
                 }}>
-                    <NotificationsBar mainColor={theme.palette.secondary.main} drawerOpen={drawerOpen} />
+                    <NotificationsBar mainColor={theme.palette.secondary.main} drawerOpen={drawerOpen}/>
                 </Box>
-            </Box >
-        </Box >
+            </Box>
+        </Box>
     )
 
 }
