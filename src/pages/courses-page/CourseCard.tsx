@@ -1,15 +1,16 @@
-import { Star } from '@mui/icons-material'
-import { Divider, Rating, Typography, useTheme } from '@mui/material'
-import { Box } from '@mui/system'
+import {Star} from '@mui/icons-material'
+import {Divider, Rating, Typography, useTheme} from '@mui/material'
+import {Box} from '@mui/system'
 import Image from 'mui-image'
-import { Link } from 'react-router-dom'
-import { Course } from '../../types/course'
+import {Link} from 'react-router-dom'
+import {Course} from '../../types/course'
 
 interface props {
     course: Course,
     link: string,
 }
-function CourseCard({ course, link }: props) {
+
+function CourseCard({course, link}: props) {
     const theme = useTheme()
     return (
         <Box
@@ -71,7 +72,7 @@ function CourseCard({ course, link }: props) {
                     </Typography>
                     <Divider sx={{
                         mx: -3,
-                    }} />
+                    }}/>
 
                     <Box display="flex" alignItems={'center'} justifyContent={'space-between'}>
                         <Box>
@@ -87,23 +88,23 @@ function CourseCard({ course, link }: props) {
                                 {2.5}
                             </Typography>
                             <Rating max={1} readOnly value={1}
-                                emptyIcon={<Star style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                    emptyIcon={<Star style={{opacity: 0.55}} fontSize="inherit"/>}
                             />
                         </Box>
                     </Box>
 
                     <Box flexGrow={'1'}
-                        sx={{
-                            overflow: 'hidden',
-                            maxHeight: '30%',
-                        }}>
+                         sx={{
+                             overflow: 'hidden',
+                             maxHeight: '30%',
+                         }}>
                         <Typography color={'gray.main'}
-                            variant={'body2'}
-                            sx={{
-                                maxHeight: '20%',
-                                textOverflow: 'ellipsis',
-                                maxWidth: '80%'
-                            }}>
+                                    variant={'body2'}
+                                    sx={{
+                                        maxHeight: '20%',
+                                        textOverflow: 'ellipsis',
+                                        maxWidth: '80%'
+                                    }}>
                             {course.description}
                         </Typography>
                     </Box>
@@ -123,7 +124,7 @@ function CourseCard({ course, link }: props) {
                     </Box>
                 </Box>
             </Box>
-        </Box >
+        </Box>
     )
 }
 
