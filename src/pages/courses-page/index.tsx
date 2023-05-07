@@ -10,7 +10,7 @@ import CourseCard from "./CourseCard"
 import { TrendingCoursesCarousel } from "./TrendingCoursesCarousel"
 import { getCourses } from "./api/getAllCourses"
 
-function LandingPage() {
+function CoursesPage() {
     const theme = useTheme()
     const token = localStorage.getItem('access_token')
 
@@ -111,4 +111,4 @@ function LandingPage() {
 }
 
 
-export default LandingPage
+export default CoursesPage
