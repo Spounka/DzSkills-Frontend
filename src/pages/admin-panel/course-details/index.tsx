@@ -74,12 +74,21 @@ function CourseDetails() {
         staleTime: 1000 * 60 * 60,
     })
 
-
+    const relatedStudentsQuery = useQuery({
+        queryKey: ['courses', id, 'students'],
+        queryFn: () => getRelatedStudents(id),
+        staleTime: 1000 * 60 * 60,
+    })
 
     if (query.isError)
-        return <Typography>Error Occured</Typography>
+        return <Typography>Error Occured In courses</Typography>
     if (query.isLoading)
-        return <Typography>Loading...</Typography>
+        return <Typography>Loading courses...</Typography>
+
+    if (relatedStudentsQuery.isError)
+        return <Typography>Error occured getting related students</Typography>
+    if (relatedStudentsQuery.isLoading)
+        return <Typography>Loading related students...</Typography>
 
 
     return (
@@ -414,49 +423,9 @@ function CourseDetails() {
                                 <Divider />
 
                             </Box>
-                            {query.data?.map((course: Course, index) => {
-                                if (index > 0) return <></>
+                            {relatedStudentsQuery.data?.map((student: RelatedStudent) => {
                                 return (
-                                    <React.Fragment key={uuidv4()}>
-                                        <Box
-                                            sx={{
-                                                p: 2,
-                                                display: 'flex',
-                                                gap: 2,
-                                                alignItems: 'center',
-                                                cursor: 'pointer'
-
-                                            }}>
-                                            <Checkbox color={'secondary'} />
-                                            <Avatar
-                                                src={course.owner.profile_image}
-                                                sx={{
-                                                    width: theme.spacing(8),
-                                                    height: theme.spacing(8),
-                                                    borderRadius: theme.spacing(1),
-                                                }}
-                                            />
-                                            <Typography variant='body1'>
-                                                {course.owner.first_name + " " + course.owner.last_name}
-                                            </Typography>
-
-                                            <Typography>
-                                                {new Date(course.owner.date_joined).toDateString()}
-                                            </Typography>
-                                            <Typography>
-                                                {course.owner.pk}
-                                            </Typography>
-                                            <a href={''}
-                                                style={{
-                                                    color: colors.yellow[700]
-                                                }}
-                                            >
-                                                عرض
-                                            </a>
-
-                                        </Box>
-
-                                    </React.Fragment>
+                                    <CourseStudent key={uuidv4()} student={student} theme={theme}/>
                                 )
                             })}
                         </Box>
