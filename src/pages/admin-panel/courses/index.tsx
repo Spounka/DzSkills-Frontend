@@ -35,6 +35,18 @@ function AdminCourses() {
         return <Typography>Loading...</Typography>
 
     const users = query.data?.map((course) => course.owner)
+    let uniqueUsers: User[] = [];
+    if (users) {
+        for (let i = 0; i < users.length; i++) {
+            if (uniqueUsers.length === 0) {
+                uniqueUsers.push(users[i])
+            } else if (!uniqueUsers.find(user => user.pk === users[i].pk)) {
+                uniqueUsers.push(users[i])
+            }
+
+        }
+    }
+    console.log(uniqueUsers)
 
     return (
         <Box sx={{
@@ -105,7 +117,7 @@ function AdminCourses() {
                                 scrollBehavior: 'smooth',
                             }}
                         >
-                            {query.data?.map((course: Course) => {
+                            {uniqueUsers.map((user: User) => {
                                 return (
                                     <React.Fragment key={uuidv4()}>
                                         <Box
@@ -119,7 +131,7 @@ function AdminCourses() {
                                             }}>
                                             <Checkbox color={'secondary'} />
                                             <Avatar
-                                                src={course.owner.profile_image}
+                                                src={user.profile_image}
                                                 sx={{
                                                     width: theme.spacing(12),
                                                     height: theme.spacing(12),
@@ -127,7 +139,7 @@ function AdminCourses() {
                                             />
                                             <Box display={'flex'} flexDirection={'column'}>
                                                 <Typography variant='h6'>
-                                                    {course.owner.first_name + " " + course.owner.last_name}
+                                                    {user.first_name + " " + user.last_name}
                                                 </Typography>
                                                 <Typography variant='subtitle2' color={'gray.main'}>
                                                     category
