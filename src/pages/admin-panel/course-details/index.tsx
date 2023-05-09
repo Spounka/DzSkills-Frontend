@@ -72,13 +72,11 @@ function CourseDetails() {
     const query = useQuery({
         queryKey: ['courses'],
         queryFn: () => getCourses(token),
-        staleTime: 1000 * 60 * 60,
     })
 
     const relatedStudentsQuery = useQuery({
         queryKey: ['courses', id, 'students'],
         queryFn: () => getRelatedStudents(id),
-        staleTime: 1000 * 60 * 60,
     })
 
     if (query.isError)

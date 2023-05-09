@@ -57,7 +57,7 @@ function WatchCourse() {
     const progression = useQuery({
         queryKey: ['progression', id, user.user.pk],
         queryFn: () => getStudentProgress(id, token),
-        onSuccess: (data) => setCurrentVideo(query.data?.chapters[data?.last_chapter_index].videos[data?.last_video_index]),
+        onSuccess: (data) => setCurrentVideo(query.data?.chapters[data?.last_chapter_index || 0].videos[data?.last_video_index || 0]),
         staleTime: 1000 * 60 * 2,
 
     })

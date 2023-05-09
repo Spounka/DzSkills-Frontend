@@ -6,10 +6,10 @@ import { useQuery } from "react-query"
 import { v4 as uuidv4 } from 'uuid'
 import blurredBg from "../../assets/svg/blured image.svg"
 import TopNavigationBar from "../../components/top-bar"
+import { Course } from "../../types/course"
 import CourseCard from "./CourseCard"
 import { TrendingCoursesCarousel } from "./TrendingCoursesCarousel"
 import { getCourses } from "./api/getAllCourses"
-import { Course } from "../../types/course"
 
 function CoursesPage() {
     const theme = useTheme()
@@ -18,9 +18,6 @@ function CoursesPage() {
     const query = useQuery({
         queryKey: ['courses'],
         queryFn: () => getCourses(token),
-        staleTime: 1000 * 60 * 60,
-        cacheTime: 1000 * 60 * 60 * 60,
-        refetchInterval: 1000 * 60 * 60,
     })
     if (query.isError)
         return <Typography>Error Occured</Typography>

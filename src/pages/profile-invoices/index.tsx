@@ -15,7 +15,6 @@ function Invoices() {
     const query = useQuery({
         queryKey: ['invoices'],
         queryFn: () => getRelatedOrders(token),
-        staleTime: 1000 * 60 * 60
     })
 
     function stateFromCode(s: string) {

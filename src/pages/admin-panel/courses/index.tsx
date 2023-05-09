@@ -6,13 +6,13 @@ import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
 import { Course } from '../../../types/course';
+import { User } from "../../../types/user";
 import useLogin from '../../authenticate/hooks/useLogin';
 import CourseCard from '../../courses-page/CourseCard';
 import { getCourses } from '../../courses-page/api/getAllCourses';
 import { AdminPanelTopBar } from '../landing-page/components/AdminPanelTopBar';
 import { NotificationsBar } from '../landing-page/components/NotificationsBar';
 import { AdminPanelSidebar } from '../landing-page/components/Sidebar';
-import { User } from "../../../types/user";
 
 function AdminCourses() {
     const theme = useTheme()
@@ -28,10 +28,8 @@ function AdminCourses() {
     const query = useQuery({
         queryKey: ['courses'],
         queryFn: () => getCourses(token),
-        staleTime: 1000 * 60 * 60,
-        cacheTime: 1000 * 60 * 60 * 60,
-        refetchInterval: 1000 * 60 * 60,
     })
+
     if (query.isError)
         return <Typography>Error Occured</Typography>
     if (query.isLoading)

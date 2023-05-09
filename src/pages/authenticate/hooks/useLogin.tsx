@@ -12,9 +12,6 @@ function useLogin() {
     const token = localStorage.getItem('access_token')
     const refresh = localStorage.getItem('refresh_token')
     const query = useQuery({
-        staleTime: 1000 * 60 * 60,
-        cacheTime: 1000 * 60 * 60 * 60,
-        refetchInterval: 1000 * 60 * 60,
         queryKey: ['user'],
         queryFn: () => getUser(token, refresh),
         onSuccess: (response) => dispatch(updateUser({ user: response })),
