@@ -16,13 +16,14 @@ import WatchCourse from './pages/view-course'
 import CourseDetails from './pages/admin-panel/course-details'
 import CoursesPage from "./pages/courses-page";
 import UserDetails from './pages/admin-panel/user-details'
+import LandingPage from './pages/landing-page'
 
 function App() {
 
     return (
         <Routes>
             {/* User Application */}
-            <Route path="" element={<CoursesPage />} />
+            <Route path="" element={<LandingPage />} />
             <Route path="/login" element={<Authenticate />} />
             <Route path="/password-forgotten" element={<PasswordForgotten />} />
             <Route path="/profile">
