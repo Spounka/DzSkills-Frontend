@@ -1,5 +1,6 @@
 import { LandingPageFirstSection } from "./LandingPageFirstSection";
 import { LandingPageNavbar } from "./LandingPageNavbar";
+import { LandingPageSections } from "./LandingPageSections";
 
 
 interface LandingPageProps {
@@ -12,6 +13,6 @@ export default function LandingPage({ }: LandingPageProps) {
     }}>
         <LandingPageNavbar />
         <LandingPageFirstSection />
-
+        <LandingPageSections />
     </div>
 }
