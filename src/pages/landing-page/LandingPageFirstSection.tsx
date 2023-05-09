@@ -22,7 +22,7 @@ export function LandingPageFirstSection() {
                     display: 'flex',
                     flexDirection: 'column',
                     gap: 4,
-                    flexBasis: '50%',
+                    flexBasis: '60%',
                 }}>
                 <Typography variant={'h4'} fontWeight={600} color={'gray.dark'}>
                     فضاءك الافضل للوصول لدروس و كورسات في مجالات <Box component={'span'} color={'primary.main'}>العمل الحر </Box>
