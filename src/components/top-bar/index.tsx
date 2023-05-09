@@ -2,7 +2,7 @@ import { Notifications, ShoppingBag } from '@mui/icons-material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/system';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import logo from '../../assets/png/logo@2x.png';
 import Profile from '../../assets/svg/Profile icon.svg';
 
@@ -40,9 +40,9 @@ export default function TopNavigationBar() {
                     color: 'primary.main',
                 }
             }}>
-                <Link to="/courses" style={{}}>
+                <NavLink to="/courses" style={{}}>
                     كورسات
-                </Link>
+                </NavLink>
             </Typography>
 
             <Typography variant={'subtitle1'} fontWeight={600} sx={{
@@ -51,9 +51,9 @@ export default function TopNavigationBar() {
                     color: 'primary.main',
                 }
             }}>
-                <Link to="/about">
+                <NavLink to="/about">
                     من نحن
-                </Link>
+                </NavLink>
             </Typography>
 
             <Typography variant={'subtitle1'} fontWeight={600} sx={{
@@ -62,9 +62,9 @@ export default function TopNavigationBar() {
                     color: 'primary.main',
                 }
             }}>
-                <Link to="/teachers">
+                <NavLink to="/teachers">
                     المدربون
-                </Link>
+                </NavLink>
             </Typography>
 
             <Typography variant={'subtitle1'} fontWeight={600} sx={{
@@ -74,9 +74,9 @@ export default function TopNavigationBar() {
                 }
             }}>
 
-                <Link to="/contact">
+                <NavLink to="/contact">
                     تواصل
-                </Link>
+                </NavLink>
             </Typography>
         </Box>
         <Box sx={{
