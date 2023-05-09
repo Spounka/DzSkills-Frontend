@@ -14,7 +14,9 @@ export function TrendingCoursesCarousel({ }: any) {
         queryKey: ['courses', 'trending'],
         queryFn: () => getTrendingCourses(),
         onSuccess: (data) => console.log(data),
-        staleTime: 1000 * 60 * 5,
+        staleTime: 1000 * 60 * 60,
+        cacheTime: 1000 * 60 * 60 * 60,
+        refetchInterval: 1000 * 60 * 60,
     })
 
     if (query.isError)

@@ -1,7 +1,5 @@
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { useContext } from 'react';
-import { ModalContext } from './AlertDialog';
 
 interface DipslayTableProps {
     rows: any;

@@ -1,18 +1,26 @@
-import { Avatar, Button, Typography, colors } from '@mui/material';
+import { Avatar, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import { GridColDef } from '@mui/x-data-grid';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
+import { Link, useNavigate } from 'react-router-dom';
 import useLogin from '../../authenticate/hooks/useLogin';
 import { AdminPanelTopBar } from '../landing-page/components/AdminPanelTopBar';
 import { NotificationsBar } from '../landing-page/components/NotificationsBar';
 import { AdminPanelSidebar } from '../landing-page/components/Sidebar';
 import { DisplayTableDataGrid } from '../payment-management/DisplayTableDataGrid';
 import { getAllUsers } from './api/getUsers';
+import { yellow } from '@mui/material/colors';
 
 
 const columns: GridColDef[] = [
+    {
+        field: 'id',
+        headerName: 'ID',
+        width: 60,
+        headerClassName: 'super-app-theme--header',
+    },
     {
         field: 'avatar',
         headerName: '',
@@ -58,19 +66,17 @@ const columns: GridColDef[] = [
         field: 'link',
         headerName: '',
         headerClassName: 'super-app-theme--header',
-        flex: 1,
+        // flex: 0,
+        width: 130,
         align: 'left',
         renderCell: (params) => {
             return <>
-                <Button
-                    sx={{
-                        color: colors.yellow[700],
-                    }}
-                    onClick={() => {
-                        console.log(params);
-                    }}>
-                    عرض
-                </Button >
+                <Link to={'/admin/users/' + params.id + '/'}>
+                    <Typography sx={{ p: 1, color: yellow[800] }}>
+                        View profile
+                    </Typography>
+                </Link>
+
             </>
         },
         // width: 160,
@@ -80,6 +86,7 @@ const columns: GridColDef[] = [
 function UserManagement() {
     const theme = useTheme()
     useLogin()
+    const navigate = useNavigate()
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     function toggleDrawer() {
@@ -101,7 +108,8 @@ function UserManagement() {
             avatar: user.profile_image,
             fullName: user.first_name + " " + user.last_name,
             username: user.username,
-            status: 'user'
+            status: 'user',
+            params: [() => navigate('/'),]
         }
     })
 
