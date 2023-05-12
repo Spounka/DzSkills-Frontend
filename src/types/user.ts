@@ -10,4 +10,5 @@ export type User = {
     date_joined: string;
     description: string;
     speciality: string;
+    nationality: string;
 };

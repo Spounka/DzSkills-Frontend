@@ -41,8 +41,8 @@ function NewAccount() {
         mutationKey: ['signup'],
         mutationFn: async (values: any) => signUp(values),
         onSuccess: (values) => {
-            localStorage.setItem('access_token', values.access_token)
-            localStorage.setItem('refresh_token', values.refresh_token)
+            localStorage.setItem('access_token', values.access_token || "")
+            localStorage.setItem('refresh_token', values.refresh_token || "")
             return navigate("/profile")
         }
     })

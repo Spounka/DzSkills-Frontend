@@ -2,7 +2,7 @@ import { useTheme } from '@mui/material/styles';
 import { Video } from '../../types/course';
 
 interface props {
-    video: Video
+    video: Video | undefined
     onVideoFinish: any,
 }
 export function VideoPlayer({ video, onVideoFinish: handleVideoFinish }: props) {
@@ -30,7 +30,7 @@ export function VideoPlayer({ video, onVideoFinish: handleVideoFinish }: props) 
                 autoPlay={false}
                 preload={'auto'}
                 width={'100%'}
-                src={video.video}
+                src={video?.video}
             >
             </video>
         </figure>

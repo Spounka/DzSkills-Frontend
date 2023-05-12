@@ -62,7 +62,7 @@ function WatchCourse() {
 
     })
 
-    const [currentVideo, setCurrentVideo] = useState<Video>(
+    const [currentVideo, setCurrentVideo] = useState<Video | undefined>(
         query.data?.chapters[0].videos[0]
         || {
             id: 0,
@@ -85,9 +85,10 @@ function WatchCourse() {
     }, [query.data?.chapters[0].videos[0]])
 
     function onVideofinishedPlaying() {
-        let chapter = progression.data.last_chapter_index
-        let video = progression.data.last_video_index
-        if (query.data?.chapters[chapter].videos[video].id === currentVideo.id) {
+        let chapter = progression.data?.last_chapter_index
+        let video = progression.data?.last_video_index
+        if (!chapter || !video) return;
+        if (query.data?.chapters[chapter].videos[video].id === currentVideo?.id) {
             mutation.mutate()
         }
     }
@@ -229,8 +230,8 @@ function WatchCourse() {
                                 chapter={chapter}
                                 activeVideo={currentVideo}
                                 locked={!(progression.data && index <= progression.data?.last_chapter_index)}
-                                progressionVideoIndex={progression.data.last_video_index}
-                                progresssionChapterIndex={progression.data?.last_chapter_index}
+                                progressionVideoIndex={progression.data?.last_video_index || 0}
+                                progresssionChapterIndex={progression.data?.last_chapter_index || 0}
                                 chapterIndex={index}
                             />
                         </React.Fragment>
@@ -293,7 +294,7 @@ function WatchCourse() {
                                     حول الدرس
                                 </Typography>
                                 <Typography color={'gray.main'} variant={'body1'} flexShrink={1} flexGrow={1} width={'100%'}>
-                                    {currentVideo.description}
+                                    {currentVideo?.description}
                                 </Typography>
                             </Box>
                             <Divider />

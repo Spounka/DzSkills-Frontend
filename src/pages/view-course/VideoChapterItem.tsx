@@ -9,7 +9,7 @@ interface props {
     locked: boolean
     video: Video,
     setCurrentVideo: any,
-    activeVideo: Video
+    activeVideo: Video | undefined
 }
 
 export function VideoChapterItem({ locked, video, setCurrentVideo, activeVideo }: props) {
