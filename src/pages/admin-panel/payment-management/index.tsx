@@ -87,7 +87,6 @@ function PaymentManagement() {
                             color: colors.yellow[700],
                         }}
                         onClick={() => {
-                            console.log(params);
                             setCurrentPayment(params.value)
                             openDialog()
                         }}>

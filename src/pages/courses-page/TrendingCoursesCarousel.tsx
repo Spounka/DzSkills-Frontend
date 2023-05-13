@@ -13,7 +13,6 @@ export function TrendingCoursesCarousel({ }: any) {
     const query = useQuery({
         queryKey: ['courses', 'trending'],
         queryFn: () => getTrendingCourses(),
-        onSuccess: (data) => console.log(data),
     })
 
     if (query.isError)

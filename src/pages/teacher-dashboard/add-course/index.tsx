@@ -20,7 +20,6 @@ function TeacherAddCourse() {
 
     const query = useMutation({
         mutationFn: (p: any) => submitCourse(p),
-        onSuccess: () => console.log('hello there'),
         mutationKey: ['course-submit'],
 
     })
@@ -30,8 +29,6 @@ function TeacherAddCourse() {
         const form = document.querySelector('form')
         if (form) {
             let formData = new FormData(form)
-            console.log("Mutating!!");
-            console.log(formData);
             query.mutate(formData)
         }
     }

@@ -47,8 +47,6 @@ function AdminCourses() {
 
         }
     }
-    console.log(uniqueUsers)
-
     return (
         <Box sx={{
             p: 0,

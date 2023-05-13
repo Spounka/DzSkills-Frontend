@@ -35,8 +35,6 @@ export default function Login() {
             return login({ email, password })
         },
         onSuccess: (response: any) => {
-            console.log(response);
-
             dispatch(updateUser(response))
             localStorage.setItem('access_token', response.access_token)
             localStorage.setItem('refresh_token', response.refresh_token)

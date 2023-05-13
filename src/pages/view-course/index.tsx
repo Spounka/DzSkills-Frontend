@@ -223,7 +223,6 @@ function WatchCourse() {
                         </Button>
                     </Box>
                     {chaptersWithUUID?.map((chapter: any, index: number) => {
-                        console.log("chapters thingy, ", index, progression.data?.last_chapter_index);
                         return <React.Fragment key={chapter.key}>
                             <ChapterAccordion
                                 setCurrentVideo={changeVideo}

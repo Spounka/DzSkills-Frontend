@@ -16,9 +16,9 @@ export function InformationCard({ title, subtitle, icon, sx }: InformationCardPr
             sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
+                height: '100%',
                 alignItems: 'center',
-                p: 4,
-                px: 4,
+                p: 3,
                 color: theme.palette.secondary.main,
                 gap: 2,
                 borderRadius: theme.spacing(),

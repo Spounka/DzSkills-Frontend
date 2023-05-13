@@ -15,7 +15,6 @@ export function VideoPlayer({ video, onVideoFinish: handleVideoFinish }: props) 
             }}>
             <video
                 onEnded={() => {
-                    console.log('finished video, updating...')
                     handleVideoFinish()
 
                 }}
