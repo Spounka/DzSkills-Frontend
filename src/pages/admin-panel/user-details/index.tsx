@@ -18,6 +18,9 @@ import { NotificationsBar } from '../landing-page/components/NotificationsBar';
 import { AdminPanelSidebar } from '../landing-page/components/Sidebar';
 import { getRelatedCourses, getUserByID } from './api/getUserById';
 import { UserDetailsWideRibbon } from './components/UserDetailsWideRibbon';
+import AdminDashboardLayout from '../layout';
+
+"المستخدمين"
 
 const columns: GridColDef[] = [
     {
@@ -124,145 +127,90 @@ const UserDetails = () => {
     })
 
     return (
-        <Box sx={{
-            p: 0,
-            flexGrow: 1,
-            display: 'grid',
-            width: '100%',
-            minHeight: '100vh',
-            gridTemplateColumns: 'repeat(26, 1fr)',
-            gap: theme.spacing(1),
-            rowGap: theme.spacing(2),
-            bgcolor: theme.palette.gray.secondary,
-        }}>
-
+        <AdminDashboardLayout topbar_title={'المستخدمين'}>
             <Box
-                display={'grid'}
-                gridColumn={'span 5'}
-                height={'100%'}
-                width={'100%'}
-            >
-                <AdminPanelSidebar />
-            </Box>
-            <Box
-                display={'grid'}
-                gridTemplateColumns={'repeat(26 , 1fr)'}
-                gridColumn={'7 / -1'}
-                gridRow={1}
-                rowGap={3}
-                padding={0}
-                pb={8}
-                paddingTop={4}
-                width={'100%'}
-                height={'100%'}
-            >
-
-                <AdminPanelTopBar onNotificationClick={toggleDrawer}
-                    title={'المستخدمين'}
-                    subtitle={''}
-                    mainColor={theme.palette.secondary.main} />
-                <Box sx={{
-                    gridColumn: '1 / -3',
-                    gridRow: '2 / 16',
-                    height: '100%',
-
-                }}>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: 2,
-                            p: 0
-
-                        }}
-
-                    >
-                        {/* <DisplayTableDataGrid rows={rows} columns={columns} /> */}
-                        <UserDetailsWideRibbon user={query.data} />
-
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                gap: 2,
-                                p: 0
-
-                            }}
-
-                        >
-                            <InformationCard
-                                title={'الكورسات'}
-                                subtitle={'0'}
-                                icon={studiesBlue}
-                                sx={{
-                                    flexBasis: '20%',
-                                    flexShrink: '1',
-                                }}
-                            />
-                            <InformationCard
-                                title={'عدد الطلبة'}
-                                subtitle={'12'}
-                                icon={students}
-                                sx={{
-                                    flexBasis: '25%',
-                                    flexGrow: '1',
-                                }}
-                            />
-
-                            <InformationCard
-                                title={'متوسط التقييم'}
-                                subtitle={'2'}
-                                icon={starsBlue}
-                                sx={{
-                                    flexBasis: '25%',
-                                    flexGrow: '1',
-                                }}
-                            />
-
-                            <InformationCard
-                                title={'إجمالي الأرباح'}
-                                subtitle={'250000DA'}
-                                icon={money}
-                                sx={{
-                                    flexBasis: '20%',
-                                    flexShrink: '1',
-                                    bgcolor: theme.palette.secondary.main,
-                                    color: 'white',
-                                }}
-                            />
-                        </Box>
-                        {relatedCoursesQuery.data.length > 0 &&
-                            <Box sx={{
-                                bgcolor: 'white',
-                                borderRadius: theme.spacing(),
-                                p: 2
-                            }}
-                            >
-                                <Typography color={'secondary.main'}>احصائيات الكورسات</Typography>
-                                <DataGrid
-                                    sx={{
-                                        border: 'none'
-                                    }}
-                                    columns={columns}
-                                    rows={rows}
-                                    autoHeight
-                                />
-                            </Box>
-                        }
-                    </Box>
-                </Box>
-                <Box sx={{
-                    gridColumn: '-1 / -7',
-                    gridRow: '2',
+                sx={{
                     display: 'flex',
-                    justifyContent: 'center',
-                    width: '100%',
-                    overflow: 'hidden',
+                    flexDirection: 'column',
+                    gap: 2,
+                    p: 0
 
-                }}>
-                    <NotificationsBar mainColor={theme.palette.secondary.main} drawerOpen={drawerOpen} />
+                }}
+
+            >
+                {/* <DisplayTableDataGrid rows={rows} columns={columns} /> */}
+                <UserDetailsWideRibbon user={query.data} />
+
+                <Box
+                    sx={{
+                        display: 'flex',
+                        gap: 2,
+                        p: 0
+
+                    }}
+
+                >
+                    <InformationCard
+                        title={'الكورسات'}
+                        subtitle={'0'}
+                        icon={studiesBlue}
+                        sx={{
+                            flexBasis: '20%',
+                            flexShrink: '1',
+                        }}
+                    />
+                    <InformationCard
+                        title={'عدد الطلبة'}
+                        subtitle={'12'}
+                        icon={students}
+                        sx={{
+                            flexBasis: '25%',
+                            flexGrow: '1',
+                        }}
+                    />
+
+                    <InformationCard
+                        title={'متوسط التقييم'}
+                        subtitle={'2'}
+                        icon={starsBlue}
+                        sx={{
+                            flexBasis: '25%',
+                            flexGrow: '1',
+                        }}
+                    />
+
+                    <InformationCard
+                        title={'إجمالي الأرباح'}
+                        subtitle={'250000DA'}
+                        icon={money}
+                        sx={{
+                            flexBasis: '20%',
+                            flexShrink: '1',
+                            bgcolor: theme.palette.secondary.main,
+                            color: 'white',
+                        }}
+                    />
                 </Box>
-            </Box >
-        </Box >
+                {relatedCoursesQuery.data.length > 0 &&
+                    <Box sx={{
+                        bgcolor: 'white',
+                        borderRadius: theme.spacing(),
+                        p: 2
+                    }}
+                    >
+                        <Typography color={'secondary.main'}>احصائيات الكورسات</Typography>
+                        <DataGrid
+                            sx={{
+                                border: 'none'
+                            }}
+                            columns={columns}
+                            rows={rows}
+                            autoHeight
+                        />
+                    </Box>
+                }
+            </Box>
+        </AdminDashboardLayout>
     )
 
 };

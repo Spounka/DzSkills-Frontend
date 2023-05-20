@@ -1,13 +1,17 @@
 import { User } from "./user";
 
 export type Hashtag = {
+	id: number;
 	name: string;
 };
 export type Level = {
+	id: number;
 	name: string;
 };
 export type Category = {
+	id: number;
 	name: string;
+	image: string;
 };
 
 export type Video = {

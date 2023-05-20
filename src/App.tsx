@@ -17,6 +17,7 @@ import CourseDetails from './pages/admin-panel/course-details'
 import CoursesPage from "./pages/courses-page";
 import UserDetails from './pages/admin-panel/user-details'
 import LandingPage from './pages/landing-page'
+import HashtagsAndCategories from './pages/admin-panel/categories-hashtags'
 
 function App() {
 
@@ -58,6 +59,7 @@ function App() {
                 <Route path="" element={<AdminLandingPage />} />
                 <Route path="courses" element={<AdminCourses />} />
                 <Route path="courses/:id/" element={<CourseDetails />} />
+                <Route path="hashtags-categories" element={<HashtagsAndCategories />} />
                 <Route path="payments" element={<PaymentManagement />} />
                 <Route path="users" element={<UserManagement />} />
                 <Route path="users/:id/" element={<UserDetails />} />

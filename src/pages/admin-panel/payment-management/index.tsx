@@ -1,15 +1,12 @@
 import { Button, colors } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import { GridColDef } from '@mui/x-data-grid';
 import { useCallback, useState } from 'react';
 import { useQuery } from 'react-query';
 import { Payment } from '../../../types/payment';
 import useLogin from '../../authenticate/hooks/useLogin';
-import { AdminPanelTopBar } from '../landing-page/components/AdminPanelTopBar';
-import { NotificationsBar } from '../landing-page/components/NotificationsBar';
-import { AdminPanelSidebar } from '../landing-page/components/Sidebar';
+import AdminDashboardLayout from '../layout';
 import AlertDialog from './AlertDialog';
 import { DisplayTableDataGrid } from './DisplayTableDataGrid';
 import { getAllPayments } from './api/payments';
@@ -94,11 +91,9 @@ function PaymentManagement() {
                     </Button >
                 </>
             },
-            // width: 160,
         },
     ]
     const [dialogOpen, setDialog] = useState<boolean>(false)
-    useLogin()
 
     function setDialogOpen() {
         setDialog(true)
@@ -113,17 +108,10 @@ function PaymentManagement() {
 
     const [currentPayment, setCurrentPayment] = useState<Payment>()
 
-    const theme = useTheme()
-    const [drawerOpen, setDrawerOpen] = useState(false);
-
     const paymentsQuery = useQuery({
         queryKey: ['payments'],
         queryFn: () => getAllPayments(),
     })
-
-    function toggleDrawer() {
-        setDrawerOpen(val => !val)
-    }
 
     if (paymentsQuery.isLoading)
         return <>Loading...</>
@@ -158,70 +146,16 @@ function PaymentManagement() {
     })
 
     return (
-        <Box sx={{
-            p: 0,
-            flexGrow: 1,
-            display: 'grid',
-            width: '100%',
-            minHeight: '100vh',
-            gridTemplateColumns: 'repeat(26, 1fr)',
-            gap: theme.spacing(1),
-            rowGap: theme.spacing(2),
-            bgcolor: theme.palette.gray.secondary,
-        }}>
+        <AdminDashboardLayout topbar_title={'المعاملات المالية'}>
+            <DisplayTableDataGrid rows={rows} columns={columns} />
+            <AlertDialog
+                open={dialogOpen}
+                openDialog={openDialog}
+                closeDialog={closeDialog}
+                payment={currentPayment}
+            />
 
-            <Box
-                display={'grid'}
-                gridColumn={'span 5'}
-                height={'100%'}
-                width={'100%'}
-            >
-                <AdminPanelSidebar />
-            </Box>
-            <Box
-                display={'grid'}
-                gridTemplateColumns={'repeat(26 , 1fr)'}
-                gridColumn={'7 / -1'}
-                gridRow={1}
-                rowGap={3}
-                padding={0}
-                pb={8}
-                paddingTop={4}
-                width={'100%'}
-                height={'100%'}
-            >
-
-                <AdminPanelTopBar onNotificationClick={toggleDrawer}
-                    title={'المعاملات المالية'}
-                    subtitle={''}
-                    mainColor={theme.palette.secondary.main} />
-                <Box sx={{
-                    gridColumn: '1 / -3',
-                    gridRow: '2 / 16',
-                    height: '100%',
-                    width: '100%',
-
-                }}>
-                    <DisplayTableDataGrid rows={rows} columns={columns} />
-                    <AlertDialog
-                        open={dialogOpen}
-                        openDialog={openDialog}
-                        closeDialog={closeDialog}
-                        payment={currentPayment}
-                    />
-                </Box>
-                <Box sx={{
-                    gridColumn: '-1 / -7',
-                    gridRow: '2',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    width: '100%',
-                    overflow: 'hidden',
-                }}>
-                    <NotificationsBar mainColor={theme.palette.secondary.main} drawerOpen={drawerOpen} />
-                </Box>
-            </Box >
-        </Box >
+        </AdminDashboardLayout>
     )
 
 }

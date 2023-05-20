@@ -7,9 +7,9 @@ interface CourseCellsProps {
 }
 export function CourseCells({ data }: CourseCellsProps) {
     function getCourseLevel(level: string) {
-        if (level === 'beg')
+        if (level === 'beg' || level === "Beginner")
             return 'مبتدئ';
-        if (level === 'interm')
+        if (level === 'interm' || level === "Intermediate")
             return 'متقدم';
         return 'احترافي';
     }
@@ -28,7 +28,7 @@ export function CourseCells({ data }: CourseCellsProps) {
     }
     return (
         <>
-            <CourseCellDetails title={'المستوى'} text={getCourseLevel(data.course_level)} />
+            <CourseCellDetails title={'المستوى'} text={getCourseLevel(data.course_level.name)} />
             <Divider orientation='vertical' flexItem />
 
             <CourseCellDetails title={'الدروس'} text={data.videos_count.toString()} />

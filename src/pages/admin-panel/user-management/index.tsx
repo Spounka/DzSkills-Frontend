@@ -1,5 +1,6 @@
 import { Avatar, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
+import { yellow } from '@mui/material/colors';
 import { useTheme } from '@mui/material/styles';
 import { GridColDef } from '@mui/x-data-grid';
 import { useState } from 'react';
@@ -11,7 +12,7 @@ import { NotificationsBar } from '../landing-page/components/NotificationsBar';
 import { AdminPanelSidebar } from '../landing-page/components/Sidebar';
 import { DisplayTableDataGrid } from '../payment-management/DisplayTableDataGrid';
 import { getAllUsers } from './api/getUsers';
-import { yellow } from '@mui/material/colors';
+import AdminDashboardLayout from '../layout';
 
 
 const columns: GridColDef[] = [
@@ -83,6 +84,8 @@ const columns: GridColDef[] = [
     },
 ];
 
+"المستخدمين"
+
 function UserManagement() {
     const theme = useTheme()
     useLogin()
@@ -114,107 +117,24 @@ function UserManagement() {
     })
 
     return (
-        <Box sx={{
-            p: 0,
-            flexGrow: 1,
-            display: 'grid',
-            width: '100%',
-            minHeight: '100vh',
-            gridTemplateColumns: 'repeat(26, 1fr)',
-            gap: theme.spacing(1),
-            rowGap: theme.spacing(2),
-            bgcolor: theme.palette.gray.secondary,
-        }}>
-
+        <AdminDashboardLayout topbar_title={'المستخدمين'}>
             <Box
-                display={'grid'}
-                gridColumn={'span 5'}
-                height={'100%'}
-                width={'100%'}
-            >
-                <AdminPanelSidebar />
-            </Box>
-            <Box
-                display={'grid'}
-                gridTemplateColumns={'repeat(26 , 1fr)'}
-                gridColumn={'7 / -1'}
-                gridRow={1}
-                rowGap={3}
-                padding={0}
-                pb={8}
-                paddingTop={4}
-                width={'100%'}
-                height={'100%'}
-            >
-
-                <AdminPanelTopBar onNotificationClick={toggleDrawer}
-                    title={'المستخدمين'}
-                    subtitle={''}
-                    mainColor={theme.palette.secondary.main} />
-                <Box sx={{
-                    gridColumn: '1 / -3',
-                    gridRow: '2 / 16',
-                    height: '100%',
-
-                }}>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: 2,
-                            p: 0
-
-                        }}
-
-                    >
-                        <DisplayTableDataGrid rows={rows} columns={columns} />
-
-                    </Box>
-                </Box>
-                <Box sx={{
-                    gridColumn: '-1 / -7',
-                    gridRow: '2',
+                sx={{
                     display: 'flex',
-                    justifyContent: 'center',
-                    width: '100%',
-                    overflow: 'hidden',
+                    flexDirection: 'column',
+                    gap: 2,
+                    p: 0
 
-                }}>
-                    <NotificationsBar mainColor={theme.palette.secondary.main} drawerOpen={drawerOpen} />
-                </Box>
-            </Box >
-        </Box >
+                }}
+
+            >
+                <DisplayTableDataGrid rows={rows} columns={columns} />
+
+            </Box>
+        </AdminDashboardLayout>
     )
 
 }
 
 
-function PaymentDetails({ }) {
-    return (<Box display="flex" alignItems={'center'} gap={2} justifyContent={"space-between"}>
-        <Avatar>H</Avatar>
-        <Typography variant={'body2'} sx={{
-            flexGrow: 0
-        }}>
-            هنا عنوان الكورس
-        </Typography>
-        <Typography variant={'button'} color={'gray.main'}>
-            1234
-        </Typography>
-        <Typography variant={'button'} color={'gray.main'}>
-            Date
-        </Typography>
-        <Typography variant={'button'} color={'gray.main'} flexGrow={0}>
-            Username
-        </Typography>
-        <Typography variant={'button'} color={'gray.main'} flexGrow={0}>
-            PRICE
-        </Typography>
-        <Typography variant={'button'} color={'gray.main'} flexGrow={0}>
-            STATUS
-        </Typography>
-        <Typography variant={'button'} color={'gray.main'} flexGrow={0}>
-            LINK
-        </Typography>
-    </Box>);
-}
 export default UserManagement

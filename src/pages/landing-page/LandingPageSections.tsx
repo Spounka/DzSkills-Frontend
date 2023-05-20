@@ -1,14 +1,28 @@
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
+import { useQuery } from "react-query";
 import webDev from '../../assets/png/wd.png';
+import { getCategories } from "../admin-panel/categories-hashtags/api/queries";
 import { LandingPageSection } from "./LandingPageSection";
+import { Category } from "../../types/course";
 
 interface LandingPageSectionsProps {
 }
 
 export function LandingPageSections({ }: LandingPageSectionsProps) {
     const theme = useTheme();
+
+    const categories = useQuery({
+        queryKey: ['categories'],
+        queryFn: () => getCategories()
+    });
+
+    if (categories.isFetching)
+        return <>Fetching Categories...</>;
+    if (categories.isError)
+        return <>Error in categories</>;
+
     return (
         <>
             <Box
@@ -46,12 +60,14 @@ export function LandingPageSections({ }: LandingPageSectionsProps) {
                     gridTemplateColumns={'repeat(4, minmax(0, 1fr))'}
                     gap={8}
                 >
-                    <LandingPageSection
-                        image={webDev}
-                        title={"تصميم الغرافيك"}
-                        description={"تصميم وإنتاج الرسومات والصور والنصوص والرموز التي تستخدم في الإعلانات والتسويق والاتصال البصري"}
-                    />
-                    <LandingPageSection
+                    {categories.data?.map((category: Category) => {
+                        return <LandingPageSection
+                            image={category.image}
+                            title={category.name}
+                            description={"تصميم وإنتاج الرسومات والصور والنصوص والرموز التي تستخدم في الإعلانات والتسويق والاتصال البصري"}
+                        />
+                    })}
+                    {/* <LandingPageSection
                         image={webDev}
                         title={"اخراج و تصميم الفيديو"}
                         description={"إنتاج الرسوم المتحركة والأفلام القصيرة والفيديوهات التي تستخدم في الإعلانات والتسويق والترفيه"}
@@ -65,7 +81,7 @@ export function LandingPageSections({ }: LandingPageSectionsProps) {
                         image={webDev}
                         title={"العمل الحر"}
                         description={"نوع من العمل الذي يتم تنفيذه عن بعد وبشكل مستقل، حيث يعمل الفرد بمفرده بدون أن يكون مرتبطًا بشركة أو مؤسسة محددة"}
-                    />
+                    /> */}
                 </Box>
             </Box>
         </>

@@ -10,6 +10,7 @@ import { Course } from "../../types/course"
 import CourseCard from "./CourseCard"
 import { TrendingCoursesCarousel } from "./TrendingCoursesCarousel"
 import { getCourses } from "./api/getAllCourses"
+import Footer from "../../components/footer"
 
 function CoursesPage() {
     const theme = useTheme()
@@ -105,6 +106,7 @@ function CoursesPage() {
                 </Box>
 
             </Grid>
+            <Footer />
         </Grid >
     )
 }

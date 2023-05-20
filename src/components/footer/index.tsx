@@ -29,15 +29,16 @@ function Footer() {
                     display={'flex'}
                     flexDirection={'column'}
                     alignItems={'flex-start'}
-                    flexBasis={'30%'}
+                    flexBasis={'25%'}
                     gap={4}
+                    flexGrow={1}
                 >
                     <Image src={logo} style={{ maxWidth: '150px', height: 'auto', marginLeft: 'auto' }} />
                     <Typography color={'white'} variant={'caption'}>
                         هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص
                     </Typography>
                 </Box>
-                <Box display={'flex'} flexDirection={'column'} gap={4}>
+                <Box display={'flex'} flexDirection={'column'} gap={4} flexGrow={1}>
                     <Typography variant='h5' fontWeight={500}>
                         من نحن
                     </Typography>
@@ -53,7 +54,7 @@ function Footer() {
                         </Typography>
                     </Box>
                 </Box>
-                <Box display={'flex'} flexDirection={'column'} gap={4}>
+                <Box display={'flex'} flexDirection={'column'} gap={4} flexGrow={1}>
                     <Typography variant='h5' fontWeight={500}>
                         الأقسام
                     </Typography>
@@ -73,7 +74,7 @@ function Footer() {
                     </Box>
                 </Box>
 
-                <Box display={'flex'} flexDirection={'column'} gap={4}>
+                <Box display={'flex'} flexDirection={'column'} gap={4} flexGrow={1}>
                     <Typography variant='h5' fontWeight={500}>
                         روابط
                     </Typography>
@@ -89,7 +90,7 @@ function Footer() {
                         </Typography>
                     </Box>
                 </Box>
-                <Box display={'flex'} flexDirection={'column'} gap={4}>
+                <Box display={'flex'} flexDirection={'column'} gap={4} flexGrow={1} alignItems={'flex-end'}>
                     <Typography variant='h5' fontWeight={500}>
                         تواصل معنا
                     </Typography>
