@@ -1,8 +1,8 @@
-import axiosInstance from "../../../globals/axiosInstance";
-import { LoginUser } from "../../../redux/userSlice";
+import axiosInstance from '../../../globals/axiosInstance';
+import { LoginUser } from '../../../redux/userSlice';
 
 export async function login({ email, password }: any) {
-    const { data } = await axiosInstance.post("/rest-auth/login/", {
+    const { data } = await axiosInstance.post('/rest-auth/login/', {
         email,
         password,
     });
@@ -16,7 +16,7 @@ export async function signUp({
     first_name,
     last_name,
 }: any) {
-    const { data } = await axiosInstance.post("/rest-auth/registration/", {
+    const { data } = await axiosInstance.post('/rest-auth/registration/', {
         first_name,
         last_name,
         email,

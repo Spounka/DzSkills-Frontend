@@ -1,5 +1,10 @@
 import { ExpandMore } from '@mui/icons-material';
-import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material';
+import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    Typography,
+} from '@mui/material';
 import { Box, useTheme } from '@mui/system';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -8,29 +13,33 @@ import { LessonsAccordion } from '../lesson/LessonsAccordion';
 import { ChapterFields } from './ChapterFields';
 
 interface Chapter {
-    id: string
-    title: string,
-    description: string
+    id: string;
+    title: string;
+    description: string;
 }
 
 interface props {
-    chapterIndex: number,
-    uuid: string,
+    chapterIndex: number;
+    uuid: string;
     removeChapter: (param: string) => void;
 }
 
 export function ChapterDetails({ chapterIndex, uuid, removeChapter }: props) {
-    const [expanded, setExpanded] = useState<boolean>(false)
-    const [hasAddedLessons, setHasAddedLessons] = useState<boolean>(false)
-    const [chapter, setChapter] = useState<Chapter>({ title: '', description: '', id: uuidv4() })
+    const [expanded, setExpanded] = useState<boolean>(false);
+    const [hasAddedLessons, setHasAddedLessons] = useState<boolean>(false);
+    const [chapter, setChapter] = useState<Chapter>({
+        title: '',
+        description: '',
+        id: uuidv4(),
+    });
     const theme = useTheme();
 
     function handleChapterChange(c: Chapter) {
-        setChapter({ ...chapter, ...c })
+        setChapter({ ...chapter, ...c });
     }
 
     function handleChapterRemove() {
-        removeChapter(uuid)
+        removeChapter(uuid);
     }
 
     return (
@@ -42,7 +51,6 @@ export function ChapterDetails({ chapterIndex, uuid, removeChapter }: props) {
                 height: 'auto',
                 borderRadius: theme.spacing(),
                 width: '100%',
-
             }}
         >
             <Box
@@ -67,9 +75,9 @@ export function ChapterDetails({ chapterIndex, uuid, removeChapter }: props) {
                         width: '100%',
                         px: expanded ? 4 : 2,
                         py: expanded ? 4 : 0,
-                        ":before": { display: 'none',
-                        }
-                    }}>
+                        ':before': { display: 'none' },
+                    }}
+                >
                     <AccordionSummary
                         sx={{
                             color: 'white',
@@ -80,31 +88,46 @@ export function ChapterDetails({ chapterIndex, uuid, removeChapter }: props) {
                                 my: -2,
                             },
                         }}
-                        expandIcon={<ExpandMore sx={{
-                            color: 'white',
-                            width: '36px',
-                            height: '36px'
-                        }} />}
+                        expandIcon={
+                            <ExpandMore
+                                sx={{
+                                    color: 'white',
+                                    width: '36px',
+                                    height: '36px',
+                                }}
+                            />
+                        }
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Box sx={{
-                            display: `${expanded ? 'none' : 'block'}`,
-                        }} >
+                        <Box
+                            sx={{
+                                display: `${expanded ? 'none' : 'block'}`,
+                            }}
+                        >
                             <Typography>
-                                {chapter.title || "عنوان الفصل"}
+                                {chapter.title || 'عنوان الفصل'}
                             </Typography>
-                            <Typography maxWidth={'450px'} noWrap>
-                                {chapter.description || "وصف الفصل"}
+                            <Typography
+                                maxWidth={'450px'}
+                                noWrap
+                            >
+                                {chapter.description || 'وصف الفصل'}
                             </Typography>
                         </Box>
                     </AccordionSummary>
-                    <AccordionDetails sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: theme.spacing(2)
-                    }}>
-                        <ChapterFields index={chapterIndex} chapter={chapter} setChapter={handleChapterChange} />
+                    <AccordionDetails
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: theme.spacing(2),
+                        }}
+                    >
+                        <ChapterFields
+                            index={chapterIndex}
+                            chapter={chapter}
+                            setChapter={handleChapterChange}
+                        />
                         <Box
                             flexGrow={'1'}
                             display={'flex'}
@@ -115,44 +138,42 @@ export function ChapterDetails({ chapterIndex, uuid, removeChapter }: props) {
                             }}
                         >
                             <MainButton
-                                text='اضف الدروس'
+                                text="اضف الدروس"
                                 type={'button'}
                                 color={theme.palette.primary.light}
                                 spin={false}
                                 sx={{
-                                    px: theme.spacing(8)
+                                    px: theme.spacing(8),
                                 }}
                                 {...{
                                     onClick: () => {
-                                        setHasAddedLessons(true)
-                                    }
+                                        setHasAddedLessons(true);
+                                    },
                                 }}
                             />
 
                             <MainButton
-                                text='حذف الفصل'
+                                text="حذف الفصل"
                                 type={'button'}
                                 color={theme.palette.error.light}
                                 spin={false}
                                 sx={{
-                                    px: theme.spacing(8)
+                                    px: theme.spacing(8),
                                 }}
                                 {...{
-                                    onClick: () => handleChapterRemove()
+                                    onClick: () => handleChapterRemove(),
                                 }}
                             />
                         </Box>
-
                     </AccordionDetails>
                 </Accordion>
             </Box>
-            {
-                hasAddedLessons &&
+            {hasAddedLessons && (
                 <LessonsAccordion
                     expanded={expanded}
                     chapterIndex={chapterIndex}
                 />
-            }
+            )}
         </Box>
     );
 }

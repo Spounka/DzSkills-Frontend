@@ -14,7 +14,6 @@ import { DisplayTableDataGrid } from '../payment-management/DisplayTableDataGrid
 import { getAllUsers } from './api/getUsers';
 import AdminDashboardLayout from '../layout';
 
-
 const columns: GridColDef[] = [
     {
         field: 'id',
@@ -29,20 +28,22 @@ const columns: GridColDef[] = [
         sortable: false,
         align: 'center',
         headerClassName: 'super-app-theme--header',
-        renderCell: (params) => {
-            return <Avatar
-                src={params.value}
-                sx={{
-                    alignItems: 'center',
-                    justifyItems: 'center',
-                    justifySelf: 'center',
-                    placeSelf: 'center',
-                    mx: 'auto'
-                }}
-            >
-                A
-            </Avatar>
-        }
+        renderCell: params => {
+            return (
+                <Avatar
+                    src={params.value}
+                    sx={{
+                        alignItems: 'center',
+                        justifyItems: 'center',
+                        justifySelf: 'center',
+                        placeSelf: 'center',
+                        mx: 'auto',
+                    }}
+                >
+                    A
+                </Avatar>
+            );
+        },
     },
     {
         field: 'username',
@@ -70,51 +71,50 @@ const columns: GridColDef[] = [
         // flex: 0,
         width: 130,
         align: 'left',
-        renderCell: (params) => {
-            return <>
-                <Link to={'/admin/users/' + params.id + '/'}>
-                    <Typography sx={{ p: 1, color: yellow[800] }}>
-                        View profile
-                    </Typography>
-                </Link>
-
-            </>
+        renderCell: params => {
+            return (
+                <>
+                    <Link to={'/admin/users/' + params.id + '/'}>
+                        <Typography sx={{ p: 1, color: yellow[800] }}>
+                            View profile
+                        </Typography>
+                    </Link>
+                </>
+            );
         },
         // width: 160,
     },
 ];
 
-"المستخدمين"
+('المستخدمين');
 
 function UserManagement() {
-    const theme = useTheme()
-    useLogin()
-    const navigate = useNavigate()
+    const theme = useTheme();
+    useLogin();
+    const navigate = useNavigate();
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     function toggleDrawer() {
-        setDrawerOpen(val => !val)
+        setDrawerOpen(val => !val);
     }
     const query = useQuery({
         queryKey: ['users'],
-        queryFn: () => getAllUsers()
-    })
+        queryFn: () => getAllUsers(),
+    });
 
-    if (query.isLoading)
-        return <>Loading..</>
-    if (query.isError)
-        return <>Error...</>
+    if (query.isLoading) return <>Loading..</>;
+    if (query.isError) return <>Error...</>;
 
-    const rows = query.data?.map((user) => {
+    const rows = query.data?.map(user => {
         return {
             id: user.pk,
             avatar: user.profile_image,
-            fullName: user.first_name + " " + user.last_name,
+            fullName: user.first_name + ' ' + user.last_name,
             username: user.username,
             status: 'user',
-            params: [() => navigate('/'),]
-        }
-    })
+            params: [() => navigate('/')],
+        };
+    });
 
     return (
         <AdminDashboardLayout topbar_title={'المستخدمين'}>
@@ -123,18 +123,16 @@ function UserManagement() {
                     display: 'flex',
                     flexDirection: 'column',
                     gap: 2,
-                    p: 0
-
+                    p: 0,
                 }}
-
             >
-                <DisplayTableDataGrid rows={rows} columns={columns} />
-
+                <DisplayTableDataGrid
+                    rows={rows}
+                    columns={columns}
+                />
             </Box>
         </AdminDashboardLayout>
-    )
-
+    );
 }
 
-
-export default UserManagement
+export default UserManagement;

@@ -8,7 +8,7 @@ import { getAllPayments } from '../payment-management/api/payments';
 import { getAllUsers } from '../user-management/api/getUsers';
 import { InformationCard } from './InformationCard';
 
-export function InformationCards({ }: any) {
+export function InformationCards({}: any) {
     const theme = useTheme();
 
     const users = useQuery({
@@ -16,21 +16,16 @@ export function InformationCards({ }: any) {
         queryFn: () => getAllUsers(),
     });
 
-
     const paymentsQuery = useQuery({
         queryKey: ['payments'],
         queryFn: () => getAllPayments(),
     });
 
-    if (users.isError)
-        return <>users error...</>;
-    if (users.isLoading)
-        return <>users loading...</>;
+    if (users.isError) return <>users error...</>;
+    if (users.isLoading) return <>users loading...</>;
 
-    if (paymentsQuery.isError)
-        return <>paymentsQuery error...</>;
-    if (paymentsQuery.isLoading)
-        return <>paymentsQuery loading...</>;
+    if (paymentsQuery.isError) return <>paymentsQuery error...</>;
+    if (paymentsQuery.isLoading) return <>paymentsQuery loading...</>;
 
     return (
         <>
@@ -40,16 +35,18 @@ export function InformationCards({ }: any) {
                 icon={timeBlue}
                 sx={{
                     flexBasis: '20%',
-                    flexShrink: '1'
-                }} />
+                    flexShrink: '1',
+                }}
+            />
             <InformationCard
                 title={'عدد الطلبة'}
                 subtitle={users.data?.length.toString() || '12'}
                 icon={students}
                 sx={{
                     flexBasis: '25%',
-                    flexGrow: '1'
-                }} />
+                    flexGrow: '1',
+                }}
+            />
 
             <InformationCard
                 title={'عدد المدربين'}
@@ -57,8 +54,9 @@ export function InformationCards({ }: any) {
                 icon={teaching}
                 sx={{
                     flexBasis: '25%',
-                    flexGrow: '1'
-                }} />
+                    flexGrow: '1',
+                }}
+            />
 
             <InformationCard
                 title={'إجمالي الأرباح'}
@@ -68,8 +66,9 @@ export function InformationCards({ }: any) {
                     flexBasis: '20%',
                     flexShrink: '1',
                     bgcolor: theme.palette.secondary.main,
-                    color: 'white'
-                }} />
+                    color: 'white',
+                }}
+            />
         </>
     );
 }

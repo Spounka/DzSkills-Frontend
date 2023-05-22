@@ -7,32 +7,37 @@ import { NotificationsBar } from './landing-page/components/NotificationsBar';
 import { AdminPanelSidebar } from './landing-page/components/Sidebar';
 
 interface AdminDashboardLayoutProps {
-    topbar_title: string,
-    topbar_subtitle?: string,
-    children?: ReactNode
+    topbar_title: string;
+    topbar_subtitle?: string;
+    children?: ReactNode;
 }
 
-function AdminDashboardLayout({ topbar_title, topbar_subtitle, children }: AdminDashboardLayoutProps) {
-    const theme = useTheme()
-    useLogin()
+function AdminDashboardLayout({
+    topbar_title,
+    topbar_subtitle,
+    children,
+}: AdminDashboardLayoutProps) {
+    const theme = useTheme();
+    useLogin();
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     function toggleDrawer() {
-        setDrawerOpen(val => !val)
+        setDrawerOpen(val => !val);
     }
     return (
-        <Box sx={{
-            p: 0,
-            flexGrow: 1,
-            display: 'grid',
-            width: '100%',
-            minHeight: '100vh',
-            gridTemplateColumns: 'repeat(26, 1fr)',
-            gap: theme.spacing(1),
-            rowGap: theme.spacing(2),
-            bgcolor: theme.palette.gray.secondary,
-        }}>
-
+        <Box
+            sx={{
+                p: 0,
+                flexGrow: 1,
+                display: 'grid',
+                width: '100%',
+                minHeight: '100vh',
+                gridTemplateColumns: 'repeat(26, 1fr)',
+                gap: theme.spacing(1),
+                rowGap: theme.spacing(2),
+                bgcolor: theme.palette.gray.secondary,
+            }}
+        >
             <Box
                 display={'grid'}
                 gridColumn={'span 5'}
@@ -53,11 +58,12 @@ function AdminDashboardLayout({ topbar_title, topbar_subtitle, children }: Admin
                 width={'100%'}
                 height={'100%'}
             >
-
-                <AdminPanelTopBar onNotificationClick={toggleDrawer}
+                <AdminPanelTopBar
+                    onNotificationClick={toggleDrawer}
                     title={topbar_title}
-                    subtitle={topbar_subtitle || ""}
-                    mainColor={theme.palette.secondary.main} />
+                    subtitle={topbar_subtitle || ''}
+                    mainColor={theme.palette.secondary.main}
+                />
                 <Box
                     id={'Hello'}
                     sx={{
@@ -67,25 +73,28 @@ function AdminDashboardLayout({ topbar_title, topbar_subtitle, children }: Admin
                         display: 'flex',
                         flexDirection: 'column',
                         gap: 4,
-
-                    }}>
+                    }}
+                >
                     {children}
                 </Box>
-                <Box sx={{
-                    gridColumn: '-1 / -7',
-                    gridRow: '2',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    width: '100%',
-                    overflow: 'hidden',
-
-                }}>
-                    <NotificationsBar mainColor={theme.palette.secondary.main} drawerOpen={drawerOpen} />
+                <Box
+                    sx={{
+                        gridColumn: '-1 / -7',
+                        gridRow: '2',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        width: '100%',
+                        overflow: 'hidden',
+                    }}
+                >
+                    <NotificationsBar
+                        mainColor={theme.palette.secondary.main}
+                        drawerOpen={drawerOpen}
+                    />
                 </Box>
-            </Box >
-        </Box >
-    )
-
+            </Box>
+        </Box>
+    );
 }
 
-export default AdminDashboardLayout
+export default AdminDashboardLayout;

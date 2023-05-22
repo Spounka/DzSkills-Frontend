@@ -1,4 +1,3 @@
-
 export default function DownloadSvgIcon({ img, fill, stroke, ...other }: any) {
     return (
         <svg
@@ -9,13 +8,12 @@ export default function DownloadSvgIcon({ img, fill, stroke, ...other }: any) {
             id="svg26"
             xmlns="http://www.w3.org/2000/svg"
         >
-
-            <defs
-                id="defs13" />
+            <defs id="defs13" />
             <g
                 id="Group_115"
                 data-name="Group 115"
-                transform="translate(-298.49936,-482.50129)">
+                transform="translate(-298.49936,-482.50129)"
+            >
                 <path
                     id="Path_34"
                     data-name="Path 34"
@@ -23,7 +21,8 @@ export default function DownloadSvgIcon({ img, fill, stroke, ...other }: any) {
                     transform="translate(299,465.866)"
                     fill={fill}
                     stroke={stroke}
-                    stroke-width="1" />
+                    stroke-width="1"
+                />
                 <path
                     id="Path_35"
                     data-name="Path 35"
@@ -31,9 +30,9 @@ export default function DownloadSvgIcon({ img, fill, stroke, ...other }: any) {
                     transform="rotate(180,161.87,248.452)"
                     fill={fill}
                     stroke={stroke}
-                    stroke-width="1" />
+                    stroke-width="1"
+                />
             </g>
         </svg>
-
-    )
+    );
 }

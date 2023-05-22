@@ -20,20 +20,22 @@ function PaymentManagement() {
             sortable: false,
             align: 'center',
             headerClassName: 'super-app-theme--header',
-            renderCell: (params) => {
-                return <Avatar
-                    src={params.value}
-                    sx={{
-                        alignItems: 'center',
-                        justifyItems: 'center',
-                        justifySelf: 'center',
-                        placeSelf: 'center',
-                        mx: 'auto'
-                    }}
-                >
-                    A
-                </Avatar>
-            }
+            renderCell: params => {
+                return (
+                    <Avatar
+                        src={params.value}
+                        sx={{
+                            alignItems: 'center',
+                            justifyItems: 'center',
+                            justifySelf: 'center',
+                            placeSelf: 'center',
+                            mx: 'auto',
+                        }}
+                    >
+                        A
+                    </Avatar>
+                );
+            },
         },
         {
             field: 'courseName',
@@ -77,48 +79,48 @@ function PaymentManagement() {
             headerClassName: 'super-app-theme--header',
             flex: 1,
             align: 'right',
-            renderCell: (params) => {
-                return <>
-                    <Button
-                        sx={{
-                            color: colors.yellow[700],
-                        }}
-                        onClick={() => {
-                            setCurrentPayment(params.value)
-                            openDialog()
-                        }}>
-                        عرض
-                    </Button >
-                </>
+            renderCell: params => {
+                return (
+                    <>
+                        <Button
+                            sx={{
+                                color: colors.yellow[700],
+                            }}
+                            onClick={() => {
+                                setCurrentPayment(params.value);
+                                openDialog();
+                            }}
+                        >
+                            عرض
+                        </Button>
+                    </>
+                );
             },
         },
-    ]
-    const [dialogOpen, setDialog] = useState<boolean>(false)
+    ];
+    const [dialogOpen, setDialog] = useState<boolean>(false);
 
     function setDialogOpen() {
-        setDialog(true)
+        setDialog(true);
     }
 
     function setDialogClosed() {
-        setDialog(false)
+        setDialog(false);
     }
 
     const openDialog = useCallback(setDialogOpen, [dialogOpen]);
     const closeDialog = useCallback(setDialogClosed, [dialogOpen]);
 
-    const [currentPayment, setCurrentPayment] = useState<Payment>()
+    const [currentPayment, setCurrentPayment] = useState<Payment>();
 
     const paymentsQuery = useQuery({
         queryKey: ['payments'],
         queryFn: () => getAllPayments(),
-    })
+    });
 
-    if (paymentsQuery.isLoading)
-        return <>Loading...</>
-    if (paymentsQuery.isError)
-        return <>Error</>
-    if (!paymentsQuery.data)
-        return <>No data</>
+    if (paymentsQuery.isLoading) return <>Loading...</>;
+    if (paymentsQuery.isError) return <>Error</>;
+    if (!paymentsQuery.data) return <>No data</>;
 
     function statusFromCode(status: string) {
         switch (status) {
@@ -127,7 +129,7 @@ function PaymentManagement() {
             case 'a':
                 return 'مكتمل';
             case 'r':
-                return 'مرفوض'
+                return 'مرفوض';
         }
     }
 
@@ -142,23 +144,23 @@ function PaymentManagement() {
             price: payment.order.course.price,
             status: statusFromCode(payment.status),
             link: payment,
-        }
-    })
+        };
+    });
 
     return (
         <AdminDashboardLayout topbar_title={'المعاملات المالية'}>
-            <DisplayTableDataGrid rows={rows} columns={columns} />
+            <DisplayTableDataGrid
+                rows={rows}
+                columns={columns}
+            />
             <AlertDialog
                 open={dialogOpen}
                 openDialog={openDialog}
                 closeDialog={closeDialog}
                 payment={currentPayment}
             />
-
         </AdminDashboardLayout>
-    )
-
+    );
 }
 
-
-export default PaymentManagement
+export default PaymentManagement;

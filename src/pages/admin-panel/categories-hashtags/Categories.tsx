@@ -9,7 +9,7 @@ import { getCategories } from './api/queries';
 const columns: GridColDef[] = [
     {
         field: 'name',
-        headerName: "الاسم",
+        headerName: 'الاسم',
 
         width: 60,
         headerClassName: 'super-app-theme--header',
@@ -34,16 +34,12 @@ const columns: GridColDef[] = [
     },
 ];
 export function Categories() {
-    const theme = useTheme();
     const categories = useQuery({
         queryKey: ['categories'],
-        queryFn: () => getCategories()
+        queryFn: () => getCategories(),
     });
-    if (categories.isFetching)
-        return <>Fetching Categories...</>;
-    if (categories.isError)
-        return <>Error in categories</>;
-
+    if (categories.isFetching) return <>Fetching Categories...</>;
+    if (categories.isError) return <>Error in categories</>;
 
     const rows = categories.data?.map((category: Category) => {
         return {
@@ -66,19 +62,19 @@ export function Categories() {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    width: '100%'
+                    width: '100%',
                 }}
             >
-                <Typography>
-                    الأقسام
-                </Typography>
-                <AddButton title={'اضف قسم جديد'} />
+                <Typography>الأقسام</Typography>
+                {/* <AddButton title={'اضف قسم جديد'} /> */}
             </Box>
             <Box sx={{ bgcolor: 'white' }}>
-                <DisplayTableDataGrid checkbox rows={rows} columns={columns} />
+                <DisplayTableDataGrid
+                    checkbox
+                    rows={rows}
+                    columns={columns}
+                />
             </Box>
-
-
         </Box>
     );
 }

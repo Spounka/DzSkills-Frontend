@@ -1,3 +1,3 @@
-import { CourseFields } from "./CourseFields";
+import { CourseFields } from './CourseFields';
 
-export default { CourseFields }
+export default { CourseFields };

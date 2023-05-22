@@ -1,7 +1,13 @@
-import React from 'react'
+import React from 'react';
 
 function SvgIcon({ icon, ...other }: any) {
-    return <img src={icon} alt="" {...other} />
+    return (
+        <img
+            src={icon}
+            alt=""
+            {...other}
+        />
+    );
 }
 
 export default SvgIcon;

@@ -7,10 +7,8 @@ interface CourseCellsProps {
 }
 export function CourseCells({ data }: CourseCellsProps) {
     function getCourseLevel(level: string) {
-        if (level === 'beg' || level === "Beginner")
-            return 'مبتدئ';
-        if (level === 'interm' || level === "Intermediate")
-            return 'متقدم';
+        if (level === 'beg' || level === 'Beginner') return 'مبتدئ';
+        if (level === 'interm' || level === 'Intermediate') return 'متقدم';
         return 'احترافي';
     }
 
@@ -28,22 +26,49 @@ export function CourseCells({ data }: CourseCellsProps) {
     }
     return (
         <>
-            <CourseCellDetails title={'المستوى'} text={getCourseLevel(data.course_level.name)} />
-            <Divider orientation='vertical' flexItem />
+            <CourseCellDetails
+                title={'المستوى'}
+                text={getCourseLevel(data.course_level.name)}
+            />
+            <Divider
+                orientation="vertical"
+                flexItem
+            />
 
-            <CourseCellDetails title={'الدروس'} text={data.videos_count.toString()} />
+            <CourseCellDetails
+                title={'الدروس'}
+                text={data.videos_count.toString()}
+            />
 
-            <Divider orientation='vertical' flexItem />
+            <Divider
+                orientation="vertical"
+                flexItem
+            />
 
-            <CourseCellDetails title={'المدة'} text={data.duration} />
+            <CourseCellDetails
+                title={'المدة'}
+                text={data.duration}
+            />
 
-            <Divider orientation='vertical' flexItem />
+            <Divider
+                orientation="vertical"
+                flexItem
+            />
 
-            <CourseCellDetails title={'البرامج المستعملة'} text={data.used_programs} />
+            <CourseCellDetails
+                title={'البرامج المستعملة'}
+                text={data.used_programs}
+            />
 
-            <Divider orientation='vertical' flexItem />
+            <Divider
+                orientation="vertical"
+                flexItem
+            />
 
-            <CourseCellDetails title={'اللغة'} text={getCourseLanguage((data.language))} />
+            <CourseCellDetails
+                title={'اللغة'}
+                text={getCourseLanguage(data.language)}
+            />
         </>
     );
 }

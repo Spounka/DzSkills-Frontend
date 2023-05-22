@@ -1,33 +1,30 @@
-import { Typography } from "@mui/material";
-import Box from "@mui/material/Box";
-import { useTheme } from "@mui/material/styles";
-import { useQuery } from "react-query";
-import webDev from '../../assets/png/wd.png';
-import { getCategories } from "../admin-panel/categories-hashtags/api/queries";
-import { LandingPageSection } from "./LandingPageSection";
-import { Category } from "../../types/course";
+import { Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
+import { useQuery } from 'react-query';
+import { v4 as uuidv4 } from 'uuid';
+import { Category } from '../../types/course';
+import { getCategories } from '../admin-panel/categories-hashtags/api/queries';
+import { LandingPageSection } from './LandingPageSection';
 
-interface LandingPageSectionsProps {
-}
+interface LandingPageSectionsProps {}
 
-export function LandingPageSections({ }: LandingPageSectionsProps) {
+export function LandingPageSections({}: LandingPageSectionsProps) {
     const theme = useTheme();
 
     const categories = useQuery({
         queryKey: ['categories'],
-        queryFn: () => getCategories()
+        queryFn: () => getCategories(),
     });
 
-    if (categories.isFetching)
-        return <>Fetching Categories...</>;
-    if (categories.isError)
-        return <>Error in categories</>;
+    if (categories.isFetching) return <>Fetching Categories...</>;
+    if (categories.isError) return <>Error in categories</>;
 
     return (
         <>
             <Box
                 display={'flex'}
-                flexDirection={"column"}
+                flexDirection={'column'}
                 alignItems={'center'}
                 mt={theme.spacing(25)}
                 gap={8}
@@ -35,11 +32,10 @@ export function LandingPageSections({ }: LandingPageSectionsProps) {
             >
                 <Box
                     display={'flex'}
-                    flexDirection={"column"}
+                    flexDirection={'column'}
                     alignItems={'center'}
                     gap={2}
                 >
-
                     <Typography
                         variant={'h4'}
                         fontWeight={600}
@@ -53,7 +49,6 @@ export function LandingPageSections({ }: LandingPageSectionsProps) {
                     >
                         يختلف تقسيم الموقع الى أقسام بحسب نوع المحتوى المتاح
                     </Typography>
-
                 </Box>
                 <Box
                     display="grid"
@@ -61,11 +56,16 @@ export function LandingPageSections({ }: LandingPageSectionsProps) {
                     gap={8}
                 >
                     {categories.data?.map((category: Category) => {
-                        return <LandingPageSection
-                            image={category.image}
-                            title={category.name}
-                            description={"تصميم وإنتاج الرسومات والصور والنصوص والرموز التي تستخدم في الإعلانات والتسويق والاتصال البصري"}
-                        />
+                        return (
+                            <LandingPageSection
+                                key={uuidv4()}
+                                image={category.image}
+                                title={category.name}
+                                description={
+                                    'تصميم وإنتاج الرسومات والصور والنصوص والرموز التي تستخدم في الإعلانات والتسويق والاتصال البصري'
+                                }
+                            />
+                        );
                     })}
                     {/* <LandingPageSection
                         image={webDev}
@@ -86,5 +86,4 @@ export function LandingPageSections({ }: LandingPageSectionsProps) {
             </Box>
         </>
     );
-
 }

@@ -1,3 +1,3 @@
-import { AddChapterButton } from "./AddChapterButton";
+import { AddChapterButton } from './AddChapterButton';
 
 export default AddChapterButton;

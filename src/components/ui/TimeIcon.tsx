@@ -1,4 +1,3 @@
-
 function TimeIcon() {
     return (
         <svg
@@ -9,13 +8,12 @@ function TimeIcon() {
             id="svg18"
             xmlns="http://www.w3.org/2000/svg"
         >
-            <defs
-                id="defs4">
+            <defs id="defs4">
                 <clipPath
                     clipPathUnits="userSpaceOnUse"
-                    id="clipPath232">
-                    <g
-                        id="g236">
+                    id="clipPath232"
+                >
+                    <g id="g236">
                         <rect
                             id="rect234"
                             data-name="Rectangle 244"
@@ -23,14 +21,15 @@ function TimeIcon() {
                             height="38.230999"
                             fill="#000"
                             x="20.737"
-                            y="20.885" />
+                            y="20.885"
+                        />
                     </g>
                 </clipPath>
                 <clipPath
                     clipPathUnits="userSpaceOnUse"
-                    id="clipPath238">
-                    <g
-                        id="g242">
+                    id="clipPath238"
+                >
+                    <g id="g242">
                         <rect
                             id="rect240"
                             data-name="Rectangle 244"
@@ -38,14 +37,15 @@ function TimeIcon() {
                             height="38.230999"
                             fill="#000"
                             x="20.737"
-                            y="20.885" />
+                            y="20.885"
+                        />
                     </g>
                 </clipPath>
                 <clipPath
                     clipPathUnits="userSpaceOnUse"
-                    id="clipPath244">
-                    <g
-                        id="g248">
+                    id="clipPath244"
+                >
+                    <g id="g248">
                         <rect
                             id="rect246"
                             data-name="Rectangle 244"
@@ -53,14 +53,15 @@ function TimeIcon() {
                             height="38.230999"
                             fill="#000"
                             x="20.737"
-                            y="20.885" />
+                            y="20.885"
+                        />
                     </g>
                 </clipPath>
                 <clipPath
                     clipPathUnits="userSpaceOnUse"
-                    id="clipPath250">
-                    <g
-                        id="g254">
+                    id="clipPath250"
+                >
+                    <g id="g254">
                         <rect
                             id="rect252"
                             data-name="Rectangle 244"
@@ -68,14 +69,15 @@ function TimeIcon() {
                             height="38.230999"
                             fill="#000"
                             x="20.737"
-                            y="20.885" />
+                            y="20.885"
+                        />
                     </g>
                 </clipPath>
                 <clipPath
                     clipPathUnits="userSpaceOnUse"
-                    id="clipPath256">
-                    <g
-                        id="g260">
+                    id="clipPath256"
+                >
+                    <g id="g260">
                         <rect
                             id="rect258"
                             data-name="Rectangle 244"
@@ -83,14 +85,15 @@ function TimeIcon() {
                             height="38.230999"
                             fill="#000"
                             x="20.737"
-                            y="20.885" />
+                            y="20.885"
+                        />
                     </g>
                 </clipPath>
                 <clipPath
                     clipPathUnits="userSpaceOnUse"
-                    id="clipPath262">
-                    <g
-                        id="g266">
+                    id="clipPath262"
+                >
+                    <g id="g266">
                         <rect
                             id="rect264"
                             data-name="Rectangle 244"
@@ -98,14 +101,15 @@ function TimeIcon() {
                             height="38.230999"
                             fill="#000"
                             x="20.737"
-                            y="20.885" />
+                            y="20.885"
+                        />
                     </g>
                 </clipPath>
                 <clipPath
                     clipPathUnits="userSpaceOnUse"
-                    id="clipPath268">
-                    <g
-                        id="g272">
+                    id="clipPath268"
+                >
+                    <g id="g272">
                         <rect
                             id="rect270"
                             data-name="Rectangle 244"
@@ -113,14 +117,15 @@ function TimeIcon() {
                             height="38.230999"
                             fill="#000"
                             x="20.737"
-                            y="20.885" />
+                            y="20.885"
+                        />
                     </g>
                 </clipPath>
                 <clipPath
                     clipPathUnits="userSpaceOnUse"
-                    id="clipPath274">
-                    <g
-                        id="g278">
+                    id="clipPath274"
+                >
+                    <g id="g278">
                         <rect
                             id="rect276"
                             data-name="Rectangle 244"
@@ -128,20 +133,23 @@ function TimeIcon() {
                             height="38.230999"
                             fill="#000"
                             x="20.737"
-                            y="20.885" />
+                            y="20.885"
+                        />
                     </g>
                 </clipPath>
             </defs>
             <g
                 id="g399"
-                transform="translate(-20.737,-20.885)">
+                transform="translate(-20.737,-20.885)"
+            >
                 <path
                     id="Path_107"
                     data-name="Path 107"
                     d="m 53.246,28.784 c -1.6,0.135 -3.2,0.29 -4.8,0.435 -0.031,0 -0.073,0.01 -0.1,0.01 -0.238,-0.062 -0.569,-0.062 -0.662,-0.207 -0.093,-0.145 0.031,-0.476 0.145,-0.662 0.352,-0.559 0.745,-1.1 1.128,-1.656 a 15.692,15.692 0 0 0 -3.457,-1.749 16.142,16.142 0 0 0 -15.075,2.187 15.9,15.9 0 0 0 -6.179,9.442 15.45,15.45 0 0 0 -0.249,5.641 16.162,16.162 0 0 0 13.02,13.804 1.549,1.549 0 1 1 -0.5,3.053 A 19.1,19.1 0 0 1 22.937,49.063 18.257,18.257 0 0 1 20.81,41.57 1.369,1.369 0 0 0 20.737,41.284 v -2.188 c 0.1,-0.745 0.176,-1.49 0.3,-2.225 a 18.379,18.379 0 0 1 2.091,-5.992 19.166,19.166 0 0 1 13.082,-9.605 18.9,18.9 0 0 1 14.086,2.61 c 0.135,0.083 0.28,0.166 0.435,0.259 0.373,-0.538 0.735,-1.066 1.1,-1.594 a 4.035,4.035 0 0 1 0.259,-0.321 0.375,0.375 0 0 1 0.652,0.1 1.277,1.277 0 0 1 0.124,0.352 c 0.445,1.583 0.9,3.177 1.335,4.771 0.228,0.817 -0.1,1.263 -0.952,1.335"
                     fill="#000"
                     clipPath="url(#clipPath274)"
-                    stroke="none" />
+                    stroke="none"
+                />
                 <path
                     id="Path_108"
                     data-name="Path 108"
@@ -193,8 +201,7 @@ function TimeIcon() {
                 />
             </g>
         </svg>
-
-    )
+    );
 }
 
-export default TimeIcon
+export default TimeIcon;

@@ -6,35 +6,32 @@ import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
 import { Course } from '../../../types/course';
-import { User } from "../../../types/user";
+import { User } from '../../../types/user';
 import CourseCard from '../../courses-page/CourseCard';
 import { getCourses } from '../../courses-page/api/getAllCourses';
 import AdminDashboardLayout from '../layout';
 
 function AdminCourses() {
-    const theme = useTheme()
-    const token = localStorage.getItem('access_token')
+    const theme = useTheme();
+    const token = localStorage.getItem('access_token');
 
     const query = useQuery({
         queryKey: ['courses'],
         queryFn: () => getCourses(token),
-    })
+    });
 
-    if (query.isError)
-        return <Typography>Error Occured</Typography>
-    if (query.isLoading)
-        return <Typography>Loading...</Typography>
+    if (query.isError) return <Typography>Error Occured</Typography>;
+    if (query.isLoading) return <Typography>Loading...</Typography>;
 
-    const users = query.data?.map((course) => course.owner)
+    const users = query.data?.map(course => course.owner);
     let uniqueUsers: User[] = [];
     if (users) {
         for (let i = 0; i < users.length; i++) {
             if (uniqueUsers.length === 0) {
-                uniqueUsers.push(users[i])
+                uniqueUsers.push(users[i]);
             } else if (!uniqueUsers.find(user => user.pk === users[i].pk)) {
-                uniqueUsers.push(users[i])
+                uniqueUsers.push(users[i]);
             }
-
         }
     }
     return (
@@ -48,7 +45,6 @@ function AdminCourses() {
                     height: '100%',
                     pb: 8,
                 }}
-
             >
                 <Box
                     sx={{
@@ -72,9 +68,9 @@ function AdminCourses() {
                                         display: 'flex',
                                         gap: 2,
                                         alignItems: 'center',
-                                        cursor: 'pointer'
-
-                                    }}>
+                                        cursor: 'pointer',
+                                    }}
+                                >
                                     <Checkbox color={'secondary'} />
                                     <Avatar
                                         src={user.profile_image}
@@ -83,18 +79,25 @@ function AdminCourses() {
                                             height: theme.spacing(12),
                                         }}
                                     />
-                                    <Box display={'flex'} flexDirection={'column'}>
-                                        <Typography variant='h6'>
-                                            {user.first_name + " " + user.last_name}
+                                    <Box
+                                        display={'flex'}
+                                        flexDirection={'column'}
+                                    >
+                                        <Typography variant="h6">
+                                            {user.first_name +
+                                                ' ' +
+                                                user.last_name}
                                         </Typography>
-                                        <Typography variant='subtitle2' color={'gray.main'}>
+                                        <Typography
+                                            variant="subtitle2"
+                                            color={'gray.main'}
+                                        >
                                             category
                                         </Typography>
                                     </Box>
                                 </Box>
-
                             </React.Fragment>
-                        )
+                        );
                     })}
                 </Box>
                 <Box
@@ -106,23 +109,22 @@ function AdminCourses() {
                         overflowY: 'scroll',
                         width: '100%',
                         maxHeight: '90vh',
-                    }}>
+                    }}
+                >
                     {query.data?.map((info: Course) => {
                         return (
-                            <Box
-                                key={uuidv4()}
-                            >
-                                <CourseCard course={info} link={info.id.toString() + '/'} />
+                            <Box key={uuidv4()}>
+                                <CourseCard
+                                    course={info}
+                                    link={info.id.toString() + '/'}
+                                />
                             </Box>
-                        )
+                        );
                     })}
                 </Box>
-
-
             </Box>
         </AdminDashboardLayout>
-    )
-
+    );
 }
 
-export default AdminCourses
+export default AdminCourses;

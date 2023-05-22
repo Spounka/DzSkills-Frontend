@@ -20,7 +20,7 @@ import { getRelatedCourses, getUserByID } from './api/getUserById';
 import { UserDetailsWideRibbon } from './components/UserDetailsWideRibbon';
 import AdminDashboardLayout from '../layout';
 
-"المستخدمين"
+('المستخدمين');
 
 const columns: GridColDef[] = [
     {
@@ -58,61 +58,53 @@ const columns: GridColDef[] = [
         field: 'state',
         headerName: 'الحالة',
         width: 150,
-        renderCell: (params) => {
-            return <Switch defaultChecked checked={params.value} />
-
-        }
+        renderCell: params => {
+            return (
+                <Switch
+                    defaultChecked
+                    checked={params.value}
+                />
+            );
+        },
     },
-
-]
+];
 
 const UserDetails = () => {
-    const params = useParams()
+    const params = useParams();
 
-    if (!params || !params.id)
-        return <Typography>Error</Typography>
+    if (!params || !params.id) return <Typography>Error</Typography>;
 
     // @ts-ignore
-    if (isNaN(params.id))
-        return <NotFound />
+    if (isNaN(params.id)) return <NotFound />;
 
-
-    const id: number = parseInt(params.id)
-    const theme = useTheme()
-    useLogin()
-    const navigate = useNavigate()
+    const id: number = parseInt(params.id);
+    const theme = useTheme();
+    useLogin();
+    const navigate = useNavigate();
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     function toggleDrawer() {
-        setDrawerOpen(val => !val)
+        setDrawerOpen(val => !val);
     }
-
 
     const query = useQuery({
         queryKey: ['users', id],
         queryFn: () => getUserByID(id),
-        staleTime: 1000 * 60 * 60
-    })
+        staleTime: 1000 * 60 * 60,
+    });
 
     const relatedCoursesQuery = useQuery({
         queryKey: ['users', id, 'courses'],
         queryFn: () => getRelatedCourses(id),
         staleTime: 1000 * 60 * 60 * 24,
-    })
+    });
 
+    if (query.isLoading) return <>Loading..</>;
+    if (query.isError) return <>Error...</>;
 
-    if (query.isLoading)
-        return <>Loading..</>
-    if (query.isError)
-        return <>Error...</>
-
-    if (relatedCoursesQuery.isLoading)
-        return <>Loading Related Courses..</>
-    if (relatedCoursesQuery.isError)
-        return <>Error In Related Courses...</>
-    if (!relatedCoursesQuery.data)
-        return <>Error In Related Courses...</>
-
+    if (relatedCoursesQuery.isLoading) return <>Loading Related Courses..</>;
+    if (relatedCoursesQuery.isError) return <>Error In Related Courses...</>;
+    if (!relatedCoursesQuery.data) return <>Error In Related Courses...</>;
 
     const rows = relatedCoursesQuery.data.map((course: Course | undefined) => {
         return {
@@ -123,8 +115,8 @@ const UserDetails = () => {
             profit: 150000,
             visits: 120,
             state: Boolean(Math.floor(Math.random() * 2)),
-        }
-    })
+        };
+    });
 
     return (
         <AdminDashboardLayout topbar_title={'المستخدمين'}>
@@ -133,10 +125,8 @@ const UserDetails = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     gap: 2,
-                    p: 0
-
+                    p: 0,
                 }}
-
             >
                 {/* <DisplayTableDataGrid rows={rows} columns={columns} /> */}
                 <UserDetailsWideRibbon user={query.data} />
@@ -145,10 +135,8 @@ const UserDetails = () => {
                     sx={{
                         display: 'flex',
                         gap: 2,
-                        p: 0
-
+                        p: 0,
                     }}
-
                 >
                     <InformationCard
                         title={'الكورسات'}
@@ -191,28 +179,30 @@ const UserDetails = () => {
                         }}
                     />
                 </Box>
-                {relatedCoursesQuery.data.length > 0 &&
-                    <Box sx={{
-                        bgcolor: 'white',
-                        borderRadius: theme.spacing(),
-                        p: 2
-                    }}
+                {relatedCoursesQuery.data.length > 0 && (
+                    <Box
+                        sx={{
+                            bgcolor: 'white',
+                            borderRadius: theme.spacing(),
+                            p: 2,
+                        }}
                     >
-                        <Typography color={'secondary.main'}>احصائيات الكورسات</Typography>
+                        <Typography color={'secondary.main'}>
+                            احصائيات الكورسات
+                        </Typography>
                         <DataGrid
                             sx={{
-                                border: 'none'
+                                border: 'none',
                             }}
                             columns={columns}
                             rows={rows}
                             autoHeight
                         />
                     </Box>
-                }
+                )}
             </Box>
         </AdminDashboardLayout>
-    )
-
+    );
 };
 
 export default UserDetails;

@@ -1,8 +1,8 @@
-import axiosInstance from "../../../globals/axiosInstance";
-import { Order } from "../../../types/payment";
+import axiosInstance from '../../../globals/axiosInstance';
+import { Order } from '../../../types/payment';
 
 export async function getRelatedOrders(token: string | null) {
-    const { data } = await axiosInstance.get("/orders/all/", {
+    const { data } = await axiosInstance.get('/orders/all/', {
         headers: {
             Authorization: `Bearer ${token}`,
         },

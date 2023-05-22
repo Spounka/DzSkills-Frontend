@@ -4,12 +4,11 @@ import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { TabPanel } from './TabPanel';
 
-
 interface props {
     tabLabels: string[];
     panels: React.ReactElement[];
-    startState?: number,
-    sx?: SxProps,
+    startState?: number;
+    sx?: SxProps;
 }
 
 function a11yProps(index: number) {
@@ -18,7 +17,6 @@ function a11yProps(index: number) {
         'aria-controls': `simple-tabpanel-${index}`,
     };
 }
-
 
 function FullWidthTab({ tabLabels, panels, startState, sx }: props) {
     const [value, setValue] = React.useState(startState || 0);
@@ -29,17 +27,21 @@ function FullWidthTab({ tabLabels, panels, startState, sx }: props) {
 
     return (
         <Box sx={{ width: '100%', height: '100%', ...sx }}>
-            <Box sx={{
-            }} >
-                <Tabs variant='fullWidth' indicatorColor='primary' textColor='inherit'
-                    value={value} onChange={handleChange} aria-label="authentication tabs"
+            <Box sx={{}}>
+                <Tabs
+                    variant="fullWidth"
+                    indicatorColor="primary"
+                    textColor="inherit"
+                    value={value}
+                    onChange={handleChange}
+                    aria-label="authentication tabs"
                     TabIndicatorProps={{
                         style: {
                             height: '100%',
                             backgroundColor: 'white',
                             borderRadius: '0.5rem 0.5rem 0 0',
                             zIndex: 0,
-                        }
+                        },
                     }}
                     sx={{
                         backgroundColor: 'gray.secondary',
@@ -53,19 +55,30 @@ function FullWidthTab({ tabLabels, panels, startState, sx }: props) {
                     }}
                 >
                     {tabLabels.map((label, index) => {
-                        return <Tab disableRipple label={label} {...a11yProps(index)} key={uuidv4()} />
+                        return (
+                            <Tab
+                                disableRipple
+                                label={label}
+                                {...a11yProps(index)}
+                                key={uuidv4()}
+                            />
+                        );
                     })}
                 </Tabs>
             </Box>
             {panels.map((panel, index) => {
                 return (
-                    <TabPanel value={value} index={index} key={uuidv4()}>
+                    <TabPanel
+                        value={value}
+                        index={index}
+                        key={uuidv4()}
+                    >
                         {panel}
                     </TabPanel>
-                )
+                );
             })}
         </Box>
     );
 }
 
-export default FullWidthTab
+export default FullWidthTab;

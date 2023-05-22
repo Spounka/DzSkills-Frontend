@@ -4,10 +4,14 @@ import { UploadFileInput } from '../../../../../components/form/UploadFileInput'
 export function CourseFields() {
     return (
         <>
-            <Typography variant={'subtitle2'} color={'gray.main'} sx={{
-                gridColumn: 'span 1',
-                gridRow: '1'
-            }}>
+            <Typography
+                variant={'subtitle2'}
+                color={'gray.main'}
+                sx={{
+                    gridColumn: 'span 1',
+                    gridRow: '1',
+                }}
+            >
                 عنوان الكورس
             </Typography>
             <OutlinedInput
@@ -15,13 +19,18 @@ export function CourseFields() {
                 color={'secondary'}
                 sx={{
                     gridColumn: '1',
-                    gridRow: '2'
-                }} />
+                    gridRow: '2',
+                }}
+            />
 
-            <Typography variant={'subtitle2'} color={'gray.main'} sx={{
-                gridColumn: '1',
-                gridRow: '3'
-            }}>
+            <Typography
+                variant={'subtitle2'}
+                color={'gray.main'}
+                sx={{
+                    gridColumn: '1',
+                    gridRow: '3',
+                }}
+            >
                 وصف
             </Typography>
             <OutlinedInput
@@ -31,12 +40,17 @@ export function CourseFields() {
                 rows={4}
                 sx={{
                     gridColumn: '1',
-                    gridRow: '4 / 8'
-                }} />
-            <Typography variant={'subtitle2'} color={'gray.main'} sx={{
-                gridColumn: '2',
-                gridRow: '1'
-            }}>
+                    gridRow: '4 / 8',
+                }}
+            />
+            <Typography
+                variant={'subtitle2'}
+                color={'gray.main'}
+                sx={{
+                    gridColumn: '2',
+                    gridRow: '1',
+                }}
+            >
                 سعر الكورس
             </Typography>
             <OutlinedInput
@@ -44,10 +58,13 @@ export function CourseFields() {
                 color={'secondary'}
                 sx={{
                     gridColumn: '2',
-                    px: 3
+                    px: 3,
                 }}
                 endAdornment={
-                    <Typography variant={'body2'} color={'gray.dark'}>
+                    <Typography
+                        variant={'body2'}
+                        color={'gray.dark'}
+                    >
                         DA
                     </Typography>
                 }
@@ -58,7 +75,8 @@ export function CourseFields() {
                 color={'gray.main'}
                 sx={{
                     gridColumn: '2',
-                }}>
+                }}
+            >
                 هاشتاغ
             </Typography>
             <OutlinedInput
@@ -71,30 +89,45 @@ export function CourseFields() {
                 sx={{
                     gridColumn: '2',
                     gridRow: 'span 4',
-                    height: '100%'
-                }} />
-            <Typography variant={'subtitle2'} color={'gray.main'} sx={{
-                gridColumn: '1'
-            }}>
+                    height: '100%',
+                }}
+            />
+            <Typography
+                variant={'subtitle2'}
+                color={'gray.main'}
+                sx={{
+                    gridColumn: '1',
+                }}
+            >
                 صورة مصغرة
             </Typography>
-            <Typography variant={'subtitle2'} color={'gray.main'} sx={{
-                gridColumn: '2'
-            }}>
+            <Typography
+                variant={'subtitle2'}
+                color={'gray.main'}
+                sx={{
+                    gridColumn: '2',
+                }}
+            >
                 ملف التقديم
             </Typography>
 
-            <UploadFileInput
-                inputName='presentation_file' />
+            <UploadFileInput inputName="presentation_file" />
 
-            <Typography variant={'subtitle2'} color={'gray.main'} sx={{
-                gridColumn: '2'
-            }}>
+            <Typography
+                variant={'subtitle2'}
+                color={'gray.main'}
+                sx={{
+                    gridColumn: '2',
+                }}
+            >
                 ملفات إضافية ( اختياري )
             </Typography>
 
-
-            <UploadFileInput inputName='additional' multipleFiles inputFileTypes='.pdf, .ppt' />
+            <UploadFileInput
+                inputName="additional"
+                multipleFiles
+                inputFileTypes=".pdf, .ppt"
+            />
             <UploadFileInput
                 sx={{
                     gridColumn: '1',
@@ -103,17 +136,15 @@ export function CourseFields() {
                     flexDirection: 'column',
                     height: '100%',
                     justifyContent: 'center',
-
                 }}
                 containerSx={{
                     alignItems: 'center',
                     flexGrow: '0',
                 }}
-
                 buttonSx={{
                     height: 'auto',
                 }}
-                inputFileTypes='image/*'
+                inputFileTypes="image/*"
                 inputName={'thumbnail'}
             />
         </>

@@ -1,16 +1,16 @@
-import { useTheme } from "@emotion/react";
-import { Box, Typography } from "@mui/material";
-import { GridColDef } from "@mui/x-data-grid";
-import { useQuery } from "react-query";
-import { Level } from "../../../types/course";
-import { DisplayTableDataGrid } from "../payment-management/DisplayTableDataGrid";
-import { AddButton } from "./AddButton";
-import { getLevels } from "./api/queries";
+import { useTheme } from '@emotion/react';
+import { Box, Typography } from '@mui/material';
+import { GridColDef } from '@mui/x-data-grid';
+import { useQuery } from 'react-query';
+import { Level } from '../../../types/course';
+import { DisplayTableDataGrid } from '../payment-management/DisplayTableDataGrid';
+import { AddButton } from './AddButton';
+import { getLevels } from './api/queries';
 
 const columns: GridColDef[] = [
     {
         field: 'name',
-        headerName: "الاسم",
+        headerName: 'الاسم',
 
         width: 60,
         headerClassName: 'super-app-theme--header',
@@ -38,13 +38,10 @@ export function Levels() {
     const theme = useTheme();
     const levels = useQuery({
         queryKey: ['levels'],
-        queryFn: () => getLevels()
+        queryFn: () => getLevels(),
     });
-    if (levels.isFetching)
-        return <>Fetching levels...</>;
-    if (levels.isError)
-        return <>Error in levels</>;
-
+    if (levels.isFetching) return <>Fetching levels...</>;
+    if (levels.isError) return <>Error in levels</>;
 
     const rows = levels.data?.map((level: Level) => {
         return {
@@ -58,7 +55,7 @@ export function Levels() {
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                
+
                 width: '100%',
                 gap: 2,
             }}
@@ -68,19 +65,19 @@ export function Levels() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    width: '100%'
+                    width: '100%',
                 }}
             >
-                <Typography>
-                    المستويات
-                </Typography>
+                <Typography>المستويات</Typography>
                 <AddButton title={'اضف مستوى جديد'} />
             </Box>
             <Box sx={{ bgcolor: 'white' }}>
-                <DisplayTableDataGrid checkbox rows={rows} columns={columns} />
+                <DisplayTableDataGrid
+                    checkbox
+                    rows={rows}
+                    columns={columns}
+                />
             </Box>
-
-
         </Box>
     );
 }

@@ -5,10 +5,14 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 interface DipslayTableProps {
     rows: any;
     columns: GridColDef[];
-    checkbox?: boolean
+    checkbox?: boolean;
 }
-export function DisplayTableDataGrid({ rows, columns, checkbox }: DipslayTableProps) {
-    const theme = useTheme()
+export function DisplayTableDataGrid({
+    rows,
+    columns,
+    checkbox,
+}: DipslayTableProps) {
+    const theme = useTheme();
 
     return (
         <Box
@@ -18,11 +22,10 @@ export function DisplayTableDataGrid({ rows, columns, checkbox }: DipslayTablePr
                 gap: 2,
                 p: 0,
                 '& .super-app-theme--header': {
-                    backgroundColor: 'black'
-                }
+                    backgroundColor: 'black',
+                },
             }}
         >
-
             <DataGrid
                 rows={rows}
                 columns={columns}
@@ -30,9 +33,9 @@ export function DisplayTableDataGrid({ rows, columns, checkbox }: DipslayTablePr
                 initialState={{
                     pagination: {
                         paginationModel: {
-                            pageSize: 10
-                        }
-                    }
+                            pageSize: 10,
+                        },
+                    },
                 }}
                 sx={{
                     direction: 'rtl',
@@ -49,18 +52,19 @@ export function DisplayTableDataGrid({ rows, columns, checkbox }: DipslayTablePr
                         backgroundColor: 'black',
                         color: 'white',
                         border: 'none !important',
-
                     },
-                    '&.MuiDataGrid-cell:focus, &.MuiDataGrid-cell.Mui-selected': {
-                        color: theme.palette.secondary.main,
-                    }
+                    '&.MuiDataGrid-cell:focus, &.MuiDataGrid-cell.Mui-selected':
+                        {
+                            color: theme.palette.secondary.main,
+                        },
                 }}
                 pageSizeOptions={[10]}
                 disableColumnFilter
                 disableColumnSelector
                 disableColumnMenu
                 disableRowSelectionOnClick
-                autoHeight />
+                autoHeight
+            />
         </Box>
     );
 }

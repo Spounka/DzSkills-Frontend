@@ -1,5 +1,5 @@
-import { Course } from "./course";
-import { User } from "./user";
+import { Course } from './course';
+import { User } from './user';
 
 export type Order = {
     id: number;
@@ -14,5 +14,5 @@ export type Payment = {
     order: Order;
     receipt: string | undefined;
     // pending, accepted, refused
-    status: "p" | "a" | "r" | undefined;
+    status: 'p' | 'a' | 'r' | undefined;
 };

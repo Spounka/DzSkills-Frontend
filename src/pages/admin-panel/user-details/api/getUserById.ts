@@ -1,6 +1,6 @@
-import axiosInstance from "../../../../globals/axiosInstance";
-import { Course } from "../../../../types/course";
-import { User } from "../../../../types/user";
+import axiosInstance from '../../../../globals/axiosInstance';
+import { Course } from '../../../../types/course';
+import { User } from '../../../../types/user';
 
 export async function getUserByID(id: number) {
     const { data } = await axiosInstance.get(`/users/${id}/`);

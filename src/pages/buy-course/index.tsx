@@ -1,79 +1,86 @@
-import { Button, Card, Divider, Typography, useTheme } from '@mui/material'
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Image from 'mui-image'
-import { useState } from 'react'
-import { useMutation, useQuery } from 'react-query'
-import { useNavigate, useParams } from 'react-router-dom'
-import pdf_icon from '../../assets/png/pdf@2x.png'
-import receipt from '../../assets/ccp2.pdf'
-import uploadImg from '../../assets/svg/upload gray.svg'
-import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar'
-import DownloadSvgIcon from '../../components/ui/DownloadSvgIcon'
-import { MainButton } from '../../components/ui/MainButton'
-import { getCourse } from '../course/api/getCourse'
-import NotFound from '../not-found/NotFound'
-import { createOrder } from './api/createOrder'
+import { Button, Card, Divider, Typography, useTheme } from '@mui/material';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Image from 'mui-image';
+import { useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
+import { useNavigate, useParams } from 'react-router-dom';
+import pdf_icon from '../../assets/png/pdf@2x.png';
+import receipt from '../../assets/ccp2.pdf';
+import uploadImg from '../../assets/svg/upload gray.svg';
+import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar';
+import DownloadSvgIcon from '../../components/ui/DownloadSvgIcon';
+import { MainButton } from '../../components/ui/MainButton';
+import { getCourse } from '../course/api/getCourse';
+import NotFound from '../not-found/NotFound';
+import { createOrder } from './api/createOrder';
 
 function BuyCourse() {
-    const params = useParams()
+    const params = useParams();
 
-    if (!params || !params.id)
-        return <Typography>Error</Typography>
+    if (!params || !params.id) return <Typography>Error</Typography>;
 
     // @ts-ignore
-    if (isNaN(params.id))
-        return <NotFound />
+    if (isNaN(params.id)) return <NotFound />;
 
-    const id: number = parseInt(params.id)
+    const id: number = parseInt(params.id);
     const theme = useTheme();
-    const [fileName, setFileName] = useState<File>()
-    const navigate = useNavigate()
+    const [fileName, setFileName] = useState<File>();
+    const navigate = useNavigate();
 
-    const token = localStorage.getItem('access_token')
+    const token = localStorage.getItem('access_token');
 
     function handleFilechange(event: any) {
-        setFileName(event.target.files[0])
+        setFileName(event.target.files[0]);
     }
 
     const query = useQuery({
         queryKey: ['courses', id],
         queryFn: () => getCourse(id),
         staleTime: 1000 * 60 * 60 * 24,
-    })
+    });
 
     const mutation = useMutation({
         mutationKey: ['offers', id, 'create'],
         mutationFn: (data: any) => createOrder(id, token, data),
-    })
+    });
     async function submitForm(e: any) {
-        e.preventDefault()
-        const form = document.querySelector('form')
+        e.preventDefault();
+        const form = document.querySelector('form');
         if (form) {
-            let formData = new FormData(form)
-            formData.append('course', id.toString())
-            mutation.mutate(formData)
+            let formData = new FormData(form);
+            formData.append('course', id.toString());
+            mutation.mutate(formData);
         }
     }
 
-    if (query.isError)
-        return <>Error</>
-    if (query.isLoading || query.isFetching)
-        return <>Loading...</>
+    if (query.isError) return <>Error</>;
+    if (query.isLoading || query.isFetching) return <>Loading...</>;
 
     return (
-        <Grid container direction='column' spacing={5} id={'main grid container'}
+        <Grid
+            container
+            direction="column"
+            spacing={5}
+            id={'main grid container'}
             columns={14}
             sx={{
-                backgroundColor: "white",
-                maxWidth: '100%'
-
-            }}>
-            <Grid container item xs={14}>
+                backgroundColor: 'white',
+                maxWidth: '100%',
+            }}
+        >
+            <Grid
+                container
+                item
+                xs={14}
+            >
                 <AuthenticationTopBar />
             </Grid>
 
-            <Grid item xs={14} container
+            <Grid
+                item
+                xs={14}
+                container
                 sx={{
                     backgroundColor: 'gray.secondary',
                 }}
@@ -82,7 +89,7 @@ function BuyCourse() {
                     sx={{
                         display: 'grid',
                         gridTemplateColumns: 'repeat(26, minmax(0, 1fr))',
-                        width: "100%",
+                        width: '100%',
                         marginBottom: '2rem',
                     }}
                 >
@@ -93,9 +100,8 @@ function BuyCourse() {
                             gap: 2,
                             gridColumnStart: 3,
                             gridColumnEnd: 26,
-                        }}>
-
-
+                        }}
+                    >
                         <Typography
                             color={'secondary.dark'}
                             variant={'h6'}
@@ -105,7 +111,10 @@ function BuyCourse() {
                         >
                             تأكيد الشراء
                         </Typography>
-                        <Box display='flex' gap={2}>
+                        <Box
+                            display="flex"
+                            gap={2}
+                        >
                             <Box
                                 sx={{
                                     display: 'flex',
@@ -113,16 +122,21 @@ function BuyCourse() {
                                     flexBasis: '33%',
                                     height: '100%',
                                     flexShrink: '1',
-                                    gap: 4
-                                }}>
+                                    gap: 4,
+                                }}
+                            >
                                 <Image
-                                    src={query.data?.thumbnail || ""}
+                                    src={query.data?.thumbnail || ''}
                                     height={'40%'}
                                 />
 
-                                <Box display={'flex'} gap={2} flexDirection={'column'}>
+                                <Box
+                                    display={'flex'}
+                                    gap={2}
+                                    flexDirection={'column'}
+                                >
                                     <Box
-                                        display={"flex"}
+                                        display={'flex'}
                                         justifyContent={'space-between'}
                                         pl={4}
                                     >
@@ -138,7 +152,7 @@ function BuyCourse() {
                                             variant={'h6'}
                                             fontWeight={500}
                                             sx={{
-                                                direction: "ltr"
+                                                direction: 'ltr',
                                             }}
                                         >
                                             {query.data?.price} DA
@@ -146,7 +160,7 @@ function BuyCourse() {
                                     </Box>
 
                                     <Box
-                                        display={"flex"}
+                                        display={'flex'}
                                         justifyContent={'space-between'}
                                         pl={4}
                                     >
@@ -162,7 +176,7 @@ function BuyCourse() {
                                             variant={'h6'}
                                             fontWeight={500}
                                             sx={{
-                                                direction: "ltr"
+                                                direction: 'ltr',
                                             }}
                                         >
                                             {query.data?.price} DA
@@ -172,7 +186,7 @@ function BuyCourse() {
 
                                 <Divider />
                                 <Box
-                                    display={"flex"}
+                                    display={'flex'}
                                     justifyContent={'space-between'}
                                     pl={4}
                                 >
@@ -188,7 +202,7 @@ function BuyCourse() {
                                         variant={'h6'}
                                         fontWeight={500}
                                         sx={{
-                                            direction: "ltr"
+                                            direction: 'ltr',
                                         }}
                                     >
                                         {query.data?.price} DA
@@ -208,9 +222,10 @@ function BuyCourse() {
                                     py: 9,
                                     px: 12,
                                     gap: 6,
-                                }}>
+                                }}
+                            >
                                 <Box
-                                    display={"flex"}
+                                    display={'flex'}
                                     justifyContent={'space-between'}
                                     alignItems={'center'}
                                 >
@@ -220,31 +235,39 @@ function BuyCourse() {
                                         fontWeight={400}
                                         maxWidth={'60%'}
                                     >
-                                        يرجى تحميل معلومات الدفع الخاصة بالموقع من هنا
+                                        يرجى تحميل معلومات الدفع الخاصة بالموقع
+                                        من هنا
                                     </Typography>
                                     <a
                                         download
                                         href={receipt}
                                         style={{
-                                            textDecoration: 'none'
+                                            textDecoration: 'none',
                                         }}
                                     >
-
                                         <MainButton
                                             sx={{
                                                 borderRadius: theme.spacing(),
                                                 gap: 2,
                                             }}
                                             {...{
-                                                size: "large",
-                                                endIcon: <DownloadSvgIcon
-                                                    {...{
-                                                        width: theme.spacing(2),
-                                                        height: theme.spacing(2),
-                                                    }} />
+                                                size: 'large',
+                                                endIcon: (
+                                                    <DownloadSvgIcon
+                                                        {...{
+                                                            width: theme.spacing(
+                                                                2
+                                                            ),
+                                                            height: theme.spacing(
+                                                                2
+                                                            ),
+                                                        }}
+                                                    />
+                                                ),
                                             }}
                                             text={'تحميل'}
-                                            color={theme.palette.primary.main} />
+                                            color={theme.palette.primary.main}
+                                        />
                                     </a>
                                 </Box>
 
@@ -262,9 +285,10 @@ function BuyCourse() {
                                         paddingLeft: 12,
                                         paddingRight: 12,
                                         gap: theme.spacing(6),
-                                    }}>
+                                    }}
+                                >
                                     <Box
-                                        display={"flex"}
+                                        display={'flex'}
                                         justifyContent={'space-between'}
                                         alignItems={'center'}
                                         gap={9}
@@ -275,10 +299,17 @@ function BuyCourse() {
                                             fontWeight={400}
                                             maxWidth={'60%'}
                                         >
-                                            عند إكمال الدفع يرجى ارفاق الوصل حتى نتمكن من تأكيد دفعكم . عملية التأكيد بين 24/48 ساعة
+                                            عند إكمال الدفع يرجى ارفاق الوصل
+                                            حتى نتمكن من تأكيد دفعكم . عملية
+                                            التأكيد بين 24/48 ساعة
                                             <br />
-                                            يمكنكم العودة لهذه الصفحة عبر الولوج الى صفحة <strong> الطلبات و الفواتير </strong>من اعدادات حسابكم
-
+                                            يمكنكم العودة لهذه الصفحة عبر
+                                            الولوج الى صفحة{' '}
+                                            <strong>
+                                                {' '}
+                                                الطلبات و الفواتير{' '}
+                                            </strong>
+                                            من اعدادات حسابكم
                                         </Typography>
                                         <Button
                                             component={'label'}
@@ -290,9 +321,9 @@ function BuyCourse() {
                                                 ':hover': {
                                                     bgcolor: 'gray.secondary',
                                                     color: 'gray.main',
-                                                }
+                                                },
                                             }}
-                                        // endIcon={ }
+                                            // endIcon={ }
                                         >
                                             رفع
                                             <img
@@ -302,7 +333,8 @@ function BuyCourse() {
                                                     height: 'auto',
                                                     padding: 0,
                                                     // marginLeft: theme.spacing(),
-                                                    marginRight: theme.spacing(),
+                                                    marginRight:
+                                                        theme.spacing(),
                                                 }}
                                             />
                                             <input
@@ -313,9 +345,9 @@ function BuyCourse() {
                                                 }}
                                                 required={true}
                                                 onChange={handleFilechange}
-                                                name={"payment.receipt"}
-                                                accept={"*"}
-                                                type='file'
+                                                name={'payment.receipt'}
+                                                accept={'*'}
+                                                type="file"
                                             />
                                         </Button>
                                     </Box>
@@ -329,31 +361,40 @@ function BuyCourse() {
                                             px: theme.spacing(3),
                                             display: 'flex',
                                             alignItems: 'center',
-                                            gap: 2
+                                            gap: 2,
                                         }}
                                     >
-                                        <img src={pdf_icon}
+                                        <img
+                                            src={pdf_icon}
                                             style={{
-                                                height: theme.spacing(4)
+                                                height: theme.spacing(4),
                                             }}
                                         />
 
-                                        <Typography variant={'subtitle2'} color={'gray.main'}>
+                                        <Typography
+                                            variant={'subtitle2'}
+                                            color={'gray.main'}
+                                        >
                                             {fileName?.name}
                                         </Typography>
                                     </Box>
-                                    <Box display={'flex'} justifyContent={'space-between'}>
+                                    <Box
+                                        display={'flex'}
+                                        justifyContent={'space-between'}
+                                    >
                                         <MainButton
                                             type={'submit'}
                                             text={'شراء الآن'}
                                             color={theme.palette.primary.main}
-                                        // {...{ onClick: () => navigate('..') }}
+                                            // {...{ onClick: () => navigate('..') }}
                                         />
 
                                         <MainButton
                                             text={'إلغاء الطلب'}
                                             color={theme.palette.error.main}
-                                            {...{ onClick: () => navigate('..') }}
+                                            {...{
+                                                onClick: () => navigate('..'),
+                                            }}
                                         />
                                     </Box>
                                 </form>
@@ -361,9 +402,8 @@ function BuyCourse() {
                         </Box>
                     </Box>
                 </Box>
-            </Grid >
-
-        </Grid >
-    )
+            </Grid>
+        </Grid>
+    );
 }
-export default BuyCourse
+export default BuyCourse;

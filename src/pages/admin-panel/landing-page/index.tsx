@@ -9,15 +9,13 @@ function AdminLandingPage() {
                 sx={{
                     display: 'flex',
                     gap: 2,
-                    p: 0
+                    p: 0,
                 }}
             >
                 <InformationCards />
             </Box>
         </AdminDashboardLayout>
-    )
-
+    );
 }
 
-
-export default AdminLandingPage
+export default AdminLandingPage;

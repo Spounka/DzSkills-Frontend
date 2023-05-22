@@ -1,0 +1,29 @@
+{
+    "printWidth": 79,
+    "tabWidth": 4,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "jsxSingleQuote": false,
+    "jsxBracketSameLine": false,
+    "arrowParens": "avoid",
+    "bracketSpacing": true,
+    "semi": true,
+    "useTabs": false,
+    "proseWrap": "preserve",
+    "endOfLine": "auto",
+    "overrides": [
+        {
+            "files": "*.tsx",
+            "options": {
+                "parser": "typescript",
+                "jsxSingleQuote": false,
+                "jsxBracketSameLine": false,
+                "jsxIndent": true,
+                "jsxPrintWidth": 80,
+                "jsxTabWidth": 2,
+                "jsxTrailingComma": "none",
+                "singleAttributePerLine": true
+            }
+        }
+    ]
+}

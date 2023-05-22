@@ -1,5 +1,5 @@
-import styled from '@emotion/styled'
-import { Button, ButtonProps } from '@mui/material'
+import styled from '@emotion/styled';
+import { Button, ButtonProps } from '@mui/material';
 
 const SocialMediaButton = styled(Button)<ButtonProps>(({ theme }) => ({
     width: '100%',
@@ -11,7 +11,6 @@ const SocialMediaButton = styled(Button)<ButtonProps>(({ theme }) => ({
     fontWeight: 400,
     fontSize: '.7rem',
     textAlign: 'center',
-}))
-
+}));
 
 export default SocialMediaButton;

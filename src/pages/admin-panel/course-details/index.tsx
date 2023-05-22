@@ -1,4 +1,14 @@
-import { Avatar, Box, Divider, IconButton, MenuItem, Popover, Rating, Typography, useTheme } from '@mui/material';
+import {
+    Avatar,
+    Box,
+    Divider,
+    IconButton,
+    MenuItem,
+    Popover,
+    Rating,
+    Typography,
+    useTheme,
+} from '@mui/material';
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
@@ -26,65 +36,59 @@ import students from '../../../assets/svg/school-blue.svg';
 import timeBlue from '../../../assets/svg/time-transparent.svg';
 import { getCourse } from '../../course/api/getCourse';
 import NotFound from '../../not-found/NotFound';
-import { RelatedStudent, getRelatedStudents } from "./api/relatedStudent";
-import { CourseStudent } from "./components/courseStudent";
+import { RelatedStudent, getRelatedStudents } from './api/relatedStudent';
+import { CourseStudent } from './components/courseStudent';
 import AdminDashboardLayout from '../layout';
 
-"الكورسات"
+('الكورسات');
 function CourseDetails() {
-    const params = useParams()
+    const params = useParams();
 
-    if (!params || !params.id)
-        return <Typography>Error</Typography>
+    if (!params || !params.id) return <Typography>Error</Typography>;
 
     // @ts-ignore
-    if (isNaN(params.id))
-        return <NotFound />
+    if (isNaN(params.id)) return <NotFound />;
 
-
-    const id: number = parseInt(params.id)
-    const theme = useTheme()
-
+    const id: number = parseInt(params.id);
+    const theme = useTheme();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
     function handleClick(event: React.MouseEvent<HTMLElement>) {
-        setAnchorEl(event.currentTarget)
+        setAnchorEl(event.currentTarget);
     }
 
     function handleClose() {
-        setAnchorEl(null)
+        setAnchorEl(null);
     }
 
-    const token = localStorage.getItem('access_token')
+    const token = localStorage.getItem('access_token');
 
     const course = useQuery({
         queryKey: ['courses', id],
         queryFn: () => getCourse(id),
         staleTime: 1000 * 60 * 60 * 24,
-    })
+    });
 
     const query = useQuery({
         queryKey: ['courses'],
         queryFn: () => getCourses(token),
-    })
+    });
 
     const relatedStudentsQuery = useQuery({
         queryKey: ['courses', id, 'students'],
         queryFn: () => getRelatedStudents(id),
-    })
+    });
 
     if (query.isError)
-        return <Typography>Error Occured In courses</Typography>
-    if (query.isLoading)
-        return <Typography>Loading courses...</Typography>
+        return <Typography>Error Occured In courses</Typography>;
+    if (query.isLoading) return <Typography>Loading courses...</Typography>;
 
     if (relatedStudentsQuery.isError)
-        return <Typography>Error occured getting related students</Typography>
+        return <Typography>Error occured getting related students</Typography>;
     if (relatedStudentsQuery.isLoading)
-        return <Typography>Loading related students...</Typography>
-
+        return <Typography>Loading related students...</Typography>;
 
     return (
         <AdminDashboardLayout topbar_title={'الكورسات'}>
@@ -93,7 +97,7 @@ function CourseDetails() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: 2,
-                    p: 0
+                    p: 0,
                 }}
             >
                 <InformationCard
@@ -151,7 +155,6 @@ function CourseDetails() {
                             vertical: 'top',
                             horizontal: 'center',
                         }}
-
                         PaperProps={{
                             elevation: 0,
                             style: {
@@ -160,14 +163,13 @@ function CourseDetails() {
                                 backgroundColor: 'transparent',
                             },
                             sx: {
-
                                 // root: {
                                 '.Popover-menuItem': {
                                     display: 'inline-block',
-                                    backgroundColor: 'red'
-                                }
+                                    backgroundColor: 'red',
+                                },
                                 // }
-                            }
+                            },
                         }}
                         sx={{}}
                     >
@@ -181,19 +183,27 @@ function CourseDetails() {
                         </MenuItem>
                         <MenuItem disableRipple>
                             <IconButton>
-                                <Box sx={{
-                                    width: theme.spacing(6.5),
-                                    p: theme.spacing(1.5),
-                                    bgcolor: 'white',
-                                    borderRadius: theme.spacing()
-                                }}>
-                                    <Image src={createBlack} width={'auto'} />
+                                <Box
+                                    sx={{
+                                        width: theme.spacing(6.5),
+                                        p: theme.spacing(1.5),
+                                        bgcolor: 'white',
+                                        borderRadius: theme.spacing(),
+                                    }}
+                                >
+                                    <Image
+                                        src={createBlack}
+                                        width={'auto'}
+                                    />
                                 </Box>
                             </IconButton>
                         </MenuItem>
                         <MenuItem disableRipple>
                             <IconButton>
-                                <Image src={deleteWhiteBg} width={'auto'} />
+                                <Image
+                                    src={deleteWhiteBg}
+                                    width={'auto'}
+                                />
                             </IconButton>
                         </MenuItem>
                     </Popover>
@@ -207,7 +217,6 @@ function CourseDetails() {
                     gap: 2,
                     p: 0,
                 }}
-
             >
                 <Box
                     sx={{
@@ -215,14 +224,20 @@ function CourseDetails() {
                         width: '100%',
                         display: 'flex',
                         flexDirection: 'column',
-                    }}>
+                    }}
+                >
                     {
                         // @ts-ignore
-                        <Image width={'auto'}
-                            src={(course.data?.thumbnail && course.data?.thumbnail) || ""}
+                        <Image
+                            width={'auto'}
+                            src={
+                                (course.data?.thumbnail &&
+                                    course.data?.thumbnail) ||
+                                ''
+                            }
                             // @ts-ignore
                             sx={{
-                                aspectRatio: '16/9'
+                                aspectRatio: '16/9',
                             }}
                         />
                     }
@@ -234,96 +249,140 @@ function CourseDetails() {
                             flexDirection: 'column',
                             gap: 3,
                             py: 4,
-
-                        }}>
-                        <Box sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between'
-                        }}>
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                            }}
+                        >
                             <Box>
                                 <Typography variant="h6">
                                     {course.data?.title}
                                 </Typography>
-                                <Typography variant={'subtitle1'} color={'gray.main'}>
-                                    {course.data?.owner.first_name + " " + course.data?.owner.last_name}
+                                <Typography
+                                    variant={'subtitle1'}
+                                    color={'gray.main'}
+                                >
+                                    {course.data?.owner.first_name +
+                                        ' ' +
+                                        course.data?.owner.last_name}
                                 </Typography>
                             </Box>
-                            <Box display={'flex'} alignItems={'center'} gap={1}>
-                                <Typography color={'gray.main'} variant={'subtitle1'}>
+                            <Box
+                                display={'flex'}
+                                alignItems={'center'}
+                                gap={1}
+                            >
+                                <Typography
+                                    color={'gray.main'}
+                                    variant={'subtitle1'}
+                                >
                                     {2.5}
                                 </Typography>
-                                <Rating max={1} readOnly value={1}
-                                    emptyIcon={<Star style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                <Rating
+                                    max={1}
+                                    readOnly
+                                    value={1}
+                                    emptyIcon={
+                                        <Star
+                                            style={{ opacity: 0.55 }}
+                                            fontSize="inherit"
+                                        />
+                                    }
                                 />
                             </Box>
                         </Box>
-                        <Typography variant={'body2'} color={'gray.dark'}>
+                        <Typography
+                            variant={'body2'}
+                            color={'gray.dark'}
+                        >
                             {course.data?.description}
                         </Typography>
-                        <Typography sx={{
-                            direction: 'ltr',
-                            mr: 'auto',
-                            float: 'right',
-                        }}>
+                        <Typography
+                            sx={{
+                                direction: 'ltr',
+                                mr: 'auto',
+                                float: 'right',
+                            }}
+                        >
                             {course.data?.price} DA
                         </Typography>
                     </Box>
-                    <Box sx={{
-                        bgcolor: 'purple.main',
-                        p: 8,
-                        pb: 4,
-                        color: 'white',
-
-
-                    }}>
-                        <Avatar src={course.data?.owner.profile_image} sx={{
-                            width: theme.spacing(12),
-                            height: theme.spacing(12),
-                            float: 'left',
-                        }}>
-
-                        </Avatar>
-                        <Box display={'flex'} gap={3} flexDirection={'column'} height="100%">
+                    <Box
+                        sx={{
+                            bgcolor: 'purple.main',
+                            p: 8,
+                            pb: 4,
+                            color: 'white',
+                        }}
+                    >
+                        <Avatar
+                            src={course.data?.owner.profile_image}
+                            sx={{
+                                width: theme.spacing(12),
+                                height: theme.spacing(12),
+                                float: 'left',
+                            }}
+                        ></Avatar>
+                        <Box
+                            display={'flex'}
+                            gap={3}
+                            flexDirection={'column'}
+                            height="100%"
+                        >
                             <Typography variant="h6">
-                                {course.data?.owner.first_name + " " + course.data?.owner.last_name}
+                                {course.data?.owner.first_name +
+                                    ' ' +
+                                    course.data?.owner.last_name}
                             </Typography>
                             <Typography variant="body2">
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                                Dolor eveniet deserunt provident numquam animi suscipit id! Consectetur, ea a.
-                                Saepe vero ea quae placeat enim amet quasi quisquam beatae maxime!
+                                Lorem ipsum dolor sit, amet consectetur
+                                adipisicing elit. Dolor eveniet deserunt
+                                provident numquam animi suscipit id!
+                                Consectetur, ea a. Saepe vero ea quae placeat
+                                enim amet quasi quisquam beatae maxime!
                             </Typography>
 
-                            <Box display={'flex'} gap={2} height="100%">
+                            <Box
+                                display={'flex'}
+                                gap={2}
+                                height="100%"
+                            >
                                 <img
                                     style={{
                                         width: theme.spacing(4),
-                                        height: theme.spacing(4)
+                                        height: theme.spacing(4),
                                     }}
                                     src={instagram}
-                                    alt="instagram logo" />
+                                    alt="instagram logo"
+                                />
                                 <img
                                     style={{
                                         width: theme.spacing(4),
-                                        height: theme.spacing(4)
+                                        height: theme.spacing(4),
                                     }}
                                     src={linkedin}
-                                    alt="linkedin logo" />
+                                    alt="linkedin logo"
+                                />
                                 <img
                                     style={{
                                         width: theme.spacing(4),
-                                        height: theme.spacing(4)
+                                        height: theme.spacing(4),
                                     }}
                                     src={facebook}
-                                    alt="facebook logo" />
+                                    alt="facebook logo"
+                                />
                                 <img
                                     style={{
                                         width: theme.spacing(4),
-                                        height: theme.spacing(4)
+                                        height: theme.spacing(4),
                                     }}
                                     src={twitter}
-                                    alt="twitter logo" />
+                                    alt="twitter logo"
+                                />
                             </Box>
-
                         </Box>
                     </Box>
                 </Box>
@@ -339,32 +398,34 @@ function CourseDetails() {
                         scrollBehavior: 'smooth',
                     }}
                 >
-                    <Box sx={{
-                        p: theme.spacing(4),
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 3,
-
-
-                    }}>
+                    <Box
+                        sx={{
+                            p: theme.spacing(4),
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 3,
+                        }}
+                    >
                         <Typography color={'secondary.main'}>
                             الطلبة
                         </Typography>
                         <Divider />
-
                     </Box>
-                    {relatedStudentsQuery.data?.map((student: RelatedStudent) => {
-                        return (
-                            <CourseStudent key={uuidv4()} student={student} theme={theme} />
-                        )
-                    })}
+                    {relatedStudentsQuery.data?.map(
+                        (student: RelatedStudent) => {
+                            return (
+                                <CourseStudent
+                                    key={uuidv4()}
+                                    student={student}
+                                    theme={theme}
+                                />
+                            );
+                        }
+                    )}
                 </Box>
-
-
             </Box>
         </AdminDashboardLayout>
-    )
-
+    );
 }
 
-export default CourseDetails
+export default CourseDetails;

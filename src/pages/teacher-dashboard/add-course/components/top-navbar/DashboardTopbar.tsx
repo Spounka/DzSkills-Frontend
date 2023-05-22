@@ -13,8 +13,7 @@ export function DashboardTopbar({ onNotificationClick }: props) {
     const [query] = useLogin();
 
     const theme = useTheme();
-    if (!query.isSuccess)
-        return <></>
+    if (!query.isSuccess) return <></>;
     return (
         <Card
             elevation={0}
@@ -29,33 +28,49 @@ export function DashboardTopbar({ onNotificationClick }: props) {
                 gridColumn: '1 / -3',
                 gridRow: 'span 2',
                 py: '1rem',
-            }}>
+            }}
+        >
             <Box gridColumn={'span 6'}>
-                <Typography variant={'h6'} fontWeight={600} color={'purple.main'}>
+                <Typography
+                    variant={'h6'}
+                    fontWeight={600}
+                    color={'purple.main'}
+                >
                     اضف كورس جديد
                 </Typography>
-                <Typography variant={'caption'} fontWeight={300} color={'gray.main'}>
+                <Typography
+                    variant={'caption'}
+                    fontWeight={300}
+                    color={'gray.main'}
+                >
                     كلها في مكـــــان واحد لك
                 </Typography>
             </Box>
-            <OutlinedInput placeholder={'ابحث عن الدورة المناسبة لك'}
+            <OutlinedInput
+                placeholder={'ابحث عن الدورة المناسبة لك'}
                 sx={{
                     gridColumn: '11 / -5',
                     borderRadius: theme.spacing(),
                     pr: theme.spacing(2),
                     pl: theme.spacing(),
-                    py: theme.spacing(.5),
+                    py: theme.spacing(0.5),
                     maxHeight: theme.spacing(6),
                     color: 'gray.main',
                     fontWeight: 400,
                     // @ts-ignore
-                    fontSize: theme.typography.subtitle2
+                    fontSize: theme.typography.subtitle2,
                 }}
-                endAdornment={<MainButton text={'بحث'} color={theme.palette.purple.main}
-                    sx={{
-                        height: theme.spacing(4),
-                        width: 'auto'
-                    }} />} />
+                endAdornment={
+                    <MainButton
+                        text={'بحث'}
+                        color={theme.palette.purple.main}
+                        sx={{
+                            height: theme.spacing(4),
+                            width: 'auto',
+                        }}
+                    />
+                }
+            />
             <img
                 onClick={onNotificationClick}
                 src={purpleNotification}
@@ -65,11 +80,12 @@ export function DashboardTopbar({ onNotificationClick }: props) {
                     cursor: 'pointer',
                 }}
             />
-            <Avatar src={query.data?.profile_image}
+            <Avatar
+                src={query.data?.profile_image}
                 sx={{
                     gridColumn: '-1',
-                }} />
-
+                }}
+            />
         </Card>
     );
 }

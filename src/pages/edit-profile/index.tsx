@@ -10,21 +10,28 @@ import { EditPasswordForm } from './EditPasswordForm';
 import EditProfileContent from './EditProfileContent';
 
 function EditProfile() {
-    const theme = useTheme()
-    const [query] = useLogin()
-    if (!query.isSuccess)
-        return <></>
+    const theme = useTheme();
+    const [query] = useLogin();
+    if (!query.isSuccess) return <></>;
     return (
-        <Grid container columns={14} direction='column' spacing={5} id={'main-grid-container'}
+        <Grid
+            container
+            columns={14}
+            direction="column"
+            spacing={5}
+            id={'main-grid-container'}
             sx={{
-                backgroundColor: "white",
+                backgroundColor: 'white',
                 maxWidth: '100%',
                 minHeight: '100vh',
-            }}>
-
-            <Grid item xs={14} sx={{
-                width: '100%',
             }}
+        >
+            <Grid
+                item
+                xs={14}
+                sx={{
+                    width: '100%',
+                }}
                 style={{
                     paddingLeft: '0',
                     paddingRight: '0',
@@ -33,7 +40,10 @@ function EditProfile() {
                 <TopNavigationBar />
             </Grid>
 
-            <Grid item xs={13} container
+            <Grid
+                item
+                xs={13}
+                container
                 sx={{
                     backgroundColor: 'gray.secondary',
                     pt: theme.spacing(10),
@@ -46,7 +56,7 @@ function EditProfile() {
                     sx={{
                         display: 'grid',
                         gridTemplateColumns: 'repeat(13, minmax(0, 1fr))',
-                        width: "100%",
+                        width: '100%',
                         maxWidth: '100%',
                         gap: theme.spacing(2),
                         marginBottom: '5rem',
@@ -55,15 +65,19 @@ function EditProfile() {
                         pt: theme.spacing(10),
                     }}
                 >
-                    <Container sx={{ gridColumnStart: 1, gridColumnEnd: 4, }} style={{ paddingLeft: '0', paddingRight: '0', }} >
+                    <Container
+                        sx={{ gridColumnStart: 1, gridColumnEnd: 4 }}
+                        style={{ paddingLeft: '0', paddingRight: '0' }}
+                    >
                         <SideBar />
                     </Container>
                     <EditProfileContent />
-                    <Typography sx={{
-                        gridColumnStart: 5,
-                        gridColumnEnd: 14,
-                        px: 2
-                    }}
+                    <Typography
+                        sx={{
+                            gridColumnStart: 5,
+                            gridColumnEnd: 14,
+                            px: 2,
+                        }}
                         variant={'h5'}
                         fontWeight={500}
                         color={'gray.title'}
@@ -72,14 +86,10 @@ function EditProfile() {
                     </Typography>
 
                     <EditPasswordForm />
-
                 </Box>
             </Grid>
-
         </Grid>
-    )
+    );
 }
 
-
-
-export default EditProfile
+export default EditProfile;

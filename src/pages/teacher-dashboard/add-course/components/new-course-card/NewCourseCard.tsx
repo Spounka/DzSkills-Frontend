@@ -14,14 +14,15 @@ export function NewCourseCard() {
 
     function removeChapter(uuid: string) {
         setChapters((chaps: string[]) => {
-            const v = [...chaps]
+            const v = [...chaps];
             v.splice(v.indexOf(uuid), 1);
             return v;
-        })
+        });
     }
 
     return (
-        <Card id='courses'
+        <Card
+            id="courses"
             elevation={0}
             sx={{
                 px: theme.spacing(3),
@@ -30,40 +31,43 @@ export function NewCourseCard() {
                 p: 3,
                 gap: theme.spacing(2),
                 boxShadow: '7px 20px 40px #00000014',
-                borderRadius: theme.spacing()
-            }}>
-            <Typography color={'purple.main'}>
-                معلومات الكورس
-            </Typography>
+                borderRadius: theme.spacing(),
+            }}
+        >
+            <Typography color={'purple.main'}>معلومات الكورس</Typography>
             <Divider />
-            <Box sx={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                columnGap: theme.spacing(),
-                flexGrow: '1',
-                alignContent: 'center',
-                alignItems: 'center',
-                rowGap: theme.spacing(2),
-            }}>
+            <Box
+                sx={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                    columnGap: theme.spacing(),
+                    flexGrow: '1',
+                    alignContent: 'center',
+                    alignItems: 'center',
+                    rowGap: theme.spacing(2),
+                }}
+            >
                 <CourseFields />
             </Box>
-            <Typography color={'purple.main'}>
-                الفصول
-            </Typography>
+            <Typography color={'purple.main'}>الفصول</Typography>
             <Divider />
-            <Box gap={2} sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                borderRadius: theme.spacing(),
-
-            }}
+            <Box
+                gap={2}
+                sx={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    borderRadius: theme.spacing(),
+                }}
             >
                 {chapters.map((value, index) => {
-                    return <ChapterDetails
-                        chapterIndex={index}
-                        uuid={value}
-                        key={value}
-                        removeChapter={removeChapter} />
+                    return (
+                        <ChapterDetails
+                            chapterIndex={index}
+                            uuid={value}
+                            key={value}
+                            removeChapter={removeChapter}
+                        />
+                    );
                 })}
             </Box>
 
@@ -71,7 +75,9 @@ export function NewCourseCard() {
 
             <MainButton
                 color={theme.palette.primary.main}
-                text='ارسل للمراجعة'
-                type='submit' />
-        </Card>);
+                text="ارسل للمراجعة"
+                type="submit"
+            />
+        </Card>
+    );
 }

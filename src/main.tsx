@@ -1,14 +1,14 @@
-import { ThemeProvider } from '@mui/material'
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { QueryClient, QueryClientProvider } from 'react-query'
-import { ReactQueryDevtools } from 'react-query/devtools'
-import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
-import App from './App'
-import './index.css'
-import { store } from './stores/store'
-import theme from './theme'
+import { ThemeProvider } from '@mui/material';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import './index.css';
+import { store } from './stores/store';
+import theme from './theme';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -17,9 +17,9 @@ const queryClient = new QueryClient({
             staleTime: 1000 * 60 * 60,
             cacheTime: 1000 * 60 * 60,
             refetchInterval: 1000 * 60 * 5,
-        }
-    }
-})
+        },
+    },
+});
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
@@ -35,5 +35,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                 </Provider>
             </BrowserRouter>
         </ThemeProvider>
-    </React.StrictMode>,
-)
+    </React.StrictMode>
+);

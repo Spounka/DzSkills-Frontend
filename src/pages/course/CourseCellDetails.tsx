@@ -7,12 +7,17 @@ interface CourseCellDetailsProps {
 }
 export function CourseCellDetails({ text, title }: CourseCellDetailsProps) {
     return (
-        <Box display={'flex'} flexDirection={'column'}>
-            <Typography variant={'h6'}>
-                {title}
-            </Typography>
-            <Typography variant={'subtitle2'} color={'gray.main'}>
+        <Box
+            display={'flex'}
+            flexDirection={'column'}
+        >
+            <Typography variant={'h6'}>{title}</Typography>
+            <Typography
+                variant={'subtitle2'}
+                color={'gray.main'}
+            >
                 {text}
             </Typography>
-        </Box>);
+        </Box>
+    );
 }

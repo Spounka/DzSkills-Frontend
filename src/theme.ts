@@ -1,12 +1,7 @@
-import { createTheme } from "@mui/material";
-import {
-    light,
-    medium,
-    regular,
-    semibold,
-} from "./assets/fonts/fonts";
+import { createTheme } from '@mui/material';
+import { light, medium, regular, semibold } from './assets/fonts/fonts';
 
-declare module "@mui/material/styles" {
+declare module '@mui/material/styles' {
     interface Palette {
         gray: {
             main: string;
@@ -57,12 +52,12 @@ declare module "@mui/material/styles" {
 
     interface ThemeOptions {
         status: {
-            danger: React.CSSProperties["color"];
+            danger: React.CSSProperties['color'];
         };
     }
 }
 
-declare module "@mui/material" {
+declare module '@mui/material' {
     interface PaletteOptions {
         gray?: {
             main: string;
@@ -83,7 +78,7 @@ declare module "@mui/material" {
         };
     }
 }
-declare module "@mui/material/Button" {
+declare module '@mui/material/Button' {
     interface ButtonPropsColorOverrides {
         gray: true;
     }
@@ -92,42 +87,42 @@ declare module "@mui/material/Button" {
 const theme = createTheme({
     palette: {
         primary: {
-            main: "#1AAC68",
-            light: "#4CE49D",
+            main: '#1AAC68',
+            light: '#4CE49D',
         },
         secondary: {
-            main: "#0081B4",
-            dark: "#11111C",
+            main: '#0081B4',
+            dark: '#11111C',
         },
         gray: {
-            main: "#A1A1A1",
-            secondary: "#EBEBF3",
-            light: "#CCCCCC",
-            dark: "#51515D",
-            title: "#2B2B2B",
+            main: '#A1A1A1',
+            secondary: '#EBEBF3',
+            light: '#CCCCCC',
+            dark: '#51515D',
+            title: '#2B2B2B',
         },
         purple: {
-            main: "#5353AD",
-            light: "#58548E",
+            main: '#5353AD',
+            light: '#58548E',
         },
     },
     typography: {
         fontFamily: [
-            "Montserrat Arabic",
-            "Roboto",
+            'Montserrat Arabic',
+            'Roboto',
             '"Helvetica Neue"',
-            "Arial",
-            "sans-serif",
+            'Arial',
+            'sans-serif',
             '"Apple Color Emoji"',
             '"Segoe UI Emoji"',
             '"Segoe UI Symbol"',
-        ].join(","),
+        ].join(','),
     },
     components: {
         MuiCssBaseline: {
             // @ts-ignore
-            "@global": {
-                "@font-face": [light, medium, regular, semibold],
+            '@global': {
+                '@font-face': [light, medium, regular, semibold],
             },
         },
     },

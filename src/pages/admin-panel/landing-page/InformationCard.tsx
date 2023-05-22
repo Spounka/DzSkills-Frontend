@@ -8,7 +8,12 @@ interface InformationCardProps {
     icon: string;
     sx?: SxProps;
 }
-export function InformationCard({ title, subtitle, icon, sx }: InformationCardProps) {
+export function InformationCard({
+    title,
+    subtitle,
+    icon,
+    sx,
+}: InformationCardProps) {
     const theme = useTheme();
     return (
         <Card
@@ -22,22 +27,18 @@ export function InformationCard({ title, subtitle, icon, sx }: InformationCardPr
                 color: theme.palette.secondary.main,
                 gap: 2,
                 borderRadius: theme.spacing(),
-                ...sx
+                ...sx,
             }}
         >
-            <Box display={'flex'}
+            <Box
+                display={'flex'}
                 flexDirection={'column'}
                 gap={1}
             >
-                <Typography variant={'subtitle2'}>
-                    {title}
-                </Typography>
-                <Typography>
-                    {subtitle}
-                </Typography>
+                <Typography variant={'subtitle2'}>{title}</Typography>
+                <Typography>{subtitle}</Typography>
             </Box>
-            <img
-                src={icon} />
+            <img src={icon} />
         </Card>
     );
 }

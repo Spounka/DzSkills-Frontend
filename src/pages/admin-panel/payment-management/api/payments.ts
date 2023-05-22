@@ -1,8 +1,8 @@
-import axiosInstance from "../../../../globals/axiosInstance";
-import { Payment } from "../../../../types/payment";
+import axiosInstance from '../../../../globals/axiosInstance';
+import { Payment } from '../../../../types/payment';
 
 export async function getAllPayments() {
-    const { data } = await axiosInstance.get("/orders/payments/manage/");
+    const { data } = await axiosInstance.get('/orders/payments/manage/');
     return data as Payment[];
 }
 

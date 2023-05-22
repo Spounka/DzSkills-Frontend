@@ -10,9 +10,9 @@ interface UploadFileInputProps {
     inputFileTypes?: string;
     multipleFiles?: boolean;
     containerSx?: SxProps;
-    onChange?: any
-    defaultFile?: any
-    required?: any
+    onChange?: any;
+    defaultFile?: any;
+    required?: any;
 }
 export function UploadFileInput({
     defaultFile,
@@ -26,33 +26,35 @@ export function UploadFileInput({
     required,
 }: UploadFileInputProps) {
     const theme = useTheme();
-    const [currentFile, setCurrentFile] = useState<File>()
+    const [currentFile, setCurrentFile] = useState<File>();
 
     function handleFileChange(e: any) {
         setCurrentFile(e.target.files[0]);
-        if (onChange)
-            onChange(e)
+        if (onChange) onChange(e);
     }
 
     return (
-        <Box sx={{
-            border: '1px solid #CCC',
-            padding: 1,
-            display: 'flex',
-            gap: 2,
-            p: theme.spacing(3),
-            borderRadius: theme.spacing(),
-            overflow: 'hidden',
-            px: 3,
-            ...sx
-        }}>
+        <Box
+            sx={{
+                border: '1px solid #CCC',
+                padding: 1,
+                display: 'flex',
+                gap: 2,
+                p: theme.spacing(3),
+                borderRadius: theme.spacing(),
+                overflow: 'hidden',
+                px: 3,
+                ...sx,
+            }}
+        >
             <Button
                 disableRipple
-                variant='contained'
-                component={"label"} sx={{
+                variant="contained"
+                component={'label'}
+                sx={{
                     color: 'black',
                     bgcolor: 'gray.secondary',
-                    borderRadius: "100%",
+                    borderRadius: '100%',
                     width: 'auto',
                     height: 'auto',
                     aspectRatio: '1',
@@ -61,8 +63,9 @@ export function UploadFileInput({
                         bgcolor: 'gray.secondary',
                         boxShadow: 'none',
                     },
-                    ...buttonSx
-                }}>
+                    ...buttonSx,
+                }}
+            >
                 <img src={uploadImg} />
                 <input
                     // hidden
@@ -74,9 +77,9 @@ export function UploadFileInput({
                     onChange={handleFileChange}
                     placeholder={defaultFile}
                     name={inputName}
-                    accept={inputFileTypes || "*"}
+                    accept={inputFileTypes || '*'}
                     multiple={multipleFiles || false}
-                    type='file'
+                    type="file"
                 />
             </Button>
             <Box
@@ -85,21 +88,34 @@ export function UploadFileInput({
                 flexDirection={'column'}
                 justifyContent={'center'}
                 sx={{
-                    ...containerSx
+                    ...containerSx,
                 }}
             >
-                <Typography color={'gray.dark'} variant={'caption'}>
+                <Typography
+                    color={'gray.dark'}
+                    variant={'caption'}
+                >
                     اسحب الملفات إلى هنا
                 </Typography>
-                <Typography color={'gray.main'} variant={'caption'} fontWeight={300}>
+                <Typography
+                    color={'gray.main'}
+                    variant={'caption'}
+                    fontWeight={300}
+                >
                     أو انقر للاختيار يدويا
                 </Typography>
-                {currentFile &&
-                    <Typography maxWidth={'250px'} noWrap color={'gray.main'} variant={'subtitle2'} fontWeight={400}>
+                {currentFile && (
+                    <Typography
+                        maxWidth={'250px'}
+                        noWrap
+                        color={'gray.main'}
+                        variant={'subtitle2'}
+                        fontWeight={400}
+                    >
                         {currentFile.name}
                     </Typography>
-                }
+                )}
             </Box>
-        </Box >
+        </Box>
     );
 }

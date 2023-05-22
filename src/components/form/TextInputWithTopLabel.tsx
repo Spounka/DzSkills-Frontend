@@ -1,5 +1,5 @@
-import { FormControl, useTheme } from "@mui/material";
-import TextField from "@mui/material/TextField";
+import { FormControl, useTheme } from '@mui/material';
+import TextField from '@mui/material/TextField';
 
 const TextInputWithTopLabel = () => {
     const theme = useTheme();
@@ -28,7 +28,7 @@ const TextInputWithTopLabel = () => {
                         color: theme.palette.secondary.light,
                         fontWeight: 300,
                     },
-                }
+                },
             }}
             InputProps={{
                 sx: {
@@ -37,10 +37,10 @@ const TextInputWithTopLabel = () => {
                             marginTop: 200,
                         },
                     },
-                }
+                },
             }}
         />
-    )
-}
+    );
+};
 
-export default TextInputWithTopLabel
+export default TextInputWithTopLabel;

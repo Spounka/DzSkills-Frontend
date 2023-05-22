@@ -1,5 +1,5 @@
-import axiosInstance from "../../../globals/axiosInstance";
-import { Progression } from "../../../types/course";
+import axiosInstance from '../../../globals/axiosInstance';
+import { Progression } from '../../../types/course';
 
 export async function getStudentProgress(
     courseID: number,
@@ -8,8 +8,8 @@ export async function getStudentProgress(
     if (!access_token) return null;
     const { data } = await axiosInstance.get(`courses/progress/${courseID}`, {
         headers: {
-            "Authorization": `Bearer ${access_token}`,
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${access_token}`,
+            'Content-Type': 'application/json',
         },
     });
     return data as Progression;
@@ -19,14 +19,14 @@ export async function updateStudentProgress(
     courseID: number,
     access_token: string | null
 ) {
-    if (!access_token) throw Error("access token is required");
+    if (!access_token) throw Error('access token is required');
     await axiosInstance.put(
-        "/courses/progress/" + courseID + "/update/",
+        '/courses/progress/' + courseID + '/update/',
         {},
         {
             headers: {
-                "Authorization": `Bearer ${access_token}`,
-                "Content-Type": "application/json",
+                Authorization: `Bearer ${access_token}`,
+                'Content-Type': 'application/json',
             },
         }
     );

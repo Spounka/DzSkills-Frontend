@@ -5,15 +5,17 @@ import { v4 as uuidv4 } from 'uuid';
 
 function IconFormPassword({ placeholder, ...other }: any) {
     const [showPassword, setShowPassword] = React.useState(false);
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleClickShowPassword = () => setShowPassword(show => !show);
 
-    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleMouseDownPassword = (
+        event: React.MouseEvent<HTMLButtonElement>
+    ) => {
         event.preventDefault();
     };
     return (
         <OutlinedInput
             fullWidth
-            color='secondary'
+            color="secondary"
             id={`outlined-adornment-password-${uuidv4()}`}
             placeholder={placeholder}
             type={showPassword ? 'text' : 'password'}
@@ -31,7 +33,7 @@ function IconFormPassword({ placeholder, ...other }: any) {
                 </InputAdornment>
             }
         />
-    )
+    );
 }
 
-export default IconFormPassword
+export default IconFormPassword;

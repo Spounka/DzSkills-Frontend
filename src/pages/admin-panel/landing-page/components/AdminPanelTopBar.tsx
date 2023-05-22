@@ -11,12 +11,16 @@ interface props {
     subtitle?: string;
     mainColor: string;
 }
-export function AdminPanelTopBar({ onNotificationClick, title, subtitle, mainColor }: props) {
+export function AdminPanelTopBar({
+    onNotificationClick,
+    title,
+    subtitle,
+    mainColor,
+}: props) {
     const [query] = useLogin();
 
     const theme = useTheme();
-    if (!query.isSuccess)
-        return <></>;
+    if (!query.isSuccess) return <></>;
     return (
         <Card
             elevation={0}
@@ -31,35 +35,47 @@ export function AdminPanelTopBar({ onNotificationClick, title, subtitle, mainCol
                 gridColumn: '1 / -3',
                 gridRow: '1',
                 py: '1rem',
-            }}>
+            }}
+        >
             <Box gridColumn={'span 6'}>
-                <Typography variant={'h6'} fontWeight={600} color={mainColor}>
+                <Typography
+                    variant={'h6'}
+                    fontWeight={600}
+                    color={mainColor}
+                >
                     {title}
                 </Typography>
-                {subtitle && <Typography variant={'caption'} fontWeight={300} color={'gray.main'}>
-                    {subtitle}
-                </Typography>}
+                {subtitle && (
+                    <Typography
+                        variant={'caption'}
+                        fontWeight={300}
+                        color={'gray.main'}
+                    >
+                        {subtitle}
+                    </Typography>
+                )}
             </Box>
-            <OutlinedInput placeholder={'ابحث عن الدورة المناسبة لك'}
+            <OutlinedInput
+                placeholder={'ابحث عن الدورة المناسبة لك'}
                 sx={{
                     gridColumn: '11 / -5',
                     borderRadius: theme.spacing(),
                     pr: theme.spacing(2),
                     pl: theme.spacing(),
-                    py: theme.spacing(.5),
+                    py: theme.spacing(0.5),
                     maxHeight: theme.spacing(6),
                     color: 'gray.main',
                     fontWeight: 400,
                     // @ts-ignore
                     fontSize: theme.typography.subtitle2,
-
-
                 }}
                 endAdornment={
-                    <MainButton text={'بحث'} color={mainColor}
+                    <MainButton
+                        text={'بحث'}
+                        color={mainColor}
                         sx={{
                             height: theme.spacing(4),
-                            width: 'auto'
+                            width: 'auto',
                         }}
                     />
                 }
@@ -72,14 +88,19 @@ export function AdminPanelTopBar({ onNotificationClick, title, subtitle, mainCol
                     cursor: 'pointer',
                 }}
             >
-                <NotificationsIcon width={"20"} height={"26"} fill={mainColor} />
+                <NotificationsIcon
+                    width={'20'}
+                    height={'26'}
+                    fill={mainColor}
+                />
             </span>
 
-            <Avatar src={query.data?.profile_image}
+            <Avatar
+                src={query.data?.profile_image}
                 sx={{
                     gridColumn: '-1',
-                }} />
-
+                }}
+            />
         </Card>
     );
 }

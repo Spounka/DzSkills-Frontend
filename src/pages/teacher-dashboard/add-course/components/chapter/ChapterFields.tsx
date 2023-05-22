@@ -5,14 +5,20 @@ import { UploadFileInput } from '../../../../../components/form/UploadFileInput'
 
 export function ChapterFields({ index, chapter, setChapter }: any) {
     function handleChapterTitleChange(e: any) {
-        setChapter({ title: e.target.value, description: chapter.description })
+        setChapter({
+            title: e.target.value,
+            description: chapter.description,
+        });
     }
     function handleChapterDescriptionChange(e: any) {
-        setChapter({ description: e.target.value, title: chapter.title })
+        setChapter({ description: e.target.value, title: chapter.title });
     }
     return (
         <>
-            <Typography variant={'subtitle2'} px={1}>
+            <Typography
+                variant={'subtitle2'}
+                px={1}
+            >
                 عنوان الفصل
             </Typography>
 
@@ -25,30 +31,54 @@ export function ChapterFields({ index, chapter, setChapter }: any) {
                 sx={{
                     bgcolor: 'white',
                     flexGrow: '1',
-                    width: '100%'
-                }} />
-            <Box gap={1.5} sx={{
-                flexGrow: '1',
-                display: 'flex',
-                width: '100%'
-            }}>
-                <Box flexGrow={'1'} width={'100%'} display={'flex'} flexDirection={'column'} gap={2}>
+                    width: '100%',
+                }}
+            />
+            <Box
+                gap={1.5}
+                sx={{
+                    flexGrow: '1',
+                    display: 'flex',
+                    width: '100%',
+                }}
+            >
+                <Box
+                    flexGrow={'1'}
+                    width={'100%'}
+                    display={'flex'}
+                    flexDirection={'column'}
+                    gap={2}
+                >
                     <Typography
                         variant={'subtitle2'}
-                        px={1}>
+                        px={1}
+                    >
                         وصف
                     </Typography>
                     <StyledOutline
                         required
                         onBlur={handleChapterDescriptionChange}
                         name={`chapters[${index}]description`}
-                        color='secondary' multiline rows={5} sx={{
+                        color="secondary"
+                        multiline
+                        rows={5}
+                        sx={{
                             bgcolor: 'white',
-                            height: '100%'
-                        }} />
+                            height: '100%',
+                        }}
+                    />
                 </Box>
-                <Box flexGrow={'1'} width={'100%'} display={'flex'} flexDirection={'column'} gap={2}>
-                    <Typography variant={'subtitle2'} px={1}>
+                <Box
+                    flexGrow={'1'}
+                    width={'100%'}
+                    display={'flex'}
+                    flexDirection={'column'}
+                    gap={2}
+                >
+                    <Typography
+                        variant={'subtitle2'}
+                        px={1}
+                    >
                         صورة مصغرة
                     </Typography>
                     <UploadFileInput
@@ -58,13 +88,14 @@ export function ChapterFields({ index, chapter, setChapter }: any) {
                             flexDirection: 'column',
                             height: '100%',
                             bgcolor: 'white',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
                         }}
                         containerSx={{
                             alignItems: 'center',
-                            flexGrow: '0'
+                            flexGrow: '0',
                         }}
-                        inputFileTypes='image/*' />
+                        inputFileTypes="image/*"
+                    />
                 </Box>
             </Box>
         </>

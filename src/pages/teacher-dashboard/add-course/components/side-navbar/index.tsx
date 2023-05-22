@@ -15,24 +15,21 @@ import whitePlay from '../../../../../assets/svg/play white.svg';
 import grayData from '../../../../../assets/svg/data gray.svg';
 import whiteData from '../../../../../assets/svg/data white.svg';
 
-
-
 import grayHome from '../../../../../assets/svg/home gray.svg';
 import whiteHome from '../../../../../assets/svg/home white.svg';
 
 import Typography from '@mui/material/Typography';
 import { CSSProperties } from '@mui/styled-engine';
 
-
 function DashboardSidebarLink({ url, label, iconActive, iconInactive }: any) {
-    const theme = useTheme()
+    const theme = useTheme();
     const commonStyle: CSSProperties = {
         display: 'flex',
         paddingRight: theme.spacing(2),
         paddingLeft: theme.spacing(2),
         gap: theme.spacing(2),
         alignItems: 'center',
-    }
+    };
     const activeStyle = {
         ...commonStyle,
         paddingTop: theme.spacing(1.5),
@@ -40,7 +37,7 @@ function DashboardSidebarLink({ url, label, iconActive, iconInactive }: any) {
         borderRadius: theme.spacing(),
         color: 'white',
         backgroundColor: 'black',
-    }
+    };
 
     const inactiveStyle = {
         ...commonStyle,
@@ -49,25 +46,31 @@ function DashboardSidebarLink({ url, label, iconActive, iconInactive }: any) {
         color: theme.palette.gray.main,
         borderRadius: 0,
         backgroundColor: 'white',
-    }
+    };
 
     return (
         // @ts-ignore
-        <NavLink to={url} style={({ isActive }) =>
-            isActive ? activeStyle : inactiveStyle
-        }>
-            {({ isActive }) => (<>
-                {isActive ? iconActive : iconInactive}
-                < Typography variant={'subtitle2'} fontWeight={isActive ? 400 : 300}>
-                    {label}
-                </Typography>
-            </>)}
-        </NavLink >
+        <NavLink
+            to={url}
+            style={({ isActive }) => (isActive ? activeStyle : inactiveStyle)}
+        >
+            {({ isActive }) => (
+                <>
+                    {isActive ? iconActive : iconInactive}
+                    <Typography
+                        variant={'subtitle2'}
+                        fontWeight={isActive ? 400 : 300}
+                    >
+                        {label}
+                    </Typography>
+                </>
+            )}
+        </NavLink>
     );
 }
 
 function DashboardSidebar() {
-    const theme = useTheme()
+    const theme = useTheme();
     return (
         <Card
             elevation={0}
@@ -76,16 +79,26 @@ function DashboardSidebar() {
                 width: '100%',
                 p: theme.spacing(5),
                 px: theme.spacing(3),
-                display: "flex",
+                display: 'flex',
                 flexDirection: 'column',
                 gap: theme.spacing(6),
-            }}>
-            <img src={logo} alt="" width={theme.spacing(15)} style={{
-                paddingRight: theme.spacing(2),
-                paddingLeft: theme.spacing(2),
-            }} />
+            }}
+        >
+            <img
+                src={logo}
+                alt=""
+                width={theme.spacing(15)}
+                style={{
+                    paddingRight: theme.spacing(2),
+                    paddingLeft: theme.spacing(2),
+                }}
+            />
             <nav>
-                <Box gap={.5} display={'flex'} flexDirection={'column'}>
+                <Box
+                    gap={0.5}
+                    display={'flex'}
+                    flexDirection={'column'}
+                >
                     <DashboardSidebarLink
                         url={'../add'}
                         iconActive={<img src={whiteHome} />}
@@ -119,7 +132,7 @@ function DashboardSidebar() {
                 </Box>
             </nav>
         </Card>
-    )
+    );
 }
 
-export default DashboardSidebar
+export default DashboardSidebar;
