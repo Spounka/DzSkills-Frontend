@@ -49,11 +49,7 @@ function DashboardSidebarLink({ url, label, iconActive, iconInactive }: any) {
     };
 
     return (
-        // @ts-ignore
-        <NavLink
-            to={url}
-            style={({ isActive }) => (isActive ? activeStyle : inactiveStyle)}
-        >
+        <NavLink to={url}>
             {({ isActive }) => (
                 <>
                     {isActive ? iconActive : iconInactive}

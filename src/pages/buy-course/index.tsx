@@ -2,18 +2,18 @@ import { Button, Card, Divider, Typography, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Image from 'mui-image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import pdf_icon from '../../assets/png/pdf@2x.png';
-import receipt from '../../assets/ccp2.pdf';
 import uploadImg from '../../assets/svg/upload gray.svg';
 import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar';
 import DownloadSvgIcon from '../../components/ui/DownloadSvgIcon';
 import { MainButton } from '../../components/ui/MainButton';
 import { getCourse } from '../course/api/getCourse';
 import NotFound from '../not-found/NotFound';
-import { createOrder } from './api/createOrder';
+import { createOrder, getCurrentReceipt } from './api/createOrder';
+import { Receipt } from '../../types/admin_config';
 
 function BuyCourse() {
     const params = useParams();
@@ -53,6 +53,15 @@ function BuyCourse() {
             mutation.mutate(formData);
         }
     }
+    const [imageLink, setImageLink] = useState<string>('');
+    useEffect(() => {
+        const getReceipt = async () => await getCurrentReceipt();
+        getReceipt()
+            .then((data: Receipt) => {
+                setImageLink(data.image);
+            })
+            .catch(err => console.log(err));
+    }, []);
 
     if (query.isError) return <>Error</>;
     if (query.isLoading || query.isFetching) return <>Loading...</>;
@@ -240,7 +249,8 @@ function BuyCourse() {
                                     </Typography>
                                     <a
                                         download
-                                        href={receipt}
+                                        target="_blank"
+                                        href={imageLink}
                                         style={{
                                             textDecoration: 'none',
                                         }}

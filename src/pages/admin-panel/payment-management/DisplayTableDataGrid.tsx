@@ -1,6 +1,7 @@
 import { useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { alpha } from '@mui/material/styles';
 
 interface DipslayTableProps {
     rows: any;
@@ -38,9 +39,9 @@ export function DisplayTableDataGrid({
                     },
                 }}
                 sx={{
+                    // width: '100%',
                     direction: 'rtl',
                     root: {
-                        direction: 'rtl',
                         borderWidth: '0 !important',
                     },
                     '& .super-app-theme--header': {
@@ -53,12 +54,17 @@ export function DisplayTableDataGrid({
                         color: 'white',
                         border: 'none !important',
                     },
-                    '&.MuiDataGrid-cell:focus, &.MuiDataGrid-cell.Mui-selected':
-                        {
-                            color: theme.palette.secondary.main,
-                        },
+                    '& .MuiDataGrid-cell:focus': {
+                        borderColor: 'secondary.main',
+                    },
+                    '& .MuiDataGrid-cell:hover': {
+                        // bgcolor: alpha(theme.palette.secondary.main, 0.3),
+                    },
+                    '& .MuiDataGrid-row:hover': {
+                        bgcolor: alpha(theme.palette.secondary.main, 0.1),
+                    },
                 }}
-                pageSizeOptions={[10]}
+                pageSizeOptions={[5, 10, 15, 20, 25]}
                 disableColumnFilter
                 disableColumnSelector
                 disableColumnMenu

@@ -60,11 +60,10 @@ function PasswordForgottenEmailSection({ onNextButtonClick }: any) {
             />
 
             {
-                // @ts-ignore
                 <MainButton
-                    onClick={onNextButtonClick}
                     text={'ارسال التأكيد'}
                     color={theme.palette.secondary.main}
+                    {...{ onClick: onNextButtonClick }}
                 />
             }
         </>

@@ -1,10 +1,17 @@
 import { Add } from '@mui/icons-material';
 import { Button, useTheme } from '@mui/material';
 
-export function AddButton({ title }: { title: string }) {
+export function AddButton({
+    title,
+    onClick,
+}: {
+    title: string;
+    onClick?: (e?: any) => void;
+}) {
     const theme = useTheme();
     return (
         <Button
+            onClick={onClick}
             sx={{
                 bgcolor: '#11111C',
                 color: 'white',
