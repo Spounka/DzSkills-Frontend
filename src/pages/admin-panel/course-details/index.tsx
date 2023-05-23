@@ -63,7 +63,6 @@ function CourseDetails() {
         setAnchorEl(null);
     }
 
-    const token = localStorage.getItem('access_token');
 
     const course = useQuery({
         queryKey: ['courses', id],
@@ -73,7 +72,7 @@ function CourseDetails() {
 
     const query = useQuery({
         queryKey: ['courses'],
-        queryFn: () => getCourses(token),
+        queryFn: () => getCourses(),
     });
 
     const relatedStudentsQuery = useQuery({

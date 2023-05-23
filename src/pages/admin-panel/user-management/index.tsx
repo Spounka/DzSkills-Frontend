@@ -1,18 +1,13 @@
 import { Avatar, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { yellow } from '@mui/material/colors';
-import { useTheme } from '@mui/material/styles';
 import { GridColDef } from '@mui/x-data-grid';
-import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import useLogin from '../../authenticate/hooks/useLogin';
-import { AdminPanelTopBar } from '../landing-page/components/AdminPanelTopBar';
-import { NotificationsBar } from '../landing-page/components/NotificationsBar';
-import { AdminPanelSidebar } from '../landing-page/components/Sidebar';
+import AdminDashboardLayout from '../layout';
 import { DisplayTableDataGrid } from '../payment-management/DisplayTableDataGrid';
 import { getAllUsers } from './api/getUsers';
-import AdminDashboardLayout from '../layout';
 
 const columns: GridColDef[] = [
     {
@@ -86,24 +81,16 @@ const columns: GridColDef[] = [
     },
 ];
 
-('المستخدمين');
-
 function UserManagement() {
-    const theme = useTheme();
     useLogin();
     const navigate = useNavigate();
-    const [drawerOpen, setDrawerOpen] = useState(false);
-
-    function toggleDrawer() {
-        setDrawerOpen(val => !val);
-    }
     const query = useQuery({
         queryKey: ['users'],
         queryFn: () => getAllUsers(),
     });
 
-    if (query.isLoading) return <>Loading..</>;
-    if (query.isError) return <>Error...</>;
+    if (query.isLoading) return <>Loading users..</>;
+    if (query.isError) return <>Error loading users...</>;
 
     const rows = query.data?.map(user => {
         return {

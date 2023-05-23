@@ -33,7 +33,6 @@ function WatchCourse() {
 
     const id: number = parseInt(params.id);
     const theme = useTheme();
-    const token = localStorage.getItem('access_token');
     useLogin();
 
     const query = useQuery({
@@ -44,7 +43,7 @@ function WatchCourse() {
 
     const client = useQueryClient();
     const mutation = useMutation({
-        mutationFn: () => updateStudentProgress(id, token),
+        mutationFn: () => updateStudentProgress(id),
         mutationKey: ['progression', id, user.user.pk, 'submit'],
         onSuccess: () => {
             client.invalidateQueries({
@@ -55,7 +54,7 @@ function WatchCourse() {
 
     const progression = useQuery({
         queryKey: ['progression', id, user.user.pk],
-        queryFn: () => getStudentProgress(id, token),
+        queryFn: () => getStudentProgress(id),
         onSuccess: data =>
             setCurrentVideo(
                 query.data?.chapters[data?.last_chapter_index || 0].videos[

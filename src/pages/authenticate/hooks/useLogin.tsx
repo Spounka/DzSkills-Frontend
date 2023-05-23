@@ -5,8 +5,6 @@ import { updateUser } from '../../../redux/userSlice';
 import { getUser } from '../../edit-profile/api/getUser';
 
 function useLogin() {
-    const location = window.location.href;
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const token = localStorage.getItem('access_token');

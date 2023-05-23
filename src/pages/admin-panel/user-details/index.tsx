@@ -2,9 +2,8 @@ import { Switch, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import money from '../../../assets/svg/money-white.svg';
 import students from '../../../assets/svg/school-blue.svg';
 import starsBlue from '../../../assets/svg/stars-blue.svg';
@@ -13,12 +12,9 @@ import { Course } from '../../../types/course';
 import useLogin from '../../authenticate/hooks/useLogin';
 import NotFound from '../../not-found/NotFound';
 import { InformationCard } from '../landing-page/InformationCard';
-import { AdminPanelTopBar } from '../landing-page/components/AdminPanelTopBar';
-import { NotificationsBar } from '../landing-page/components/NotificationsBar';
-import { AdminPanelSidebar } from '../landing-page/components/Sidebar';
+import AdminDashboardLayout from '../layout';
 import { getRelatedCourses, getUserByID } from './api/getUserById';
 import { UserDetailsWideRibbon } from './components/UserDetailsWideRibbon';
-import AdminDashboardLayout from '../layout';
 
 ('المستخدمين');
 
@@ -80,12 +76,6 @@ const UserDetails = () => {
     const id: number = parseInt(params.id);
     const theme = useTheme();
     useLogin();
-    const navigate = useNavigate();
-    const [drawerOpen, setDrawerOpen] = useState(false);
-
-    function toggleDrawer() {
-        setDrawerOpen(val => !val);
-    }
 
     const query = useQuery({
         queryKey: ['users', id],

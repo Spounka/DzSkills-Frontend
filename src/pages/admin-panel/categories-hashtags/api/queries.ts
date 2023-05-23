@@ -14,32 +14,21 @@ export async function getCategories() {
     return data as Category[];
 }
 
-async function postObject(url: string, body: any, token: string | undefined) {
-    const { data } = await axiosInstance.post(url, body, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-        },
-    });
+async function postObject(url: string, body: any) {
+    const { data } = await axiosInstance.post(url, body, {});
     return data;
 }
 
-export async function createHashtag(
-    hashtag: Hashtag,
-    token: string | undefined
-) {
-    const { data } = await postObject('/courses/hashtags/', hashtag, token);
+export async function createHashtag(hashtag: Hashtag) {
+    const { data } = await postObject('/courses/hashtags/', hashtag);
     return data;
 }
 
-export async function createLevel(level: Level, token: string | undefined) {
-    const { data } = await postObject('/courses/levels/', level, token);
+export async function createLevel(level: Level) {
+    const { data } = await postObject('/courses/levels/', level);
     return data;
 }
-export async function createCategory(
-    category: Category,
-    token: string | undefined
-) {
-    const { data } = await postObject('/courses/categories/', category, token);
+export async function createCategory(category: Category) {
+    const { data } = await postObject('/courses/categories/', category);
     return data;
 }

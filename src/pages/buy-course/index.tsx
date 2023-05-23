@@ -28,8 +28,6 @@ function BuyCourse() {
     const [fileName, setFileName] = useState<File>();
     const navigate = useNavigate();
 
-    const token = localStorage.getItem('access_token');
-
     function handleFilechange(event: any) {
         setFileName(event.target.files[0]);
     }
@@ -42,7 +40,7 @@ function BuyCourse() {
 
     const mutation = useMutation({
         mutationKey: ['offers', id, 'create'],
-        mutationFn: (data: any) => createOrder(id, token, data),
+        mutationFn: (data: any) => createOrder(data),
     });
     async function submitForm(e: any) {
         e.preventDefault();

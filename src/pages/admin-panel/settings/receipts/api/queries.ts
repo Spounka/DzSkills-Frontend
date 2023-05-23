@@ -6,11 +6,7 @@ export async function getAllReceipts() {
     return data as Receipt[];
 }
 
-export async function createReceipt(body: FormData, token: string | null) {
-    if (!token) return Promise.reject('Invalid Token');
-    const { data } = await axiosInstance.post('/configs/receipts/', body, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+export async function createReceipt(body: FormData) {
+    const { data } = await axiosInstance.post('/configs/receipts/', body, {});
+    return data;
 }

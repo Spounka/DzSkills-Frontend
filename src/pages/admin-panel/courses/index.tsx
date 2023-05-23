@@ -2,23 +2,27 @@ import { Avatar, Checkbox } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { Course } from '../../../types/course';
 import { User } from '../../../types/user';
 import CourseCard from '../../courses-page/CourseCard';
 import { getCourses } from '../../courses-page/api/getAllCourses';
 import AdminDashboardLayout from '../layout';
+import useLogin from '../../authenticate/hooks/useLogin';
 
 function AdminCourses() {
     const theme = useTheme();
-    const token = localStorage.getItem('access_token');
+    useLogin();
 
     const query = useQuery({
         queryKey: ['courses'],
-        queryFn: () => getCourses(token),
+        queryFn: () => getCourses(),
     });
+
+    const navigate = useNavigate();
 
     if (query.isError) return <Typography>Error Occured</Typography>;
     if (query.isLoading) return <Typography>Loading...</Typography>;
@@ -63,6 +67,9 @@ function AdminCourses() {
                         return (
                             <React.Fragment key={uuidv4()}>
                                 <Box
+                                    onClick={() =>
+                                        navigate(`/admin/users/${user.pk}/`)
+                                    }
                                     sx={{
                                         p: 2,
                                         display: 'flex',

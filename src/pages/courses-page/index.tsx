@@ -14,11 +14,10 @@ import Footer from '../../components/footer';
 
 function CoursesPage() {
     const theme = useTheme();
-    const token = localStorage.getItem('access_token');
 
     const query = useQuery({
         queryKey: ['courses'],
-        queryFn: () => getCourses(token),
+        queryFn: () => getCourses(),
     });
     if (query.isError) return <Typography>Error Occured</Typography>;
     if (query.isLoading) return <Typography>Loading...</Typography>;

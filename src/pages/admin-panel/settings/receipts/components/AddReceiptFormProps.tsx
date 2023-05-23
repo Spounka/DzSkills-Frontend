@@ -16,10 +16,8 @@ export function AddReceiptForm({
     refetch,
 }: AddReceiptFormProps) {
     const theme = useTheme();
-    const token = localStorage.getItem('access_token');
-    const queryClient = new QueryClient();
     const receiptMutation = useMutation({
-        mutationFn: (data: FormData) => createReceipt(data, token),
+        mutationFn: (data: FormData) => createReceipt(data),
         onSuccess: () => {
             closeDialog();
             refetch();

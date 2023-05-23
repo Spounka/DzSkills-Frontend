@@ -23,7 +23,6 @@ export default function AlertDialog({
     payment,
 }: dialogProps) {
     const theme = useTheme();
-    const token = localStorage.getItem('access_token');
     const client = useQueryClient();
     return (
         <Dialog
@@ -157,8 +156,7 @@ export default function AlertDialog({
                                         {...{
                                             onClick: async () => {
                                                 await acceptPayment(
-                                                    payment.id,
-                                                    token
+                                                    payment.id
                                                 );
                                                 closeDialog();
                                                 client.refetchQueries([
@@ -173,8 +171,7 @@ export default function AlertDialog({
                                         {...{
                                             onClick: async () => {
                                                 await rejectPayment(
-                                                    payment.id,
-                                                    token
+                                                    payment.id
                                                 );
                                                 closeDialog();
                                                 client.refetchQueries([

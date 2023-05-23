@@ -17,11 +17,10 @@ import SideBar from '../edit-profile/components/side-bar';
 import { getRelatedOrders } from './api/getOrders';
 
 function Invoices() {
-    const token = localStorage.getItem('access_token');
 
     const query = useQuery({
         queryKey: ['invoices'],
-        queryFn: () => getRelatedOrders(token),
+        queryFn: () => getRelatedOrders(),
     });
 
     function stateFromCode(s: string) {

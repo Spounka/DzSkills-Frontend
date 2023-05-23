@@ -12,7 +12,7 @@ export function MostSoldCourses() {
     const theme = useTheme();
     const query = useQuery({
         queryKey: ['courses'],
-        queryFn: () => getCourses('x'),
+        queryFn: () => getCourses(),
     });
 
     if (query.isLoading) return <>Loading courses...</>;

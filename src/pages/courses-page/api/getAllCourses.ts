@@ -1,13 +1,8 @@
 import axiosInstance from '../../../globals/axiosInstance';
 import { Course } from '../../../types/course';
 
-export async function getCourses(token: string | null) {
-    if (!token) return null;
-    const { data } = await axiosInstance.get('/courses/', {
-        headers: {
-            Authorization: 'Bearer' + token,
-        },
-    });
+export async function getCourses() {
+    const { data } = await axiosInstance.get('/courses/');
     return data as Course[];
 }
 

@@ -6,27 +6,10 @@ export async function getAllPayments() {
     return data as Payment[];
 }
 
-export async function acceptPayment(id: number, token: string | null) {
-    if (!token) return;
-    await axiosInstance.patch(
-        `/orders/payments/${id}/accept/`,
-        {},
-        {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }
-    );
+export async function acceptPayment(id: number) {
+    await axiosInstance.patch(`/orders/payments/${id}/accept/`);
 }
 
-export async function rejectPayment(id: number, token: string | null) {
-    await axiosInstance.patch(
-        `/orders/payments/${id}/reject/`,
-        {},
-        {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }
-    );
+export async function rejectPayment(id: number) {
+    await axiosInstance.patch(`/orders/payments/${id}/reject/`);
 }
