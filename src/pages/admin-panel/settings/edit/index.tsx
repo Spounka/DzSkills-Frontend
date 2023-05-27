@@ -7,13 +7,14 @@ import {
     Typography,
     useTheme,
 } from '@mui/material';
-import React from 'react';
+import React, { FormEvent } from 'react';
 import IconFormPassword from '../../../../components/form/IconFormPassword';
 import { MainButton } from '../../../../components/ui/MainButton';
 import useLogin from '../../../authenticate/hooks/useLogin';
 import EditProfileField from '../../../edit-profile/components/fields';
 import AdminDashboardLayout from '../../layout';
 import { AdminInfoSidebar } from '../AdminInfoSidebar';
+import { changePassword } from './api/query';
 
 function AdminPersonalDetails() {
     const theme = useTheme();
@@ -148,29 +149,55 @@ function AdminPersonalDetails() {
                                 كلمة السر
                             </Typography>
 
-                            <Stack gap={4}>
-                                <IconFormPassword
-                                    name="password_old"
-                                    placeholder={'كلمة السر الحالية'}
-                                />
-                                <IconFormPassword
-                                    name="password1"
-                                    placeholder={'كلمة السر الجديدة'}
-                                />
-                                <IconFormPassword
-                                    name="password2"
-                                    placeholder={'تأكيد كلمة السر'}
-                                />
-                                <Box
-                                    display={'flex'}
-                                    justifyContent={'flex-end'}
-                                >
-                                    <MainButton
-                                        text={'حفظ'}
-                                        color={theme.palette.primary.main}
+                            <form
+                                id={'password-form'}
+                                onSubmit={(e: FormEvent<HTMLFormElement>) => {
+                                    e.preventDefault();
+                                    const htmlForm = document.getElementById(
+                                        'password-form'
+                                    ) as HTMLFormElement;
+                                    const data = new FormData(htmlForm);
+                                    const result = async () =>
+                                        await changePassword(
+                                            data,
+                                            user[0].data?.pk || 1
+                                        );
+                                    result()
+                                        .catch(error => Promise.reject(error))
+                                        .then(() => {
+                                            console.log('changed');
+                                        })
+                                        .then(() => {
+                                            alert();
+                                            window.location.reload();
+                                        });
+                                }}
+                            >
+                                <Stack gap={4}>
+                                    <IconFormPassword
+                                        name="old_password"
+                                        placeholder={'كلمة السر الحالية'}
                                     />
-                                </Box>
-                            </Stack>
+                                    <IconFormPassword
+                                        name="password1"
+                                        placeholder={'كلمة السر الجديدة'}
+                                    />
+                                    <IconFormPassword
+                                        name="password2"
+                                        placeholder={'تأكيد كلمة السر'}
+                                    />
+                                    <Box
+                                        display={'flex'}
+                                        justifyContent={'flex-end'}
+                                    >
+                                        <MainButton
+                                            text={'حفظ'}
+                                            color={theme.palette.primary.main}
+                                            type={'submit'}
+                                        />
+                                    </Box>
+                                </Stack>
+                            </form>
                         </Box>
                     </Card>
                 </Box>

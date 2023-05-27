@@ -1,23 +1,18 @@
 import { CloseOutlined } from '@mui/icons-material';
 import { Box, Button, Stack, Typography, useTheme } from '@mui/material';
 import { useMutation } from 'react-query';
-import { UploadFileInput } from '../../../../../components/form/UploadFileInput';
-import { MainButton } from '../../../../../components/ui/MainButton';
-import { createReceipt } from '../api/queries';
+import { StyledOutline } from '../../../../components/form/StyledOutline';
+import { MainButton } from '../../../../components/ui/MainButton';
+import { createLevel } from '../api/queries';
 
-interface AddReceiptFormProps {
-    id: number;
+interface AddLevelFormProps {
     closeDialog: () => void;
     refetch: () => void;
 }
-export function AddReceiptForm({
-    id,
-    closeDialog,
-    refetch,
-}: AddReceiptFormProps) {
+export function AddLevelForm({ closeDialog, refetch }: AddLevelFormProps) {
     const theme = useTheme();
-    const receiptMutation = useMutation({
-        mutationFn: (data: FormData) => createReceipt(data),
+    const levelMutation = useMutation({
+        mutationFn: (data: FormData) => createLevel(data),
         onSuccess: () => {
             closeDialog();
             refetch();
@@ -29,7 +24,7 @@ export function AddReceiptForm({
         const form = document.querySelector('form');
         if (form) {
             let data = new FormData(form);
-            receiptMutation.mutate(data);
+            levelMutation.mutate(data);
         }
     }
     return (
@@ -52,25 +47,27 @@ export function AddReceiptForm({
                     <Stack
                         direction="row"
                         justifyContent={'space-between'}
+                        alignItems={'center'}
+                        gap={1}
                     >
                         <Typography
                             variant={'body2'}
                             color={'gray.main'}
                             sx={{
                                 direction: 'rtl',
+                                width: '100%',
+                                flexBasis: '1/2',
                             }}
                         >
-                            رقم الوصل
+                            اسم المستوى
                         </Typography>
-                        <Typography
-                            variant={'body2'}
-                            color={'gray.main'}
+                        <StyledOutline
+                            name={'name'}
+                            fullWidth
                             sx={{
-                                direction: 'rtl',
+                                flexBasis: '1/2',
                             }}
-                        >
-                            {id}
-                        </Typography>
+                        />
                     </Stack>
                     <Box
                         display={'flex'}
@@ -98,20 +95,16 @@ export function AddReceiptForm({
                         />
                     </Box>
                 </Stack>
-                <Stack
-                    width="100%"
-                    flexBasis={'1/2'}
-                >
-                    <Button
-                        color={'gray'}
-                        endIcon={<CloseOutlined />}
-                        onClick={closeDialog}
-                        sx={{
-                            justifyContent: 'flex-end',
-                        }}
-                    />
-                    <UploadFileInput inputName={'image'} />
-                </Stack>
+                <Button
+                    color={'gray'}
+                    endIcon={<CloseOutlined />}
+                    onClick={closeDialog}
+                    sx={{
+                        justifyContent: 'flex-end',
+                        alignSelf: 'flex-start',
+                        width: '100%',
+                    }}
+                />
             </Stack>
         </form>
     );

@@ -14,21 +14,21 @@ export async function getCategories() {
     return data as Category[];
 }
 
-async function postObject(url: string, body: any) {
+async function postObject(url: string, body: FormData) {
     const { data } = await axiosInstance.post(url, body, {});
     return data;
 }
 
-export async function createHashtag(hashtag: Hashtag) {
+export async function createHashtag(hashtag: FormData) {
     const { data } = await postObject('/courses/hashtags/', hashtag);
     return data;
 }
 
-export async function createLevel(level: Level) {
+export async function createLevel(level: FormData) {
     const { data } = await postObject('/courses/levels/', level);
     return data;
 }
-export async function createCategory(category: Category) {
+export async function createCategory(category: FormData) {
     const { data } = await postObject('/courses/categories/', category);
     return data;
 }

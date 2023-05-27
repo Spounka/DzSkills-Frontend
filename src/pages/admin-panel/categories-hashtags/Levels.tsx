@@ -6,6 +6,9 @@ import { Level } from '../../../types/course';
 import { DisplayTableDataGrid } from '../payment-management/DisplayTableDataGrid';
 import { AddButton } from './AddButton';
 import { getLevels } from './api/queries';
+import React from 'react';
+import AddItemPopup from '../settings/AddItemPopup';
+import { AddLevelForm } from './components/AddLevelForm';
 
 const columns: GridColDef[] = [
     {
@@ -35,7 +38,9 @@ const columns: GridColDef[] = [
     },
 ];
 export function Levels() {
-    const theme = useTheme();
+    const [popupOpen, setOpen] = React.useState<boolean>(false);
+    const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+
     const levels = useQuery({
         queryKey: ['levels'],
         queryFn: () => getLevels(),
@@ -52,6 +57,7 @@ export function Levels() {
     });
     return (
         <Box
+            id={'main-container'}
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -69,9 +75,29 @@ export function Levels() {
                 }}
             >
                 <Typography>المستويات</Typography>
-                <AddButton title={'اضف مستوى جديد'} />
+                <AddButton
+                    title={'اضف مستوى جديد'}
+                    onClick={(e: React.MouseEvent<HTMLElement>) => {
+                        setOpen(true);
+                        setAnchorEl(e.currentTarget);
+                    }}
+                />
             </Box>
             <Box sx={{ bgcolor: 'white' }}>
+                <AddItemPopup
+                    isOpen={popupOpen}
+                    root={anchorEl || document.body}
+                    width={
+                        document.getElementById('main-container')
+                            ?.offsetWidth || 0
+                    }
+                    closeDialog={() => setOpen(false)}
+                >
+                    <AddLevelForm
+                        closeDialog={() => setOpen(false)}
+                        refetch={levels.refetch}
+                    />
+                </AddItemPopup>
                 <DisplayTableDataGrid
                     checkbox
                     rows={rows}

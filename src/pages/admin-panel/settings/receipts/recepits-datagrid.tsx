@@ -1,8 +1,9 @@
 import { Check } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
+import { yellow } from '@mui/material/colors';
 import { GridColDef } from '@mui/x-data-grid';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { Receipt } from '../../../../types/admin_config';
 import { AddButton } from '../../categories-hashtags/AddButton';
@@ -39,20 +40,33 @@ const columns: GridColDef[] = [
         },
     },
     {
-        field: 'click',
+        field: 'link',
         headerName: '',
         headerClassName: 'super-app-theme--header',
         flex: 1,
         width: 130,
         align: 'left',
-        // width: 160,
+        renderCell: params => {
+            return (
+                <a
+                    href={params.value}
+                    target="_blank"
+                >
+                    <Typography
+                        color={yellow[700]}
+                        variant={'body2'}
+                    >
+                        إظهار الوصل
+                    </Typography>
+                </a>
+            );
+        },
     },
 ];
 
 function ReceiptsDatagrid() {
     const [popupOpen, setOpen] = useState<boolean>(false);
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-    const root = useRef(null);
 
     const receiptsQuery = useQuery({
         queryKey: ['receipts'],
@@ -69,6 +83,7 @@ function ReceiptsDatagrid() {
             id: receipt.id,
             usage: receipt.count,
             current: receipt.is_current,
+            link: receipt.image,
         };
     });
     let largestID = 0;
@@ -81,7 +96,6 @@ function ReceiptsDatagrid() {
     return (
         <Box
             id={'main-container'}
-            ref={root}
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
