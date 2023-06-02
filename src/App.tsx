@@ -6,6 +6,7 @@ import AdminLandingPage from './pages/admin-panel/landing-page';
 import PaymentManagement from './pages/admin-panel/payment-management';
 import AddAdmin from './pages/admin-panel/settings/add-admin';
 import AdminPersonalDetails from './pages/admin-panel/settings/edit';
+import LandingPageSettings from './pages/admin-panel/settings/landing-page';
 import Receipts from './pages/admin-panel/settings/receipts';
 import UserDetails from './pages/admin-panel/user-details';
 import UserManagement from './pages/admin-panel/user-management';
@@ -15,16 +16,16 @@ import ViewCourse from './pages/course';
 import CoursesPage from './pages/courses-page';
 import EditProfile from './pages/edit-profile';
 import LandingPage from './pages/landing-page';
+import Logout from './pages/logout/indext';
 import NotFound from './pages/not-found/NotFound';
 import PasswordForgotten from './pages/password-forgotten';
 import Profile from './pages/profile';
 import Invoices from './pages/profile-invoices';
 import TeacherAddCourse from './pages/teacher-dashboard/add-course';
-import WatchCourse from './pages/view-course';
-import Logout from './pages/logout/indext';
-import ViewCertificate from './pages/view-certificate';
 import TeacherCourses from './pages/teacher-dashboard/courses';
 import TeacherLandingPage from './pages/teacher-dashboard/landing-page';
+import ViewCertificate from './pages/view-certificate';
+import WatchCourse from './pages/view-course';
 
 function App() {
     return (
@@ -159,6 +160,10 @@ function App() {
                     <Route
                         path="receipts"
                         element={<Receipts />}
+                    />
+                    <Route
+                        path={'landing-page'}
+                        element={<LandingPageSettings />}
                     />
                 </Route>
             </Route>
