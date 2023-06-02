@@ -23,6 +23,8 @@ import TeacherAddCourse from './pages/teacher-dashboard/add-course';
 import WatchCourse from './pages/view-course';
 import Logout from './pages/logout/indext';
 import ViewCertificate from './pages/view-certificate';
+import TeacherCourses from './pages/teacher-dashboard/courses';
+import TeacherLandingPage from './pages/teacher-dashboard/landing-page';
 
 function App() {
     return (
@@ -86,10 +88,14 @@ function App() {
             {/* Teacher Dashboard */}
             <Route path="/dashboard">
                 <Route path="teacher">
+                    <Route
+                        path={''}
+                        element={<TeacherLandingPage />}
+                    />
                     <Route path="courses">
                         <Route
                             path=""
-                            element={<span>Courses</span>}
+                            element={<TeacherCourses />}
                         />
                         <Route
                             path="add"

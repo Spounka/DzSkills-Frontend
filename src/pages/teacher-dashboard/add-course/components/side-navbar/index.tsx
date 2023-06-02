@@ -100,7 +100,7 @@ function DashboardSidebar() {
                     flexDirection={'column'}
                 >
                     <DashboardSidebarLink
-                        url={'/dashboard/teacher/courses/add/'}
+                        url={'/dashboard/teacher/'}
                         iconActive={<img src={whiteHome} />}
                         iconInactive={
                             <img
