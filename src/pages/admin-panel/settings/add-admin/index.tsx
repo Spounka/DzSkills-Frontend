@@ -19,21 +19,19 @@ import { createAdmin } from './api/queries';
 
 function AddAdmin() {
     const theme = useTheme();
-    const user = useLogin();
+    useLogin();
 
     const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>('');
     function onProfileImageChange(e: ChangeEvent<HTMLInputElement>) {
         const inputElement = e.target;
         let files: FileList | null = inputElement.files;
         if (files) {
-            console.log('dela3a');
-            console.log(files[0]);
             const reader = new FileReader();
             reader.onload = () => {
                 setImageSrc(reader.result);
             };
             reader.readAsDataURL(files[0]);
-        } else console.log('oulach dela3');
+        }
     }
 
     const createUserMutation = useMutation({
