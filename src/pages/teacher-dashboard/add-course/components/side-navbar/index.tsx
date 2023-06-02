@@ -1,5 +1,6 @@
+import { useTheme } from '@mui/material';
 import Card from '@mui/material/Card';
-import { Box, useTheme } from '@mui/system';
+import { Box } from '@mui/system';
 import { NavLink } from 'react-router-dom';
 import logo from '../../../../../assets/svg/DzSkills.svg';
 
@@ -19,7 +20,7 @@ import grayHome from '../../../../../assets/svg/home gray.svg';
 import whiteHome from '../../../../../assets/svg/home white.svg';
 
 import Typography from '@mui/material/Typography';
-import { CSSProperties } from '@mui/styled-engine';
+import { CSSProperties } from 'react';
 
 function DashboardSidebarLink({ url, label, iconActive, iconInactive }: any) {
     const theme = useTheme();
@@ -36,7 +37,7 @@ function DashboardSidebarLink({ url, label, iconActive, iconInactive }: any) {
         paddingBottom: theme.spacing(1.5),
         borderRadius: theme.spacing(),
         color: 'white',
-        backgroundColor: 'black',
+        backgroundColor: theme.palette.secondary.dark,
     };
 
     const inactiveStyle = {
@@ -49,7 +50,10 @@ function DashboardSidebarLink({ url, label, iconActive, iconInactive }: any) {
     };
 
     return (
-        <NavLink to={url}>
+        <NavLink
+            to={url}
+            style={({ isActive }) => (isActive ? activeStyle : inactiveStyle)}
+        >
             {({ isActive }) => (
                 <>
                     {isActive ? iconActive : iconInactive}
@@ -96,31 +100,36 @@ function DashboardSidebar() {
                     flexDirection={'column'}
                 >
                     <DashboardSidebarLink
-                        url={'../add'}
+                        url={'/dashboard/teacher/courses/add/'}
                         iconActive={<img src={whiteHome} />}
-                        iconInactive={<img src={grayHome} />}
+                        iconInactive={
+                            <img
+                                style={{ margin: 0 }}
+                                src={grayHome}
+                            />
+                        }
                         label={'الرئيسية'}
                     />
                     <DashboardSidebarLink
-                        url={'../../messages/'}
+                        url={'/dashboard/teacher/messages/'}
                         iconActive={<img src={whiteMessage} />}
                         iconInactive={<img src={grayMessage} />}
                         label={'الرسائل'}
                     />
                     <DashboardSidebarLink
-                        url={'../'}
+                        url={'/dashboard/teacher/courses/'}
                         iconActive={<img src={whitePlay} />}
                         iconInactive={<img src={grayPlay} />}
                         label={'كورساتي'}
                     />
                     <DashboardSidebarLink
-                        url={'../../statistics'}
+                        url={'/dashboard/teacher/statistics/'}
                         iconActive={<img src={whiteData} />}
                         iconInactive={<img src={grayData} />}
                         label={'الإحصائيات'}
                     />
                     <DashboardSidebarLink
-                        url={'../../account'}
+                        url={'/dashboard/teacher/account/'}
                         iconActive={<img src={whiteProfile} />}
                         iconInactive={<img src={grayProfile} />}
                         label={'الحساب'}

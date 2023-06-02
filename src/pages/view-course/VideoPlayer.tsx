@@ -18,9 +18,7 @@ export function VideoPlayer({
             }}
         >
             <video
-                onEnded={() => {
-                    handleVideoFinish();
-                }}
+                onEnded={handleVideoFinish}
                 style={{
                     borderRadius: theme.spacing(2),
                     objectFit: 'cover',

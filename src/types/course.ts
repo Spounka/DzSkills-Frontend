@@ -58,3 +58,10 @@ export type Progression = {
     user: number;
     course: number;
 };
+
+export type Certificate = {
+    pk: number;
+    user: User;
+    course: Course;
+    certificate_image: string;
+};

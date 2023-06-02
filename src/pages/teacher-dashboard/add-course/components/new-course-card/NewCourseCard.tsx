@@ -7,10 +7,12 @@ import { MainButton } from '../../../../../components/ui/MainButton';
 import AddChapterButton from '../add-chapter-button';
 import { ChapterDetails } from '../chapter/ChapterDetails';
 import { CourseFields } from '../course-fields/CourseFields';
+import Quizz from '../quizz';
 
 export function NewCourseCard() {
     const theme = useTheme();
     const [chapters, setChapters] = useState<string[]>([uuidv4()]);
+    const [questions, setQuestions] = useState<string[]>([uuidv4()]);
 
     function removeChapter(uuid: string) {
         setChapters((chaps: string[]) => {
@@ -73,10 +75,13 @@ export function NewCourseCard() {
 
             <AddChapterButton setChapters={setChapters} />
 
+            <Quizz />
+            <Divider />
             <MainButton
                 color={theme.palette.primary.main}
                 text="ارسل للمراجعة"
                 type="submit"
+                {...{ sx: { alignSelf: 'flex-end' } }}
             />
         </Card>
     );

@@ -2,10 +2,12 @@ import axiosInstance from '../../../globals/axiosInstance';
 import { Progression } from '../../../types/course';
 
 export async function getStudentProgress(courseID: number) {
-    const { data } = await axiosInstance.get(
-        `courses/progress/${courseID}`,
-        {}
+    console.log('being called?');
+
+    const { data, status, statusText } = await axiosInstance.get(
+        `courses/progress/${courseID}`
     );
+    if (status !== 200) return Promise.reject(statusText);
     return data as Progression;
 }
 

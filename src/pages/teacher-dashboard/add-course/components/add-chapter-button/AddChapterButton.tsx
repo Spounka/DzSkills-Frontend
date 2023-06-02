@@ -13,8 +13,7 @@ export function AddChapterButton({ setChapters }: AddChapterButtonProps) {
         <Box
             onClick={() => {
                 setChapters((chaps: any) => {
-                    let f = [...chaps];
-                    f.push(uuidv4());
+                    let f = [...chaps, uuidv4()];
                     return f;
                 });
             }}

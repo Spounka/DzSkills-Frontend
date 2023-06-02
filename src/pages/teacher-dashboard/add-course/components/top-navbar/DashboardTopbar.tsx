@@ -1,15 +1,21 @@
-import { Avatar, OutlinedInput, Typography } from '@mui/material';
+import { Avatar, OutlinedInput, Typography, useTheme } from '@mui/material';
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import { Box, useTheme } from '@mui/system';
 import purpleNotification from '../../../../../assets/svg/notification purple.svg';
 import { MainButton } from '../../../../../components/ui/MainButton';
 import useLogin from '../../../../authenticate/hooks/useLogin';
 
 interface props {
+    title: string;
+    subtitle?: string;
     onNotificationClick: () => void;
 }
 
-export function DashboardTopbar({ onNotificationClick }: props) {
+export function DashboardTopbar({
+    title,
+    subtitle,
+    onNotificationClick,
+}: props) {
     const [query] = useLogin();
 
     const theme = useTheme();
@@ -36,15 +42,17 @@ export function DashboardTopbar({ onNotificationClick }: props) {
                     fontWeight={600}
                     color={'purple.main'}
                 >
-                    اضف كورس جديد
+                    {title}
                 </Typography>
-                <Typography
-                    variant={'caption'}
-                    fontWeight={300}
-                    color={'gray.main'}
-                >
-                    كلها في مكـــــان واحد لك
-                </Typography>
+                {subtitle && (
+                    <Typography
+                        variant={'caption'}
+                        fontWeight={300}
+                        color={'gray.main'}
+                    >
+                        {subtitle}
+                    </Typography>
+                )}
             </Box>
             <OutlinedInput
                 placeholder={'ابحث عن الدورة المناسبة لك'}
@@ -57,7 +65,6 @@ export function DashboardTopbar({ onNotificationClick }: props) {
                     maxHeight: theme.spacing(6),
                     color: 'gray.main',
                     fontWeight: 400,
-                    // @ts-ignore
                     fontSize: theme.typography.subtitle2,
                 }}
                 endAdornment={

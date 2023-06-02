@@ -22,6 +22,7 @@ import Invoices from './pages/profile-invoices';
 import TeacherAddCourse from './pages/teacher-dashboard/add-course';
 import WatchCourse from './pages/view-course';
 import Logout from './pages/logout/indext';
+import ViewCertificate from './pages/view-certificate';
 
 function App() {
     return (
@@ -70,6 +71,10 @@ function App() {
                     <Route
                         path="watch"
                         element={<WatchCourse />}
+                    />
+                    <Route
+                        path="certificate"
+                        element={<ViewCertificate />}
                     />
                     <Route
                         path="buy"

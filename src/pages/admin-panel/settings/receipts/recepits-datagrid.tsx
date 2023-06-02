@@ -72,11 +72,11 @@ function ReceiptsDatagrid() {
         queryKey: ['receipts'],
         queryFn: () => getAllReceipts(),
         refetchInterval: 1000 * 5,
-        staleTime: 1000 * 3,
+        refetchIntervalInBackground: true,
     });
 
-    if (receiptsQuery.isFetching) return <>Fetching Receipts...</>;
     if (receiptsQuery.isError) return <>Error in Receipts</>;
+    if (receiptsQuery.isLoading) return <>Loading...</>;
 
     const rows = receiptsQuery.data?.map((receipt: Receipt) => {
         return {

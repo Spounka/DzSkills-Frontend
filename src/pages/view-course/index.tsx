@@ -3,15 +3,13 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import TopNavigationBar from '../../components/top-bar';
 import { MainButton } from '../../components/ui/MainButton';
-import { selectUser } from '../../redux/userSlice';
-import { Chapter, Video } from '../../types/course';
+import { Chapter, Progression, Video } from '../../types/course';
 import useLogin from '../authenticate/hooks/useLogin';
 import { getCourse } from '../course/api/getCourse';
 import NotFound from '../not-found/NotFound';
@@ -24,7 +22,6 @@ import {
 
 function WatchCourse() {
     const params = useParams();
-    const user = useSelector(selectUser);
 
     if (!params || !params.id) return <Typography>Error</Typography>;
 
@@ -33,45 +30,45 @@ function WatchCourse() {
 
     const id: number = parseInt(params.id);
     const theme = useTheme();
-    useLogin();
+    const [userQuery] = useLogin();
+    const user = userQuery.data;
 
-    const query = useQuery({
+    const currentCourse = useQuery({
         queryKey: ['courses', id],
         queryFn: () => getCourse(id),
         staleTime: 1000 * 60 * 60 * 24,
     });
 
     const client = useQueryClient();
-    const mutation = useMutation({
+    const progressionMutation = useMutation({
         mutationFn: () => updateStudentProgress(id),
-        mutationKey: ['progression', id, user.user.pk, 'submit'],
+        mutationKey: ['progression', id, user?.pk, 'submit'],
         onSuccess: () => {
-            client.invalidateQueries({
-                queryKey: ['progression', id, user.user.pk],
-            });
+            progression.refetch();
         },
     });
 
+    const defaultVideo: Video = {
+        id: 0,
+        title: '',
+        description: '',
+        video: '',
+        duration: '',
+    };
     const progression = useQuery({
-        queryKey: ['progression', id, user.user.pk],
+        queryKey: ['progression', id, user?.pk],
         queryFn: () => getStudentProgress(id),
         onSuccess: data =>
             setCurrentVideo(
-                query.data?.chapters[data?.last_chapter_index || 0].videos[
-                    data?.last_video_index || 0
-                ]
+                currentCourse.data?.chapters[data?.last_chapter_index || 0]
+                    .videos[data?.last_video_index || 0] || defaultVideo
             ),
         staleTime: 1000 * 60 * 2,
+        enabled: !!user,
     });
 
-    const [currentVideo, setCurrentVideo] = useState<Video | undefined>(
-        query.data?.chapters[0].videos[0] || {
-            id: 0,
-            title: '',
-            description: '',
-            video: '',
-            duration: '',
-        }
+    const [currentVideo, setCurrentVideo] = useState<Video>(
+        currentCourse.data?.chapters[0].videos[0] || defaultVideo
     );
     const [activeTab, setActiveTab] = useState<number>(0);
 
@@ -82,33 +79,52 @@ function WatchCourse() {
         [currentVideo]
     );
 
-    useEffect(() => {
-        if (query.data) setCurrentVideo(query.data?.chapters[0].videos[0]);
-    }, [query.data?.chapters[0].videos[0]]);
+    // useEffect(() => {
+    //     if (currentCourse.data)
+    //         setCurrentVideo(currentCourse.data?.chapters[0].videos[0]);
+    // }, [currentCourse.data?.chapters[0].videos[0]]);
 
-    function onVideofinishedPlaying() {
-        let chapter = progression.data?.last_chapter_index;
-        let video = progression.data?.last_video_index;
-        if (!chapter || !video) return;
+    function updateStudentProgression(progression: Progression | undefined) {
+        if (!progression) return;
+        const chapter = progression.last_chapter_index;
+        const video = progression.last_video_index;
+        console.log(chapter, video, currentVideo);
+
         if (
-            query.data?.chapters[chapter].videos[video].id === currentVideo?.id
-        ) {
-            mutation.mutate();
+            (!chapter && chapter !== 0) ||
+            (!video && video !== 0) ||
+            !currentVideo ||
+            !currentCourse.data
+        )
+            return;
+        const last_video = currentCourse.data?.chapters[chapter].videos[video];
+        console.log(last_video);
+        console.table(currentVideo);
+        console.table(last_video);
+        if (last_video.id === currentVideo.id) {
+            console.table(currentVideo);
+            console.table(last_video);
+            progressionMutation.mutate();
         }
     }
+
+    const onVideofinishedPlaying = () => {
+        updateStudentProgression(progression.data);
+    };
     const handleVideoFinish = useCallback(onVideofinishedPlaying, [
         currentVideo,
+        progression.data,
     ]);
 
-    if (query.isError) return <Typography>Error</Typography>;
-    if (query.isLoading) return <Typography>Loading...</Typography>;
-    if (!query.data) return <>Error in data</>;
+    if (currentCourse.isError) return <Typography>Error</Typography>;
+    if (currentCourse.isLoading) return <Typography>Loading...</Typography>;
+    if (!currentCourse.data) return <>Error in data</>;
 
     if (!progression.data) return <>Error in data</>;
     if (progression.isLoading) return <Typography>Loading...</Typography>;
     if (progression.isError) return <>Error in data</>;
 
-    const chaptersWithUUID = query.data?.chapters
+    const chaptersWithUUID = currentCourse.data?.chapters
         .sort((a: Chapter, b: Chapter) => a.id)
         .map((chapter: any) => {
             return { ...chapter, key: uuidv4() };
@@ -381,7 +397,9 @@ function WatchCourse() {
                                     الحروف التى يولدها التطبيق
                                 </Typography>
                                 <Avatar
-                                    src={query.data?.owner.profile_image}
+                                    src={
+                                        currentCourse.data?.owner.profile_image
+                                    }
                                     sx={{
                                         width: theme.spacing(20),
                                         height: theme.spacing(20),
@@ -421,7 +439,7 @@ function WatchCourse() {
                             <a
                                 download="presentation"
                                 target="_blank"
-                                href={query.data?.presentation_file}
+                                href={currentCourse.data?.presentation_file}
                             >
                                 <MainButton
                                     sx={{ width: '50%' }}

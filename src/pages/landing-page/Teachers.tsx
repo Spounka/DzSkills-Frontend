@@ -18,6 +18,7 @@ export function Teachers({}: TeachersProps) {
     if (query.isLoading) return <>Loading users...</>;
     if (query.isError) return <>Error in users...</>;
 
+    const teachers = query.data?.filter(user => user.profile_image !== null);
     return (
         <Box
             bgcolor={theme.palette.gray.secondary}
@@ -48,7 +49,7 @@ export function Teachers({}: TeachersProps) {
                     pb: 5,
                 }}
             >
-                {query.data?.slice(6, 9).map((user: User) => {
+                {teachers?.map((user: User) => {
                     return (
                         <TeacherComponent
                             key={uuidv4()}

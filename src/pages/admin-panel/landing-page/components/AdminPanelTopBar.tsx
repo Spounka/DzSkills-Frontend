@@ -17,10 +17,10 @@ export function AdminPanelTopBar({
     subtitle,
     mainColor,
 }: props) {
-    const [query] = useLogin();
+    const [user] = useLogin();
 
     const theme = useTheme();
-    if (!query.isSuccess) return <></>;
+    if (!user?.isSuccess) return <></>;
     return (
         <Card
             elevation={0}
@@ -96,7 +96,7 @@ export function AdminPanelTopBar({
             </span>
 
             <Avatar
-                src={query.data?.profile_image}
+                src={user.data?.profile_image}
                 sx={{
                     gridColumn: '-1',
                 }}

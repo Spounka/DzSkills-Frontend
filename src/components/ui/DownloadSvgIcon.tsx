@@ -21,7 +21,7 @@ export default function DownloadSvgIcon({ img, fill, stroke, ...other }: any) {
                     transform="translate(299,465.866)"
                     fill={fill}
                     stroke={stroke}
-                    stroke-width="1"
+                    strokeWidth="1"
                 />
                 <path
                     id="Path_35"
@@ -30,7 +30,7 @@ export default function DownloadSvgIcon({ img, fill, stroke, ...other }: any) {
                     transform="rotate(180,161.87,248.452)"
                     fill={fill}
                     stroke={stroke}
-                    stroke-width="1"
+                    strokeWidth="1"
                 />
             </g>
         </svg>
