@@ -11,7 +11,7 @@ import TopNavigationBar from '../../components/top-bar';
 import { MainButton } from '../../components/ui/MainButton';
 import useLogin from '../authenticate/hooks/useLogin';
 import NotFound from '../not-found/NotFound';
-import { getStudentProgress } from '../view-course/api/student-progress';
+import { getStudentProgress } from '../view-course/api/queries';
 import { getCertificate } from './api/query';
 
 function ViewCertificate() {

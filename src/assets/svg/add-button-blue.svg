@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="add_button"
+   data-name="add button"
+   width="42"
+   height="42"
+   viewBox="0 0 42 42"
+   version="1.1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs9" />
+  <circle
+     id="Ellipse_28"
+     data-name="Ellipse 28"
+     cx="21"
+     cy="21"
+     r="21"
+     fill="#fff" />
+  <path
+     id="Path_91"
+     data-name="Path 91"
+     d="M 14.2,21 H 27.8"
+     fill="none"
+     stroke="#4ce49d"
+     stroke-linecap="round"
+     stroke-width="3"
+     style="stroke:#0081b4;stroke-opacity:1" />
+  <path
+     id="Path_92"
+     data-name="Path 92"
+     d="m 21,27.799 v -13.6"
+     fill="none"
+     stroke="#4ce49d"
+     stroke-linecap="round"
+     stroke-width="3"
+     style="stroke:#0081b4;stroke-opacity:1" />
+</svg>

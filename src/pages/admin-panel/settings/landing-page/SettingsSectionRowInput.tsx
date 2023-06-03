@@ -1,15 +1,15 @@
 import { OutlinedInput, Stack, Typography } from '@mui/material';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 interface SettingsSectionRowInputProps {
-    inputTitle: string;
+    inputLabel: string;
     titleInputName: string;
     multiline?: boolean;
     defaultValue?: string;
 }
 
 export function SettingsSectionRowInput({
-    inputTitle,
+    inputLabel,
     titleInputName,
     multiline,
     defaultValue,
@@ -35,7 +35,7 @@ export function SettingsSectionRowInput({
                 variant={'subtitle2'}
                 color={'gray.main'}
             >
-                {inputTitle}
+                {inputLabel}
             </Typography>
             <OutlinedInput
                 name={titleInputName}

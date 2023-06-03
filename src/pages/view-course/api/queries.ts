@@ -1,9 +1,8 @@
 import axiosInstance from '../../../globals/axiosInstance';
 import { Progression } from '../../../types/course';
+import { VideoComment } from '../../../types/VideoComment';
 
 export async function getStudentProgress(courseID: number) {
-    console.log('being called?');
-
     const { data, status, statusText } = await axiosInstance.get(
         `courses/progress/${courseID}`
     );
@@ -13,4 +12,18 @@ export async function getStudentProgress(courseID: number) {
 
 export async function updateStudentProgress(courseID: number) {
     await axiosInstance.put('/courses/progress/' + courseID + '/update/');
+}
+
+export async function getVideoComments(id: number) {
+    const { data } = await axiosInstance.get(`comments/video/${id}`);
+    return data as VideoComment[];
+}
+
+export async function submitComment(content: string, video: number) {
+    console.log(content, video);
+    const { data } = await axiosInstance.post('comments/', {
+        content: content,
+        video: video,
+    });
+    return data;
 }

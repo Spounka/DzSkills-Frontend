@@ -28,14 +28,12 @@ function AdminPersonalDetails() {
         const inputElement = e.target;
         let files: FileList | null = inputElement.files;
         if (files) {
-            console.log('dela3a');
-            console.log(files[0]);
             const reader = new FileReader();
             reader.onload = () => {
                 setImageSrc(reader.result);
             };
             reader.readAsDataURL(files[0]);
-        } else console.log('oulach dela3');
+        }
     }
 
     return (
@@ -165,10 +163,6 @@ function AdminPersonalDetails() {
                                     result()
                                         .catch(error => Promise.reject(error))
                                         .then(() => {
-                                            console.log('changed');
-                                        })
-                                        .then(() => {
-                                            alert();
                                             window.location.reload();
                                         });
                                 }}

@@ -4,11 +4,24 @@ import { SettingsSectionHeader } from './SettingsSectionHeader';
 
 interface SettingsSectionProps {
     title: string;
+    direction?:
+        | 'column'
+        | 'row'
+        | 'row-reverse'
+        | 'column-reverse'
+        | undefined;
     children?: ReactNode;
 }
-export function SettingsSection({ title, children }: SettingsSectionProps) {
+export function SettingsSection({
+    title,
+    direction,
+    children,
+}: SettingsSectionProps) {
     return (
-        <Stack gap={3}>
+        <Stack
+            gap={3}
+            direction={direction || 'column'}
+        >
             <SettingsSectionHeader title={title} />
             {children}
         </Stack>

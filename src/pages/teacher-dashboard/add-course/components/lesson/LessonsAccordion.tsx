@@ -9,8 +9,8 @@ import {
 import { Box, useTheme } from '@mui/system';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import addButton from '../../../../../assets/svg/add button (1).svg';
-import rightArrow from '../../../../../assets/svg/add button.svg';
+import addButton from '../../../../../assets/svg/add-button-green.svg';
+import rightArrow from '../../../../../assets/svg/arrow-right-green.svg';
 import { LessonFields } from './LessonFields';
 
 export interface Video {

@@ -4,8 +4,18 @@ import Image from 'mui-image';
 import webDev from '../../assets/png/wd.png';
 import { MainButton } from '../../components/ui/MainButton';
 
-interface LandingPageFirstSectionProps {}
-export function LandingPageFirstSection() {
+interface LandingPageFirstSectionProps {
+    mainColor: string | undefined;
+    mainText: string | undefined;
+    secondaryColor: string | undefined;
+    secondaryText: string | undefined;
+}
+export function LandingPageFirstSection({
+    mainColor,
+    mainText,
+    secondaryColor,
+    secondaryText,
+}: LandingPageFirstSectionProps) {
     const theme = useTheme();
     return (
         <>
@@ -33,17 +43,16 @@ export function LandingPageFirstSection() {
                         فضاءك الافضل للوصول لدروس و كورسات في مجالات{' '}
                         <Box
                             component={'span'}
-                            color={'primary.main'}
+                            color={mainColor || 'primary.main'}
                         >
                             العمل الحر{' '}
                         </Box>
                     </Typography>
-                    <Typography variant={'subtitle2'}>
-                        يوفر للمستخدمين فرصة الوصول إلى مجموعة متنوعة من الدروس
-                        في مختلف المواضيع والمجالات، وذلك بسهولة ومن أي مكان
-                        وفي أي وقت. كما يوفر هذا الموقع للمستخدمين المرونة في
-                        اختيار المحتوى الذي يرغبون في دراسته والدراسة بهدوء وفي
-                        جو من الراحة في المنزل.
+                    <Typography
+                        variant={'subtitle2'}
+                        color={secondaryColor || 'gray.main'}
+                    >
+                        {secondaryText}
                     </Typography>
                     <Box
                         sx={{
@@ -56,6 +65,7 @@ export function LandingPageFirstSection() {
                         <MainButton
                             color={theme.palette.primary.main}
                             text={'تسجيل الدخول'}
+
                         />
                         <MainButton
                             color="secondary"

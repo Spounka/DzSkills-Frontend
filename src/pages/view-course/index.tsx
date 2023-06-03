@@ -14,11 +14,9 @@ import useLogin from '../authenticate/hooks/useLogin';
 import { getCourse } from '../course/api/getCourse';
 import NotFound from '../not-found/NotFound';
 import { ChapterAccordion } from './ChapterAccordion';
+import { VideoComments } from './VideoComments';
 import { VideoPlayer } from './VideoPlayer';
-import {
-    getStudentProgress,
-    updateStudentProgress,
-} from './api/student-progress';
+import { getStudentProgress, updateStudentProgress } from './api/queries';
 
 function WatchCourse() {
     const params = useParams();
@@ -88,7 +86,6 @@ function WatchCourse() {
         if (!progression) return;
         const chapter = progression.last_chapter_index;
         const video = progression.last_video_index;
-        console.log(chapter, video, currentVideo);
 
         if (
             (!chapter && chapter !== 0) ||
@@ -98,12 +95,7 @@ function WatchCourse() {
         )
             return;
         const last_video = currentCourse.data?.chapters[chapter].videos[video];
-        console.log(last_video);
-        console.table(currentVideo);
-        console.table(last_video);
         if (last_video.id === currentVideo.id) {
-            console.table(currentVideo);
-            console.table(last_video);
             progressionMutation.mutate();
         }
     }
@@ -288,6 +280,7 @@ function WatchCourse() {
                     />
                     <Box
                         sx={{
+                            color: 'black',
                             display: 'flex',
                             gap: 4,
                             alignItems: 'center',
@@ -296,14 +289,17 @@ function WatchCourse() {
                     >
                         <Tabs
                             variant={'fullWidth'}
-                            indicatorColor="primary"
-                            textColor="primary"
+                            indicatorColor="secondary"
+                            textColor="inherit"
                             value={activeTab}
                             onChange={(e, value) => setActiveTab(value)}
                             sx={{
                                 width: '100%',
-                                color: theme.palette.secondary.main,
+                                // color: 'black !important',
                                 flexBasis: '75%',
+                                '.MuiTabs-indicator': {
+                                    bgcolor: 'black',
+                                },
                             }}
                         >
                             <Tab
@@ -453,7 +449,7 @@ function WatchCourse() {
                         value={activeTab}
                         index={2}
                     >
-                        3
+                        <VideoComments videoID={currentVideo.id} />
                     </TabPanel>
                 </Box>
             </Grid>
@@ -476,6 +472,7 @@ function TabPanel(props: TabPanelProps) {
             hidden={value !== index}
             id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
+            dir="rtl"
             {...other}
         >
             {value === index && <Box sx={{ p: 3 }}>{children}</Box>}

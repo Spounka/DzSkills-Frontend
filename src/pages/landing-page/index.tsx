@@ -13,11 +13,18 @@ import { LandingPageNavbar } from './LandingPageNavbar';
 import { LandingPageSections } from './LandingPageSections';
 import { MostSoldCourses } from './MostSoldCourses';
 import { Teachers } from './Teachers';
+import { getAdminConfigs } from '../admin-panel/settings/landing-page/api/query';
 
 interface LandingPageProps {}
 
 export default function LandingPage({}: LandingPageProps) {
-    const theme = useTheme();
+    const adminConfigQuery = useQuery({
+        queryKey: ['admin', 'configs'],
+        queryFn: () => getAdminConfigs(),
+    });
+
+    if (adminConfigQuery.isError) return <>Error retrieving data...</>;
+    if (adminConfigQuery.isLoading) return <>Loading...</>;
     return (
         <div
             style={{
@@ -27,7 +34,16 @@ export default function LandingPage({}: LandingPageProps) {
             }}
         >
             <LandingPageNavbar />
-            <LandingPageFirstSection />
+            <LandingPageFirstSection
+                mainColor={adminConfigQuery.data?.main_title_text.color}
+                mainText={adminConfigQuery.data?.main_title_text.content}
+                secondaryColor={
+                    adminConfigQuery.data?.secondary_title_text.color
+                }
+                secondaryText={
+                    adminConfigQuery.data?.secondary_title_text.content
+                }
+            />
             <LandingPageSections />
             <MostSoldCourses />
             <GetYourCertificate />
