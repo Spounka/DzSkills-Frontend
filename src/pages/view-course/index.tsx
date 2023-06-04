@@ -17,6 +17,8 @@ import { ChapterAccordion } from './ChapterAccordion';
 import { VideoComments } from './VideoComments';
 import { VideoPlayer } from './VideoPlayer';
 import { getStudentProgress, updateStudentProgress } from './api/queries';
+import messagesWhite from '../../assets/svg/message-white.svg';
+import Image from 'mui-image';
 
 function WatchCourse() {
     const params = useParams();
@@ -315,16 +317,20 @@ function WatchCourse() {
                                 {...a11yProps}
                             />
                         </Tabs>
-                        <MainButton
-                            text={'hello'}
+                        <Button
+                            endIcon={<Image src={messagesWhite} />}
+                            variant={'contained'}
+                            color="secondary"
                             sx={{
-                                // flexGrow: 1,
-                                width: '100%',
-                                flexBasis: '25%',
-                                bgcolor: 'white',
-                                borderWidth: '1p',
+                                display: 'flex',
+                                gap: 2,
+                                py: 1,
+                                borderRadius: theme.spacing(),
+                                '.MuiButton-endIcon': {},
                             }}
-                        />
+                        >
+                            Contact
+                        </Button>
                     </Box>
 
                     <TabPanel
