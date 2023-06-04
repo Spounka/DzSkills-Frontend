@@ -3,7 +3,8 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import Image from 'mui-image';
 import certificate from '../../assets/png/certificate.png';
-import { MainButton } from '../../components/ui/MainButton';
+import { LoginButton } from './LoginButton';
+import { RegisterButton } from './RegisterButton';
 
 export function GetYourCertificate() {
     const theme = useTheme();
@@ -48,7 +49,7 @@ export function GetYourCertificate() {
                             alignItems: 'center',
                         }}
                     >
-                        <MainButton
+                        {/* <MainButton
                             color={theme.palette.primary.main}
                             text={'تسجيل الدخول'}
                         />
@@ -64,7 +65,9 @@ export function GetYourCertificate() {
                                     fontSize: theme.typography.button,
                                 },
                             }}
-                        />
+                        /> */}
+                        <LoginButton />
+                        <RegisterButton />
                     </Box>
                 </Box>
                 <Box

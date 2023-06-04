@@ -1,11 +1,19 @@
 import { Divider, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import { useTheme } from '@mui/material/styles';
 import Image from 'mui-image';
-import logo from '../../assets/png/logo@2x.png';
+// import logo from '../../assets/png/logo@2x.png';
+import logo from '../../assets/svg/DzSkills-white.svg';
+import { CategoriesFooterSection } from './CategoriesFooterSection';
+import { ContactUsFooterSection } from './ContactUsFooterSection';
+import { CopyrightFooterSection } from './CopyrightFooterSection';
+import { MiscLinksFooterSection } from './MiscLinksFooterSection';
+import { WhoAreWeFooterSection } from './WhoAreWeFooterSection';
+
+function FooterSection() {
+    return <></>;
+}
 
 function Footer() {
-    const theme = useTheme();
     return (
         <Box
             display={'flex'}
@@ -28,14 +36,16 @@ function Footer() {
                 <Box
                     display={'flex'}
                     flexDirection={'column'}
-                    alignItems={'flex-start'}
+                    alignContent={'start'}
+                    alignSelf={'start'}
                     flexBasis={'25%'}
                     gap={4}
                     flexGrow={1}
                 >
-                    <Image
+                    <img
                         src={logo}
                         style={{
+                            paddingTop: '1vmin',
                             maxWidth: '150px',
                             height: 'auto',
                             marginLeft: 'auto',
@@ -56,27 +66,7 @@ function Footer() {
                     gap={4}
                     flexGrow={1}
                 >
-                    <Typography
-                        variant="h5"
-                        fontWeight={500}
-                    >
-                        من نحن
-                    </Typography>
-                    <Box
-                        display={'flex'}
-                        flexDirection={'column'}
-                        gap={2}
-                    >
-                        <Typography variant="caption">
-                            سياسة الخصوصية
-                        </Typography>
-                        <Typography variant="caption">
-                            الأسئلة الشائعة
-                        </Typography>
-                        <Typography variant="caption">
-                            شروط الإستخدام
-                        </Typography>
-                    </Box>
+                    <WhoAreWeFooterSection />
                 </Box>
                 <Box
                     display={'flex'}
@@ -84,26 +74,7 @@ function Footer() {
                     gap={4}
                     flexGrow={1}
                 >
-                    <Typography
-                        variant="h5"
-                        fontWeight={500}
-                    >
-                        الأقسام
-                    </Typography>
-                    <Box
-                        display={'flex'}
-                        flexDirection={'column'}
-                        gap={2}
-                    >
-                        <Typography variant="caption">
-                            Graphic Design
-                        </Typography>
-                        <Typography variant="caption">
-                            Motion Graphic
-                        </Typography>
-                        <Typography variant="caption">3D Modeling</Typography>
-                        <Typography variant="caption">Freelance</Typography>
-                    </Box>
+                    <CategoriesFooterSection />
                 </Box>
 
                 <Box
@@ -112,25 +83,7 @@ function Footer() {
                     gap={4}
                     flexGrow={1}
                 >
-                    <Typography
-                        variant="h5"
-                        fontWeight={500}
-                    >
-                        روابط
-                    </Typography>
-                    <Box
-                        display={'flex'}
-                        flexDirection={'column'}
-                        gap={2}
-                    >
-                        <Typography variant="caption">مدونة الموقع</Typography>
-                        <Typography variant="caption">
-                            انضم الى المدربين
-                        </Typography>
-                        <Typography variant="caption">
-                            مركز المساعدة
-                        </Typography>
-                    </Box>
+                    <MiscLinksFooterSection />
                 </Box>
                 <Box
                     display={'flex'}
@@ -139,30 +92,7 @@ function Footer() {
                     flexGrow={1}
                     alignItems={'flex-end'}
                 >
-                    <Typography
-                        variant="h5"
-                        fontWeight={500}
-                    >
-                        تواصل معنا
-                    </Typography>
-                    <Box
-                        display={'flex'}
-                        flexDirection={'column'}
-                        gap={2}
-                    >
-                        <Typography
-                            variant="caption"
-                            sx={{ direction: 'ltr', textAlign: 'right' }}
-                        >
-                            +213 555555555
-                        </Typography>
-                        <Typography variant="caption">
-                            slaxsifou@gmail.com
-                        </Typography>
-                        <Typography variant="caption">
-                            شروط الإستخدام
-                        </Typography>
-                    </Box>
+                    <ContactUsFooterSection />
                 </Box>
             </Box>
             <Divider
@@ -174,18 +104,7 @@ function Footer() {
                 justifyContent={'space-between'}
                 sx={{ direction: 'ltr' }}
             >
-                <Typography>
-                    © Copyright {new Date().getFullYear()}{' '}
-                    <strong>brand.io</strong> All rights reserved.
-                </Typography>
-
-                <Box
-                    display={'flex'}
-                    gap={1}
-                >
-                    <Typography variant="body2">Contact us</Typography>
-                    <Typography variant="body2">Terms</Typography>
-                </Box>
+                <CopyrightFooterSection />
             </Box>
         </Box>
     );

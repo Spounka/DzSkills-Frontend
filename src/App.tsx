@@ -37,7 +37,11 @@ function App() {
             />
             <Route
                 path="/login"
-                element={<Authenticate />}
+                element={<Authenticate startPanel={1} />}
+            />
+            <Route
+                path="/register"
+                element={<Authenticate startPanel={0} />}
             />
             <Route
                 path="/logout"

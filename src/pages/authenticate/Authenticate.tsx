@@ -5,9 +5,11 @@ import FullWidthTab from '../../components/ui/FullWidthTab';
 import Login from './components/login';
 import NewAccount from './components/new-account';
 
-interface props {}
+interface props {
+    startPanel?: 0 | 1;
+}
 
-function Autenticate({}: props) {
+function Autenticate({ startPanel }: props) {
     const tabs = ['حساب جديد', 'تسجيل الدخول'];
 
     const panels = [<NewAccount />, <Login />];
@@ -58,7 +60,7 @@ function Autenticate({}: props) {
                         <FullWidthTab
                             tabLabels={tabs}
                             panels={panels}
-                            startState={1}
+                            startState={startPanel}
                         />
                     </Card>
                 </Box>
