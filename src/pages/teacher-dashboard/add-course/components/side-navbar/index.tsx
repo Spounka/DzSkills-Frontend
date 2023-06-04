@@ -4,8 +4,8 @@ import { Box } from '@mui/system';
 import { NavLink } from 'react-router-dom';
 import logo from '../../../../../assets/svg/DzSkills.svg';
 
-import grayMessage from '../../../../../assets/svg/message gray.svg';
-import whiteMessage from '../../../../../assets/svg/message white.svg';
+import grayMessage from '../../../../../assets/svg/message-gray.svg';
+import whiteMessage from '../../../../../assets/svg/message-white.svg';
 
 import grayProfile from '../../../../../assets/svg/profile gray.svg';
 import whiteProfile from '../../../../../assets/svg/profile white.svg';
@@ -13,8 +13,8 @@ import whiteProfile from '../../../../../assets/svg/profile white.svg';
 import grayPlay from '../../../../../assets/svg/play gray.svg';
 import whitePlay from '../../../../../assets/svg/play white.svg';
 
-import grayData from '../../../../../assets/svg/data gray.svg';
-import whiteData from '../../../../../assets/svg/data white.svg';
+import grayData from '../../../../../assets/svg/data-gray.svg';
+import whiteData from '../../../../../assets/svg/data-white.svg';
 
 import grayHome from '../../../../../assets/svg/home gray.svg';
 import whiteHome from '../../../../../assets/svg/home white.svg';

@@ -26,7 +26,7 @@ import twitter from '../../../assets/svg/Twitter_Square.svg';
 
 import createBlack from '../../../assets/svg/create-black.svg';
 import deleteWhiteBg from '../../../assets/svg/delete-whitebg.svg';
-import messageWhitebg from '../../../assets/svg/message-whitebg.svg';
+import messageWhitebg from '../../../assets/svg/message-white.svg';
 
 import { MoreHoriz, Star } from '@mui/icons-material';
 import Image from 'mui-image';

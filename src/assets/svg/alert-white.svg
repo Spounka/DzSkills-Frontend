@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="28.000004"
+   height="28.000002"
+   viewBox="0 0 28.000004 28.000001"
+   version="1.1"
+   id="svg1311"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1315" />
+  <path
+     id="Path_170"
+     data-name="Path 170"
+     d="M 14.017,1.0335081e-5 A 14,14 0 1 0 28.000001,14.000011 13.993,13.993 0 0 0 14.017,1.0335081e-5 Z M 13.962,25.459011 a 11.454,11.454 0 1 1 11.489001,-11.463 11.46,11.46 0 0 1 -11.489001,11.463 z"
+     fill="#fb6d3a"
+     style="fill:#ffffff;fill-opacity:1" />
+  <path
+     id="Path_171"
+     data-name="Path 171"
+     d="m 15.26,16.510011 a 1.266,1.266 0 1 1 -2.53,-0.008 q 0,-0.945 0,-1.89 0,-1.26 0,-2.52 c 0,-0.407 0,-0.813 0,-1.221 0,-1.0740007 0,-2.1460007 0.01,-3.2200007 a 1.265,1.265 0 1 1 2.529,0.036 c 0.01,1.261 0,2.5239997 0,3.7860007 0,1.678 0.01,3.357 0,5.037 z"
+     fill="#fb6d3a"
+     style="fill:#ffffff;fill-opacity:1" />
+  <path
+     id="Path_172"
+     data-name="Path 172"
+     d="m 15.261,20.372011 a 1.266,1.266 0 1 1 -1.257,-1.282 1.266,1.266 0 0 1 1.257,1.282 z"
+     fill="#fb6d3a"
+     style="fill:#ffffff;fill-opacity:1" />
+</svg>

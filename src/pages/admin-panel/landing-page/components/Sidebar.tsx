@@ -1,7 +1,7 @@
 import logo from '../../../..//assets/svg/DzSkills.svg';
 
-import grayMessage from '../../../../assets/svg/message gray.svg';
-import whiteMessage from '../../../../assets/svg/message white.svg';
+import grayMessage from '../../../../assets/svg/message-gray.svg';
+import whiteMessage from '../../../../assets/svg/message-white.svg';
 
 import grayProfile from '../../../../assets/svg/profile gray.svg';
 import whiteProfile from '../../../../assets/svg/profile white.svg';
