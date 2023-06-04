@@ -54,7 +54,7 @@ const SideBar = () => {
                 color={theme.palette.primary.main}
             />
             <SideBarLink
-                url={'/courses'}
+                url={'/profile/courses'}
                 text={'كورساتي'}
                 color={theme.palette.primary.main}
             />
