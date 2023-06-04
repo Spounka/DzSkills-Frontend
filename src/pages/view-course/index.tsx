@@ -7,18 +7,19 @@ import React, { useCallback, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import messagesBlue from '../../assets/svg/message-blue.svg';
+import messagesWhite from '../../assets/svg/message-white.svg';
 import TopNavigationBar from '../../components/top-bar';
 import { MainButton } from '../../components/ui/MainButton';
 import { Chapter, Progression, Video } from '../../types/course';
 import useLogin from '../authenticate/hooks/useLogin';
 import { getCourse } from '../course/api/getCourse';
 import NotFound from '../not-found/NotFound';
+import AnimatedIconButton from './AnimatedIconButton';
 import { ChapterAccordion } from './ChapterAccordion';
 import { VideoComments } from './VideoComments';
 import { VideoPlayer } from './VideoPlayer';
 import { getStudentProgress, updateStudentProgress } from './api/queries';
-import messagesWhite from '../../assets/svg/message-white.svg';
-import Image from 'mui-image';
 
 function WatchCourse() {
     const params = useParams();
@@ -317,20 +318,11 @@ function WatchCourse() {
                                 {...a11yProps}
                             />
                         </Tabs>
-                        <Button
-                            endIcon={<Image src={messagesWhite} />}
-                            variant={'contained'}
-                            color="secondary"
-                            sx={{
-                                display: 'flex',
-                                gap: 2,
-                                py: 1,
-                                borderRadius: theme.spacing(),
-                                '.MuiButton-endIcon': {},
-                            }}
-                        >
-                            Contact
-                        </Button>
+                        <AnimatedIconButton
+                            src={messagesBlue}
+                            hoverImage={messagesWhite}
+                            text={'تواصل'}
+                        />
                     </Box>
 
                     <TabPanel
