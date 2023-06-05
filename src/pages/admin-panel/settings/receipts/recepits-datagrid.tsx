@@ -88,7 +88,7 @@ function ReceiptsDatagrid() {
         };
     });
     let largestID = 0;
-    if (rows) {
+    if (rows.length > 0) {
         largestID = rows?.reduce((prev, current) => {
             return current.id > prev.id ? current : prev;
         }).id;
