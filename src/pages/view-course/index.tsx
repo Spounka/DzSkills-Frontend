@@ -7,12 +7,15 @@ import React, { useCallback, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import messagesBlue from '../../assets/svg/message-blue.svg';
+import messagesWhite from '../../assets/svg/message-white.svg';
 import TopNavigationBar from '../../components/top-bar';
 import { MainButton } from '../../components/ui/MainButton';
 import { Chapter, Progression, Video } from '../../types/course';
 import useLogin from '../authenticate/hooks/useLogin';
 import { getCourse } from '../course/api/getCourse';
 import NotFound from '../not-found/NotFound';
+import AnimatedIconButton from './AnimatedIconButton';
 import { ChapterAccordion } from './ChapterAccordion';
 import { VideoComments } from './VideoComments';
 import { VideoPlayer } from './VideoPlayer';
@@ -315,15 +318,10 @@ function WatchCourse() {
                                 {...a11yProps}
                             />
                         </Tabs>
-                        <MainButton
-                            text={'hello'}
-                            sx={{
-                                // flexGrow: 1,
-                                width: '100%',
-                                flexBasis: '25%',
-                                bgcolor: 'white',
-                                borderWidth: '1p',
-                            }}
+                        <AnimatedIconButton
+                            src={messagesBlue}
+                            hoverImage={messagesWhite}
+                            text={'تواصل'}
                         />
                     </Box>
 

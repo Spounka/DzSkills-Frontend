@@ -26,7 +26,6 @@ export function MainButton({ text, color, sx, type, spin, ...other }: props) {
                 transition: 'ease-in-out',
                 transitionProperty: 'all',
                 transitionDuration: '200ms',
-                ...sx,
                 '&:hover': {
                     bgcolor: 'white',
                     border: `${color} 2px solid`,
@@ -43,6 +42,7 @@ export function MainButton({ text, color, sx, type, spin, ...other }: props) {
                     stroke: `white`,
                     fill: `white`,
                 },
+                ...sx,
             }}
             disabled={spin}
             {...other}

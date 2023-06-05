@@ -10,6 +10,7 @@ function Logout() {
         queryFn: () => logout(token),
         onSuccess: () => {
             localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
             navigate('/');
         },
     });

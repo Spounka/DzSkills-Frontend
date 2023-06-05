@@ -3,7 +3,8 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import { NavLink } from 'react-router-dom';
 import logo from '../../assets/png/logo@2x.png';
-import { MainButton } from '../../components/ui/MainButton';
+import { LoginButton } from './LoginButton';
+import { RegisterButton } from './RegisterButton';
 
 interface LandingPageNavbarProps {}
 export function LandingPageNavbar({}: LandingPageNavbarProps) {
@@ -106,23 +107,8 @@ export function LandingPageNavbar({}: LandingPageNavbarProps) {
                     alignItems: 'center',
                 }}
             >
-                <MainButton
-                    color={theme.palette.primary.main}
-                    text={'تسجيل الدخول'}
-                />
-                <MainButton
-                    color="secondary"
-                    text={'انشاء حساب'}
-                    {...{
-                        variant: 'outlined',
-                        sx: {
-                            borderWidth: '2px',
-                            color: theme.palette.primary.main,
-                            bgcolor: 'white',
-                            fontSize: theme.typography.button,
-                        },
-                    }}
-                />
+                <LoginButton />
+                <RegisterButton />
             </Box>
         </nav>
     );

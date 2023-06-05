@@ -3,16 +3,13 @@ import { Box } from '@mui/system';
 import useTheme from '@mui/system/useTheme';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
-import facebook from '../../assets/svg/Facebook_Square.svg';
-import instagram from '../../assets/svg/Instagram_Square.svg';
-import linkedin from '../../assets/svg/LinkedIn_Square.svg';
-import twitter from '../../assets/svg/Twitter_Square.svg';
 import TopNavigationBar from '../../components/top-bar';
 import { User } from '../../types/user';
 import NotFound from '../not-found/NotFound';
 import { getCourse } from './api/getCourse';
 import { CourseCells } from './CourseCells';
 import { CourseHeader } from './CourseHeader';
+import { ProfileSocialMedia } from '../../components/ProfileSocialMedia';
 
 function ViewCourse() {
     const params = useParams();
@@ -154,43 +151,7 @@ export function AboutMentor({ user }: AboutMentorProps) {
                     هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد
                     الحروف التى يولدها التطبيق
                 </Typography>
-                <Box
-                    display={'flex'}
-                    gap={2}
-                >
-                    <img
-                        style={{
-                            width: theme.spacing(4),
-                            height: theme.spacing(4),
-                        }}
-                        src={instagram}
-                        alt="instagram logo"
-                    />
-                    <img
-                        style={{
-                            width: theme.spacing(4),
-                            height: theme.spacing(4),
-                        }}
-                        src={linkedin}
-                        alt="linkedin logo"
-                    />
-                    <img
-                        style={{
-                            width: theme.spacing(4),
-                            height: theme.spacing(4),
-                        }}
-                        src={facebook}
-                        alt="facebook logo"
-                    />
-                    <img
-                        style={{
-                            width: theme.spacing(4),
-                            height: theme.spacing(4),
-                        }}
-                        src={twitter}
-                        alt="twitter logo"
-                    />
-                </Box>
+                <ProfileSocialMedia />
             </Box>
             <Box
                 sx={{
