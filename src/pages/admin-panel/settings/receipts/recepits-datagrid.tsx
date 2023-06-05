@@ -77,6 +77,7 @@ function ReceiptsDatagrid() {
 
     if (receiptsQuery.isError) return <>Error in Receipts</>;
     if (receiptsQuery.isLoading) return <>Loading...</>;
+    if (!receiptsQuery.data) return <>No Data</>;
 
     const rows = receiptsQuery.data?.map((receipt: Receipt) => {
         return {
@@ -88,7 +89,7 @@ function ReceiptsDatagrid() {
     });
     let largestID = 0;
     if (rows) {
-        largestID = rows.reduce((prev, current) => {
+        largestID = rows?.reduce((prev, current) => {
             return current.id > prev.id ? current : prev;
         }).id;
     }
@@ -124,10 +125,7 @@ function ReceiptsDatagrid() {
                 <AddItemPopup
                     isOpen={popupOpen}
                     root={anchorEl || document.body}
-                    width={
-                        document.getElementById('main-container')
-                            ?.offsetWidth || 0
-                    }
+                    width={document.getElementById('main-container')?.offsetWidth || 0}
                     closeDialog={() => setOpen(false)}
                 >
                     <AddReceiptForm
