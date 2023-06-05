@@ -23,6 +23,7 @@ export function BestCourseCard({ data, index, currentCourseIndex }: props) {
             return 'translate(-200%, 0)';
         }
     }
+    if (!data) return <></>;
     return (
         <Card
             elevation={0}
