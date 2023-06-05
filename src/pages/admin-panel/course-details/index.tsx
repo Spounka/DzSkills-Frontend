@@ -12,18 +12,8 @@ import {
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
-import useLogin from '../../authenticate/hooks/useLogin';
 import { getCourses } from '../../courses-page/api/getAllCourses';
 import { InformationCard } from '../landing-page/InformationCard';
-import { AdminPanelTopBar } from '../landing-page/components/AdminPanelTopBar';
-import { NotificationsBar } from '../landing-page/components/NotificationsBar';
-import { AdminPanelSidebar } from '../landing-page/components/Sidebar';
-
-import facebook from '../../../assets/svg/Facebook_Square.svg';
-import instagram from '../../../assets/svg/Instagram_Square.svg';
-import linkedin from '../../../assets/svg/LinkedIn_Square.svg';
-import twitter from '../../../assets/svg/Twitter_Square.svg';
-
 import createBlack from '../../../assets/svg/create-black.svg';
 import deleteWhiteBg from '../../../assets/svg/delete-whitebg.svg';
 import messageWhitebg from '../../../assets/svg/message-white.svg';
@@ -39,6 +29,7 @@ import NotFound from '../../not-found/NotFound';
 import { RelatedStudent, getRelatedStudents } from './api/relatedStudent';
 import { CourseStudent } from './components/courseStudent';
 import AdminDashboardLayout from '../layout';
+import { ProfileSocialMedia } from '../../../components/ProfileSocialMedia';
 
 ('الكورسات');
 function CourseDetails() {
@@ -344,44 +335,7 @@ function CourseDetails() {
                                 enim amet quasi quisquam beatae maxime!
                             </Typography>
 
-                            <Box
-                                display={'flex'}
-                                gap={2}
-                                height="100%"
-                            >
-                                <img
-                                    style={{
-                                        width: theme.spacing(4),
-                                        height: theme.spacing(4),
-                                    }}
-                                    src={instagram}
-                                    alt="instagram logo"
-                                />
-                                <img
-                                    style={{
-                                        width: theme.spacing(4),
-                                        height: theme.spacing(4),
-                                    }}
-                                    src={linkedin}
-                                    alt="linkedin logo"
-                                />
-                                <img
-                                    style={{
-                                        width: theme.spacing(4),
-                                        height: theme.spacing(4),
-                                    }}
-                                    src={facebook}
-                                    alt="facebook logo"
-                                />
-                                <img
-                                    style={{
-                                        width: theme.spacing(4),
-                                        height: theme.spacing(4),
-                                    }}
-                                    src={twitter}
-                                    alt="twitter logo"
-                                />
-                            </Box>
+                          <ProfileSocialMedia />
                         </Box>
                     </Box>
                 </Box>

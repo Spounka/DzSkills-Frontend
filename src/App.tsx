@@ -26,6 +26,7 @@ import TeacherCourses from './pages/teacher-dashboard/courses';
 import TeacherLandingPage from './pages/teacher-dashboard/landing-page';
 import ViewCertificate from './pages/view-certificate';
 import WatchCourse from './pages/view-course';
+import ContactTeacher from './pages/messages';
 
 function App() {
     return (
@@ -86,6 +87,10 @@ function App() {
                     <Route
                         path="buy"
                         element={<BuyCourse />}
+                    />
+                    <Route
+                        path="contact"
+                        element={<ContactTeacher />}
                     />
                 </Route>
             </Route>

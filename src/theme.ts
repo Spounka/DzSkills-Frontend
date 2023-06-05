@@ -44,10 +44,12 @@ declare module '@mui/material/styles' {
 
     interface PaletteColor {
         darker?: string;
+        lighter?: string;
     }
 
     interface SimplePaletteColorOptions {
         darker?: string;
+        lighter?: string;
     }
 
     interface ThemeOptions {
@@ -93,6 +95,7 @@ const theme = createTheme({
         secondary: {
             main: '#0081B4',
             dark: '#11111C',
+            lighter: '#50C1EE',
         },
         gray: {
             main: '#A1A1A1',
