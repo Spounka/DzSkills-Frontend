@@ -31,7 +31,6 @@ import { CourseStudent } from './components/courseStudent';
 import AdminDashboardLayout from '../layout';
 import { ProfileSocialMedia } from '../../../components/ProfileSocialMedia';
 
-('الكورسات');
 function CourseDetails() {
     const params = useParams();
 
