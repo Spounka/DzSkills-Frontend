@@ -22,15 +22,17 @@ export default function TopNavigationBar() {
                 paddingBottom: theme.spacing(3),
             }}
         >
-            <img
-                src={logo}
-                alt=""
-                style={{
-                    gridColumnStart: 1,
-                    gridColumnEnd: 3,
-                    maxWidth: theme.spacing(18),
-                }}
-            />
+            <Link to={'/'}>
+                <img
+                    src={logo}
+                    alt=""
+                    style={{
+                        gridColumnStart: 1,
+                        gridColumnEnd: 3,
+                        maxWidth: theme.spacing(18),
+                    }}
+                />
+            </Link>
 
             <Box
                 alignItems={'center'}

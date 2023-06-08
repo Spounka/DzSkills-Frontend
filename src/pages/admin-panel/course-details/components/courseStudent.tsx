@@ -1,12 +1,5 @@
 import { RelatedStudent } from '../api/relatedStudent';
-import {
-    Avatar,
-    Box,
-    Checkbox,
-    colors,
-    Theme,
-    Typography,
-} from '@mui/material';
+import { Avatar, Box, Checkbox, colors, Theme, Typography } from '@mui/material';
 import React from 'react';
 
 interface Props {
@@ -28,10 +21,7 @@ export function CourseStudent(props: Props) {
             >
                 <Checkbox color={'secondary'} />
                 <Avatar
-                    src={
-                        'http://localhost:8000' +
-                        props.student.user.profile_image
-                    }
+                    src={props.student.user.profile_image}
                     sx={{
                         width: props.theme.spacing(8),
                         height: props.theme.spacing(8),
@@ -39,9 +29,7 @@ export function CourseStudent(props: Props) {
                     }}
                 />
                 <Typography variant="body1">
-                    {props.student.user.first_name +
-                        ' ' +
-                        props.student.user.last_name}
+                    {props.student.user.first_name + ' ' + props.student.user.last_name}
                 </Typography>
 
                 <Typography>

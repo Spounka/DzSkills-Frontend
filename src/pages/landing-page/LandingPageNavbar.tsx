@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import logo from '../../assets/png/logo@2x.png';
 import { LoginButton } from './LoginButton';
 import { RegisterButton } from './RegisterButton';
@@ -23,15 +23,17 @@ export function LandingPageNavbar({}: LandingPageNavbarProps) {
                 paddingBottom: theme.spacing(3),
             }}
         >
-            <img
-                src={logo}
-                alt=""
-                style={{
-                    gridColumnStart: 1,
-                    gridColumnEnd: 3,
-                    maxWidth: theme.spacing(18),
-                }}
-            />
+            <Link to={'/'}>
+                <img
+                    src={logo}
+                    alt=""
+                    style={{
+                        gridColumnStart: 1,
+                        gridColumnEnd: 3,
+                        maxWidth: theme.spacing(18),
+                    }}
+                />
+            </Link>
 
             <Box
                 alignItems={'center'}
