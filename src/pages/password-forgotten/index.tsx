@@ -1,10 +1,11 @@
 import { Box, Card, Grid, Stack, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import logo from '../../assets/svg/DzSkills.svg';
 import IconFormPassword from '../../components/form/IconFormPassword';
 import PasswordForgottenEmailSection from './components/email-validation';
+import { useNavigate } from 'react-router-dom';
 
-function PasswordResetForm() {
+export function PasswordResetForm() {
     return (
         <>
             <Typography
@@ -57,8 +58,25 @@ function getStageComponent(stage: number, moveNextStage: any) {
     }
 }
 
-function PasswordForgotten() {
-    const [currentStage, setCurrentStage] = useState(0);
+interface props {
+    stage?: number;
+}
+function PasswordForgotten({ stage }: props) {
+    const [currentStage, setCurrentStage] = useState(stage || 0);
+
+    const redirect = useNavigate();
+    const url = new URL(location.href);
+    useEffect(() => {
+        if (
+            !url.searchParams.has('t') &&
+            !url.searchParams.has('u') &&
+            currentStage > 0
+        ) {
+            setCurrentStage(0);
+            redirect('/password/reset/');
+        }
+    }, []);
+
     return (
         <Grid
             container

@@ -17,6 +17,7 @@ import CoursesPage from './pages/courses-page';
 import EditProfile from './pages/edit-profile';
 import LandingPage from './pages/landing-page';
 import Logout from './pages/logout/indext';
+import ContactTeacher from './pages/messages';
 import NotFound from './pages/not-found/NotFound';
 import PasswordForgotten from './pages/password-forgotten';
 import Profile from './pages/profile';
@@ -26,7 +27,6 @@ import TeacherCourses from './pages/teacher-dashboard/courses';
 import TeacherLandingPage from './pages/teacher-dashboard/landing-page';
 import ViewCertificate from './pages/view-certificate';
 import WatchCourse from './pages/view-course';
-import ContactTeacher from './pages/messages';
 
 function App() {
     return (
@@ -37,21 +37,29 @@ function App() {
                 element={<LandingPage />}
             />
             <Route
-                path="/login"
+                path="login"
                 element={<Authenticate startPanel={1} />}
             />
             <Route
-                path="/register"
+                path="register"
                 element={<Authenticate startPanel={0} />}
             />
             <Route
-                path="/logout"
+                path="logout"
                 element={<Logout />}
             />
-            <Route
-                path="/password-forgotten"
-                element={<PasswordForgotten />}
-            />
+            <Route path="password">
+                <Route path="reset">
+                    <Route
+                        path=""
+                        element={<PasswordForgotten />}
+                    />
+                    <Route
+                        path="confirm"
+                        element={<PasswordForgotten stage={1} />}
+                    />
+                </Route>
+            </Route>
             <Route path="/profile">
                 <Route
                     path=""

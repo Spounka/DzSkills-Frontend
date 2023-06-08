@@ -37,12 +37,8 @@ export default function LandingPage({}: LandingPageProps) {
             <LandingPageFirstSection
                 mainColor={adminConfigQuery.data?.main_title_text.color}
                 mainText={adminConfigQuery.data?.main_title_text.content}
-                secondaryColor={
-                    adminConfigQuery.data?.secondary_title_text.color
-                }
-                secondaryText={
-                    adminConfigQuery.data?.secondary_title_text.content
-                }
+                secondaryColor={adminConfigQuery.data?.secondary_title_text.color}
+                secondaryText={adminConfigQuery.data?.secondary_title_text.content}
             />
             <LandingPageSections />
             <MostSoldCourses />
@@ -92,8 +88,8 @@ function Ratings() {
                         variant="subtitle2"
                         color={'gray.main'}
                     >
-                        آراء الطلبة و المشتركين في موقعنا هو افضل ما نقدمه
-                        لإثبات نجاحنا في تقديم الغاية من الموقع
+                        آراء الطلبة و المشتركين في موقعنا هو افضل ما نقدمه لإثبات نجاحنا
+                        في تقديم الغاية من الموقع
                     </Typography>
                 </Box>
                 <Box
@@ -132,8 +128,9 @@ function Ratings() {
                                         sx={{
                                             width: '15vmin',
                                             height: 'auto',
-                                            maxWidth: '100px',
-                                            aspectRatio: '1/1',
+                                            maxWidth: '15vmin',
+                                            maxHeight: '15vmin',
+                                            aspectRatio: '1',
                                             pt: '-25%',
                                             mt: '-25%',
                                             ml: -4,
@@ -141,10 +138,9 @@ function Ratings() {
                                     />
                                 </Box>
                                 <Typography>
-                                    هذا النص هو مثال لنص يمكن أن يستبدل في نفس
-                                    المساحة، لقد تم توليد هذا النص من مولد النص
-                                    العربى، حيث يمكنك أن تولد مثل هذا النص أو
-                                    العديد من النصوص
+                                    هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة،
+                                    لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك
+                                    أن تولد مثل هذا النص أو العديد من النصوص
                                 </Typography>
                                 <Box
                                     sx={{

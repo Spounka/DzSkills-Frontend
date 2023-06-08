@@ -7,6 +7,7 @@ import IconFormPassword from '../../../../components/form/IconFormPassword';
 import { MainButton } from '../../../../components/ui/MainButton';
 import { signUp } from '../../api/authenticate';
 import AuthFormsHeader from '../form-header';
+import { useEffect } from 'react';
 
 const validationSchema = Yup.object({
     first_name: Yup.string().required('تعبئة الخانة اجبارية'),
@@ -47,6 +48,11 @@ function NewAccount() {
         validationSchema: validationSchema,
         onSubmit: values => query.mutate(values),
     });
+
+    useEffect(() => {
+        window.history.replaceState(null, '', '/register/');
+    }, []);
+
     return (
         <form onSubmit={formik.handleSubmit}>
             <Stack
@@ -70,8 +76,7 @@ function NewAccount() {
                     value={formik.values.first_name}
                     onChange={formik.handleChange}
                     error={
-                        formik.touched.first_name &&
-                        Boolean(formik.errors.first_name)
+                        formik.touched.first_name && Boolean(formik.errors.first_name)
                     }
                 />
                 {formik.touched.first_name && formik.errors.first_name ? (
@@ -97,10 +102,7 @@ function NewAccount() {
                     placeholder="اللقب"
                     value={formik.values.last_name}
                     onChange={formik.handleChange}
-                    error={
-                        formik.touched.last_name &&
-                        Boolean(formik.errors.last_name)
-                    }
+                    error={formik.touched.last_name && Boolean(formik.errors.last_name)}
                 />
                 {formik.touched.last_name && formik.errors.last_name ? (
                     <>
@@ -126,9 +128,7 @@ function NewAccount() {
                     placeholder="البريد الإلكتروني"
                     value={formik.values.email}
                     onChange={formik.handleChange}
-                    error={
-                        formik.touched.email && Boolean(formik.errors.email)
-                    }
+                    error={formik.touched.email && Boolean(formik.errors.email)}
                 />
                 {formik.touched.email && formik.errors.email ? (
                     <>
@@ -150,10 +150,7 @@ function NewAccount() {
                     placeholder={'هنا كلمة السر'}
                     value={formik.values.password1}
                     onChange={formik.handleChange}
-                    error={
-                        formik.touched.password1 &&
-                        Boolean(formik.errors.password1)
-                    }
+                    error={formik.touched.password1 && Boolean(formik.errors.password1)}
                 />
                 {formik.touched.password1 && formik.errors.password1 ? (
                     <>
@@ -175,10 +172,7 @@ function NewAccount() {
                     placeholder={'تأكيد كلمة السر'}
                     value={formik.values.password2}
                     onChange={formik.handleChange}
-                    error={
-                        formik.touched.password2 &&
-                        Boolean(formik.errors.password2)
-                    }
+                    error={formik.touched.password2 && Boolean(formik.errors.password2)}
                 />
                 {formik.touched.password2 && formik.errors.password2 ? (
                     <>

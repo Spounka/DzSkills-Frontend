@@ -1,5 +1,6 @@
 import { Stack, TextField, Typography, useTheme } from '@mui/material';
 import { useFormik } from 'formik';
+import { useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -35,8 +36,8 @@ export default function Login() {
         },
         onSuccess: (response: any) => {
             dispatch(updateUser(response));
-            localStorage.setItem('access_token', response.access_token);
-            localStorage.setItem('refresh_token', response.refresh_token);
+            localStorage.setItem('access_token', response.access);
+            localStorage.setItem('refresh_token', response.refresh);
             navigate('/profile');
         },
         onError: (error: any) => console.log(error),
@@ -55,6 +56,10 @@ export default function Login() {
         },
         validateOnMount: false,
     });
+
+    useEffect(() => {
+        window.history.replaceState(null, '', '/login/');
+    }, []);
     return (
         <Stack
             spacing={2}
@@ -82,10 +87,7 @@ export default function Login() {
                         placeholder="البريد الإلكتروني"
                         value={formik.values.email}
                         onChange={formik.handleChange}
-                        error={
-                            formik.touched.email &&
-                            Boolean(formik.errors.email)
-                        }
+                        error={formik.touched.email && Boolean(formik.errors.email)}
                     />
                     {formik.touched.email && formik.errors.email ? (
                         <>
@@ -105,8 +107,7 @@ export default function Login() {
                         value={formik.values.password}
                         onChange={formik.handleChange}
                         error={
-                            formik.touched.password &&
-                            Boolean(formik.errors.password)
+                            formik.touched.password && Boolean(formik.errors.password)
                         }
                         name="password"
                         placeholder={'هنا كلمة السر'}
