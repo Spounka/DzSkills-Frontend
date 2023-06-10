@@ -75,7 +75,7 @@ export function TeacherDetailsPanel({
     );
 }
 
-function UserFullNameAndSpeciality({ user }: { user?: User }) {
+export function UserFullNameAndSpeciality({ user }: { user?: User }) {
     if (!user) return <></>;
     return (
         <Stack gap={1}>

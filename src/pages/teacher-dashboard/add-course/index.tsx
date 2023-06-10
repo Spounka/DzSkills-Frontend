@@ -7,13 +7,7 @@ import { submitCourse } from './api/submitCourse';
 import { NewCourseCard } from './components/new-course-card/NewCourseCard';
 
 export function TeacherAddCourse() {
-    const theme = useTheme();
     useLogin();
-    const [drawerOpen, setDrawerOpen] = useState(false);
-
-    function toggleDrawer() {
-        setDrawerOpen(val => !val);
-    }
 
     const query = useMutation({
         mutationFn: (p: any) => submitCourse(p),

@@ -1,14 +1,25 @@
 import { FormControl, useTheme } from '@mui/material';
 import TextField from '@mui/material/TextField';
 
-const TextInputWithTopLabel = () => {
+interface props {
+    label: string;
+    name: string;
+    helperText?: string;
+    placeholder?: string;
+}
+const TextInputWithTopLabel = ({ label, placeholder, helperText, name }: props) => {
     const theme = useTheme();
     return (
         <TextField
-            label={'Dela3a'}
-            placeholder={'Placeholder'}
-            helperText={'Helper Text'}
+            label={label}
+            color="secondary"
+            placeholder={placeholder || ''}
+            helperText={helperText || ''}
+            name={name}
             margin={'normal'}
+            sx={{
+                direction: 'rtl',
+            }}
             InputLabelProps={{
                 shrink: true,
                 sx: {

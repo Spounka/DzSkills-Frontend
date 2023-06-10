@@ -11,6 +11,7 @@ interface props {
     grow?: boolean;
     rows?: number;
     typographyProps?: any;
+    fontWeight?: number;
 }
 
 export default function EditProfileField({
@@ -22,6 +23,7 @@ export default function EditProfileField({
     grow,
     rows,
     typographyProps,
+    fontWeight,
 }: props) {
     const theme = useTheme();
     return (
@@ -36,7 +38,7 @@ export default function EditProfileField({
                 }}
             >
                 <Typography
-                    fontWeight={600}
+                    fontWeight={fontWeight || 600}
                     sx={{
                         px: theme.spacing(2),
                         pb: theme.spacing(2),

@@ -83,6 +83,17 @@ declare module '@mui/material' {
 declare module '@mui/material/Button' {
     interface ButtonPropsColorOverrides {
         gray: true;
+        purple: true;
+    }
+}
+
+declare module '@mui/material/Radio' {
+    interface RadioPropsColorOverrides {
+        gray: true;
+        purple: true;
+    }
+    interface RadioPropsSizeOverrides {
+        
     }
 }
 

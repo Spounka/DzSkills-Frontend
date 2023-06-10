@@ -75,6 +75,12 @@ function App() {
                     element={<Invoices />}
                 />
             </Route>
+            <Route path="contact">
+                <Route
+                    path=""
+                    element={<ContactSupport />}
+                />
+            </Route>
             <Route path="/courses">
                 <Route
                     path=""
@@ -97,12 +103,10 @@ function App() {
                         path="buy"
                         element={<BuyCourse />}
                     />
-                    <Route path="contact">
-                        <Route
-                            path=""
-                            element={<ContactSupport />}
-                        />
-                    </Route>
+                    <Route
+                        path="contact"
+                        element={<ContactTeacher />}
+                    />
                 </Route>
             </Route>
 
