@@ -1,8 +1,10 @@
 import { Divider, Stack, Typography } from '@mui/material';
-import facebook from '../../../../assets/svg/icons8-facebook.svg';
-import google from '../../../../assets/svg/icons8-google.svg';
+// import facebook from '../../../../assets/svg/icons8-facebook.svg';
+// import google from '../../../../assets/svg/icons8-google.svg';
+// import SocialMediaButton from '../social-media-button';
+// import SvgIcon from '../svg-icon';
+import SocialLoginButtons from '../social-login-buttons';
 import SocialMediaButton from '../social-media-button';
-import SvgIcon from '../svg-icon';
 
 interface props {
     title: string;
@@ -42,6 +44,7 @@ function AuthFormsHeader({ title, subheader }: props) {
                 sx={{ width: '100%' }}
             >
                 <SocialLoginButtons />
+
             </Stack>
 
             <Divider
@@ -59,39 +62,4 @@ function AuthFormsHeader({ title, subheader }: props) {
     );
 }
 
-function SocialLoginButtons() {
-    return (
-        <>
-            <SocialMediaButton
-                variant="outlined"
-                color="gray"
-            >
-                <SvgIcon
-                    icon={facebook}
-                    style={{
-                        maxHeight: '24px',
-                        marginLeft: '0.5rem',
-                        justifySelf: 'center',
-                    }}
-                />
-                متابعة بفايسبوك
-            </SocialMediaButton>
-            <SocialMediaButton
-                variant="outlined"
-                color="gray"
-            >
-                <SvgIcon
-                    icon={google}
-                    style={{
-                        maxHeight: '24px',
-                        alignSelf: 'center',
-                        marginLeft: '0.5rem',
-                        justifySelf: 'center',
-                    }}
-                />
-                متابعة بغوغل
-            </SocialMediaButton>
-        </>
-    );
-}
 export default AuthFormsHeader;

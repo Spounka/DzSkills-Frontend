@@ -15,7 +15,7 @@ export function MostSoldCourses() {
         queryFn: () => getCourses(),
     });
 
-    if (query.isLoading) return <>Loading courses...</>;
+    // if (query.isLoading) return <>Loading courses...</>;
     if (query.isError) return <>Error in courses...</>;
 
     return (
@@ -35,9 +35,8 @@ export function MostSoldCourses() {
                     maxWidth={450}
                     textAlign={'center'}
                 >
-                    أكثر ما يتم شراءه من مستخدمي الموقع مقدم من خبراء في
-                    مجالاتهم لضمان ان تكون الدروس عملية و تلبي كامل الفائدة
-                    للمستخدم
+                    أكثر ما يتم شراءه من مستخدمي الموقع مقدم من خبراء في مجالاتهم لضمان
+                    ان تكون الدروس عملية و تلبي كامل الفائدة للمستخدم
                 </Typography>
             </Box>
             <Box

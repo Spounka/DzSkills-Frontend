@@ -19,6 +19,7 @@ export function AdminContacts() {
                 position: 'relative',
                 height: '100%',
                 color: 'white',
+                display: 'flex',
             }}
         >
             <CornerShape
@@ -31,6 +32,7 @@ export function AdminContacts() {
             <Stack
                 gap={5}
                 px={4}
+                flexBasis={'80%'}
             >
                 <Typography
                     variant={'h5'}

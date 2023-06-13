@@ -5,7 +5,7 @@ const SocialMediaButton = styled(Button)<ButtonProps>(({ theme }) => ({
     width: '100%',
     padding: '.8rem 2rem',
     borderRadius: '0.5rem',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     // @ts-ignore
     color: `${theme.palette.gray.dark}`,
     fontWeight: 400,

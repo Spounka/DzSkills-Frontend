@@ -15,6 +15,7 @@ import BuyCourse from './pages/buy-course';
 import ViewCourse from './pages/course';
 import CoursesPage from './pages/courses-page';
 import EditProfile from './pages/edit-profile';
+import GoogleCallbackView from './pages/google-callback';
 import LandingPage from './pages/landing-page';
 import Logout from './pages/logout/indext';
 import ContactTeacher from './pages/messages';
@@ -22,12 +23,14 @@ import NotFound from './pages/not-found/NotFound';
 import PasswordForgotten from './pages/password-forgotten';
 import Profile from './pages/profile';
 import Invoices from './pages/profile-invoices';
+import EmailSendPage from './pages/send-email';
+import ContactSupport from './pages/support/contact';
 import TeacherAddCourse from './pages/teacher-dashboard/add-course';
 import TeacherCourses from './pages/teacher-dashboard/courses';
 import TeacherLandingPage from './pages/teacher-dashboard/landing-page';
+import EmailValidationPage from './pages/validate-email';
 import ViewCertificate from './pages/view-certificate';
 import WatchCourse from './pages/view-course';
-import ContactSupport from './pages/support/contact';
 
 function App() {
     return (
@@ -41,10 +44,25 @@ function App() {
                 path="login"
                 element={<Authenticate startPanel={1} />}
             />
-            <Route
-                path="register"
-                element={<Authenticate startPanel={0} />}
-            />
+            <Route path="register">
+                <Route
+                    path=""
+                    element={<Authenticate startPanel={0} />}
+                />
+                <Route
+                    path="verify-email/"
+                    element={<EmailSendPage />}
+                />
+                <Route
+                    path="verify-email/:key/"
+                    element={<EmailValidationPage />}
+                />
+                <Route
+                    path="google"
+                    element={<GoogleCallbackView />}
+                />
+            </Route>
+
             <Route
                 path="logout"
                 element={<Logout />}

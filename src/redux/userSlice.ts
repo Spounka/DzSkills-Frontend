@@ -3,18 +3,19 @@ import { RootState } from '../stores/store';
 import { User } from '../types/user';
 
 export interface LoginUser {
-    access_token?: string;
-    refresh_token?: string;
+    access?: string;
+    refresh?: string;
     user: User;
 }
 
 const initialState = {
-    access_token: '',
-    refresh_token: '',
+    access: '',
+    refresh: '',
     user: {
         pk: 1,
         username: '',
         email: '',
+        email_valid: false,
         first_name: '',
         last_name: '',
         profile_image: '',
@@ -32,10 +33,8 @@ const userSlice = createSlice({
         updateUser: (state, action: PayloadAction<LoginUser>) => {
             return {
                 ...state,
-                access_token:
-                    action.payload.access_token || state.access_token,
-                refresh_token:
-                    action.payload.refresh_token || state.refresh_token,
+                access: action.payload.access || state.access,
+                refresh: action.payload.refresh || state.refresh,
                 user: { ...action.payload.user },
             };
         },

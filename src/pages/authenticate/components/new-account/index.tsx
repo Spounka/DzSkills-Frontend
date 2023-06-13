@@ -1,5 +1,6 @@
 import { Stack, TextField, Typography, useTheme } from '@mui/material';
 import { useFormik } from 'formik';
+import { useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -7,7 +8,6 @@ import IconFormPassword from '../../../../components/form/IconFormPassword';
 import { MainButton } from '../../../../components/ui/MainButton';
 import { signUp } from '../../api/authenticate';
 import AuthFormsHeader from '../form-header';
-import { useEffect } from 'react';
 
 const validationSchema = Yup.object({
     first_name: Yup.string().required('تعبئة الخانة اجبارية'),
@@ -38,9 +38,9 @@ function NewAccount() {
         mutationKey: ['signup'],
         mutationFn: async (values: any) => signUp(values),
         onSuccess: values => {
-            localStorage.setItem('access_token', values.access_token || '');
-            localStorage.setItem('refresh_token', values.refresh_token || '');
-            return navigate('/profile');
+            localStorage.setItem('access', values.access || '');
+            localStorage.setItem('refresh', values.refresh || '');
+            return navigate('/register/verify-email/');
         },
     });
     const formik = useFormik({

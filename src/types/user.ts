@@ -1,9 +1,13 @@
 //TODO: remove the non-used fields and add proper models to destinguish between models
 
+export type Group = {
+    name: string;
+};
 export type User = {
     pk: number;
     username: string;
     email: string;
+    email_valid: boolean;
     first_name: string;
     last_name: string;
     profile_image: string;
@@ -11,4 +15,5 @@ export type User = {
     description: string;
     speciality: string;
     nationality: string;
+    groups: Group[];
 };

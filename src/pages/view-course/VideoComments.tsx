@@ -5,16 +5,14 @@ import {
     InputAdornment,
     OutlinedInput,
     Pagination,
-    Skeleton,
     Stack,
 } from '@mui/material';
-import React, { Suspense, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
 import { VideoComment as Comment } from '../../types/VideoComment';
 import { VideoComment } from './VideoComment';
 import { getVideoComments, submitComment } from './api/queries';
-import { object } from 'yup';
 
 interface VideoCommentsProps {
     videoID: number;
@@ -37,22 +35,15 @@ export function VideoComments({ videoID }: VideoCommentsProps) {
             videoCommentsQuery.refetch();
         },
     });
-    const handlePageChange = (
-        _: React.ChangeEvent<unknown>,
-        value: number
-    ) => {
+    const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
     };
 
-    const commentsWithUUID = videoCommentsQuery.data?.map(
-        (comment: Comment) => {
-            return { ...comment, key: uuidv4() };
-        }
-    );
+    const commentsWithUUID = videoCommentsQuery.data?.map((comment: Comment) => {
+        return { ...comment, key: uuidv4() };
+    });
 
-    const getPaginatedData = (
-        allData: (Comment & { key: string })[] | undefined
-    ) => {
+    const getPaginatedData = (allData: (Comment & { key: string })[] | undefined) => {
         if (!allData) return [];
         const it = (page - 1) * pageSize;
         return allData.slice(it, it + pageSize);
@@ -65,9 +56,7 @@ export function VideoComments({ videoID }: VideoCommentsProps) {
             mt={4}
         >
             <form
-                onSubmit={(
-                    e: React.FormEvent<HTMLFormElement> | undefined
-                ) => {
+                onSubmit={(e: React.FormEvent<HTMLFormElement> | undefined) => {
                     e?.preventDefault();
                     const data = {
                         //@ts-expect-error
@@ -110,15 +99,12 @@ export function VideoComments({ videoID }: VideoCommentsProps) {
 
             <Pagination
                 sx={{
-                    direction: 'ltr',
                     width: '100%',
                     mx: 'auto',
                 }}
                 count={
                     (videoCommentsQuery.data &&
-                        Math.round(
-                            videoCommentsQuery.data?.length / pageSize
-                        )) ||
+                        Math.round(videoCommentsQuery.data?.length / pageSize)) ||
                     0
                 }
                 onChange={handlePageChange}

@@ -13,6 +13,12 @@ export type Category = {
     name: string;
     image: string;
 };
+export type Rating = {
+    id: number;
+    rating: number;
+    student: number;
+    video?: any;
+};
 
 export type Video = {
     id: number;
@@ -20,12 +26,15 @@ export type Video = {
     description: string;
     video: string;
     duration: string;
+    ratings: Rating[];
+    average_rating: number;
 };
 export type Chapter = {
     id: number;
     title: string;
     description: string;
     thumbnail: string;
+    average_rating: number;
     videos: Video[];
 };
 export type Course = {
@@ -48,6 +57,8 @@ export type Course = {
 
     status: string;
     chapters: Chapter[];
+    average_rating: number;
+
     owner: User;
 };
 

@@ -49,23 +49,7 @@ export function GetYourCertificate() {
                             alignItems: 'center',
                         }}
                     >
-                        {/* <MainButton
-                            color={theme.palette.primary.main}
-                            text={'تسجيل الدخول'}
-                        />
-                        <MainButton
-                            color="secondary"
-                            text={'انشاء حساب'}
-                            {...{
-                                variant: 'outlined',
-                                sx: {
-                                    borderWidth: '2px',
-                                    color: theme.palette.primary.main,
-                                    bgcolor: 'white',
-                                    fontSize: theme.typography.button,
-                                },
-                            }}
-                        /> */}
+                      
                         <LoginButton />
                         <RegisterButton />
                     </Box>

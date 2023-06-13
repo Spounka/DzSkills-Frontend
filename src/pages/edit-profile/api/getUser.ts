@@ -7,9 +7,9 @@ export async function updateProfile(values: LoginUser) {
     return data;
 }
 
-export async function refreshToken(refresh_token: string | any) {
+export async function refreshToken(refresh: string | any) {
     return await axiosInstance.post('/rest-auth/token/refresh/', {
-        refresh: refresh_token,
+        refresh: refresh,
     });
 }
 
@@ -19,10 +19,10 @@ export async function verifyToken(token: any) {
     });
 }
 
-export async function verifyOrRefreshToken(token: any, refresh_token: any) {
+export async function verifyOrRefreshToken(token: any, refresh: any) {
     return await verifyToken(token).catch(async (error: any) => {
         if (error.response && error.response.status === 401) {
-            return await refreshToken(refresh_token).catch(error => {
+            return await refreshToken(refresh).catch(error => {
                 throw Error(error);
             });
         }
@@ -39,17 +39,14 @@ export async function fetchUser(token: string | null) {
     return data as User;
 }
 
-export async function getUser(
-    token: string | null,
-    refresh_token: string | null
-) {
-    return await verifyOrRefreshToken(token, refresh_token)
+export async function getUser(token: string | null, refresh: string | null) {
+    return await verifyOrRefreshToken(token, refresh)
         .then(response => {
             if (!response) throw Error('failed');
             if (response.data.access === undefined) {
-                return localStorage.getItem('access_token');
+                return localStorage.getItem('access');
             } else {
-                localStorage.setItem('access_token', response.data.access);
+                localStorage.setItem('access', response.data.access);
                 return response.data.acesss;
             }
         })

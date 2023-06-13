@@ -7,13 +7,16 @@ import { getUser } from '../../edit-profile/api/getUser';
 function useLogin() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const token = localStorage.getItem('access_token');
-    const refresh = localStorage.getItem('refresh_token');
+    const token = localStorage.getItem('access');
+    const refresh = localStorage.getItem('refresh');
     const query = useQuery({
         queryKey: ['user'],
         queryFn: () => getUser(token, refresh),
-        onSuccess: response => dispatch(updateUser({ user: response })),
-        onError: () => navigate('/login'),
+        onSuccess: response => {
+            dispatch(updateUser({ user: response }));
+            !response.email_valid && navigate('/register/verify-email/');
+        },
+        onError: () => navigate('/register'),
     });
     return [query];
 }

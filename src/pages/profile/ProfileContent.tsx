@@ -2,16 +2,15 @@ import { Avatar, Rating, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { useTheme } from '@mui/material/styles';
-import { useSelector } from 'react-redux';
-import gps from '../../assets/svg/place gray.svg';
 import { ReactComponent as GpsImage } from '../../assets/svg/place gray.svg';
-import { RootState } from '../../stores/store';
-import { CoursePreview } from './CoursePreview';
 import { ProfileSocialMedia } from '../../components/ProfileSocialMedia';
+import reduxUser from '../../stores/reduxUser';
+import { CoursePreview } from './CoursePreview';
+import useReduxData from '../../stores/reduxUser';
 
 export function ProfileContent() {
     const theme = useTheme();
-    const user = useSelector((state: RootState) => state.user);
+    const user = useReduxData().user;
     return (
         <Card
             elevation={0}

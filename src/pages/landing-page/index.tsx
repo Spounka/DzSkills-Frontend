@@ -6,6 +6,7 @@ import { useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
 import Footer from '../../components/footer';
 import { User } from '../../types/user';
+import { getAdminConfigs } from '../admin-panel/settings/landing-page/api/query';
 import { getAllUsers } from '../admin-panel/user-management/api/getUsers';
 import { GetYourCertificate } from './GetYourCertificate';
 import { LandingPageFirstSection } from './LandingPageFirstSection';
@@ -13,7 +14,6 @@ import { LandingPageNavbar } from './LandingPageNavbar';
 import { LandingPageSections } from './LandingPageSections';
 import { MostSoldCourses } from './MostSoldCourses';
 import { Teachers } from './Teachers';
-import { getAdminConfigs } from '../admin-panel/settings/landing-page/api/query';
 
 interface LandingPageProps {}
 
@@ -68,7 +68,7 @@ function Ratings() {
                 alignItems={'center'}
                 mt={theme.spacing(25)}
                 pb={theme.spacing(12)}
-                gap={8}
+                gap={16}
                 px={16}
             >
                 <Box

@@ -7,7 +7,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import IconFormPassword from '../../../../components/form/IconFormPassword';
 import { MainButton } from '../../../../components/ui/MainButton';
-import { updateUser } from '../../../../redux/userSlice';
+import axiosInstance from '../../../../globals/axiosInstance';
+import { LoginUser, updateUser } from '../../../../redux/userSlice';
 import { login } from '../../api/authenticate';
 import AuthFormsHeader from '../form-header';
 
@@ -29,18 +30,33 @@ export default function Login() {
     const theme = useTheme();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const verifyEmail = useMutation({
+        mutationKey: ['verify', 'email', 'mutation'],
+        mutationFn: () => {
+            const result = async () => {
+                return axiosInstance.post('/rest-auth/registration/resend-email/', {
+                    email: formik.values.email,
+                });
+            };
+            return result();
+        },
+        onSuccess: () => {
+            navigate('/register/verify-email/');
+        },
+    });
     const query = useMutation({
         mutationKey: ['login'],
         mutationFn: ({ email, password }: any) => {
             return login({ email, password });
         },
-        onSuccess: (response: any) => {
+        onSuccess: (response: LoginUser) => {
             dispatch(updateUser(response));
-            localStorage.setItem('access_token', response.access);
-            localStorage.setItem('refresh_token', response.refresh);
-            navigate('/profile');
+            localStorage.setItem('access', response.access || '');
+            localStorage.setItem('refresh', response.refresh || '');
+            if (!response.user.email_valid) {
+                verifyEmail.mutate();
+            } else navigate('/profile');
         },
-        onError: (error: any) => console.log(error),
     });
 
     const formik = useFormik({

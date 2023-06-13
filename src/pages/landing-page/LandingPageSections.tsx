@@ -17,9 +17,6 @@ export function LandingPageSections({}: LandingPageSectionsProps) {
         queryFn: () => getCategories(),
     });
 
-    if (categories.isFetching) return <>Fetching Categories...</>;
-    if (categories.isError) return <>Error in categories</>;
-
     return (
         <>
             <Box
@@ -54,34 +51,35 @@ export function LandingPageSections({}: LandingPageSectionsProps) {
                     display="grid"
                     gridTemplateColumns={'repeat(4, minmax(0, 1fr))'}
                     gap={8}
+                    width={'100%'}
                 >
-                    {categories.data?.map((category: Category) => {
-                        return (
-                            <LandingPageSection
-                                key={uuidv4()}
-                                image={category.image}
-                                title={category.name}
-                                description={
-                                    'تصميم وإنتاج الرسومات والصور والنصوص والرموز التي تستخدم في الإعلانات والتسويق والاتصال البصري'
-                                }
-                            />
-                        );
-                    })}
-                    {/* <LandingPageSection
-                        image={webDev}
-                        title={"اخراج و تصميم الفيديو"}
-                        description={"إنتاج الرسوم المتحركة والأفلام القصيرة والفيديوهات التي تستخدم في الإعلانات والتسويق والترفيه"}
-                    />
-                    <LandingPageSection
-                        image={webDev}
-                        title={"تصميم ثلاثي الأبعاد"}
-                        description={"إنشاء صور ونماذج واقعية للأشياء والمنتجات، ويستخدم في صناعات مختلفة مثل التصميم الصناعي والألعاب والأفلام والعمارة والهندسة"}
-                    />
-                    <LandingPageSection
-                        image={webDev}
-                        title={"العمل الحر"}
-                        description={"نوع من العمل الذي يتم تنفيذه عن بعد وبشكل مستقل، حيث يعمل الفرد بمفرده بدون أن يكون مرتبطًا بشركة أو مؤسسة محددة"}
-                    /> */}
+                    {categories.data
+                        ? categories.data?.slice(0, 4).map((category: Category) => {
+                              return (
+                                  <LandingPageSection
+                                      key={uuidv4()}
+                                      isLoading={categories.isFetching}
+                                      image={category.image}
+                                      title={category.name}
+                                      description={
+                                          'تصميم وإنتاج الرسومات والصور والنصوص والرموز التي تستخدم في الإعلانات والتسويق والاتصال البصري'
+                                      }
+                                  />
+                              );
+                          })
+                        : [0, 1, 2, 3].map(_ => {
+                              return (
+                                  <LandingPageSection
+                                      key={uuidv4()}
+                                      isLoading={true}
+                                      image={''}
+                                      title={''}
+                                      description={
+                                          'تصميم وإنتاج الرسومات والصور والنصوص والرموز التي تستخدم في الإعلانات والتسويق والاتصال البصري'
+                                      }
+                                  />
+                              );
+                          })}
                 </Box>
             </Box>
         </>

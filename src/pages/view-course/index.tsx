@@ -19,6 +19,7 @@ import AnimatedIconButton from './AnimatedIconButton';
 import { ChapterAccordion } from './ChapterAccordion';
 import { VideoComments } from './VideoComments';
 import { VideoPlayer } from './VideoPlayer';
+import { VideoRatings } from './VideoRatings';
 import { getStudentProgress, updateStudentProgress } from './api/queries';
 
 function WatchCourse() {
@@ -55,14 +56,17 @@ function WatchCourse() {
         description: '',
         video: '',
         duration: '',
+        average_rating: 0,
+        ratings: [],
     };
     const progression = useQuery({
         queryKey: ['progression', id, user?.pk],
         queryFn: () => getStudentProgress(id),
         onSuccess: data =>
             setCurrentVideo(
-                currentCourse.data?.chapters[data?.last_chapter_index || 0]
-                    .videos[data?.last_video_index || 0] || defaultVideo
+                currentCourse.data?.chapters[data?.last_chapter_index || 0].videos[
+                    data?.last_video_index || 0
+                ] || defaultVideo
             ),
         staleTime: 1000 * 60 * 2,
         enabled: !!user,
@@ -250,17 +254,14 @@ function WatchCourse() {
                                     locked={
                                         !(
                                             progression.data &&
-                                            index <=
-                                                progression.data
-                                                    ?.last_chapter_index
+                                            index <= progression.data?.last_chapter_index
                                         )
                                     }
                                     progressionVideoIndex={
                                         progression.data?.last_video_index || 0
                                     }
                                     progresssionChapterIndex={
-                                        progression.data?.last_chapter_index ||
-                                        0
+                                        progression.data?.last_chapter_index || 0
                                     }
                                     chapterIndex={index}
                                 />
@@ -384,16 +385,10 @@ function WatchCourse() {
                                     flexGrow={1}
                                     width={'100%'}
                                 >
-                                    هذا النص هو مثال لنص يمكن أن يستبدل في نفس
-                                    المساحة، لقد تم توليد هذا النص من مولد النص
-                                    العربى، حيث يمكنك أن تولد مثل هذا النص أو
-                                    العديد من النصوص الأخرى إضافة إلى زيادة عدد
-                                    الحروف التى يولدها التطبيق
+                                    {currentCourse.data?.owner.description}
                                 </Typography>
                                 <Avatar
-                                    src={
-                                        currentCourse.data?.owner.profile_image
-                                    }
+                                    src={currentCourse.data?.owner.profile_image}
                                     sx={{
                                         width: theme.spacing(20),
                                         height: theme.spacing(20),
@@ -419,16 +414,6 @@ function WatchCourse() {
                                 >
                                     اسم الملف
                                 </Typography>
-                                <Typography
-                                    color={'gray.main'}
-                                    variant={'body1'}
-                                >
-                                    هذا النص هو مثال لنص يمكن أن يستبدل في نفس
-                                    المساحة، لقد تم توليد هذا النص من مولد النص
-                                    العربى، حيث يمكنك أن تولد مثل هذا النص أو
-                                    العديد من النصوص الأخرى إضافة إلى زيادة عدد
-                                    الحروف التى يولدها التطبيق
-                                </Typography>
                             </Box>
                             <a
                                 download="presentation"
@@ -447,6 +432,7 @@ function WatchCourse() {
                         value={activeTab}
                         index={2}
                     >
+                        <VideoRatings video={currentVideo} />
                         <VideoComments videoID={currentVideo.id} />
                     </TabPanel>
                 </Box>

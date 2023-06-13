@@ -18,7 +18,9 @@ export function Teachers({}: TeachersProps) {
     if (query.isLoading) return <>Loading users...</>;
     if (query.isError) return <>Error in users...</>;
 
-    const teachers = query.data?.filter(user => user.profile_image !== null);
+    const teachers = query.data?.filter(user =>
+        user.groups.filter(group => group.name === 'TeacherGroup')
+    );
     return (
         <Box
             bgcolor={theme.palette.gray.secondary}
@@ -36,8 +38,8 @@ export function Teachers({}: TeachersProps) {
                     maxWidth={450}
                     textAlign={'center'}
                 >
-                    مجموعة من المبدعين و المحترفين يحرصون على ان تقديم افضل
-                    الدورات و البرامج للطلبة في الموقع
+                    مجموعة من المبدعين و المحترفين يحرصون على ان تقديم افضل الدورات و
+                    البرامج للطلبة في الموقع
                 </Typography>
             </Box>
             <Box
@@ -49,7 +51,7 @@ export function Teachers({}: TeachersProps) {
                     pb: 5,
                 }}
             >
-                {teachers?.map((user: User) => {
+                {teachers?.slice(0, 3).map((user: User) => {
                     return (
                         <TeacherComponent
                             key={uuidv4()}
