@@ -1,10 +1,10 @@
-import { Notifications, ShoppingBag } from '@mui/icons-material';
+import { Notifications } from '@mui/icons-material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/system';
 import { Link, NavLink } from 'react-router-dom';
 import logo from '../../assets/png/logo@2x.png';
-import Profile from '../../assets/svg/Profile icon.svg';
+import { ReactComponent as Profile } from '../../assets/svg/Profile icon.svg';
 
 export default function TopNavigationBar() {
     const theme = useTheme();
@@ -109,7 +109,7 @@ export default function TopNavigationBar() {
                     gridColumnEnd: 13,
                     display: 'flex',
                     gap: theme.spacing(4),
-                    justifyContent: 'center',
+                    justifyContent: 'flex-end',
                     alignItems: 'center',
                 }}
             >
@@ -120,15 +120,8 @@ export default function TopNavigationBar() {
                         width: theme.spacing(4),
                     }}
                 />
-                <ShoppingBag
-                    sx={{
-                        fill: 'white',
-                        height: theme.spacing(4),
-                        width: theme.spacing(4),
-                    }}
-                />
-                <img
-                    src={Profile}
+
+                <Profile
                     style={{
                         maxHeight: theme.spacing(3),
                         maxWidth: theme.spacing(3),

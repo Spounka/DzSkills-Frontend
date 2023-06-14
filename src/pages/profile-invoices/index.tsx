@@ -1,38 +1,20 @@
-import {
-    Box,
-    Card,
-    Container,
-    Divider,
-    Grid,
-    Typography,
-} from '@mui/material';
+import { Box, Card, Container, Divider, Grid } from '@mui/material';
 import React from 'react';
 import { useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
 import TopNavigationBar from '../../components/top-bar';
-import { MainButton } from '../../components/ui/MainButton';
 import theme from '../../theme';
 import { Order } from '../../types/payment';
 import SideBar from '../edit-profile/components/side-bar';
+import { InvoiceRow } from './InvoiceRow';
 import { getRelatedOrders } from './api/getOrders';
 
 function Invoices() {
-
     const query = useQuery({
         queryKey: ['invoices'],
         queryFn: () => getRelatedOrders(),
     });
 
-    function stateFromCode(s: string) {
-        switch (s) {
-            case 'p':
-                return 'قيد الانتظار';
-            case 'a':
-                return 'مكتمل';
-            case 'r':
-                return 'مرفوض';
-        }
-    }
     const invoicesWithUUID = query.data
         ?.sort((a, b) => -a.date_issued.localeCompare(b.date_issued))
         .map((order: Order) => {
@@ -124,50 +106,13 @@ function Invoices() {
                             }}
                         >
                             {invoicesWithUUID?.map(
-                                (
-                                    order: Order & { key: string },
-                                    index: number
-                                ) => {
+                                (order: Order & { key: string }, index: number) => {
                                     return (
                                         <React.Fragment key={order.key}>
-                                            <Box
-                                                display={'flex'}
-                                                gap={5}
-                                                textAlign={'center'}
-                                            >
-                                                <Typography flexGrow={0}>
-                                                    {order.id}
-                                                </Typography>
-                                                <Typography
-                                                    flexGrow={0}
-                                                    alignSelf={'left'}
-                                                >
-                                                    {new Date(
-                                                        order.date_issued
-                                                    ).toLocaleDateString()}
-                                                </Typography>
-                                                <Typography flexGrow={1}>
-                                                    {stateFromCode(
-                                                        order.payment
-                                                            ?.status || 'p'
-                                                    )}
-                                                </Typography>
-                                                <Typography flexGrow={0}>
-                                                    {order.course?.price} DA
-                                                </Typography>
-                                                <a
-                                                    download
-                                                    href={''}
-                                                >
-                                                    <MainButton
-                                                        text={'عرض'}
-                                                        color={'primary.main'}
-                                                    />
-                                                </a>
-                                            </Box>
-                                            {index <
-                                                invoicesWithUUID?.length -
-                                                    1 && <Divider />}
+                                            <InvoiceRow order={order} />
+                                            {index < invoicesWithUUID?.length - 1 && (
+                                                <Divider />
+                                            )}
                                         </React.Fragment>
                                     );
                                 }
