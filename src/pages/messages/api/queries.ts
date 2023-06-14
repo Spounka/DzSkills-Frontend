@@ -13,7 +13,6 @@ export async function getMessages(conversationID: number | undefined) {
 }
 
 export async function createMessage(body: FormData) {
-    console.log(body);
     const { data } = await axiosInstance.post('/conversations/messages/', body);
     return data;
 }

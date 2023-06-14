@@ -20,7 +20,6 @@ export async function getVideoComments(id: number) {
 }
 
 export async function submitComment(content: string, video: number) {
-    console.log(content, video);
     const { data } = await axiosInstance.post('comments/', {
         content: content,
         video: video,

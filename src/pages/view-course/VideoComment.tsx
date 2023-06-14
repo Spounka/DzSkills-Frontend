@@ -8,7 +8,6 @@ export function VideoComment({
     comment: VideoComment;
     isLoading: boolean;
 }) {
-    console.log(isLoading);
 
     return (
         <Stack

@@ -83,12 +83,9 @@ function SocialLoginButtons() {
                     version="v17.0"
                     scope={'email,public_profile'}
                     onReject={response => {
-                        console.log('rejected!');
-                        console.log(response);
                         setIsOpen(true);
                     }}
                     onResolve={response => {
-                        console.log(response.data);
                         const data = async () =>
                             await facebookLogin(response.data?.accessToken).then(
                                 response => {
@@ -100,7 +97,6 @@ function SocialLoginButtons() {
                                 }
                             );
                         data()
-                            .then(response => console.log(response))
                             .finally();
                     }}
                 >
@@ -122,7 +118,6 @@ function SocialLoginButtons() {
                         '497631069809-s8lrg6gs33p12mo7fuuola8occn2907p.apps.googleusercontent.com'
                     }
                     onResolve={response => {
-                        console.log(response?.data);
                         const data = async () =>
                             await googleLogin(response.data?.access_token);
                         data()
@@ -136,7 +131,7 @@ function SocialLoginButtons() {
                                 return response;
                             })
                             .catch(error => {
-                                console.log('error occured', error);
+                                console.error('error occured', error);
                             });
                     }}
                     onReject={function (reject: string | objectType): void {
