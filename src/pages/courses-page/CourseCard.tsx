@@ -43,9 +43,7 @@ function CourseCard({ course, link }: props) {
             >
                 <Box
                     sx={{
-                        borderRadius: `${theme.spacing(2)} ${theme.spacing(
-                            2
-                        )} 50% 50%`,
+                        borderRadius: `${theme.spacing(2)} ${theme.spacing(2)} 50% 50%`,
                     }}
                 >
                     <Image
@@ -57,9 +55,7 @@ function CourseCard({ course, link }: props) {
                         duration={0}
                         height={'100%'}
                         style={{
-                            borderRadius: `${theme.spacing(2)} ${theme.spacing(
-                                2
-                            )} 0 0`,
+                            borderRadius: `${theme.spacing(2)} ${theme.spacing(2)} 0 0`,
                             aspectRatio: '16/9',
                         }}
                     />
@@ -107,7 +103,7 @@ function CourseCard({ course, link }: props) {
                                 color={'gray.main'}
                                 variant={'subtitle2'}
                             >
-                                {2.5}
+                                {course.average_rating.toFixed(1)}
                             </Typography>
                             <Rating
                                 max={1}

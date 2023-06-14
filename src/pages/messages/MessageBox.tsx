@@ -40,7 +40,7 @@ export function MessageBox({ messages, user, course }: MessageBoxProps) {
                         ? user.data?.profile_image
                         : course.data?.owner.profile_image;
                 const isSender = message.sender === user.data?.pk;
-                const dir = isSender ? 'flex-start' : 'flex-end';
+                const dir = isSender ? 'flex-end' : 'flex-start';
                 return (
                     <Message
                         key={message.id}

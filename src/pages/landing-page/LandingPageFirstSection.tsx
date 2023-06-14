@@ -2,7 +2,6 @@ import { Typography, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Image from 'mui-image';
 import webDev from '../../assets/png/wd.png';
-import { MainButton } from '../../components/ui/MainButton';
 import { LoginButton } from './LoginButton';
 import { RegisterButton } from './RegisterButton';
 
@@ -25,6 +24,7 @@ export function LandingPageFirstSection({
                 sx={{
                     display: 'flex',
                     justifyContent: 'space-between',
+                    alignItems: 'center',
                     pt: 30,
                     px: 30,
                 }}
@@ -64,24 +64,6 @@ export function LandingPageFirstSection({
                             alignItems: 'center',
                         }}
                     >
-                        {/* <MainButton
-                            color={theme.palette.primary.main}
-                            text={'تسجيل الدخول'}
-
-                        /> */}
-                        {/* <MainButton
-                            color="secondary"
-                            text={'انشاء حساب'}
-                            {...{
-                                variant: 'outlined',
-                                sx: {
-                                    borderWidth: '2px',
-                                    color: theme.palette.primary.main,
-                                    bgcolor: 'white',
-                                    fontSize: theme.typography.button,
-                                },
-                            }}
-                        /> */}
                         <LoginButton />
                         <RegisterButton />
                     </Box>

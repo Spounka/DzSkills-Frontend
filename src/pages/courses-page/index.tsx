@@ -2,15 +2,17 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
+import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
 import blurredBg from '../../assets/svg/blured image.svg';
+import Footer from '../../components/footer';
 import TopNavigationBar from '../../components/top-bar';
-import { Course } from '../../types/course';
+import { Category, Course, Level } from '../../types/course';
 import CourseCard from './CourseCard';
 import { TrendingCoursesCarousel } from './TrendingCoursesCarousel';
 import { getCourses } from './api/getAllCourses';
-import Footer from '../../components/footer';
+import FilterComponent from './components/filter';
 
 function CoursesPage() {
     const theme = useTheme();
@@ -19,8 +21,69 @@ function CoursesPage() {
         queryKey: ['courses'],
         queryFn: () => getCourses(),
     });
+
+    const [activeCategories, setActiveCategories] = useState<Category[]>([]);
+    const [activeLevels, setActiveLevels] = useState<Level[]>([]);
+    const [activeCourses, setActiveCourses] = useState<Course[]>();
+
+    // update active levels acronym
+    const _ual = (level: Level) => {
+        console.log(activeLevels);
+        if (level.id === 0) return;
+        if (activeLevels.includes(level))
+            setActiveLevels(oldList => oldList.filter(l => l.id != level.id));
+        else
+            setActiveLevels(oldList => {
+                const result = [...oldList, level];
+                console.log(result);
+                return result;
+            });
+    };
+
+    // update active categories acronym
+    const _uac = (category: Category) => {
+        console.log(activeCategories);
+        if (category.id === 0) return;
+        if (activeCategories.includes(category))
+            setActiveCategories(oldList => oldList.filter(l => l.id != category.id));
+        else
+            setActiveCategories(oldList => {
+                const result = [...oldList, category];
+                return result;
+            });
+        console.log(activeLevels);
+    };
+
+    useEffect(() => {
+        setActiveCourses(query.data);
+    }, [query.isLoading]);
+
+    useEffect(() => {
+        let displayCourses = query.data;
+        if (activeLevels.length > 0) {
+            displayCourses = displayCourses?.filter(course =>
+                activeLevels.includes(course.course_level)
+            );
+        } else displayCourses = query.data;
+        setActiveCourses(displayCourses);
+    }, [activeLevels]);
+
+    useEffect(() => {
+        let displayCourses = query.data;
+        if (activeCategories.length > 0)
+            displayCourses = displayCourses?.filter(course =>
+                activeCategories.includes(course.category)
+            );
+        else displayCourses = query.data;
+        setActiveCourses(displayCourses);
+    }, [activeCategories]);
+
+    const updateActiveLevels = useCallback(_ual, [activeLevels]);
+    const updateActiveCategories = useCallback(_uac, [activeCategories]);
+
     if (query.isError) return <Typography>Error Occured</Typography>;
     if (query.isLoading) return <Typography>Loading...</Typography>;
+
     return (
         <Grid
             container
@@ -86,27 +149,13 @@ function CoursesPage() {
                         <TrendingCoursesCarousel />
                     </Box>
                 </Box>
-                <Box
-                    sx={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
-                        width: '100%',
-                        px: theme.spacing(14),
-                        pb: 5,
-                    }}
-                >
-                    {query.data?.map((info: Course) => {
-                        if (info.trending) return;
-                        return (
-                            <Box key={uuidv4()}>
-                                <CourseCard
-                                    course={info}
-                                    link={'/courses/' + info.id + '/'}
-                                />
-                            </Box>
-                        );
-                    })}
-                </Box>
+                <FilterComponent
+                    activeLevels={activeLevels}
+                    activeCategories={activeCategories}
+                    updateActiveLevels={updateActiveLevels}
+                    updateActiveCategories={updateActiveCategories}
+                />
+                <CoursesGrid activeCourses={activeCourses} />
             </Grid>
             <Footer />
         </Grid>
@@ -114,3 +163,31 @@ function CoursesPage() {
 }
 
 export default CoursesPage;
+
+function CoursesGrid({ activeCourses }: { activeCourses?: Course[] }) {
+    const theme = useTheme();
+    return (
+        <Box
+            sx={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
+                width: '100%',
+                px: theme.spacing(14),
+                pb: 5,
+            }}
+        >
+            {activeCourses?.map((info: Course) => {
+                if (info.trending) return;
+                return (
+                    <Box key={uuidv4()}>
+                        <CourseCard
+                            key={info.id}
+                            course={info}
+                            link={'/courses/' + info.id + '/'}
+                        />
+                    </Box>
+                );
+            })}
+        </Box>
+    );
+}

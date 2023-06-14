@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import React, { useCallback, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import messagesBlue from '../../assets/svg/message-blue.svg';
 import messagesWhite from '../../assets/svg/message-white.svg';
@@ -22,6 +22,10 @@ import { VideoPlayer } from './VideoPlayer';
 import { VideoRatings } from './VideoRatings';
 import { getStudentProgress, updateStudentProgress } from './api/queries';
 
+function fileNameFromPath(path: string): string {
+    const arr = path.split('/');
+    return arr[arr.length - 1];
+}
 function WatchCourse() {
     const params = useParams();
 
@@ -33,6 +37,7 @@ function WatchCourse() {
     const id: number = parseInt(params.id);
     const theme = useTheme();
     const [userQuery] = useLogin();
+    const navigate = useNavigate();
     const user = userQuery.data;
 
     const currentCourse = useQuery({
@@ -323,6 +328,9 @@ function WatchCourse() {
                             src={messagesBlue}
                             hoverImage={messagesWhite}
                             text={'تواصل'}
+                            buttonProps={{
+                                onClick: () => navigate(`../contact/`),
+                            }}
                         />
                     </Box>
 
@@ -412,7 +420,9 @@ function WatchCourse() {
                                     variant={'body1'}
                                     color={'gray.dark'}
                                 >
-                                    اسم الملف
+                                    {fileNameFromPath(
+                                        currentCourse.data.presentation_file
+                                    )}
                                 </Typography>
                             </Box>
                             <a

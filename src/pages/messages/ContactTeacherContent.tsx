@@ -21,6 +21,8 @@ export function ContactTeacherContent({ id, user }: ContactTeacherContentProps) 
     });
 
     useIsNotSelf(course.data?.owner, `/courses/${id}/watch`);
+    if (course.isLoading) return <>Course loading...</>;
+    if (course.isError) return <>{course.error}</>;
     return (
         <Box
             sx={{

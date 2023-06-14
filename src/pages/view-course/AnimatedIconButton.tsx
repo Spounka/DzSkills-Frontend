@@ -1,5 +1,5 @@
 import { SxProps, Typography, useTheme } from '@mui/material';
-import Button from '@mui/material/Button';
+import Button, { ButtonProps } from '@mui/material/Button';
 import Image from 'mui-image';
 import { useState } from 'react';
 
@@ -8,8 +8,9 @@ interface props {
     text: string;
     hoverImage?: string;
     sx?: SxProps;
+    buttonProps?: ButtonProps;
 }
-function AnimatedIconButton({ src, text, hoverImage, sx }: props) {
+function AnimatedIconButton({ src, text, hoverImage, sx, buttonProps }: props) {
     const theme = useTheme();
     const [isHovered, setIsHovered] = useState<boolean>(false);
 
@@ -42,6 +43,7 @@ function AnimatedIconButton({ src, text, hoverImage, sx }: props) {
                 borderRadius: theme.spacing(),
                 ...sx,
             }}
+            {...buttonProps}
         >
             <Typography
                 sx={{

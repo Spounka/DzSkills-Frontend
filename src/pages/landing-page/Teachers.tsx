@@ -23,7 +23,6 @@ export function Teachers({}: TeachersProps) {
     );
     return (
         <Box
-            bgcolor={theme.palette.gray.secondary}
             display={'flex'}
             flexDirection={'column'}
             py={16}

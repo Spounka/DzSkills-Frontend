@@ -15,7 +15,7 @@ export function GetYourCertificate() {
                     display: 'flex',
                     justifyContent: 'space-between',
                     px: 15,
-                    pb: 15,
+                    py: 25,
                     bgcolor: theme.palette.gray.secondary,
                 }}
             >
@@ -31,15 +31,13 @@ export function GetYourCertificate() {
                         variant={'h4'}
                         fontWeight={600}
                     >
-                        احصل على شهادة عند اتمامك لاي كورس لإثبات كفاءتك في
-                        المجال
+                        احصل على شهادة عند اتمامك لاي كورس لإثبات كفاءتك في المجال
                     </Typography>
                     <Typography variant={'subtitle2'}>
-                        وثيقة تمنح للطلاب بعد الانتهاء من دراسة دورة أو برنامج
-                        تعليمي محدد وتعتبر شهادة إتمام درس دليلا على مهارات
-                        الطالب ومستواه الأكاديمي في الموضوع المدرس، كما يمكن
-                        استخدامها كإثبات لدى الجهات العامة أو الخاصة عند الحاجة
-                        إليها
+                        وثيقة تمنح للطلاب بعد الانتهاء من دراسة دورة أو برنامج تعليمي
+                        محدد وتعتبر شهادة إتمام درس دليلا على مهارات الطالب ومستواه
+                        الأكاديمي في الموضوع المدرس، كما يمكن استخدامها كإثبات لدى الجهات
+                        العامة أو الخاصة عند الحاجة إليها
                     </Typography>
                     <Box
                         sx={{
@@ -49,7 +47,6 @@ export function GetYourCertificate() {
                             alignItems: 'center',
                         }}
                     >
-                      
                         <LoginButton />
                         <RegisterButton />
                     </Box>

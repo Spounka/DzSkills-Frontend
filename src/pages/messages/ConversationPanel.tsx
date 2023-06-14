@@ -1,7 +1,7 @@
 import { Send } from '@mui/icons-material';
 import { Card, IconButton, OutlinedInput, Stack } from '@mui/material';
 import Box from '@mui/material/Box';
-import { FormEvent, KeyboardEvent, useRef } from 'react';
+import { FormEvent, KeyboardEvent, useRef, useState } from 'react';
 import { UseQueryResult, useMutation, useQuery } from 'react-query';
 import { ReactComponent as AttachementImage } from '../../assets/svg/attachement.svg';
 import { Course } from '../../types/course';
@@ -16,24 +16,30 @@ interface props {
 }
 export function ConversationPanel({ user, course, id }: props) {
     const inputRef = useRef(null);
+    const [isValid, setIsValid] = useState(false);
 
     const conversation = useQuery({
         queryKey: ['conversations', id, user.data?.pk, course.data?.id],
         queryFn: () => getConversation(id),
         enabled: user.isFetched && course.isFetched,
+        onSuccess: () => setIsValid(true),
+        onError: err => {
+            console.log(err);
+        },
     });
 
     const messagesQuery = useQuery({
-        enabled: conversation.isFetched,
+        enabled: isValid,
         queryFn: () => getMessages(conversation.data?.id),
         queryKey: ['conversations', 'messages', id, user.data?.pk, course.data?.id],
-        refetchInterval: 1000,
+        onError: () => setIsValid(false),
+        refetchInterval: 5000,
     });
 
     const messageMutation = useMutation({
         mutationFn: ({ body }: { body: FormData }) => createMessage(body),
         mutationKey: ['create', 'message', id, user.data?.pk, course.data?.id],
-        onSuccess: () => messagesQuery.refetch(),
+        onSuccess: () => conversation.refetch(),
     });
 
     const onSubmit = (
@@ -52,6 +58,8 @@ export function ConversationPanel({ user, course, id }: props) {
             inputRef.current.value = '';
         }
     };
+
+    if (conversation.isLoading) return <>Loading conversation...</>;
 
     return (
         <Card

@@ -1,4 +1,4 @@
-//TODO: remove the non-used fields and add proper models to destinguish between models
+// TODO: Remove the debug fields
 
 export type Group = {
     name: string;

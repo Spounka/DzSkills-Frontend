@@ -24,6 +24,7 @@ export function LandingPageSections({}: LandingPageSectionsProps) {
                 flexDirection={'column'}
                 alignItems={'center'}
                 mt={theme.spacing(25)}
+                mb={theme.spacing(25)}
                 gap={8}
                 px={16}
             >
