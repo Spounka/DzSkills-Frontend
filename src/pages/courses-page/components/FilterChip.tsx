@@ -1,15 +1,16 @@
 import { ArrowDropDown } from '@mui/icons-material';
-import { Box, Card, Stack, Typography, useTheme } from '@mui/material';
+import { Box, Button, Card, Stack, Typography, useTheme } from '@mui/material';
 import { useRef, useState } from 'react';
 import { Level } from '../../../types/course';
 import { FilterPopper } from './FilterPopper';
+import { MainButton } from '../../../components/ui/MainButton';
 
 interface filterProps {
     levels: Level[];
     activeLevels: Level[];
     updateActiveLevels: (level: Level) => void;
 }
-export function FilterChip({ levels }: filterProps) {
+export function FilterChip({ levels, activeLevels, updateActiveLevels }: filterProps) {
     const theme = useTheme();
     const [drawerOpen, setDrawerOpen] = useState(false);
     const cardRef = useRef(null);
@@ -58,7 +59,11 @@ export function FilterChip({ levels }: filterProps) {
                 isOpen={drawerOpen}
                 cardRef={cardRef}
             >
-                <FilterLevels levels={levels} />
+                <FilterLevels
+                    levels={levels}
+                    activeLevels={activeLevels}
+                    updateActiveLevels={updateActiveLevels}
+                />
             </FilterPopper>
         </>
     );
@@ -66,45 +71,59 @@ export function FilterChip({ levels }: filterProps) {
 
 interface props {
     levels: Level[];
+    activeLevels: Level[];
+    updateActiveLevels: (level: Level) => void;
 }
-function FilterLevels({ levels }: props) {
+function FilterLevels({ levels, activeLevels, updateActiveLevels }: props) {
     const theme = useTheme();
     return (
         <Stack gap={1}>
             <Typography variant={'h6'}>Levels</Typography>
             <Stack gap={1}>
-                {levels.slice(0, 8).map((level: any) => {
+                {levels.map((level: any) => {
                     return (
                         <FilterLevelButton
                             key={level.id}
                             level={level}
+                            isActive={activeLevels.includes(level)}
+                            updateActiveLevels={updateActiveLevels}
                         />
                     );
                 })}
             </Stack>
+            <MainButton
+                color={theme.palette.error.light}
+                //@ts-expect-error
+                onClick={() => updateActiveLevels({ id: 0, name: 'clear' })}
+                sx={{
+                    justifySelf: 'flex-start',
+                }}
+                text="Clear"
+            />
         </Stack>
     );
 }
 
 interface prop {
     level: Level;
+    isActive: boolean;
+    updateActiveLevels: (level: Level) => void;
 }
-function FilterLevelButton({ level }: prop) {
+function FilterLevelButton({ level, isActive, updateActiveLevels }: prop) {
     const theme = useTheme();
-    const [selected, setSelected] = useState(false);
     return (
         <Box
             width={'fit-content'}
-            onClick={() => setSelected(val => !val)}
+            onClick={() => updateActiveLevels(level)}
             py={1}
             px={2}
             borderRadius={theme.spacing()}
             sx={{
                 cursor: 'pointer',
-                bgcolor: selected ? 'transparetn' : 'gray.secondary',
-                borderWidth: selected ? '1px' : '0',
+                bgcolor: isActive ? 'transparetn' : 'gray.secondary',
+                borderWidth: isActive ? '1px' : '0',
                 borderColor: 'primary.main',
-                color: selected ? 'primary.main' : 'black',
+                color: isActive ? 'primary.main' : 'black',
                 transition: 'all 50ms ease-in-out',
             }}
         >

@@ -103,7 +103,9 @@ function CourseCard({ course, link }: props) {
                                 color={'gray.main'}
                                 variant={'subtitle2'}
                             >
-                                {course.average_rating.toFixed(1)}
+                                {course.average_rating.toFixed(1) === '0.0'
+                                    ? '-'
+                                    : course.average_rating.toFixed(1)}
                             </Typography>
                             <Rating
                                 max={1}

@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
+import { AxiosError } from 'axios';
 import React, { useCallback, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -74,7 +75,9 @@ function WatchCourse() {
                 ] || defaultVideo
             ),
         staleTime: 1000 * 60 * 2,
-        enabled: !!user,
+        onError: (err: AxiosError) => {
+            if (err.response?.status === 403) navigate(`/courses/${id}/buy/`);
+        },
     });
 
     const [currentVideo, setCurrentVideo] = useState<Video>(
@@ -196,7 +199,7 @@ function WatchCourse() {
                         value={5}
                         onChange={() => {}}
                         sx={{
-                            scale: '-1 1',
+                            // scale: '-1 1',
                             height: 6,
                             mb: 1,
                             '.MuiSlider-thumb': {

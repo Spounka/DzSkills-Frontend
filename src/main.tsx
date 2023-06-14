@@ -1,4 +1,5 @@
 import { ThemeProvider } from '@mui/material';
+import { SnackbarProvider } from 'notistack';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -27,7 +28,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             <BrowserRouter>
                 <Provider store={store}>
                     <QueryClientProvider client={queryClient}>
-                        <App />
+                        <SnackbarProvider
+                            autoHideDuration={1000}
+                            maxSnack={5}
+                        >
+                            <App />
+                        </SnackbarProvider>
                         <div dir="ltr">
                             <ReactQueryDevtools />
                         </div>

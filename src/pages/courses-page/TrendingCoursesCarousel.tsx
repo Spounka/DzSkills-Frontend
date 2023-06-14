@@ -4,8 +4,8 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { getTrendingCourses } from './api/getAllCourses';
 import { BestCourseCard } from './BestCourseCard';
+import { getTrendingCourses } from './api/getAllCourses';
 
 export function TrendingCoursesCarousel({}: any) {
     const [activeCourse, setActiveCourse] = useState<number>(0);
@@ -32,9 +32,7 @@ export function TrendingCoursesCarousel({}: any) {
         >
             <IconButton
                 disableRipple
-                onClick={() =>
-                    setActiveCourse((l: any) => (l < 2 ? l + 1 : 2))
-                }
+                onClick={() => setActiveCourse((l: any) => (l < 2 ? l + 1 : 2))}
                 sx={{
                     zIndex: 4,
                     position: 'absolute',
@@ -53,9 +51,7 @@ export function TrendingCoursesCarousel({}: any) {
 
             <IconButton
                 disableRipple
-                onClick={() =>
-                    setActiveCourse((l: any) => (l > 0 ? l - 1 : 0))
-                }
+                onClick={() => setActiveCourse((l: any) => (l > 0 ? l - 1 : 0))}
                 sx={{
                     zIndex: 4,
                     position: 'absolute',

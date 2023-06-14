@@ -29,10 +29,10 @@ export default function LandingPage({}: LandingPageProps) {
         >
             <LandingPageNavbar />
             <LandingPageFirstSection
-                mainColor={adminConfigQuery.data?.main_title_text.color}
-                mainText={adminConfigQuery.data?.main_title_text.content}
-                secondaryColor={adminConfigQuery.data?.secondary_title_text.color}
-                secondaryText={adminConfigQuery.data?.secondary_title_text.content}
+                mainColor={adminConfigQuery.data?.main_title_text?.color}
+                mainText={adminConfigQuery.data?.main_title_text?.content}
+                secondaryColor={adminConfigQuery.data?.secondary_title_text?.color}
+                secondaryText={adminConfigQuery.data?.secondary_title_text?.content}
             />
             <LandingPageSections />
             <MostSoldCourses />

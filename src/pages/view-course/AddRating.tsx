@@ -20,7 +20,7 @@ export function AddRating({ video }: addProps) {
     const id: number = parseInt(params.id);
     const [user] = useLogin();
     const [currentValue, setCurrentValue] = useState<any>(null);
-    const [shouldUpdateOnSubmit, setShouldUpdateOnSubmit] = useState<boolean>(false);
+    const [shouldUpdateOnSubmit, setShouldUpdateOnSubmit] = useState<boolean>(true);
 
     const queryClient = useQueryClient();
     const ratingMutation = useMutation({
@@ -29,7 +29,6 @@ export function AddRating({ video }: addProps) {
             postRating(user.data?.pk, video.id, value, shouldUpdateOnSubmit),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['video', video.id, 'ratings'] });
-            console.log(video.id);
             queryClient.invalidateQueries({ queryKey: ['courses', id] });
         },
     });
@@ -44,6 +43,10 @@ export function AddRating({ video }: addProps) {
             setCurrentValue(null);
         }
     }, [video.ratings, video]);
+    useEffect(() => {
+        setShouldUpdateOnSubmit(true);
+        ratingMutation.mutate(currentValue);
+    }, [currentValue]);
 
     return (
         <Stack
@@ -58,8 +61,8 @@ export function AddRating({ video }: addProps) {
                 size={'large'}
                 value={currentValue}
                 onChange={(_, value) => {
-                    setCurrentValue(value);
-                    ratingMutation.mutate(value || 1);
+                    if (!value || value < 0) setCurrentValue(1);
+                    else setCurrentValue(value);
                 }}
                 sx={{
                     direction: 'ltr',

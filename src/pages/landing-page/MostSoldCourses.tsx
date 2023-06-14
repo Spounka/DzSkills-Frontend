@@ -2,6 +2,7 @@ import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { MainButton } from '../../components/ui/MainButton';
 import { Course } from '../../types/course';
@@ -10,12 +11,12 @@ import { getCourses } from '../courses-page/api/getAllCourses';
 
 export function MostSoldCourses() {
     const theme = useTheme();
+    const navigate = useNavigate();
     const query = useQuery({
         queryKey: ['courses'],
         queryFn: () => getCourses(),
     });
 
-    // if (query.isLoading) return <>Loading courses...</>;
     if (query.isError) return <>Error in courses...</>;
 
     return (
@@ -62,6 +63,9 @@ export function MostSoldCourses() {
             <MainButton
                 color={theme.palette.primary.main}
                 text={'المزيد'}
+                {...{
+                    onClick: () => navigate('/courses/'),
+                }}
             />
         </Box>
     );

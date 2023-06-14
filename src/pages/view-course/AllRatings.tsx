@@ -1,8 +1,9 @@
-import { LinearProgress, Rating, Stack, Typography, useTheme } from '@mui/material';
+import { LinearProgress, Stack, Typography, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
 import { Video } from '../../types/course';
+import { CourseAverageRating } from './CourseAverageRating';
 import { getRatings } from './api/getRatings';
 
 interface ratingsProps {
@@ -10,19 +11,17 @@ interface ratingsProps {
 }
 export function AllRatings({ video }: ratingsProps) {
     const theme = useTheme();
-    const [enabled, setEnabled] = useState(false);
     const ratingsQuery = useQuery({
         queryKey: ['video', video.id, 'ratings'],
         queryFn: () => getRatings(video.id),
-        enabled: enabled,
         cacheTime: 1000 * 5,
+        onSuccess: () => setCurrentRating(video.average_rating),
     });
     const [currentRating, setCurrentRating] = useState(0);
 
-    useEffect(() => setEnabled(true), []);
     useEffect(() => {
         setCurrentRating(video.average_rating);
-    }, [video]);
+    }, [video.average_rating, ratingsQuery.data]);
 
     if (ratingsQuery.isLoading) return <>....</>;
     if (!ratingsQuery.data) return <>Error...</>;
@@ -39,30 +38,7 @@ export function AllRatings({ video }: ratingsProps) {
                 alignItems: 'center',
             }}
         >
-            <Stack textAlign={'center'}>
-                <Typography
-                    variant="h2"
-                    fontWeight={600}
-                >
-                    {currentRating.toFixed(1)}
-                </Typography>
-                <Rating
-                    name={'average'}
-                    precision={0.5}
-                    size={'large'}
-                    value={currentRating}
-                    readOnly
-                    sx={{
-                        direction: 'ltr',
-                    }}
-                />
-                <Typography
-                    variant="body1"
-                    fontWeight={600}
-                >
-                    تقييم الدرس
-                </Typography>
-            </Stack>
+            <CourseAverageRating currentRating={currentRating} />
             <Stack
                 width={'100%'}
                 flexGrow={'1'}
@@ -74,7 +50,7 @@ export function AllRatings({ video }: ratingsProps) {
             >
                 {[5, 4, 3, 2, 1].map(value => {
                     const count = ratingsQuery.data?.filter(
-                        rating => Math.trunc(rating.rating) === value
+                        rating => Math.floor(rating.rating) === value
                     ).length;
                     return (
                         <Stack

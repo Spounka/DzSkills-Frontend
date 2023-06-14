@@ -1,7 +1,17 @@
-import { Button, Card, Divider, Typography, useTheme } from '@mui/material';
+import {
+    Backdrop,
+    Button,
+    Card,
+    CircularProgress,
+    Divider,
+    Typography,
+    useTheme,
+} from '@mui/material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import { AxiosError } from 'axios';
 import Image from 'mui-image';
+import { SnackbarKey, useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -10,10 +20,10 @@ import uploadImg from '../../assets/svg/upload gray.svg';
 import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar';
 import DownloadSvgIcon from '../../components/ui/DownloadSvgIcon';
 import { MainButton } from '../../components/ui/MainButton';
+import { Receipt } from '../../types/admin_config';
 import { getCourse } from '../course/api/getCourse';
 import NotFound from '../not-found/NotFound';
 import { createOrder, getCurrentReceipt } from './api/createOrder';
-import { Receipt } from '../../types/admin_config';
 
 function BuyCourse() {
     const params = useParams();
@@ -26,7 +36,10 @@ function BuyCourse() {
     const id: number = parseInt(params.id);
     const theme = useTheme();
     const [fileName, setFileName] = useState<File>();
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [currentSnackbar, setCurrentSnackbar] = useState<SnackbarKey>();
     const navigate = useNavigate();
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
     function handleFilechange(event: any) {
         setFileName(event.target.files[0]);
@@ -41,15 +54,39 @@ function BuyCourse() {
     const mutation = useMutation({
         mutationKey: ['offers', id, 'create'],
         mutationFn: (data: any) => createOrder(data),
+        onSuccess: () => {
+            setCurrentSnackbar(
+                enqueueSnackbar('طلبك قيد المراجعة', { variant: 'warning' })
+            );
+            setIsSubmitting(false);
+        },
+        onError: (err: AxiosError<{ message: string }>) => {
+            if (err.response?.data.message === 'an existing order already exists') {
+                enqueueSnackbar<'error'>('هناك أمر دفع معلق قائم', {
+                    variant: 'error',
+                    action: <Button onClick={() => closeSnackbar()}></Button>,
+                });
+            } else {
+                enqueueSnackbar<'error'>('حدث خطأ', {
+                    variant: 'error',
+                    onClose: () => closeSnackbar(currentSnackbar),
+                });
+            }
+            setIsSubmitting(false);
+        },
     });
     async function submitForm(e: any) {
         e.preventDefault();
-        const form = document.querySelector('form');
-        if (form) {
-            let formData = new FormData(form);
-            formData.append('course', id.toString());
-            mutation.mutate(formData);
-        }
+        setIsSubmitting(true);
+
+        setTimeout(() => {
+            const form = document.querySelector('form');
+            if (form) {
+                let formData = new FormData(form);
+                formData.append('course', id.toString());
+                mutation.mutate(formData);
+            }
+        }, 3000);
     }
     const [imageLink, setImageLink] = useState<string>('');
     useEffect(() => {
@@ -58,248 +95,194 @@ function BuyCourse() {
             .then((data: Receipt) => {
                 setImageLink(data.image);
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     }, []);
 
     if (query.isError) return <>Error</>;
     if (query.isLoading || query.isFetching) return <>Loading...</>;
 
     return (
-        <Grid
-            container
-            direction="column"
-            spacing={5}
-            id={'main grid container'}
-            columns={14}
-            sx={{
-                backgroundColor: 'white',
-                maxWidth: '100%',
-            }}
-        >
-            <Grid
-                container
-                item
-                xs={14}
+        <>
+            <Backdrop
+                open={isSubmitting}
+                sx={{ zIndex: 100 }}
             >
-                <AuthenticationTopBar />
-            </Grid>
-
+                <CircularProgress color={'secondary'} />
+            </Backdrop>
             <Grid
-                item
-                xs={14}
                 container
+                direction="column"
+                spacing={5}
+                id={'main grid container'}
+                columns={14}
                 sx={{
-                    backgroundColor: 'gray.secondary',
+                    backgroundColor: 'white',
+                    maxWidth: '100%',
+                    height: '100%',
                 }}
             >
-                <Box
+                <Grid
+                    container
+                    item
+                    xs={14}
+                >
+                    <AuthenticationTopBar />
+                </Grid>
+
+                <Grid
+                    item
+                    xs={14}
+                    container
                     sx={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(26, minmax(0, 1fr))',
-                        width: '100%',
-                        marginBottom: '2rem',
+                        backgroundColor: 'gray.secondary',
+                        height: '100%',
+                        minHeight: '100dvh',
                     }}
                 >
                     <Box
                         sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: 2,
-                            gridColumnStart: 3,
-                            gridColumnEnd: 26,
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(26, minmax(0, 1fr))',
+                            width: '100%',
+                            marginBottom: '2rem',
+                            height: '100%',
                         }}
                     >
-                        <Typography
-                            color={'secondary.dark'}
-                            variant={'h6'}
-                            fontWeight={600}
-                            flexGrow={1}
-                            width="100%"
-                        >
-                            تأكيد الشراء
-                        </Typography>
                         <Box
-                            display="flex"
-                            gap={2}
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 2,
+                                gridColumnStart: 3,
+                                gridColumnEnd: 26,
+                            }}
                         >
+                            <Typography
+                                color={'secondary.dark'}
+                                variant={'h6'}
+                                fontWeight={600}
+                                flexGrow={1}
+                                width="100%"
+                            >
+                                تأكيد الشراء
+                            </Typography>
                             <Box
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    flexBasis: '33%',
-                                    height: '100%',
-                                    flexShrink: '1',
-                                    gap: 4,
-                                }}
-                            >
-                                <Image
-                                    src={query.data?.thumbnail || ''}
-                                    height={'40%'}
-                                />
-
-                                <Box
-                                    display={'flex'}
-                                    gap={2}
-                                    flexDirection={'column'}
-                                >
-                                    <Box
-                                        display={'flex'}
-                                        justifyContent={'space-between'}
-                                        pl={4}
-                                    >
-                                        <Typography
-                                            color={'gray.main'}
-                                            variant={'h6'}
-                                            fontWeight={500}
-                                        >
-                                            السعر
-                                        </Typography>
-                                        <Typography
-                                            color={'secondary.dark'}
-                                            variant={'h6'}
-                                            fontWeight={500}
-                                            sx={{
-                                                direction: 'ltr',
-                                            }}
-                                        >
-                                            {query.data?.price} DA
-                                        </Typography>
-                                    </Box>
-
-                                    <Box
-                                        display={'flex'}
-                                        justifyContent={'space-between'}
-                                        pl={4}
-                                    >
-                                        <Typography
-                                            color={'gray.main'}
-                                            variant={'h6'}
-                                            fontWeight={500}
-                                        >
-                                            ملحقات
-                                        </Typography>
-                                        <Typography
-                                            color={'secondary.dark'}
-                                            variant={'h6'}
-                                            fontWeight={500}
-                                            sx={{
-                                                direction: 'ltr',
-                                            }}
-                                        >
-                                            {query.data?.price} DA
-                                        </Typography>
-                                    </Box>
-                                </Box>
-
-                                <Divider />
-                                <Box
-                                    display={'flex'}
-                                    justifyContent={'space-between'}
-                                    pl={4}
-                                >
-                                    <Typography
-                                        color={'gray.main'}
-                                        variant={'h6'}
-                                        fontWeight={500}
-                                    >
-                                        المجموع
-                                    </Typography>
-                                    <Typography
-                                        color={'secondary.dark'}
-                                        variant={'h6'}
-                                        fontWeight={500}
-                                        sx={{
-                                            direction: 'ltr',
-                                        }}
-                                    >
-                                        {query.data?.price} DA
-                                    </Typography>
-                                </Box>
-                            </Box>
-                            <Card
-                                elevation={0}
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    flexBasis: '60%',
-                                    width: '100%',
-                                    height: 'min-content',
-                                    // flexShrink: '1',
-                                    borderRadius: theme.spacing(),
-                                    py: 9,
-                                    px: 12,
-                                    gap: 6,
-                                }}
+                                display="flex"
+                                gap={2}
                             >
                                 <Box
-                                    display={'flex'}
-                                    justifyContent={'space-between'}
-                                    alignItems={'center'}
-                                >
-                                    <Typography
-                                        color={'gray.main'}
-                                        variant={'subtitle2'}
-                                        fontWeight={400}
-                                        maxWidth={'60%'}
-                                    >
-                                        يرجى تحميل معلومات الدفع الخاصة بالموقع
-                                        من هنا
-                                    </Typography>
-                                    <a
-                                        download
-                                        target="_blank"
-                                        href={imageLink}
-                                        style={{
-                                            textDecoration: 'none',
-                                        }}
-                                    >
-                                        <MainButton
-                                            sx={{
-                                                borderRadius: theme.spacing(),
-                                                gap: 2,
-                                            }}
-                                            {...{
-                                                size: 'large',
-                                                endIcon: (
-                                                    <DownloadSvgIcon
-                                                        {...{
-                                                            width: theme.spacing(
-                                                                2
-                                                            ),
-                                                            height: theme.spacing(
-                                                                2
-                                                            ),
-                                                        }}
-                                                    />
-                                                ),
-                                            }}
-                                            text={'تحميل'}
-                                            color={theme.palette.primary.main}
-                                        />
-                                    </a>
-                                </Box>
-
-                                <form
-                                    onSubmit={submitForm}
-                                    style={{
+                                    sx={{
                                         display: 'flex',
                                         flexDirection: 'column',
+                                        flexBasis: '33%',
+                                        height: '100%',
+                                        flexShrink: '1',
+                                        gap: 4,
+                                    }}
+                                >
+                                    <Image
+                                        src={query.data?.thumbnail || ''}
+                                        height={'40%'}
+                                    />
+
+                                    <Box
+                                        display={'flex'}
+                                        gap={2}
+                                        flexDirection={'column'}
+                                    >
+                                        <Box
+                                            display={'flex'}
+                                            justifyContent={'space-between'}
+                                            pl={4}
+                                        >
+                                            <Typography
+                                                color={'gray.main'}
+                                                variant={'h6'}
+                                                fontWeight={500}
+                                            >
+                                                السعر
+                                            </Typography>
+                                            <Typography
+                                                color={'secondary.dark'}
+                                                variant={'h6'}
+                                                fontWeight={500}
+                                                sx={{
+                                                    direction: 'ltr',
+                                                }}
+                                            >
+                                                {query.data?.price} DA
+                                            </Typography>
+                                        </Box>
+
+                                        <Box
+                                            display={'flex'}
+                                            justifyContent={'space-between'}
+                                            pl={4}
+                                        >
+                                            <Typography
+                                                color={'gray.main'}
+                                                variant={'h6'}
+                                                fontWeight={500}
+                                            >
+                                                ملحقات
+                                            </Typography>
+                                            <Typography
+                                                color={'secondary.dark'}
+                                                variant={'h6'}
+                                                fontWeight={500}
+                                                sx={{
+                                                    direction: 'ltr',
+                                                }}
+                                            >
+                                                {query.data?.price} DA
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+
+                                    <Divider />
+                                    <Box
+                                        display={'flex'}
+                                        justifyContent={'space-between'}
+                                        pl={4}
+                                    >
+                                        <Typography
+                                            color={'gray.main'}
+                                            variant={'h6'}
+                                            fontWeight={500}
+                                        >
+                                            المجموع
+                                        </Typography>
+                                        <Typography
+                                            color={'secondary.dark'}
+                                            variant={'h6'}
+                                            fontWeight={500}
+                                            sx={{
+                                                direction: 'ltr',
+                                            }}
+                                        >
+                                            {query.data?.price} DA
+                                        </Typography>
+                                    </Box>
+                                </Box>
+                                <Card
+                                    elevation={0}
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        flexBasis: '60%',
                                         width: '100%',
                                         height: 'min-content',
                                         // flexShrink: '1',
                                         borderRadius: theme.spacing(),
-                                        paddingTop: 9,
-                                        paddingBottom: 9,
-                                        paddingLeft: 12,
-                                        paddingRight: 12,
-                                        gap: theme.spacing(6),
+                                        py: 9,
+                                        px: 12,
+                                        gap: 6,
                                     }}
                                 >
                                     <Box
                                         display={'flex'}
                                         justifyContent={'space-between'}
                                         alignItems={'center'}
-                                        gap={9}
                                     >
                                         <Typography
                                             color={'gray.main'}
@@ -307,111 +290,169 @@ function BuyCourse() {
                                             fontWeight={400}
                                             maxWidth={'60%'}
                                         >
-                                            عند إكمال الدفع يرجى ارفاق الوصل
-                                            حتى نتمكن من تأكيد دفعكم . عملية
-                                            التأكيد بين 24/48 ساعة
-                                            <br />
-                                            يمكنكم العودة لهذه الصفحة عبر
-                                            الولوج الى صفحة{' '}
-                                            <strong>
-                                                {' '}
-                                                الطلبات و الفواتير{' '}
-                                            </strong>
-                                            من اعدادات حسابكم
+                                            يرجى تحميل معلومات الدفع الخاصة بالموقع من
+                                            هنا
                                         </Typography>
-                                        <Button
-                                            component={'label'}
-                                            variant={'contained'}
-                                            sx={{
-                                                flexGrow: '1',
-                                                bgcolor: 'gray.secondary',
-                                                color: 'gray.main',
-                                                ':hover': {
-                                                    bgcolor: 'gray.secondary',
-                                                    color: 'gray.main',
-                                                },
+                                        <a
+                                            download
+                                            target="_blank"
+                                            href={imageLink}
+                                            style={{
+                                                textDecoration: 'none',
                                             }}
-                                            // endIcon={ }
                                         >
-                                            رفع
-                                            <img
-                                                src={uploadImg}
-                                                style={{
-                                                    width: '10%',
-                                                    height: 'auto',
-                                                    padding: 0,
-                                                    // marginLeft: theme.spacing(),
-                                                    marginRight:
-                                                        theme.spacing(),
+                                            <MainButton
+                                                sx={{
+                                                    borderRadius: theme.spacing(),
+                                                    gap: 2,
                                                 }}
-                                            />
-                                            <input
-                                                // hidden
-                                                style={{
-                                                    width: 1,
-                                                    height: 1,
+                                                {...{
+                                                    size: 'large',
+                                                    endIcon: (
+                                                        <DownloadSvgIcon
+                                                            {...{
+                                                                width: theme.spacing(2),
+                                                                height: theme.spacing(2),
+                                                            }}
+                                                        />
+                                                    ),
                                                 }}
-                                                required={true}
-                                                onChange={handleFilechange}
-                                                name={'payment.receipt'}
-                                                accept={'*'}
-                                                type="file"
+                                                text={'تحميل'}
+                                                color={theme.palette.primary.main}
                                             />
-                                        </Button>
+                                        </a>
                                     </Box>
-                                    <Box
-                                        sx={{
-                                            bgcolor: 'gray.secondary',
-                                            width: '100%',
-                                            height: 'auto',
-                                            borderRadius: theme.spacing(),
-                                            py: theme.spacing(2),
-                                            px: theme.spacing(3),
+
+                                    <form
+                                        onSubmit={submitForm}
+                                        style={{
                                             display: 'flex',
-                                            alignItems: 'center',
-                                            gap: 2,
+                                            flexDirection: 'column',
+                                            width: '100%',
+                                            height: 'min-content',
+                                            // flexShrink: '1',
+                                            borderRadius: theme.spacing(),
+                                            paddingTop: 9,
+                                            paddingBottom: 9,
+                                            paddingLeft: 12,
+                                            paddingRight: 12,
+                                            gap: theme.spacing(6),
                                         }}
                                     >
-                                        <img
-                                            src={pdf_icon}
-                                            style={{
-                                                height: theme.spacing(4),
-                                            }}
-                                        />
-
-                                        <Typography
-                                            variant={'subtitle2'}
-                                            color={'gray.main'}
+                                        <Box
+                                            display={'flex'}
+                                            justifyContent={'space-between'}
+                                            alignItems={'center'}
+                                            gap={9}
                                         >
-                                            {fileName?.name}
-                                        </Typography>
-                                    </Box>
-                                    <Box
-                                        display={'flex'}
-                                        justifyContent={'space-between'}
-                                    >
-                                        <MainButton
-                                            type={'submit'}
-                                            text={'شراء الآن'}
-                                            color={theme.palette.primary.main}
-                                            // {...{ onClick: () => navigate('..') }}
-                                        />
-
-                                        <MainButton
-                                            text={'إلغاء الطلب'}
-                                            color={theme.palette.error.main}
-                                            {...{
-                                                onClick: () => navigate('..'),
+                                            <Typography
+                                                color={'gray.main'}
+                                                variant={'subtitle2'}
+                                                fontWeight={400}
+                                                maxWidth={'60%'}
+                                            >
+                                                عند إكمال الدفع يرجى ارفاق الوصل حتى
+                                                نتمكن من تأكيد دفعكم . عملية التأكيد بين
+                                                24/48 ساعة
+                                                <br />
+                                                يمكنكم العودة لهذه الصفحة عبر الولوج الى
+                                                صفحة{' '}
+                                                <strong> الطلبات و الفواتير </strong>
+                                                من اعدادات حسابكم
+                                            </Typography>
+                                            <Button
+                                                component={'label'}
+                                                variant={'contained'}
+                                                sx={{
+                                                    flexGrow: '1',
+                                                    bgcolor: 'gray.secondary',
+                                                    color: 'gray.main',
+                                                    ':hover': {
+                                                        bgcolor: 'gray.secondary',
+                                                        color: 'gray.main',
+                                                    },
+                                                }}
+                                                // endIcon={ }
+                                            >
+                                                رفع
+                                                <img
+                                                    src={uploadImg}
+                                                    style={{
+                                                        width: '10%',
+                                                        height: 'auto',
+                                                        padding: 0,
+                                                        // marginLeft: theme.spacing(),
+                                                        marginRight: theme.spacing(),
+                                                    }}
+                                                />
+                                                <input
+                                                    // hidden
+                                                    style={{
+                                                        width: 1,
+                                                        height: 1,
+                                                    }}
+                                                    required={true}
+                                                    onChange={handleFilechange}
+                                                    name={'payment.receipt'}
+                                                    accept={'*'}
+                                                    type="file"
+                                                />
+                                            </Button>
+                                        </Box>
+                                        <Box
+                                            sx={{
+                                                bgcolor: 'gray.secondary',
+                                                width: '100%',
+                                                height: 'auto',
+                                                borderRadius: theme.spacing(),
+                                                py: theme.spacing(2),
+                                                px: theme.spacing(3),
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 2,
                                             }}
-                                        />
-                                    </Box>
-                                </form>
-                            </Card>
+                                        >
+                                            <img
+                                                src={pdf_icon}
+                                                style={{
+                                                    height: theme.spacing(4),
+                                                }}
+                                            />
+
+                                            <Typography
+                                                variant={'subtitle2'}
+                                                color={'gray.main'}
+                                            >
+                                                {fileName?.name}
+                                            </Typography>
+                                        </Box>
+                                        <Box
+                                            display={'flex'}
+                                            justifyContent={'space-between'}
+                                        >
+                                            <MainButton
+                                                type={'submit'}
+                                                text={'شراء الآن'}
+                                                color={theme.palette.primary.main}
+                                                // {...{ onClick: () => navigate('..') }}
+                                            />
+
+                                            <MainButton
+                                                text={'إلغاء الطلب'}
+                                                color={theme.palette.error.main}
+                                                {...{
+                                                    onClick: () => navigate('..'),
+                                                }}
+                                            />
+                                        </Box>
+                                    </form>
+                                </Card>
+                            </Box>
                         </Box>
                     </Box>
-                </Box>
+                </Grid>
             </Grid>
-        </Grid>
+        </>
     );
 }
 export default BuyCourse;

@@ -1,8 +1,10 @@
 import { Send } from '@mui/icons-material';
 import { Card, IconButton, OutlinedInput, Stack } from '@mui/material';
 import Box from '@mui/material/Box';
+import { AxiosError } from 'axios';
 import { FormEvent, KeyboardEvent, useRef, useState } from 'react';
 import { UseQueryResult, useMutation, useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { ReactComponent as AttachementImage } from '../../assets/svg/attachement.svg';
 import { Course } from '../../types/course';
 import { User } from '../../types/user';
@@ -17,14 +19,16 @@ interface props {
 export function ConversationPanel({ user, course, id }: props) {
     const inputRef = useRef(null);
     const [isValid, setIsValid] = useState(false);
+    const navigate = useNavigate();
 
     const conversation = useQuery({
         queryKey: ['conversations', id, user.data?.pk, course.data?.id],
         queryFn: () => getConversation(id),
         enabled: user.isFetched && course.isFetched,
         onSuccess: () => setIsValid(true),
-        onError: err => {
-            console.log(err);
+        onError: (err: AxiosError) => {
+            if (err.response?.status === 403) navigate(`/courses/${id}/buy/`);
+            else console.error(err);
         },
     });
 

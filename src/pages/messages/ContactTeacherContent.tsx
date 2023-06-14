@@ -20,7 +20,7 @@ export function ContactTeacherContent({ id, user }: ContactTeacherContentProps) 
         staleTime: 1000 * 60 * 60 * 24,
     });
 
-    useIsNotSelf(course.data?.owner, `/courses/${id}/watch`);
+    useIsNotSelf(course.data?.owner, `/`);
     if (course.isLoading) return <>Course loading...</>;
     if (course.isError) return <>{course.error}</>;
     return (

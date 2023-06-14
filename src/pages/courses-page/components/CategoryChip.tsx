@@ -13,7 +13,6 @@ export function CategoryChip({
     updateActiveCategories,
 }: categoryProps) {
     const theme = useTheme();
-    const [active, setActive] = useState(defaultActive || false);
     return (
         <Card
             elevation={0}
@@ -22,8 +21,8 @@ export function CategoryChip({
                 userSelect: 'none',
                 cursor: 'pointer',
                 flex: '1 0 15%',
-                boxShadow: active ? '0 5px 10px #0000001A' : 'none',
-                bgcolor: active ? 'white' : 'gray.light',
+                boxShadow: defaultActive ? '0 5px 10px #0000001A' : 'none',
+                bgcolor: defaultActive ? 'white' : 'gray.light',
                 color: theme.palette.gray.dark,
                 scrollSnapAlign: 'start',
                 py: 2,

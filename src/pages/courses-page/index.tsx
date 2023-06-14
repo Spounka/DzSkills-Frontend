@@ -28,53 +28,55 @@ function CoursesPage() {
 
     // update active levels acronym
     const _ual = (level: Level) => {
-        console.log(activeLevels);
-        if (level.id === 0) return;
+        if (level.id === 0) {
+            setActiveLevels([]);
+            return;
+        }
         if (activeLevels.includes(level))
             setActiveLevels(oldList => oldList.filter(l => l.id != level.id));
         else
             setActiveLevels(oldList => {
-                const result = [...oldList, level];
-                console.log(result);
-                return result;
+                return [...oldList, level];
             });
     };
 
     // update active categories acronym
     const _uac = (category: Category) => {
-        console.log(activeCategories);
-        if (category.id === 0) return;
+        if (category.id === 0) {
+            setActiveCategories([]);
+            return;
+        }
         if (activeCategories.includes(category))
             setActiveCategories(oldList => oldList.filter(l => l.id != category.id));
         else
             setActiveCategories(oldList => {
-                const result = [...oldList, category];
-                return result;
+                return [...oldList, category];
             });
-        console.log(activeLevels);
     };
 
     useEffect(() => {
         setActiveCourses(query.data);
-    }, [query.isLoading]);
+    }, [query.isFetched]);
 
     useEffect(() => {
         let displayCourses = query.data;
         if (activeLevels.length > 0) {
             displayCourses = displayCourses?.filter(course =>
-                activeLevels.includes(course.course_level)
+                activeLevels.some(level => level.id === course.course_level.id)
             );
-        } else displayCourses = query.data;
+        }
         setActiveCourses(displayCourses);
     }, [activeLevels]);
 
     useEffect(() => {
         let displayCourses = query.data;
-        if (activeCategories.length > 0)
-            displayCourses = displayCourses?.filter(course =>
-                activeCategories.includes(course.category)
-            );
-        else displayCourses = query.data;
+        if (activeCategories.length > 0) {
+            displayCourses = displayCourses?.filter(course => {
+                return activeCategories.some(
+                    category => category.id === course.category.id
+                );
+            });
+        }
         setActiveCourses(displayCourses);
     }, [activeCategories]);
 
