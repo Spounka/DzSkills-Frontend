@@ -71,7 +71,7 @@ function FilterComponent({
                     updateActiveLevels={updateActiveLevels}
                 />
                 <CategoryChip
-                    category={{ name: 'All', id: 0, image: '' }}
+                    category={{ name: 'All', id: 0, image: '', description: "", courses: 0 }}
                     defaultActive={activeCategories.length === 0}
                     updateActiveCategories={updateActiveCategories}
                 />
