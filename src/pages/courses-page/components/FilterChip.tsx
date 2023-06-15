@@ -1,9 +1,9 @@
 import { ArrowDropDown } from '@mui/icons-material';
-import { Box, Button, Card, Stack, Typography, useTheme } from '@mui/material';
+import { Box, Card, Stack, Typography, useTheme } from '@mui/material';
 import { useRef, useState } from 'react';
-import { Level } from '../../../types/course';
-import { FilterPopper } from './FilterPopper';
+import { DropdownPopper } from '../../../components/dropdown-popper';
 import { MainButton } from '../../../components/ui/MainButton';
+import { Level } from '../../../types/course';
 
 interface filterProps {
     levels: Level[];
@@ -55,7 +55,7 @@ export function FilterChip({ levels, activeLevels, updateActiveLevels }: filterP
                     }}
                 />
             </Card>
-            <FilterPopper
+            <DropdownPopper
                 isOpen={drawerOpen}
                 cardRef={cardRef}
             >
@@ -64,7 +64,7 @@ export function FilterChip({ levels, activeLevels, updateActiveLevels }: filterP
                     activeLevels={activeLevels}
                     updateActiveLevels={updateActiveLevels}
                 />
-            </FilterPopper>
+            </DropdownPopper>
         </>
     );
 }

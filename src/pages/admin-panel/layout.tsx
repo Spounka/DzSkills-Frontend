@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useLogin from '../authenticate/hooks/useLogin';
 import { AdminPanelTopBar } from './landing-page/components/AdminPanelTopBar';
 import { NotificationsBar } from './landing-page/components/NotificationsBar';
@@ -18,12 +19,20 @@ function AdminDashboardLayout({
     children,
 }: AdminDashboardLayoutProps) {
     const theme = useTheme();
-    useLogin();
+    const [user] = useLogin();
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const navigate = useNavigate();
 
     function toggleDrawer() {
         setDrawerOpen(val => !val);
     }
+
+    useEffect(() => {
+        if (!user.data) return;
+        if (!user.data?.groups.some(group => group.name === 'AdminGroup'))
+            navigate('/permission-denied/');
+    }, [user]);
+
     return (
         <Box
             sx={{
@@ -65,7 +74,6 @@ function AdminDashboardLayout({
                     mainColor={theme.palette.secondary.main}
                 />
                 <Box
-                    id={'Hello'}
                     sx={{
                         gridColumn: '1 / -3',
                         gridRow: '2 / 16',

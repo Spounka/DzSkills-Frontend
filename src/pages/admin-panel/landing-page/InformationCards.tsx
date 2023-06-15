@@ -40,7 +40,15 @@ export function InformationCards({}: any) {
             />
             <InformationCard
                 title={'عدد الطلبة'}
-                subtitle={users.data?.length.toString() || '12'}
+                subtitle={
+                    users.data
+                        ?.filter(user =>
+                            user.groups.some(
+                                group => !(group.name in ['AdminGroup', 'TeacherGroup'])
+                            )
+                        )
+                        .length.toString() || '12'
+                }
                 icon={students}
                 sx={{
                     flexBasis: '25%',
@@ -50,7 +58,13 @@ export function InformationCards({}: any) {
 
             <InformationCard
                 title={'عدد المدربين'}
-                subtitle={'2'}
+                subtitle={
+                    users.data
+                        ?.filter(user =>
+                            user.groups.some(group => group.name === 'TeacherGroup')
+                        )
+                        .length.toString() || '0'
+                }
                 icon={teaching}
                 sx={{
                     flexBasis: '25%',

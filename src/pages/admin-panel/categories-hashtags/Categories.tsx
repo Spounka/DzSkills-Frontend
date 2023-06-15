@@ -45,7 +45,7 @@ export function Categories() {
         return {
             id: category.id,
             name: category.name,
-            members: 12,
+            members: category.courses
         };
     });
     return (

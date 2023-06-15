@@ -12,5 +12,13 @@ const axiosInstance = axios.create({
               'Content-Type': 'multipart/form-data',
           },
 });
+axiosInstance.interceptors.response.use(
+    response => response,
+    error => {
+        if (error.response && error.response.status === 403)
+            window.location.href = '/permission-denied/';
+        return Promise.reject(error);
+    }
+);
 
 export default axiosInstance;

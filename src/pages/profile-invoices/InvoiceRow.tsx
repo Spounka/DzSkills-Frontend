@@ -23,20 +23,33 @@ export function InvoiceRow({ order }: props) {
             textAlign={'center'}
             alignItems={'center'}
         >
-            <Typography flexGrow={0}>{order.id}</Typography>
+            <Typography flex={'1 0 1%'}>{order.id}</Typography>
+            <Typography flex={'1 0 15%'}>{order.course.title}</Typography>
             <Typography
-                flexGrow={0}
-                alignSelf={'left'}
+                flex={'1 0 15%'}
+                justifySelf={'flex-start'}
+                textAlign={'right'}
             >
                 {new Date(order.date_issued).toLocaleDateString()}
             </Typography>
-            <Typography flexGrow={1}>
+            <Typography
+                flex={'1 0 15%'}
+                textAlign={'right'}
+            >
                 {stateFromCode(order.payment?.status || 'p')}
             </Typography>
-            <Typography flexGrow={0}>{order.course?.price} DA</Typography>
+            <Typography
+                flex={'1 1 15%'}
+                textAlign={'right'}
+            >
+                {order.course?.price} DA
+            </Typography>
             <a
                 download
                 href={order.payment.receipt}
+                style={{
+                    flex: '1 1 10%',
+                }}
             >
                 <MainButton
                     text={'عرض'}

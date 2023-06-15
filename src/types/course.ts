@@ -3,15 +3,19 @@ import { User } from './user';
 export type Hashtag = {
     id: number;
     name: string;
+    courses: number;
 };
 export type Level = {
     id: number;
     name: string;
+    courses: number;
 };
 export type Category = {
     id: number;
     name: string;
     image: string;
+    description: string;
+    courses: number;
 };
 export type Rating = {
     id: number;

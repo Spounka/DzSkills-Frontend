@@ -16,4 +16,5 @@ export type User = {
     speciality: string;
     nationality: string;
     groups: Group[];
+    average_rating: number;
 };

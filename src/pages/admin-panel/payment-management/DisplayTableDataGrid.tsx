@@ -1,18 +1,14 @@
 import { useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { alpha } from '@mui/material/styles';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
 interface DipslayTableProps {
     rows: any;
     columns: GridColDef[];
     checkbox?: boolean;
 }
-export function DisplayTableDataGrid({
-    rows,
-    columns,
-    checkbox,
-}: DipslayTableProps) {
+export function DisplayTableDataGrid({ rows, columns, checkbox }: DipslayTableProps) {
     const theme = useTheme();
 
     return (
@@ -42,7 +38,8 @@ export function DisplayTableDataGrid({
                     // width: '100%',
                     direction: 'rtl',
                     root: {
-                        borderWidth: '0 !important',
+                        borderWidth: '2px !important',
+                        borderColor: 'secondary.main',
                     },
                     '& .super-app-theme--header': {
                         backgroundColor: 'black',
@@ -56,6 +53,7 @@ export function DisplayTableDataGrid({
                     },
                     '& .MuiDataGrid-cell:focus': {
                         borderColor: 'secondary.main',
+                        outlineColor: 'secondary.main',
                     },
                     '& .MuiDataGrid-cell:hover': {
                         // bgcolor: alpha(theme.palette.secondary.main, 0.3),

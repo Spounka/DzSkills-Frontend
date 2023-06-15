@@ -11,9 +11,7 @@ export function NotificationsBar({ drawerOpen }: NotificationsProps) {
         <Card
             sx={{
                 transition: 'all ease-out 300ms',
-                transform: drawerOpen
-                    ? 'translate(0, 0)'
-                    : 'translate(-105%, 0)',
+                transform: drawerOpen ? 'translate(0, 0)' : 'translate(-105%, 0)',
                 p: 2,
                 mt: 0,
                 bgcolor: theme.palette.purple.light,
@@ -38,22 +36,27 @@ export function NotificationsBar({ drawerOpen }: NotificationsProps) {
                 gap={2}
                 display={'flex'}
                 flexDirection={'column'}
+                alignItems={'center'}
+                justifyContent={'center'}
             >
                 <Box
                     display={'flex'}
+                    alignItems={'center'}
+                    justifyContent={'center'}
                     gap={2}
                 >
                     <Avatar
                         sx={{
                             width: theme.spacing(6),
-                            height: theme.spacing(6),
-                            aspectRatio: '1/1',
+                            height: 'auto',
+                            aspectRatio: '1',
                             flexGrow: '1',
                         }}
                     />
                     <Box
                         display={'flex'}
                         flexDirection={'column'}
+                        justifyContent={'center'}
                     >
                         <Typography
                             variant={'caption'}
@@ -72,18 +75,21 @@ export function NotificationsBar({ drawerOpen }: NotificationsProps) {
                 <Box
                     display={'flex'}
                     gap={2}
+                    justifyContent={'center'}
                 >
                     <Avatar
                         sx={{
                             width: theme.spacing(6),
-                            height: theme.spacing(6),
-                            aspectRatio: '1/1',
+                            // height: theme.spacing(6),
+                            height: 'auto',
+                            aspectRatio: '1',
                             flexGrow: '1',
                         }}
                     />
                     <Box
                         display={'flex'}
                         flexDirection={'column'}
+                        justifyContent={'center'}
                     >
                         <Typography
                             variant={'caption'}
@@ -102,18 +108,20 @@ export function NotificationsBar({ drawerOpen }: NotificationsProps) {
                 <Box
                     display={'flex'}
                     gap={2}
+                    justifyContent={'center'}
                 >
                     <Avatar
                         sx={{
                             width: theme.spacing(6),
-                            height: theme.spacing(6),
-                            aspectRatio: '1/1',
+                            height: 'auto',
+                            aspectRatio: '1',
                             flexGrow: '1',
                         }}
                     />
                     <Box
                         display={'flex'}
                         flexDirection={'column'}
+                        justifyContent={'center'}
                     >
                         <Typography
                             variant={'caption'}
@@ -132,6 +140,7 @@ export function NotificationsBar({ drawerOpen }: NotificationsProps) {
                 <Box
                     display={'flex'}
                     gap={2}
+                    justifyContent={'center'}
                 >
                     <Avatar
                         sx={{
@@ -144,6 +153,7 @@ export function NotificationsBar({ drawerOpen }: NotificationsProps) {
                     <Box
                         display={'flex'}
                         flexDirection={'column'}
+                        justifyContent={'center'}
                     >
                         <Typography
                             variant={'caption'}

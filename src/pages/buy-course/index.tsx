@@ -55,38 +55,34 @@ function BuyCourse() {
         mutationKey: ['offers', id, 'create'],
         mutationFn: (data: any) => createOrder(data),
         onSuccess: () => {
-            setCurrentSnackbar(
-                enqueueSnackbar('طلبك قيد المراجعة', { variant: 'warning' })
-            );
+            enqueueSnackbar('طلبك قيد المراجعة', { variant: 'warning' });
             setIsSubmitting(false);
+            setTimeout(() => navigate(`/profile/cart/`), 1000);
         },
         onError: (err: AxiosError<{ message: string }>) => {
             if (err.response?.data.message === 'an existing order already exists') {
                 enqueueSnackbar<'error'>('هناك أمر دفع معلق قائم', {
                     variant: 'error',
-                    action: <Button onClick={() => closeSnackbar()}></Button>,
                 });
             } else {
                 enqueueSnackbar<'error'>('حدث خطأ', {
                     variant: 'error',
-                    onClose: () => closeSnackbar(currentSnackbar),
                 });
             }
             setIsSubmitting(false);
+            setTimeout(() => navigate(`/profile/cart/`), 1000);
         },
     });
     async function submitForm(e: any) {
         e.preventDefault();
         setIsSubmitting(true);
 
-        setTimeout(() => {
-            const form = document.querySelector('form');
-            if (form) {
-                let formData = new FormData(form);
-                formData.append('course', id.toString());
-                mutation.mutate(formData);
-            }
-        }, 3000);
+        const form = document.querySelector('form');
+        if (form) {
+            let formData = new FormData(form);
+            formData.append('course', id.toString());
+            mutation.mutate(formData);
+        }
     }
     const [imageLink, setImageLink] = useState<string>('');
     useEffect(() => {

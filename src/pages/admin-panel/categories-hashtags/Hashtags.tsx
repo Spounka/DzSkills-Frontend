@@ -51,7 +51,7 @@ export function Hashtags() {
         return {
             id: hashtag.id,
             name: hashtag.name,
-            members: 12,
+            members: hashtag.courses,
         };
     });
     return (
@@ -85,10 +85,7 @@ export function Hashtags() {
                 <AddItemPopup
                     isOpen={popupOpen}
                     root={anchorEl || document.body}
-                    width={
-                        document.getElementById('main-container')
-                            ?.offsetWidth || 0
-                    }
+                    width={document.getElementById('main-container')?.offsetWidth || 0}
                     closeDialog={() => setOpen(false)}
                 >
                     <AddHashtagForm

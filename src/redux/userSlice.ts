@@ -23,6 +23,7 @@ const initialState = {
         description: '',
         speciality: '',
         nationality: '',
+        average_rating: 0,
     },
 };
 

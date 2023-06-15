@@ -1,13 +1,12 @@
-import { useTheme } from '@emotion/react';
 import { Box, Typography } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
+import React from 'react';
 import { useQuery } from 'react-query';
 import { Level } from '../../../types/course';
 import { DisplayTableDataGrid } from '../payment-management/DisplayTableDataGrid';
+import AddItemPopup from '../settings/AddItemPopup';
 import { AddButton } from './AddButton';
 import { getLevels } from './api/queries';
-import React from 'react';
-import AddItemPopup from '../settings/AddItemPopup';
 import { AddLevelForm } from './components/AddLevelForm';
 
 const columns: GridColDef[] = [
@@ -52,7 +51,7 @@ export function Levels() {
         return {
             id: level.id,
             name: level.name,
-            members: 12,
+            members: level.courses,
         };
     });
     return (
@@ -87,10 +86,7 @@ export function Levels() {
                 <AddItemPopup
                     isOpen={popupOpen}
                     root={anchorEl || document.body}
-                    width={
-                        document.getElementById('main-container')
-                            ?.offsetWidth || 0
-                    }
+                    width={document.getElementById('main-container')?.offsetWidth || 0}
                     closeDialog={() => setOpen(false)}
                 >
                     <AddLevelForm

@@ -1,6 +1,7 @@
 import { useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useLogin from '../authenticate/hooks/useLogin';
 import { NotificationsBar } from './NotificationsBar';
 import DashboardSidebar from './add-course/components/side-navbar';
@@ -18,8 +19,20 @@ function TeacherDashboardLayout({
     children,
 }: TeacherDashboardLayoutProps) {
     const theme = useTheme();
-    useLogin();
     const [drawerOpen, setDrawerOpen] = React.useState<boolean>(false);
+
+    const [user] = useLogin();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!user || !user.data) return;
+        if (
+            !user.data?.groups.some(
+                group => group.name === 'TeacherGroup' || group.name === 'AdminGroup'
+            )
+        )
+            navigate('/permission-denied/');
+    }, [user]);
 
     function toggleDrawer() {
         setDrawerOpen(val => !val);

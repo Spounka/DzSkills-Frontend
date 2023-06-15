@@ -67,9 +67,7 @@ function AdminCourses() {
                         return (
                             <React.Fragment key={uuidv4()}>
                                 <Box
-                                    onClick={() =>
-                                        navigate(`/admin/users/${user.pk}/`)
-                                    }
+                                    onClick={() => navigate(`/admin/users/${user.pk}/`)}
                                     sx={{
                                         p: 2,
                                         display: 'flex',
@@ -91,15 +89,13 @@ function AdminCourses() {
                                         flexDirection={'column'}
                                     >
                                         <Typography variant="h6">
-                                            {user.first_name +
-                                                ' ' +
-                                                user.last_name}
+                                            {user.first_name + ' ' + user.last_name}
                                         </Typography>
                                         <Typography
                                             variant="subtitle2"
                                             color={'gray.main'}
                                         >
-                                            category
+                                            {user.speciality}
                                         </Typography>
                                     </Box>
                                 </Box>

@@ -19,7 +19,6 @@ interface props {
 export function ConversationPanel({ user, course, id }: props) {
     const inputRef = useRef(null);
     const [isValid, setIsValid] = useState(false);
-    const navigate = useNavigate();
 
     const conversation = useQuery({
         queryKey: ['conversations', id, user.data?.pk, course.data?.id],
@@ -27,8 +26,9 @@ export function ConversationPanel({ user, course, id }: props) {
         enabled: user.isFetched && course.isFetched,
         onSuccess: () => setIsValid(true),
         onError: (err: AxiosError) => {
-            if (err.response?.status === 403) navigate(`/courses/${id}/buy/`);
-            else console.error(err);
+            // if (err.response?.status === 403) navigate(`/courses/${id}/buy/`);
+            // else console.error(err);
+            console.error(err);
         },
     });
 

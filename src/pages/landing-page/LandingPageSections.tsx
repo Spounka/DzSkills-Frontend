@@ -50,8 +50,9 @@ export function LandingPageSections({}: LandingPageSectionsProps) {
                 </Box>
                 <Box
                     display="grid"
-                    gridTemplateColumns={'repeat(4, minmax(0, 1fr))'}
+                    // gridTemplateColumns={'repeat(4, minmax(0, 1fr))'}
                     gap={8}
+                    gridAutoFlow={'column'}
                     width={'100%'}
                 >
                     {categories.data
@@ -62,9 +63,7 @@ export function LandingPageSections({}: LandingPageSectionsProps) {
                                       isLoading={categories.isFetching}
                                       image={category.image}
                                       title={category.name}
-                                      description={
-                                          'تصميم وإنتاج الرسومات والصور والنصوص والرموز التي تستخدم في الإعلانات والتسويق والاتصال البصري'
-                                      }
+                                      description={category.description}
                                   />
                               );
                           })

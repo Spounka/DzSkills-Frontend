@@ -1,7 +1,10 @@
 import { Card, Grid } from '@mui/material';
 import { Box } from '@mui/system';
+import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router';
 import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar';
 import FullWidthTab from '../../components/ui/FullWidthTab';
+import { verifyOrRefreshToken } from '../edit-profile/api/getUser';
 import Login from './components/login';
 import NewAccount from './components/new-account';
 
@@ -13,6 +16,16 @@ function Autenticate({ startPanel }: props) {
     const tabs = ['حساب جديد', 'تسجيل الدخول'];
 
     const panels = [<NewAccount />, <Login />];
+    const access = localStorage.getItem('access');
+    const refresh = localStorage.getItem('refresh');
+    const navigate = useNavigate();
+    const checkUser = useQuery({
+        queryKey: ['login'],
+        queryFn: () => verifyOrRefreshToken(access, refresh),
+        onSuccess: () => navigate('/profile/'),
+        onError: error => console.error(error),
+        enabled: !!access && !!refresh,
+    });
 
     return (
         <Grid

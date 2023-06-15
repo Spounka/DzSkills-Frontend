@@ -166,7 +166,7 @@ function CoursesPage() {
 
 export default CoursesPage;
 
-function CoursesGrid({ activeCourses }: { activeCourses?: Course[] }) {
+export function CoursesGrid({ activeCourses }: { activeCourses: Course[] | undefined }) {
     const theme = useTheme();
     return (
         <Box

@@ -4,6 +4,7 @@ import { yellow } from '@mui/material/colors';
 import { GridColDef } from '@mui/x-data-grid';
 import { useQuery } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
+import { User } from '../../../types/user';
 import useLogin from '../../authenticate/hooks/useLogin';
 import AdminDashboardLayout from '../layout';
 import { DisplayTableDataGrid } from '../payment-management/DisplayTableDataGrid';
@@ -53,8 +54,16 @@ const columns: GridColDef[] = [
         headerClassName: 'super-app-theme--header',
     },
     {
-        field: 'status',
-        headerName: 'الحالة',
+        field: 'email',
+        headerName: 'Email',
+        width: 250,
+        align: 'left',
+        flex: 2,
+        headerClassName: 'super-app-theme--header',
+    },
+    {
+        field: 'type',
+        headerName: 'نوع المستخدم',
         width: 100,
         headerClassName: 'super-app-theme--header',
         flex: 1,
@@ -92,13 +101,20 @@ function UserManagement() {
     if (query.isLoading) return <>Loading users..</>;
     if (query.isError) return <>Error loading users...</>;
 
+    function getUserGrade(user: User) {
+        if (user.groups.some(group => group.name === 'AdminGroup')) return 'مسؤل';
+        if (user.groups.some(group => group.name === 'TeacherGroup')) return 'مدرب';
+        return 'طالب';
+    }
+
     const rows = query.data?.map(user => {
         return {
             id: user.pk,
             avatar: user.profile_image,
             fullName: user.first_name + ' ' + user.last_name,
             username: user.username,
-            status: 'user',
+            email: user.email,
+            type: getUserGrade(user),
             params: [() => navigate('/')],
         };
     });

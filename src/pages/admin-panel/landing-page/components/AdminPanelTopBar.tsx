@@ -57,6 +57,7 @@ export function AdminPanelTopBar({
             </Box>
             <OutlinedInput
                 placeholder={'ابحث عن الدورة المناسبة لك'}
+                color={'secondary'}
                 sx={{
                     gridColumn: '11 / -5',
                     borderRadius: theme.spacing(),

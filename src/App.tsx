@@ -31,6 +31,8 @@ import TeacherLandingPage from './pages/teacher-dashboard/landing-page';
 import EmailValidationPage from './pages/validate-email';
 import ViewCertificate from './pages/view-certificate';
 import WatchCourse from './pages/view-course';
+import PermissionDeniedPage from './pages/permission-denied';
+import CategorizedCoursesList from './pages/category-course';
 
 function App() {
     return (
@@ -104,11 +106,16 @@ function App() {
                     path=""
                     element={<CoursesPage />}
                 />
+                <Route
+                    path="categorized"
+                    element={<CategorizedCoursesList />}
+                />
                 <Route path=":id">
                     <Route
                         path=""
                         element={<ViewCourse />}
                     />
+
                     <Route
                         path="watch"
                         element={<WatchCourse />}
@@ -210,6 +217,10 @@ function App() {
                 </Route>
             </Route>
 
+            <Route
+                path="/permission-denied/"
+                element={<PermissionDeniedPage />}
+            />
             <Route
                 path="*"
                 element={<NotFound />}

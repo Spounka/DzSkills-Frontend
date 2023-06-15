@@ -1,4 +1,4 @@
-import { Avatar, Grid, Typography } from '@mui/material';
+import { Avatar, Grid, Skeleton, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import useTheme from '@mui/system/useTheme';
 import { useQuery } from 'react-query';
@@ -10,6 +10,7 @@ import { getCourse } from './api/getCourse';
 import { CourseCells } from './CourseCells';
 import { CourseHeader } from './CourseHeader';
 import { ProfileSocialMedia } from '../../components/ProfileSocialMedia';
+import { Suspense } from 'react';
 
 function ViewCourse() {
     const params = useParams();
@@ -160,14 +161,16 @@ export function AboutMentor({ user }: AboutMentorProps) {
                     alignItems: 'center',
                 }}
             >
-                <Avatar
-                    src={user.profile_image}
-                    sx={{
-                        width: '50%',
-                        height: 'auto',
-                        aspectRatio: '1/1',
-                    }}
-                />
+                <Suspense fallback={<Skeleton />}>
+                    <Avatar
+                        src={user.profile_image}
+                        sx={{
+                            width: '50%',
+                            height: 'auto',
+                            aspectRatio: '1/1',
+                        }}
+                    />
+                </Suspense>
             </Box>
         </>
     );

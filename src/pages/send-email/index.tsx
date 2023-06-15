@@ -31,7 +31,7 @@ function EmailSendPage() {
         if (user.data?.email_valid) {
             navigate('/profile/');
         } else verifyEmail.mutate();
-    }, []);
+    }, [user.data?.email]);
 
     return (
         <Grid

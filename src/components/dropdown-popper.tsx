@@ -1,20 +1,23 @@
-import { Card, Popper, useTheme } from '@mui/material';
+import { Card, Popper, PopperPlacementType, useTheme } from '@mui/material';
 
 interface props {
     isOpen: boolean;
     cardRef: any;
     children?: React.ReactNode;
+    placement?: PopperPlacementType;
 }
-export function FilterPopper({ isOpen, cardRef, children }: props) {
+export function DropdownPopper({ isOpen, cardRef, placement, children }: props) {
     const theme = useTheme();
     return (
         <Popper
             open={isOpen}
             anchorEl={cardRef.current}
-            placement="bottom"
+            placement={placement || 'bottom'}
             sx={{
-                width: cardRef.current?.getBoundingClientRect().width,
+                minWidth: cardRef.current?.getBoundingClientRect().width,
+                maxWidth: '300px',
                 direction: 'ltr',
+                zIndex: 100,
             }}
         >
             <Card

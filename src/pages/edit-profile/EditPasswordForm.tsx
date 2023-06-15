@@ -23,6 +23,7 @@ export function EditPasswordForm({}) {
         >
             <EditProfileColumn>
                 <EditProfileField
+                    grow
                     name={'current_password'}
                     label={'كلمة السر الحالية'}
                     type={'password'}
@@ -30,6 +31,7 @@ export function EditPasswordForm({}) {
             </EditProfileColumn>
             <EditProfileColumn>
                 <EditProfileField
+                    grow
                     name={'password1'}
                     label={'كلمة السر الجديدة'}
                     type={'password'}
