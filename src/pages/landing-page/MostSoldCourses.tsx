@@ -1,12 +1,10 @@
-import { Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 import { MainButton } from '../../components/ui/MainButton';
-import { Course } from '../../types/course';
-import CourseCard from '../courses-page/CourseCard';
+import { CoursesGrid } from '../courses-page';
 import { getCourses } from '../courses-page/api/getAllCourses';
 
 export function MostSoldCourses() {
@@ -26,9 +24,17 @@ export function MostSoldCourses() {
             flexDirection={'column'}
             py={16}
             gap={8}
+            width={'100%'}
             alignItems={'center'}
+            px={{
+                xs: theme.spacing(2),
+                lg: theme.spacing(16),
+            }}
         >
-            <Box textAlign={'center'}>
+            <Stack
+                textAlign={'center'}
+                gap={2}
+            >
                 <Typography variant="h5">الأكثر مبيعا</Typography>
                 <Typography
                     variant="subtitle2"
@@ -39,27 +45,17 @@ export function MostSoldCourses() {
                     أكثر ما يتم شراءه من مستخدمي الموقع مقدم من خبراء في مجالاتهم لضمان
                     ان تكون الدروس عملية و تلبي كامل الفائدة للمستخدم
                 </Typography>
-            </Box>
-            <Box
-                sx={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
-                    width: '100%',
-                    px: theme.spacing(14),
-                    pb: 5,
+            </Stack>
+
+            <CoursesGrid
+                activeCourses={query.data?.slice(0, 5)}
+                cardsPerRow={{
+                    xs: 1,
+                    sm: 2,
+                    lg: 4,
                 }}
-            >
-                {query.data?.slice(0, 4).map((info: Course) => {
-                    return (
-                        <Box key={uuidv4()}>
-                            <CourseCard
-                                course={info}
-                                link={'/courses/' + info.id + '/'}
-                            />
-                        </Box>
-                    );
-                })}
-            </Box>
+                sx={{ px: 0 }}
+            />
             <MainButton
                 color={theme.palette.primary.main}
                 text={'المزيد'}

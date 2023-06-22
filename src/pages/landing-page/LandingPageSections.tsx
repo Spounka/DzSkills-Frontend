@@ -18,70 +18,81 @@ export function LandingPageSections({}: LandingPageSectionsProps) {
     });
 
     return (
-        <>
+        <Box
+            display={'flex'}
+            flexDirection={'column'}
+            alignItems={'center'}
+            width={'100%'}
+            my={{
+                xs: theme.spacing(8),
+                lg: theme.spacing(25),
+            }}
+            gap={{
+                xs: theme.spacing(2),
+                lg: theme.spacing(6),
+            }}
+            px={{
+                xs: theme.spacing(2),
+                lg: theme.spacing(16),
+            }}
+        >
             <Box
                 display={'flex'}
                 flexDirection={'column'}
                 alignItems={'center'}
-                mt={theme.spacing(25)}
-                mb={theme.spacing(25)}
-                gap={8}
-                px={16}
+                gap={2}
             >
-                <Box
-                    display={'flex'}
-                    flexDirection={'column'}
-                    alignItems={'center'}
-                    gap={2}
+                <Typography
+                    variant={'h4'}
+                    fontWeight={600}
                 >
-                    <Typography
-                        variant={'h4'}
-                        fontWeight={600}
-                    >
-                        الأقسام
-                    </Typography>
+                    الأقسام
+                </Typography>
 
-                    <Typography
-                        variant="subtitle2"
-                        color={'gray.main'}
-                    >
-                        يختلف تقسيم الموقع الى أقسام بحسب نوع المحتوى المتاح
-                    </Typography>
-                </Box>
-                <Box
-                    display="grid"
-                    // gridTemplateColumns={'repeat(4, minmax(0, 1fr))'}
-                    gap={8}
-                    gridAutoFlow={'column'}
-                    width={'100%'}
+                <Typography
+                    variant="subtitle2"
+                    color={'gray.main'}
                 >
-                    {categories.data
-                        ? categories.data?.slice(0, 4).map((category: Category) => {
-                              return (
-                                  <LandingPageSection
-                                      key={uuidv4()}
-                                      isLoading={categories.isFetching}
-                                      image={category.image}
-                                      title={category.name}
-                                      description={category.description}
-                                  />
-                              );
-                          })
-                        : [0, 1, 2, 3].map(_ => {
-                              return (
-                                  <LandingPageSection
-                                      key={uuidv4()}
-                                      isLoading={true}
-                                      image={''}
-                                      title={''}
-                                      description={
-                                          'تصميم وإنتاج الرسومات والصور والنصوص والرموز التي تستخدم في الإعلانات والتسويق والاتصال البصري'
-                                      }
-                                  />
-                              );
-                          })}
-                </Box>
+                    يختلف تقسيم الموقع الى أقسام بحسب نوع المحتوى المتاح
+                </Typography>
             </Box>
-        </>
+            <Box
+                display="grid"
+                gridTemplateColumns={{
+                    xs: 'repeat(1, minmax(0, 1fr))',
+                    sm: 'repeat(2, minmax(0, 1fr))',
+                    lg: 'repeat(4, minmax(0, 1fr))',
+                }}
+                gap={8}
+                // gridAutoFlow={'column'}
+                width={'100%'}
+            >
+                {categories.data
+                    ? categories.data?.slice(0, 4).map((category: Category) => {
+                          return (
+                              <LandingPageSection
+                                  key={uuidv4()}
+                                  isLoading={categories.isFetching}
+                                  image={category.image}
+                                  title={category.name}
+                                  description={category.description}
+                              />
+                          );
+                      })
+                    : [0, 1, 2, 3].map(_ => {
+                          return (
+                              <LandingPageSection
+                                  key={uuidv4()}
+                                  isLoading={true}
+                                  image={''}
+                                  title={''}
+                                  description={
+                                      'تصميم وإنتاج الرسومات والصور والنصوص والرموز التي تستخدم في الإعلانات والتسويق والاتصال البصري'
+                                  }
+                              />
+                          );
+                      })}
+            </Box>
+        </Box>
     );
 }

@@ -1,7 +1,8 @@
-import { Skeleton, Typography } from '@mui/material';
+import { Skeleton, Stack, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import Image from 'mui-image';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MainButton } from '../../components/ui/MainButton';
 
@@ -19,14 +20,23 @@ export function LandingPageSection({
 }: LandingPageSectionProps) {
     const theme = useTheme();
     const navigate = useNavigate();
+    const [hovering, setHovering] = useState(false);
     return (
         <>
             <Box
                 display={'flex'}
                 flexDirection={'column'}
+                flex={'1 1'}
+                width={'100%'}
+                onMouseLeave={() => setHovering(false)}
                 gap={6}
                 alignItems={'center'}
                 mb={4}
+                onMouseEnter={() => setHovering(true)}
+                onClick={() => navigate(`/courses/categorized/?category=${title}`)}
+                sx={{
+                    cursor: 'pointer',
+                }}
             >
                 {isLoading ? (
                     <Skeleton
@@ -46,44 +56,51 @@ export function LandingPageSection({
                         style={{
                             aspectRatio: '1/1',
                             height: '100%',
-                            flex: '1 1 80%',
+                            flex: '1 0 60%',
+                            opacity: hovering ? 1 : '.7',
+                            transition: 'opacity 200ms ease-in-out',
                         }}
                     />
                 )}
-                <Box
-                    display={'flex'}
-                    flexDirection={'column'}
-                    gap={4}
-                    alignItems={'center'}
-                    width={'100%'}
-                    flex={'1 0 30%'}
+                <Stack
+                    sx={{
+                        flex: '0 0 35%',
+                        alignItems: 'center',
+                        gap: 8,
+                        overflow: 'hidden',
+                    }}
                 >
-                    {isLoading ? (
-                        <Skeleton sx={{ width: '100%' }} />
-                    ) : (
-                        <Typography
-                            flex={'0 1 20%'}
-                            variant="h6"
-                        >
-                            {title}
-                        </Typography>
-                    )}
-                    {isLoading ? (
-                        <Skeleton sx={{ width: '100%' }} />
-                    ) : (
-                        <Typography
-                            flex={'1 1 20%'}
-                            variant="subtitle2"
-                            color="gray.main"
-                            textAlign={'center'}
-                            sx={{
-                                verticalAlign: 'baseline',
-                            }}
-                        >
-                            {description}
-                        </Typography>
-                    )}
-                </Box>
+                    <Box flex={'0 0 10%'}>
+                        {isLoading ? (
+                            <Skeleton sx={{ width: '100%' }} />
+                        ) : (
+                            <Typography variant="h6">{title}</Typography>
+                        )}
+                    </Box>
+
+                    <Box
+                        alignItems={'center'}
+                        flex={'1 1 40%'}
+                    >
+                        {isLoading ? (
+                            <Skeleton sx={{ width: '100%' }} />
+                        ) : (
+                            <Typography
+                                variant="subtitle2"
+                                color="gray.main"
+                                textAlign={'center'}
+                                sx={{
+                                    verticalAlign: 'baseline',
+                                    textOverflow: 'ellipsis',
+                                    color: hovering ? 'black' : 'gray.main',
+                                    transition: 'color 200ms ease-in-out',
+                                }}
+                            >
+                                {description}
+                            </Typography>
+                        )}
+                    </Box>
+                </Stack>
                 <MainButton
                     color={theme.palette.primary.main}
                     text={'المزيد'}
@@ -91,7 +108,8 @@ export function LandingPageSection({
                         onClick: () => {
                             navigate(`/courses/categorized/?category=${title}`);
                         },
-                        flexGrow: '4',
+                        flex: '1 1 25%',
+                        height: '100%',
                     }}
                 />
             </Box>

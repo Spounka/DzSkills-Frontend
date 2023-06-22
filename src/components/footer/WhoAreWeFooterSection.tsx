@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
+import { Link } from 'react-router-dom';
 
 export function WhoAreWeFooterSection({}) {
     return (
@@ -17,7 +18,9 @@ export function WhoAreWeFooterSection({}) {
                 gap={2}
             >
                 <Typography variant="caption">سياسة الخصوصية</Typography>
-                <Typography variant="caption">الأسئلة الشائعة</Typography>
+                <Typography variant="caption">
+                    <Link to={'/support/'}>الأسئلة الشائعة</Link>
+                </Typography>
                 <Typography variant="caption">شروط الإستخدام</Typography>
             </Box>
         </>

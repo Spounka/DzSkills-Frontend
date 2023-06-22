@@ -10,6 +10,7 @@ export function IconText({ Icon, text }: any) {
             }}
         >
             <Icon
+                className={'hidden sm:block'}
                 style={{
                     marginLeft: 2,
                     marginRight: 2,

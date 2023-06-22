@@ -28,6 +28,7 @@ export function TrendingCoursesCarousel({}: any) {
                 width: '100%',
                 zIndex: 0,
                 display: 'flex',
+                oveflow: 'hidden',
             }}
         >
             <IconButton

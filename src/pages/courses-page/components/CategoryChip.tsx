@@ -1,5 +1,4 @@
 import { Card, Typography, useTheme } from '@mui/material';
-import { useState } from 'react';
 import { Category } from '../../../types/course';
 
 interface categoryProps {
@@ -27,15 +26,28 @@ export function CategoryChip({
                 scrollSnapAlign: 'start',
                 py: 2,
                 px: 4,
-                width: '100%',
+                // width: 'auto',
+                maxHeight: '100%',
+                maxWidth: '10%',
                 borderRadius: theme.spacing(2),
                 textAlign: 'center',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
             }}
         >
-            <Typography variant="body1">{category.name}</Typography>
+            <Typography
+                variant="body1"
+                sx={{
+                    textOverflow: 'ellipsis',
+                    // maxWidth: '100%',
+                }}
+            >
+                {category.name}
+            </Typography>
         </Card>
     );
 }

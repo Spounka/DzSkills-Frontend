@@ -1,4 +1,4 @@
-import { CircularProgress, Stack, Typography, useTheme } from '@mui/material';
+import { Box, CircularProgress, Stack, Typography, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -31,15 +31,16 @@ function CategorizedCoursesList() {
         if (query.isSuccess && courses.length === 0) setCourses(query.data);
     }, []);
     return (
-        <div
-            style={{
+        <Box
+            sx={{
+                width: '100%',
                 backgroundColor: '#F5F5F5',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 minHeight: '100dvh',
                 height: '100%',
-                gap: theme.spacing(24),
+                gap: { xs: 4, lg: theme.spacing(24) },
             }}
         >
             <TopNavigationBar />
@@ -57,9 +58,23 @@ function CategorizedCoursesList() {
             {query.isLoading ? (
                 <CircularProgress color={'secondary'} />
             ) : (
-                <CoursesGrid activeCourses={courses} />
+                <Stack
+                    gap={{ xs: 4, md: 8, lg: 16 }}
+                    alignItems={'center'}
+                >
+                    <Typography
+                        variant="h4"
+                        color={'gray.dark'}
+                    >
+                        {`دورات القسم: ${urlParams?.get('category')}`}{' '}
+                    </Typography>
+                    <CoursesGrid
+                        cardsPerRow={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }}
+                        activeCourses={courses}
+                    />
+                </Stack>
             )}
-        </div>
+        </Box>
     );
 }
 

@@ -17,22 +17,31 @@ export function AdminContacts() {
                 width: '100%',
                 py: theme.spacing(6),
                 position: 'relative',
-                height: '100%',
                 color: 'white',
                 display: 'flex',
             }}
         >
             <CornerShape
+                className="hidden sm:block"
                 style={{
                     position: 'absolute',
                     bottom: 0,
                     left: 0,
+                    zIndex: 0,
                 }}
             />
             <Stack
                 gap={5}
-                px={4}
-                flexBasis={'80%'}
+                px={{
+                    xs: 2,
+                    // lg: 3,
+                    xl: 4,
+                }}
+                flexBasis={{
+                    xs: '50%',
+                    xl: '80%',
+                }}
+                zIndex={1}
             >
                 <Typography
                     variant={'h5'}

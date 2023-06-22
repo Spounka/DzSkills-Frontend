@@ -44,9 +44,14 @@ export function Teachers({}: TeachersProps) {
             <Box
                 sx={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+                    gridTemplateColumns: {
+                        xs: 'repeat(1, minmax(0, 1fr))',
+                        sm: 'repeat(2, minmax(0, 1fr))',
+                        md: 'repeat(3, minmax(0, 1fr))',
+                    },
                     width: '100%',
                     px: theme.spacing(14),
+                    alignItems: 'center',
                     pb: 5,
                 }}
             >

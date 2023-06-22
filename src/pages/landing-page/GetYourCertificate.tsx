@@ -12,15 +12,35 @@ export function GetYourCertificate() {
         <Box
             sx={{
                 display: 'flex',
+                flexDirection: {
+                    xs: 'column',
+                    lg: 'row',
+                },
                 justifyContent: 'space-between',
-                px: 15,
-                py: 36,
+                alignItems: { xs: 'center', lg: 'flex-start' },
+                px: {
+                    xs: 8,
+                    lg: 14,
+                },
+                py: {
+                    xs: 9,
+                    lg: 36,
+                },
+                gap: {
+                    xs: 4,
+                    lg: 0,
+                },
                 bgcolor: theme.palette.gray.secondary,
             }}
         >
             <Box
                 sx={{
                     display: 'flex',
+                    alignItems: { xs: 'center', lg: 'flex-start' },
+                    textAlign: {
+                        xs: 'center',
+                        lg: 'right',
+                    },
                     flexDirection: 'column',
                     gap: 4,
                     flexBasis: '60%',

@@ -1,119 +1,67 @@
 import { createTheme } from '@mui/material';
 import { arSA } from '@mui/material/locale';
+import React from 'react';
 import { light, medium, regular, semibold } from './assets/fonts/fonts';
 
 declare module '@mui/material/styles' {
     interface Palette {
-        gray: {
-            main: string;
-            secondary?: string;
-            light?: string;
-            dark?: string;
-            title?: string;
-            contrastText?: string;
-        };
-        purple: {
-            main: string;
-            secondary?: string;
-            light?: string;
-            dark?: string;
-            darker?: string;
-            title?: string;
-            contrastText?: string;
-        };
-        yellow: {
-            main: string;
-            secondary?: string;
-            light?: string;
-            dark?: string;
-            darker?: string;
-            title?: string;
-            contrastText?: string;
-        };
+        gray: Palette['primary'];
+        purple: Palette['primary'];
+        yellow: Palette['primary'];
     }
 
     interface PaletteOptions {
-        gray?: {
-            main: string;
-            secondary?: string;
-            light?: string;
-            dark?: string;
-            title?: string;
-            contrastText?: string;
-        };
-        purple?: {
-            main: string;
-            secondary?: string;
-            light?: string;
-            dark?: string;
-            darker?: string;
-            title?: string;
-            contrastText?: string;
-        };
-        yellow: {
-            main: string;
-            secondary?: string;
-            light?: string;
-            dark?: string;
-            darker?: string;
-            title?: string;
-            contrastText?: string;
-        };
+        gray: PaletteOptions['primary'];
+        purple: PaletteOptions['primary'];
+        yellow: PaletteOptions['primary'];
     }
 
     interface PaletteColor {
         darker?: string;
+        secondary?: string;
         lighter?: string;
+        title?: string;
     }
 
     interface SimplePaletteColorOptions {
         darker?: string;
         lighter?: string;
+        secondary?: string;
+        title?: string;
     }
-
     interface ThemeOptions {
         status: {
             danger: React.CSSProperties['color'];
         };
     }
-}
-
-declare module '@mui/material' {
-    interface PaletteOptions {
-        gray?: {
-            main: string;
-            secondary?: string;
-            light?: string;
-            dark?: string;
-            contrastText?: string;
-            title?: string;
-        };
-        purple?: {
-            main: string;
-            secondary?: string;
-            light?: string;
-            dark?: string;
-            darker?: string;
-            title?: string;
-            contrastText?: string;
-        };
-        yellow: {
-            main: string;
-            secondary?: string;
-            light?: string;
-            dark?: string;
-            darker?: string;
-            title?: string;
-            contrastText?: string;
-        };
+    interface PurpleColorOptions {
+        main?: string;
+        light?: string;
+    }
+    interface PurpleColorPalette {
+        main: string;
+        light: string;
     }
 }
+
 declare module '@mui/material/Button' {
     interface ButtonPropsColorOverrides {
         gray: true;
         purple: true;
         yellow: true;
     }
+}
+declare module '@mui/material/OutlinedInput' {
+    interface OutlinedInputPropsColorOverrides {
+        gray: true;
+        purple: true;
+        yellow: true;
+    }
+}
+export interface FormControlPropsColorOverrides {
+    gray: true;
+    purple: true;
+    yellow: true;
 }
 
 declare module '@mui/material/Radio' {
@@ -122,7 +70,6 @@ declare module '@mui/material/Radio' {
         purple: true;
         yellow: true;
     }
-    interface RadioPropsSizeOverrides {}
 }
 
 const theme = createTheme(

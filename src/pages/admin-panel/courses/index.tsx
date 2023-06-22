@@ -6,12 +6,11 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { Course } from '../../../types/course';
 import { User } from '../../../types/user';
-import CourseCard from '../../courses-page/CourseCard';
+import useLogin from '../../authenticate/hooks/useLogin';
+import { CoursesGrid } from '../../courses-page';
 import { getCourses } from '../../courses-page/api/getAllCourses';
 import AdminDashboardLayout from '../layout';
-import useLogin from '../../authenticate/hooks/useLogin';
 
 function AdminCourses() {
     const theme = useTheme();
@@ -56,9 +55,9 @@ function AdminCourses() {
                         height: '100%',
                         width: '100%',
                         bgcolor: 'white',
-                        mt: theme.spacing(),
+                        // mt: theme.spacing(),
                         pb: theme.spacing(),
-                        maxHeight: '100%',
+                        maxHeight: '90dvh',
                         overflowY: 'scroll',
                         scrollBehavior: 'smooth',
                     }}
@@ -105,16 +104,20 @@ function AdminCourses() {
                 </Box>
                 <Box
                     sx={{
-                        display: 'grid',
-                        flexBasis: '50%',
-                        gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                        gridTemplateRows: 'repeat(2, minmax(0, 1fr))',
+                        flex: '1 0 50%',
                         overflowY: 'scroll',
                         width: '100%',
                         maxHeight: '90vh',
                     }}
                 >
-                    {query.data?.map((info: Course) => {
+                    <CoursesGrid
+                        activeCourses={query.data}
+                        sx={{
+                            px: 0,
+                        }}
+                        cardsPerRow={2}
+                    />
+                    {/* {query.data?.map((info: Course) => {
                         return (
                             <Box key={uuidv4()}>
                                 <CourseCard
@@ -123,7 +126,7 @@ function AdminCourses() {
                                 />
                             </Box>
                         );
-                    })}
+                    })} */}
                 </Box>
             </Box>
         </AdminDashboardLayout>

@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
+import { SxProps, useTheme } from '@mui/material/styles';
 import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
@@ -100,9 +100,14 @@ function CoursesPage() {
         >
             <Grid
                 item
-                xs={14}
+                xs={0}
+                md={14}
                 sx={{
                     width: '100%',
+                    display: {
+                        xs: 'none',
+                        md: 'flex',
+                    },
                 }}
                 style={{
                     paddingLeft: '0',
@@ -157,7 +162,10 @@ function CoursesPage() {
                     updateActiveLevels={updateActiveLevels}
                     updateActiveCategories={updateActiveCategories}
                 />
-                <CoursesGrid activeCourses={activeCourses} />
+                <CoursesGrid
+                    cardsPerRow={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }}
+                    activeCourses={activeCourses}
+                />
             </Grid>
             <Footer />
         </Grid>
@@ -166,28 +174,43 @@ function CoursesPage() {
 
 export default CoursesPage;
 
-export function CoursesGrid({ activeCourses }: { activeCourses: Course[] | undefined }) {
+interface gridProps {
+    activeCourses: Course[] | undefined;
+    cardsPerRow: any;
+    sx?: SxProps;
+}
+
+export function CoursesGrid({ activeCourses, cardsPerRow, sx }: gridProps) {
     const theme = useTheme();
     return (
         <Box
             sx={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
-                width: '100%',
-                px: theme.spacing(14),
+                gridTemplateColumns: {
+                    xs: `repeat(${cardsPerRow.xs || cardsPerRow}, minmax(0, 1fr))`,
+                    sm: `repeat(${cardsPerRow.sm || cardsPerRow}, minmax(0, 1fr))`,
+                    md: `repeat(${cardsPerRow.md || cardsPerRow}, minmax(0, 1fr))`,
+                    lg: `repeat(${cardsPerRow.lg || cardsPerRow}, minmax(0, 1fr))`,
+                    xl: `repeat(${cardsPerRow.xl || cardsPerRow}, minmax(0, 1fr))`,
+                },
+                gridTemplateRows: 'auto auto 1fr',
+                justifyContent: 'flex-start',
+                flexFlow: 'wrap',
+                px: { xs: theme.spacing(4), lg: theme.spacing(14) },
                 pb: 5,
+                gap: 2,
+                overflow: 'hidden',
+                ...sx,
             }}
         >
             {activeCourses?.map((info: Course) => {
                 if (info.trending) return;
                 return (
-                    <Box key={uuidv4()}>
-                        <CourseCard
-                            key={info.id}
-                            course={info}
-                            link={'/courses/' + info.id + '/'}
-                        />
-                    </Box>
+                    <CourseCard
+                        key={uuidv4()}
+                        course={info}
+                        link={'/courses/' + info.id + '/'}
+                    />
                 );
             })}
         </Box>

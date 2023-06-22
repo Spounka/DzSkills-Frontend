@@ -12,6 +12,7 @@ import UserDetails from './pages/admin-panel/user-details';
 import UserManagement from './pages/admin-panel/user-management';
 import Authenticate from './pages/authenticate/Authenticate';
 import BuyCourse from './pages/buy-course';
+import CategorizedCoursesList from './pages/category-course';
 import ViewCourse from './pages/course';
 import CoursesPage from './pages/courses-page';
 import EditProfile from './pages/edit-profile';
@@ -21,18 +22,19 @@ import Logout from './pages/logout/indext';
 import ContactTeacher from './pages/messages';
 import NotFound from './pages/not-found/NotFound';
 import PasswordForgotten from './pages/password-forgotten';
+import PermissionDeniedPage from './pages/permission-denied';
 import Profile from './pages/profile';
 import Invoices from './pages/profile-invoices';
 import EmailSendPage from './pages/send-email';
-import ContactSupport from './pages/support/contact';
+import FAQ from './pages/support/faq';
+import SubmitReport from './pages/support/report';
 import TeacherAddCourse from './pages/teacher-dashboard/add-course';
 import TeacherCourses from './pages/teacher-dashboard/courses';
 import TeacherLandingPage from './pages/teacher-dashboard/landing-page';
 import EmailValidationPage from './pages/validate-email';
 import ViewCertificate from './pages/view-certificate';
 import WatchCourse from './pages/view-course';
-import PermissionDeniedPage from './pages/permission-denied';
-import CategorizedCoursesList from './pages/category-course';
+import ContactSupport from './pages/support/contact';
 
 function App() {
     return (
@@ -95,9 +97,17 @@ function App() {
                     element={<Invoices />}
                 />
             </Route>
-            <Route path="contact">
+            <Route path="support">
                 <Route
                     path=""
+                    element={<FAQ />}
+                />
+                <Route
+                    path="report"
+                    element={<SubmitReport />}
+                />
+                <Route
+                    path="contact"
                     element={<ContactSupport />}
                 />
             </Route>

@@ -61,11 +61,11 @@ function BuyCourse() {
         },
         onError: (err: AxiosError<{ message: string }>) => {
             if (err.response?.data.message === 'an existing order already exists') {
-                enqueueSnackbar<'error'>('هناك أمر دفع معلق قائم', {
+                enqueueSnackbar('هناك أمر دفع معلق قائم', {
                     variant: 'error',
                 });
             } else {
-                enqueueSnackbar<'error'>('حدث خطأ', {
+                enqueueSnackbar('حدث خطأ', {
                     variant: 'error',
                 });
             }
@@ -430,7 +430,6 @@ function BuyCourse() {
                                                 type={'submit'}
                                                 text={'شراء الآن'}
                                                 color={theme.palette.primary.main}
-                                                // {...{ onClick: () => navigate('..') }}
                                             />
 
                                             <MainButton

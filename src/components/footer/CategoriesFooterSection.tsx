@@ -1,6 +1,7 @@
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
 import { getCategories } from '../../pages/admin-panel/categories-hashtags/api/queries';
 
 export function CategoriesFooterSection({}) {
@@ -28,17 +29,17 @@ export function CategoriesFooterSection({}) {
                             key={category.image}
                             variant="caption"
                         >
-                            {category.name}
+                            <Link to={`/courses/categorized/?category=${category.name}`}>
+                                {category.name}
+                            </Link>
                         </Typography>
                     );
                 })}
                 {categoriesQuery.data && categoriesQuery.data.length > 3 && (
-                    <Typography variant="caption">More...</Typography>
+                    <Typography variant="caption">
+                        <Link to={'/courses/'}>More...</Link>
+                    </Typography>
                 )}
-                {/* <Typography variant="caption">Graphic Design</Typography>
-                <Typography variant="caption">Motion Graphic</Typography>
-                <Typography variant="caption">3D Modeling</Typography>
-                <Typography variant="caption">Freelance</Typography> */}
             </Box>
         </>
     );

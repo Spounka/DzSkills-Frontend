@@ -18,116 +18,130 @@ export function StudentRatings() {
     if (query.isError) return <>Error in users...</>;
 
     return (
-        <>
+        <Box
+            display={'flex'}
+            flexDirection={'column'}
+            alignItems={'center'}
+            my={theme.spacing(25)}
+            pb={theme.spacing(12)}
+            gap={16}
+            px={{
+                xs: 2,
+                lg: 16,
+            }}
+        >
             <Box
                 display={'flex'}
                 flexDirection={'column'}
                 alignItems={'center'}
-                my={theme.spacing(25)}
-                pb={theme.spacing(12)}
-                gap={16}
-                px={16}
+                gap={2}
             >
-                <Box
-                    display={'flex'}
-                    flexDirection={'column'}
-                    alignItems={'center'}
-                    gap={2}
+                <Typography
+                    variant={'h4'}
+                    fontWeight={600}
                 >
-                    <Typography
-                        variant={'h4'}
-                        fontWeight={600}
-                    >
-                        تقييمات
-                    </Typography>
+                    تقييمات
+                </Typography>
 
-                    <Typography
-                        variant="subtitle2"
-                        color={'gray.main'}
-                    >
-                        آراء الطلبة و المشتركين في موقعنا هو افضل ما نقدمه لإثبات نجاحنا
-                        في تقديم الغاية من الموقع
-                    </Typography>
-                </Box>
-                <Box
-                    display="grid"
-                    gridTemplateColumns={'repeat(3, minmax(0, 1fr))'}
-                    gap={8}
-                    width={'100%'}
+                <Typography
+                    variant="subtitle2"
+                    color={'gray.main'}
                 >
-                    {query.data?.slice(6, 9).map((user: User) => {
-                        return (
+                    آراء الطلبة و المشتركين في موقعنا هو افضل ما نقدمه لإثبات نجاحنا في
+                    تقديم الغاية من الموقع
+                </Typography>
+            </Box>
+            <Box
+                display="grid"
+                gridTemplateColumns={{
+                    xs: 'repeat(1, minmax(0, 1fr))',
+                    sm: 'repeat(2, minmax(0, 1fr))',
+                    md: 'repeat(3, minmax(0, 1fr))',
+                }}
+                gap={8}
+                width={'100%'}
+            >
+                {query.data?.slice(6, 9).map((user: User) => {
+                    return (
+                        <Box
+                            key={uuidv4()}
+                            sx={{
+                                bgcolor: 'white',
+                                p: 4,
+                                // pl: 0,
+                                width: '100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 4,
+                            }}
+                        >
                             <Box
-                                key={uuidv4()}
                                 sx={{
-                                    bgcolor: 'white',
-                                    p: 4,
-                                    // pl: 0,
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    gap: 4,
+                                    position: 'relative',
+                                }}
+                            >
+                                <Rating
+                                    readOnly={true}
+                                    value={5}
+                                />
+                                <Avatar
+                                    src={user.profile_image}
+                                    sx={{
+                                        position: 'absolute',
+                                        left: 0,
+                                        top: {
+                                            xs: '-300%',
+                                            xl: '-400%',
+                                        },
+                                        width: '100%',
+                                        height: 'auto',
+                                        maxWidth: {
+                                            xs: '10vmax',
+                                            lg: '5vmax',
+                                        },
+                                        maxHeight: {
+                                            xs: '10vmax',
+                                            lg: '5vmax',
+                                        },
+                                        aspectRatio: '1',
+                                    }}
+                                />
+                            </Box>
+                            <Typography>
+                                هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد
+                                تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد
+                                مثل هذا النص أو العديد من النصوص
+                            </Typography>
+                            <Box
+                                sx={{
                                     width: '100%',
                                     display: 'flex',
                                     flexDirection: 'column',
-                                    gap: 4,
+                                    p: 2,
+                                    justifyContent: 'flex-start',
+                                    alignItems: 'flex-end',
                                 }}
                             >
-                                <Box
-                                    sx={{
-                                        display: 'flex',
-                                        justifyContent: 'space-between',
-                                        gap: 4,
-                                        position: 'relative',
-                                    }}
+                                <Typography
+                                    fontWeight={600}
+                                    variant="h6"
                                 >
-                                    <Rating
-                                        readOnly={true}
-                                        value={5}
-                                    />
-                                    <Avatar
-                                        src={user.profile_image}
-                                        sx={{
-                                            position: 'absolute',
-                                            left: 0,
-                                            top: '-400%',
-                                            width: '15vmin',
-                                            height: 'auto',
-                                            maxWidth: '15vmin',
-                                            maxHeight: '15vmin',
-                                            aspectRatio: '1',
-                                        }}
-                                    />
-                                </Box>
-                                <Typography>
-                                    هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة،
-                                    لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك
-                                    أن تولد مثل هذا النص أو العديد من النصوص
+                                    {`${user.first_name} ${user.last_name}`}
                                 </Typography>
-                                <Box
-                                    sx={{
-                                        width: '100%',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        p: 2,
-                                        justifyContent: 'flex-start',
-                                        alignItems: 'flex-end',
-                                    }}
+                                <Typography
+                                    fontWeight={300}
+                                    variant="overline"
                                 >
-                                    <Typography
-                                        fontWeight={600}
-                                        variant="h6"
-                                    >
-                                        {`${user.first_name} ${user.last_name}`}
-                                    </Typography>
-                                    <Typography
-                                        fontWeight={300}
-                                        variant="overline"
-                                    >
-                                        {user.speciality}
-                                    </Typography>
-                                </Box>
+                                    {user.speciality}
+                                </Typography>
                             </Box>
-                        );
-                    })}
-                </Box>
+                        </Box>
+                    );
+                })}
             </Box>
-        </>
+        </Box>
     );
 }

@@ -1,4 +1,4 @@
-import { Divider, Typography } from '@mui/material';
+import { Divider, Typography, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Image from 'mui-image';
 // import logo from '../../assets/png/logo@2x.png';
@@ -14,23 +14,29 @@ function FooterSection() {
 }
 
 function Footer() {
+    const theme = useTheme();
     return (
         <Box
             display={'flex'}
             flexDirection={'column'}
             width={'100%'}
             gap={2}
-            px={14}
+            px={{ xs: 8, lg: 14 }}
             py={12}
             color={'white'}
+            borderRadius={{ xs: `${theme.spacing(2)} ${theme.spacing(2)} 0 0`, lg: 0 }}
             bgcolor={'#11111C'}
+            sx={{
+                placeSelf: 'flex-end',
+            }}
         >
             <Box
                 flexGrow={1}
                 display={'flex'}
+                flexDirection={{ xs: 'column', lg: 'row' }}
                 alignItems={'space-evenly'}
                 width={'100%'}
-                gap={'10%'}
+                gap={{ xs: theme.spacing(4), lg: '10%' }}
                 pb={12}
             >
                 <Box
@@ -55,9 +61,8 @@ function Footer() {
                         color={'white'}
                         variant={'caption'}
                     >
-                        هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد
-                        تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن
-                        تولد مثل هذا النص
+                        هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد
+                        هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص
                     </Typography>
                 </Box>
                 <Box
@@ -90,7 +95,7 @@ function Footer() {
                     flexDirection={'column'}
                     gap={4}
                     flexGrow={1}
-                    alignItems={'flex-end'}
+                    alignItems={{ xs: 'flex-start', lg: 'flex-end' }}
                 >
                     <ContactUsFooterSection />
                 </Box>

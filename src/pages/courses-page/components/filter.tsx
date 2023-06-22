@@ -41,7 +41,7 @@ function FilterComponent({
 
     return (
         <Box
-            mx={theme.spacing(15)}
+            mx={{ lg: theme.spacing(15), xs: theme.spacing(4) }}
             py={2}
             sx={{
                 width: '100%',
@@ -71,7 +71,13 @@ function FilterComponent({
                     updateActiveLevels={updateActiveLevels}
                 />
                 <CategoryChip
-                    category={{ name: 'All', id: 0, image: '', description: "", courses: 0 }}
+                    category={{
+                        name: 'All',
+                        id: 0,
+                        image: '',
+                        description: '',
+                        courses: 0,
+                    }}
                     defaultActive={activeCategories.length === 0}
                     updateActiveCategories={updateActiveCategories}
                 />

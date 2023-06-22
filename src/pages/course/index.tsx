@@ -161,16 +161,14 @@ export function AboutMentor({ user }: AboutMentorProps) {
                     alignItems: 'center',
                 }}
             >
-                <Suspense fallback={<Skeleton />}>
-                    <Avatar
-                        src={user.profile_image}
-                        sx={{
-                            width: '50%',
-                            height: 'auto',
-                            aspectRatio: '1/1',
-                        }}
-                    />
-                </Suspense>
+                <Avatar
+                    src={user.profile_image}
+                    sx={{
+                        width: '50%',
+                        height: 'auto',
+                        aspectRatio: '1/1',
+                    }}
+                />
             </Box>
         </>
     );

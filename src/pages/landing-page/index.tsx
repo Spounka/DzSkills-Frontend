@@ -8,10 +8,13 @@ import { LandingPageSections } from './LandingPageSections';
 import { MostSoldCourses } from './MostSoldCourses';
 import { StudentRatings } from './Ratings';
 import { Teachers } from './Teachers';
+import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
 
 interface LandingPageProps {}
 
 export default function LandingPage({}: LandingPageProps) {
+    const theme = useTheme();
     const adminConfigQuery = useQuery({
         queryKey: ['admin', 'configs'],
         queryFn: () => getAdminConfigs(),
@@ -20,11 +23,12 @@ export default function LandingPage({}: LandingPageProps) {
     if (adminConfigQuery.isError) return <>Error retrieving data...</>;
     if (adminConfigQuery.isLoading) return <>Loading...</>;
     return (
-        <div
-            style={{
+        <Box
+            sx={{
                 backgroundColor: '#F5F5F5',
                 display: 'flex',
                 flexDirection: 'column',
+                width: '100%',
             }}
         >
             <LandingPageNavbar />
@@ -40,6 +44,6 @@ export default function LandingPage({}: LandingPageProps) {
             <Teachers />
             <StudentRatings />
             <Footer />
-        </div>
+        </Box>
     );
 }

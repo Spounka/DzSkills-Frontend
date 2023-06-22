@@ -25,8 +25,7 @@ export function ContactUsFooterSection({}) {
                 >
                     +213 555555555
                 </Typography>
-                <Typography variant="caption">slaxsifou@gmail.com</Typography>
-                <Typography variant="caption">شروط الإستخدام</Typography>
+                <Typography variant="caption">contact@dzskills.com</Typography>
             </Box>
         </>
     );
