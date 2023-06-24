@@ -76,12 +76,15 @@ function DashboardSidebar() {
             elevation={0}
             sx={{
                 height: '100%',
-                width: '100%',
+                width: '15%',
                 p: theme.spacing(5),
                 px: theme.spacing(3),
                 display: 'flex',
                 flexDirection: 'column',
                 gap: theme.spacing(6),
+                position: 'fixed',
+                right: 0,
+                top: 0,
             }}
         >
             <img

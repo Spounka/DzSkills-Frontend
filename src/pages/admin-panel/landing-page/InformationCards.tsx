@@ -4,9 +4,9 @@ import money from '../../../assets/svg/money-white.svg';
 import students from '../../../assets/svg/school-blue.svg';
 import teaching from '../../../assets/svg/teaching-blue.svg';
 import timeBlue from '../../../assets/svg/time-transparent.svg';
+import { InformationCard } from '../../../components/InformationCard';
 import { getAllPayments } from '../payment-management/api/payments';
 import { getAllUsers } from '../user-management/api/getUsers';
-import { InformationCard } from './InformationCard';
 
 export function InformationCards({}: any) {
     const theme = useTheme();
@@ -31,7 +31,11 @@ export function InformationCards({}: any) {
         <>
             <InformationCard
                 title={'طلبات معلقة'}
-                subtitle={paymentsQuery.data?.length.toString() || '0'}
+                subtitle={
+                    paymentsQuery.data
+                        ?.filter(m => m.status === 'p')
+                        .length.toString() || '0'
+                }
                 icon={timeBlue}
                 sx={{
                     flexBasis: '20%',
@@ -74,7 +78,12 @@ export function InformationCards({}: any) {
 
             <InformationCard
                 title={'إجمالي الأرباح'}
-                subtitle={'250000DA'}
+                subtitle={
+                    paymentsQuery.data
+                        ?.filter(m => m.status === 'a')
+                        .reduce((acc, a) => acc + a.order.course.price, 0)
+                        .toFixed(0) + 'DA' || '0'
+                }
                 icon={money}
                 sx={{
                     flexBasis: '20%',

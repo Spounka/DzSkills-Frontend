@@ -14,6 +14,7 @@ import Authenticate from './pages/authenticate/Authenticate';
 import BuyCourse from './pages/buy-course';
 import CategorizedCoursesList from './pages/category-course';
 import ViewCourse from './pages/course';
+import CourseQuizz from './pages/course-quizz';
 import CoursesPage from './pages/courses-page';
 import EditProfile from './pages/edit-profile';
 import GoogleCallbackView from './pages/google-callback';
@@ -26,6 +27,7 @@ import PermissionDeniedPage from './pages/permission-denied';
 import Profile from './pages/profile';
 import Invoices from './pages/profile-invoices';
 import EmailSendPage from './pages/send-email';
+import ContactSupport from './pages/support/contact';
 import FAQ from './pages/support/faq';
 import SubmitReport from './pages/support/report';
 import TeacherAddCourse from './pages/teacher-dashboard/add-course';
@@ -34,7 +36,6 @@ import TeacherLandingPage from './pages/teacher-dashboard/landing-page';
 import EmailValidationPage from './pages/validate-email';
 import ViewCertificate from './pages/view-certificate';
 import WatchCourse from './pages/view-course';
-import ContactSupport from './pages/support/contact';
 
 function App() {
     return (
@@ -107,7 +108,7 @@ function App() {
                     element={<SubmitReport />}
                 />
                 <Route
-                    path="contact"
+                    path="contact/:id/"
                     element={<ContactSupport />}
                 />
             </Route>
@@ -131,6 +132,10 @@ function App() {
                         element={<WatchCourse />}
                     />
                     <Route
+                        path="quizz"
+                        element={<CourseQuizz />}
+                    />
+                    <Route
                         path="certificate"
                         element={<ViewCertificate />}
                     />
@@ -152,7 +157,7 @@ function App() {
                         path={''}
                         element={<TeacherLandingPage />}
                     />
-                    <Route path="courses">
+                    <Route path="courses/*">
                         <Route
                             path=""
                             element={<TeacherCourses />}

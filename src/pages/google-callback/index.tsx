@@ -32,10 +32,14 @@ function GoogleCallbackView() {
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const _code = urlParams.get('code');
-        if (!_code) navigate('/login/');
+        if (!_code) navigate('/register/');
         setCode(_code);
-        setTimeout(() => setIsLoading(false), 2000);
+        // setTimeout(() => setIsLoading(false), 2000);
     }, []);
+
+    useEffect(() => {
+        submitUserLogin.mutate();
+    }, [code]);
 
     return (
         <Grid

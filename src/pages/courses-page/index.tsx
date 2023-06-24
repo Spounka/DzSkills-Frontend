@@ -62,7 +62,7 @@ function CoursesPage() {
         let displayCourses = query.data;
         if (activeLevels.length > 0) {
             displayCourses = displayCourses?.filter(course =>
-                activeLevels.some(level => level.id === course.course_level.id)
+                activeLevels.some(level => level?.id === course.course_level?.id)
             );
         }
         setActiveCourses(displayCourses);
@@ -163,7 +163,7 @@ function CoursesPage() {
                     updateActiveCategories={updateActiveCategories}
                 />
                 <CoursesGrid
-                    cardsPerRow={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }}
+                    cardsPerRow={{ xs: 1, sm: 2, md: 2, lg: 4, xl: 5 }}
                     activeCourses={activeCourses}
                 />
             </Grid>
@@ -178,9 +178,10 @@ interface gridProps {
     activeCourses: Course[] | undefined;
     cardsPerRow: any;
     sx?: SxProps;
+    baseUrl?: string;
 }
 
-export function CoursesGrid({ activeCourses, cardsPerRow, sx }: gridProps) {
+export function CoursesGrid({ activeCourses, cardsPerRow, baseUrl, sx }: gridProps) {
     const theme = useTheme();
     return (
         <Box
@@ -209,7 +210,7 @@ export function CoursesGrid({ activeCourses, cardsPerRow, sx }: gridProps) {
                     <CourseCard
                         key={uuidv4()}
                         course={info}
-                        link={'/courses/' + info.id + '/'}
+                        link={(baseUrl || '') + info.id + '/'}
                     />
                 );
             })}

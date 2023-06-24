@@ -28,7 +28,7 @@ export function CourseCells({ data }: CourseCellsProps) {
         <>
             <CourseCellDetails
                 title={'المستوى'}
-                text={getCourseLevel(data.course_level.name)}
+                text={getCourseLevel(data.course_level?.name) || ''}
             />
             <Divider
                 orientation="vertical"

@@ -21,7 +21,7 @@ export function MiscLinksFooterSection({}) {
                 <Typography variant="caption">انضم الى المدربين</Typography>
                 <Typography variant="caption">مركز المساعدة</Typography>
                 <Typography variant="caption">
-                    <Link to={'/contact/report/'}>أبلغ عن مستخدم</Link>
+                    <Link to={'/support/report/'}>أبلغ عن مستخدم</Link>
                 </Typography>
             </Box>
         </>

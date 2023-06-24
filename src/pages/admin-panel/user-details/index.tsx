@@ -8,10 +8,10 @@ import money from '../../../assets/svg/money-white.svg';
 import students from '../../../assets/svg/school-blue.svg';
 import starsBlue from '../../../assets/svg/stars-blue.svg';
 import studiesBlue from '../../../assets/svg/studies-blue.svg';
+import { InformationCard } from '../../../components/InformationCard';
 import { Course } from '../../../types/course';
 import useLogin from '../../authenticate/hooks/useLogin';
 import NotFound from '../../not-found/NotFound';
-import { InformationCard } from '../landing-page/InformationCard';
 import AdminDashboardLayout from '../layout';
 import { getRelatedCourses, getUserByID } from './api/getUserById';
 import { UserDetailsWideRibbon } from './components/UserDetailsWideRibbon';
@@ -101,7 +101,7 @@ const UserDetails = () => {
             id: course?.id,
             name: course?.title,
             sales: 100,
-            rating: 2.5,
+            rating: course?.average_rating.toFixed(1),
             profit: 150000,
             visits: 120,
             state: Boolean(Math.floor(Math.random() * 2)),

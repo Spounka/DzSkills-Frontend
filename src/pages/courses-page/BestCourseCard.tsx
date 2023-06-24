@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
-import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
 import { NavLink } from 'react-router-dom';
 import { Course } from '../../types/course';
 
@@ -29,6 +29,10 @@ export function BestCourseCard({ data, index, currentCourseIndex }: props) {
             elevation={0}
             sx={{
                 display: 'flex',
+                flexDirection: {
+                    xs: 'column',
+                    lg: 'row',
+                },
                 height: '100%',
                 width: '100%',
                 borderRadius: 0,
@@ -83,6 +87,7 @@ export function BestCourseCard({ data, index, currentCourseIndex }: props) {
                     <Typography
                         color={'#707070'}
                         maxWidth={'70%'}
+                        textOverflow={'ellipsis'}
                         variant={'caption'}
                         fontWeight={300}
                         flexGrow={1}

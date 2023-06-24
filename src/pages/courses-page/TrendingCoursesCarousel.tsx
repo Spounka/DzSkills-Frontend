@@ -28,6 +28,10 @@ export function TrendingCoursesCarousel({}: any) {
                 width: '100%',
                 zIndex: 0,
                 display: 'flex',
+                flexDirection: {
+                    xs: 'column',
+                    lg: 'row',
+                },
                 oveflow: 'hidden',
             }}
         >

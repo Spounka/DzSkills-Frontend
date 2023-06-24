@@ -1,133 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
    id="Header"
-   width="28.924004"
+   width="28.924"
    height="23.285"
-   viewBox="0 0 28.924004 23.285"
-   version="1.1"
-   sodipodi:docname="DzSkills-white.svg"
-   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview82"
-     pagecolor="#ffffff"
-     bordercolor="#000000"
-     borderopacity="0.25"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     showgrid="false"
-     inkscape:zoom="6.4290803"
-     inkscape:cx="69.761145"
-     inkscape:cy="31.264192"
-     inkscape:window-width="1920"
-     inkscape:window-height="1043"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="Header" />
-  <defs
-     id="defs66">
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath6901">
-      <g
-         id="g6909">
-        <g
-           id="g6907">
-          <g
-             id="g6905">
-            <rect
-               id="rect6903"
-               data-name="logo container"
-               width="260"
-               height="79"
-               rx="21"
-               fill="#e2e2e2"
-               x="-57.127991"
-               y="-27.576" />
-          </g>
-        </g>
-      </g>
-    </clipPath>
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath6921">
-      <g
-         id="g6929">
-        <g
-           id="g6927">
-          <g
-             id="g6925">
-            <rect
-               id="rect6923"
-               data-name="logo container"
-               width="260"
-               height="79"
-               rx="21"
-               fill="#e2e2e2"
-               x="-57.127991"
-               y="-27.576" />
-          </g>
-        </g>
-      </g>
-    </clipPath>
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath6931">
-      <g
-         id="g6939">
-        <g
-           id="g6937">
-          <g
-             id="g6935">
-            <rect
-               id="rect6933"
-               data-name="logo container"
-               width="260"
-               height="79"
-               rx="21"
-               fill="#e2e2e2"
-               x="-57.127991"
-               y="-27.576" />
-          </g>
-        </g>
-      </g>
-    </clipPath>
-  </defs>
+   viewBox="0 0 28.924 23.285"
+   version="1.1">
   <g
-     id="g7099"
-     transform="translate(-97.186995,-0.331)">
-    <g
-       id="g7091">
-      <g
-         id="g7084">
-        <g
-           id="g7078">
-          <path
-             id="Path_45"
-             data-name="Path 45"
-             d="m 102.857,19.238 h 7.43 v 4.378 h -13.1 V 0.331 h 5.672 z"
-             fill="#2ece76"
-             clip-path="url(#clipPath6931)" />
-          <path
-             id="Path_46"
-             data-name="Path 46"
-             d="m 120.437,4.71 h -7.426 V 0.331 h 13.1 v 23.285 h -5.672 z"
-             fill="#2ece76"
-             clip-path="url(#clipPath6921)" />
-          <path
-             id="Path_48"
-             data-name="Path 48"
-             d="M 107.592,11.587 V 6.365 l 4.52,2.609 4.523,2.611 -4.523,2.613 -4.523,2.611 z"
-             fill="#ffffff"
-             clip-path="url(#clipPath6901)" />
-        </g>
-      </g>
-    </g>
+     id="g2011"
+     transform="translate(-97.187,-0.331)">
+    <path
+       id="path1994"
+       data-name="Path 45"
+       d="m 102.857,19.238 h 7.43 v 4.378 h -13.1 V 0.331 h 5.672 z"
+       fill="#2ece76"
+       clip-path="url(#clipPath1757)" />
+    <path
+       id="path1997"
+       data-name="Path 46"
+       d="m 120.437,4.71 h -7.426 V 0.331 h 13.1 v 23.285 h -5.672 z"
+       fill="#2ece76"
+       clip-path="url(#clipPath1747)" />
+    <path
+       id="path2003"
+       data-name="Path 48"
+       d="M 107.592,11.587 V 6.365 l 4.52,2.609 4.523,2.611 -4.523,2.613 -4.523,2.611 z"
+       fill="#ffffff"
+       clip-path="url(#clipPath1727)" />
   </g>
 </svg>

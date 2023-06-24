@@ -4,15 +4,19 @@ import { Box, useTheme } from '@mui/system';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { MainButton } from '../../../../../components/ui/MainButton';
+import { CourseQuizz } from '../../../../../types/quizz';
 import AddChapterButton from '../add-chapter-button';
 import { ChapterDetails } from '../chapter/ChapterDetails';
 import { CourseFields } from '../course-fields/CourseFields';
 import Quizz from '../quizz';
 
-export function NewCourseCard() {
+interface props {
+    quizz?: CourseQuizz;
+    updateQuizzCallback: (q: CourseQuizz) => void;
+}
+export function NewCourseCard({ quizz, updateQuizzCallback }: props) {
     const theme = useTheme();
     const [chapters, setChapters] = useState<string[]>([uuidv4()]);
-    const [questions, setQuestions] = useState<string[]>([uuidv4()]);
 
     function removeChapter(uuid: string) {
         setChapters((chaps: string[]) => {
@@ -75,7 +79,10 @@ export function NewCourseCard() {
 
             <AddChapterButton setChapters={setChapters} />
 
-            <Quizz />
+            <Quizz
+                quizzData={quizz}
+                setQuizzData={updateQuizzCallback}
+            />
             <Divider />
             <MainButton
                 color={theme.palette.primary.main}

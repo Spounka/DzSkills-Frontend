@@ -10,12 +10,14 @@ import { DashboardTopbar } from './add-course/components/top-navbar/DashboardTop
 interface TeacherDashboardLayoutProps {
     topbar_title: string;
     topbar_subtitle?: string;
+    fullScreen?: boolean;
     children?: React.ReactNode;
 }
 
 function TeacherDashboardLayout({
     topbar_title,
     topbar_subtitle,
+    fullScreen,
     children,
 }: TeacherDashboardLayoutProps) {
     const theme = useTheme();
@@ -63,6 +65,7 @@ function TeacherDashboardLayout({
                 gridTemplateColumns={'repeat(26 , 1fr)'}
                 gridColumn={'7 / -1'}
                 rowGap={3}
+                gridTemplateRows={'repeat(26, 1fr)'}
                 padding={0}
                 pb={8}
                 paddingTop={4}
@@ -76,8 +79,8 @@ function TeacherDashboardLayout({
                 />
                 <Box
                     sx={{
-                        gridColumn: '1 / -8',
-                        gridRow: '3',
+                        gridColumn: fullScreen ? '1 / -3' : '1 / -8',
+                        gridRow: '2 / -1',
                     }}
                 >
                     {children}
@@ -85,7 +88,7 @@ function TeacherDashboardLayout({
                 <Box
                     sx={{
                         gridColumn: '-1 / -7',
-                        gridRow: '3',
+                        gridRow: '2 / -1',
                         display: 'flex',
                         justifyContent: 'center',
                         width: '100%',

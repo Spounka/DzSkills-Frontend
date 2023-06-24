@@ -12,6 +12,7 @@ import { CoursesGrid } from '../../courses-page';
 import { getCourses } from '../../courses-page/api/getAllCourses';
 import AdminDashboardLayout from '../layout';
 
+
 function AdminCourses() {
     const theme = useTheme();
     useLogin();
@@ -44,14 +45,14 @@ function AdminCourses() {
                     display: 'flex',
                     width: '100%',
                     flexDirection: 'row',
-                    gap: 2,
+                    gap: 0,
                     height: '100%',
                     pb: 8,
                 }}
             >
                 <Box
                     sx={{
-                        flexBasis: '50%',
+                        flexBasis: '40%',
                         height: '100%',
                         width: '100%',
                         bgcolor: 'white',
@@ -104,10 +105,11 @@ function AdminCourses() {
                 </Box>
                 <Box
                     sx={{
-                        flex: '1 0 50%',
+                        flex: '1 0 60%',
                         overflowY: 'scroll',
                         width: '100%',
                         maxHeight: '90vh',
+                        px: 2,
                     }}
                 >
                     <CoursesGrid
@@ -115,18 +117,8 @@ function AdminCourses() {
                         sx={{
                             px: 0,
                         }}
-                        cardsPerRow={2}
+                        cardsPerRow={3}
                     />
-                    {/* {query.data?.map((info: Course) => {
-                        return (
-                            <Box key={uuidv4()}>
-                                <CourseCard
-                                    course={info}
-                                    link={info.id.toString() + '/'}
-                                />
-                            </Box>
-                        );
-                    })} */}
                 </Box>
             </Box>
         </AdminDashboardLayout>

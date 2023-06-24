@@ -9,6 +9,7 @@ function AuthenticationTopBar() {
             aria-label="white-navbar-container"
             sx={{
                 width: '100%',
+                bgcolor: 'white',
                 justifyContent: 'flex-end',
                 display: 'flex',
                 px: {

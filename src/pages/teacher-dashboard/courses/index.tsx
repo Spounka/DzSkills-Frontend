@@ -1,8 +1,11 @@
-import React from 'react';
 import TeacherDashboardLayout from '../layout';
 
 function TeacherCourses() {
-    return <TeacherDashboardLayout topbar_title={'teacher'} />;
+    return (
+        <TeacherDashboardLayout topbar_title={''}>
+            <>Courses</>
+        </TeacherDashboardLayout>
+    );
 }
 
 export default TeacherCourses;

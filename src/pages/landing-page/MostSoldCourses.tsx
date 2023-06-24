@@ -48,7 +48,8 @@ export function MostSoldCourses() {
             </Stack>
 
             <CoursesGrid
-                activeCourses={query.data?.slice(0, 5)}
+                baseUrl="/courses/"
+                activeCourses={query.data?.slice(0, 4)}
                 cardsPerRow={{
                     xs: 1,
                     sm: 2,

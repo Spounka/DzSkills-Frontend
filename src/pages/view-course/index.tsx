@@ -92,11 +92,6 @@ function WatchCourse() {
         [currentVideo]
     );
 
-    // useEffect(() => {
-    //     if (currentCourse.data)
-    //         setCurrentVideo(currentCourse.data?.chapters[0].videos[0]);
-    // }, [currentCourse.data?.chapters[0].videos[0]]);
-
     function updateStudentProgression(progression: Progression | undefined) {
         if (!progression) return;
         const chapter = progression.last_chapter_index;

@@ -8,12 +8,7 @@ interface InformationCardProps {
     icon: string;
     sx?: SxProps;
 }
-export function InformationCard({
-    title,
-    subtitle,
-    icon,
-    sx,
-}: InformationCardProps) {
+export function InformationCard({ title, subtitle, icon, sx }: InformationCardProps) {
     const theme = useTheme();
     return (
         <Card

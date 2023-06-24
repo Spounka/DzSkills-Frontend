@@ -44,6 +44,14 @@ declare module '@mui/material/styles' {
     }
 }
 
+declare module '@mui/material/Checkbox' {
+    interface CheckboxPropsColorOverrides {
+        gray: true;
+        purple: true;
+        yellow: true;
+    }
+}
+
 declare module '@mui/material/Button' {
     interface ButtonPropsColorOverrides {
         gray: true;

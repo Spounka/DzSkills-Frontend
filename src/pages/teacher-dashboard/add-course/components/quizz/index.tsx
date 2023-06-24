@@ -1,33 +1,57 @@
-import { ExpandMore } from '@mui/icons-material';
-import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Checkbox,
-    Divider,
-    Stack,
-    Typography,
-    useTheme,
-} from '@mui/material';
-import Box from '@mui/material/Box';
-import React from 'react';
-import { StyledOutline } from '../../../../../components/form/StyledOutline';
+import { Divider, Stack, Typography, useTheme } from '@mui/material';
+import React, { useCallback, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { MainButton } from '../../../../../components/ui/MainButton';
-import { Course } from '../../../../../types/course';
+import { CourseQuizz, QuizzQuestion } from '../../../../../types/quizz';
+import { QuizzQuestionComponent } from './QuizzQuestionComponent';
 
-type QuizzQuestion = {
-    content: string;
-    is_correct_answer: boolean;
-};
-type QuizzType = {
-    course: Course;
-    questions?: QuizzQuestion[];
-};
-
-function Quizz() {
+interface quizzProps {
+    quizzData?: CourseQuizz;
+    setQuizzData: (q: CourseQuizz) => void;
+}
+function Quizz({ quizzData, setQuizzData }: quizzProps) {
     const theme = useTheme();
-    const [expanded, setExpanded] = React.useState<boolean>(false);
-    const [quizzQuestion, setQuizzQuestion] = React.useState<QuizzQuestion>();
+    const [quizz, setQuizz] = React.useState<CourseQuizz | undefined>(quizzData);
+
+    const updateQuizz = (question: QuizzQuestion) => {
+        const q = { ...quizz };
+
+        if (q.questions) {
+            let index = q.questions.findIndex(x => x.key === question.key);
+            if (index >= 0) q.questions[index] = { ...question };
+            else q.questions = [...q.questions, question];
+        } else {
+            q.questions = [question];
+        }
+        setQuizz(q);
+    };
+
+    const updateQuizzCallback = useCallback(updateQuizz, [quizz]);
+
+    useEffect(() => {
+        if (quizz) setQuizzData(quizz);
+    }, [quizz]);
+
+    useEffect(() => {
+        if (!quizz || quizz?.questions) {
+            setQuizz({
+                questions: [
+                    {
+                        key: uuidv4(),
+                        content: 'سؤال',
+                        choices: [
+                            {
+                                key: uuidv4(),
+                                content: 'الاختيار',
+                                is_correct_answer: true,
+                            },
+                        ],
+                    },
+                ],
+            });
+        }
+    }, []);
+
     return (
         <Stack gap={2}>
             <Typography
@@ -38,119 +62,32 @@ function Quizz() {
                 الكويز
             </Typography>
             <Divider />
-            <Box
-                sx={{
-                    width: '100%',
-                    minHeight: '100px',
-                    bgcolor: '#323287',
-                    borderRadius: theme.spacing(),
-                    p: 3,
-                }}
-            >
-                <Accordion
-                    expanded={expanded}
-                    onChange={(_, b) => setExpanded(b)}
-                    sx={{
-                        bgcolor: 'transparent',
-                        border: 'unset',
-                        outline: 'none',
-                        boxShadow: 'none',
-                        borderTop: 'none',
-                        color: 'white',
-                        width: '100%',
-                        ':before': { display: 'none' },
-                    }}
-                >
-                    <AccordionSummary
-                        sx={{
-                            color: 'white',
-                            transition: 'all 200ms ease-in-out',
-                            '&.Mui-expanded': {
-                                transition: 'all 200ms ease-in-out',
-                                minHeight: 'auto',
-                            },
-                        }}
-                        expandIcon={
-                            <ExpandMore
-                                sx={{
-                                    color: 'white',
-                                    width: '36px',
-                                    height: '36px',
-                                }}
-                            />
-                        }
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
-                    >
-                        <Box
-                            sx={{
-                                // display: `${expanded ? 'none' : 'block'}`,
-                            }}
-                        >
-                            <Typography>
-                                {quizzQuestion?.content || 'السؤال'}
-                            </Typography>
-                        </Box>
-                    </AccordionSummary>
-                    <AccordionDetails
-                        sx={{
-                            display: 'flex',
-                            gap: 4,
-                            flexDirection: 'column',
-                        }}
-                    >
-                        <StyledOutline
-                            multiline
-                            color={'secondary'}
-                            sx={{
-                                bgcolor: 'white',
-                                width: '100%',
-                            }}
-                        />
-                        <Typography>خيارات الإجابة</Typography>
-                        <Stack
-                            direction="row"
-                            gap={2}
-                            width={'100%'}
-                            p={0}
-                            m={0}
-                        >
-                            <Stack
-                                direction="row"
-                                flexBasis={'50%'}
-                            >
-                                <Checkbox
-                                    value={false}
-                                    color="secondary"
-                                />
-                                <StyledOutline
-                                    color={'secondary'}
-                                    sx={{ bgcolor: 'white', width: '100%' }}
-                                />
-                            </Stack>
-
-                            <Stack
-                                direction="row"
-                                flexBasis={'50%'}
-                                width={'100%'}
-                                flexGrow={1}
-                            >
-                                <Checkbox
-                                    value={false}
-                                    color="secondary"
-                                />
-                                <StyledOutline
-                                    color={'secondary'}
-                                    sx={{ bgcolor: 'white', width: '100%' }}
-                                />
-                            </Stack>
-                        </Stack>
-                    </AccordionDetails>
-                </Accordion>
-            </Box>
+            {quizz?.questions?.map(question => {
+                return (
+                    <QuizzQuestionComponent
+                        key={question.key}
+                        question={question}
+                        updateQuizz={updateQuizzCallback}
+                    />
+                );
+            })}
             <MainButton
                 text={'أضف سؤال'}
                 color={theme.palette.secondary.main}
+                //@ts-expect-error
+                onClick={() => {
+                    updateQuizz({
+                        key: uuidv4(),
+                        content: 'سؤال',
+                        choices: [
+                            {
+                                key: uuidv4(),
+                                content: 'الاختيار',
+                                is_correct_answer: true,
+                            },
+                        ],
+                    });
+                }}
             />
         </Stack>
     );

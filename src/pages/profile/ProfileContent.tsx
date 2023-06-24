@@ -98,12 +98,12 @@ export function ProfileContent() {
                                 component="legend"
                                 variant={'body2'}
                             >
-                                {user.user.average_rating}
+                                {user.user.average_rating.toFixed(1)}
                             </Typography>
                             <Rating
                                 size={'small'}
                                 name="read-only"
-                                value={3}
+                                value={user.user.average_rating}
                                 dir={'ltr'}
                                 readOnly
                                 sx={{

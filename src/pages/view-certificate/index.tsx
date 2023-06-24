@@ -157,9 +157,9 @@ function ViewCertificate() {
                             variant="caption"
                             color={'gray.main'}
                         >
-                            نبارك لك اكمالك للدورة بنجاح, يمكنك تحميل شهادتك و
-                            استغلال المعارف التي اكتسبتها في بناء مستقبلك
-                            المهني, نتمنى لك كل التوفيق
+                            نبارك لك اكمالك للدورة بنجاح, يمكنك تحميل شهادتك و استغلال
+                            المعارف التي اكتسبتها في بناء مستقبلك المهني, نتمنى لك كل
+                            التوفيق
                         </Typography>
 
                         <MainButton
@@ -176,7 +176,7 @@ function ViewCertificate() {
                             // maxHeight: '50%',
                         }}
                         src={
-                            `${certificate.data?.data?.certificate_image}` ||
+                            `http://localhost:8000${certificate.data?.data?.certificate_image}` ||
                             ''
                         }
                     />

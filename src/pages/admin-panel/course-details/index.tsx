@@ -12,11 +12,11 @@ import {
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
-import { getCourses } from '../../courses-page/api/getAllCourses';
-import { InformationCard } from '../landing-page/InformationCard';
 import createBlack from '../../../assets/svg/create-black.svg';
 import deleteWhiteBg from '../../../assets/svg/delete-whitebg.svg';
 import messageWhitebg from '../../../assets/svg/message-white.svg';
+import { InformationCard } from '../../../components/InformationCard';
+import { getCourses } from '../../courses-page/api/getAllCourses';
 
 import { MoreHoriz, Star } from '@mui/icons-material';
 import Image from 'mui-image';
@@ -24,12 +24,12 @@ import { useParams } from 'react-router-dom';
 import money from '../../../assets/svg/money-white.svg';
 import students from '../../../assets/svg/school-blue.svg';
 import timeBlue from '../../../assets/svg/time-transparent.svg';
+import { ProfileSocialMedia } from '../../../components/ProfileSocialMedia';
 import { getCourse } from '../../course/api/getCourse';
 import NotFound from '../../not-found/NotFound';
+import AdminDashboardLayout from '../layout';
 import { RelatedStudent, getRelatedStudents } from './api/relatedStudent';
 import { CourseStudent } from './components/courseStudent';
-import AdminDashboardLayout from '../layout';
-import { ProfileSocialMedia } from '../../../components/ProfileSocialMedia';
 
 function CourseDetails() {
     const params = useParams();
@@ -53,7 +53,6 @@ function CourseDetails() {
         setAnchorEl(null);
     }
 
-
     const course = useQuery({
         queryKey: ['courses', id],
         queryFn: () => getCourse(id),
@@ -70,8 +69,7 @@ function CourseDetails() {
         queryFn: () => getRelatedStudents(id),
     });
 
-    if (query.isError)
-        return <Typography>Error Occured In courses</Typography>;
+    if (query.isError) return <Typography>Error Occured In courses</Typography>;
     if (query.isLoading) return <Typography>Loading courses...</Typography>;
 
     if (relatedStudentsQuery.isError)
@@ -220,9 +218,7 @@ function CourseDetails() {
                         <Image
                             width={'auto'}
                             src={
-                                (course.data?.thumbnail &&
-                                    course.data?.thumbnail) ||
-                                ''
+                                (course.data?.thumbnail && course.data?.thumbnail) || ''
                             }
                             // @ts-ignore
                             sx={{
@@ -327,14 +323,13 @@ function CourseDetails() {
                                     course.data?.owner.last_name}
                             </Typography>
                             <Typography variant="body2">
-                                Lorem ipsum dolor sit, amet consectetur
-                                adipisicing elit. Dolor eveniet deserunt
-                                provident numquam animi suscipit id!
-                                Consectetur, ea a. Saepe vero ea quae placeat
-                                enim amet quasi quisquam beatae maxime!
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                Dolor eveniet deserunt provident numquam animi suscipit
+                                id! Consectetur, ea a. Saepe vero ea quae placeat enim
+                                amet quasi quisquam beatae maxime!
                             </Typography>
 
-                          <ProfileSocialMedia />
+                            <ProfileSocialMedia />
                         </Box>
                     </Box>
                 </Box>
@@ -358,22 +353,18 @@ function CourseDetails() {
                             gap: 3,
                         }}
                     >
-                        <Typography color={'secondary.main'}>
-                            الطلبة
-                        </Typography>
+                        <Typography color={'secondary.main'}>الطلبة</Typography>
                         <Divider />
                     </Box>
-                    {relatedStudentsQuery.data?.map(
-                        (student: RelatedStudent) => {
-                            return (
-                                <CourseStudent
-                                    key={uuidv4()}
-                                    student={student}
-                                    theme={theme}
-                                />
-                            );
-                        }
-                    )}
+                    {relatedStudentsQuery.data?.map((student: RelatedStudent) => {
+                        return (
+                            <CourseStudent
+                                key={uuidv4()}
+                                student={student}
+                                theme={theme}
+                            />
+                        );
+                    })}
                 </Box>
             </Box>
         </AdminDashboardLayout>

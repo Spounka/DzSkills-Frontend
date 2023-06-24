@@ -11,11 +11,7 @@ interface props {
     onNotificationClick: () => void;
 }
 
-export function DashboardTopbar({
-    title,
-    subtitle,
-    onNotificationClick,
-}: props) {
+export function DashboardTopbar({ title, subtitle, onNotificationClick }: props) {
     const [query] = useLogin();
 
     const theme = useTheme();
@@ -32,7 +28,7 @@ export function DashboardTopbar({
                 boxShadow: '7px 20px 40px #00000014',
                 borderRadius: theme.spacing(),
                 gridColumn: '1 / -3',
-                gridRow: 'span 2',
+                gridRow: '1',
                 py: '1rem',
             }}
         >
@@ -56,6 +52,8 @@ export function DashboardTopbar({
             </Box>
             <OutlinedInput
                 placeholder={'ابحث عن الدورة المناسبة لك'}
+                //@ts-expect-error
+                color={'purple'}
                 sx={{
                     gridColumn: '11 / -5',
                     borderRadius: theme.spacing(),
