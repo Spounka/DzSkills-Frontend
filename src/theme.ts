@@ -8,12 +8,14 @@ declare module '@mui/material/styles' {
         gray: Palette['primary'];
         purple: Palette['primary'];
         yellow: Palette['primary'];
+        error_light?: Palette['error'];
     }
 
     interface PaletteOptions {
-        gray: PaletteOptions['primary'];
-        purple: PaletteOptions['primary'];
-        yellow: PaletteOptions['primary'];
+        gray?: PaletteOptions['primary'];
+        purple?: PaletteOptions['primary'];
+        yellow?: PaletteOptions['primary'];
+        error_light?: Palette['error'];
     }
 
     interface PaletteColor {
@@ -28,11 +30,6 @@ declare module '@mui/material/styles' {
         lighter?: string;
         secondary?: string;
         title?: string;
-    }
-    interface ThemeOptions {
-        status: {
-            danger: React.CSSProperties['color'];
-        };
     }
     interface PurpleColorOptions {
         main?: string;
