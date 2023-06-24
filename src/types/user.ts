@@ -1,5 +1,3 @@
-// TODO: Remove the debug fields
-
 export type Group = {
     name: string;
 };

@@ -1,6 +1,7 @@
-import { Button, SxProps, useTheme } from '@mui/material';
+import { Button, ButtonProps, SxProps, useTheme } from '@mui/material';
 
-interface props {
+//@ts-ignore
+interface props extends ButtonProps {
     text?: string;
     color?: string | undefined;
     sx?: SxProps;

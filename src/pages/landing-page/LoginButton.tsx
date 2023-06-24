@@ -6,6 +6,7 @@ export function LoginButton({}) {
     const theme = useTheme();
     const navigate = useNavigate();
     return (
+        //@ts-ignore
         <MainButton
             color={theme.palette.primary.main}
             text={'تسجيل الدخول'}

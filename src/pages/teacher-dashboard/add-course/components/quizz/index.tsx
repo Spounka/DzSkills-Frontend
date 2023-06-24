@@ -74,7 +74,6 @@ function Quizz({ quizzData, setQuizzData }: quizzProps) {
             <MainButton
                 text={'أضف سؤال'}
                 color={theme.palette.secondary.main}
-                //@ts-expect-error
                 onClick={() => {
                     updateQuizz({
                         key: uuidv4(),
