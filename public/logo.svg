@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg id="Header" width="28.924" height="23.285" viewBox="0 0 28.924 23.285" version="1.1">
+    <g id="g2011" transform="translate(-97.187,-0.331)">
+        <path id="path1994" data-name="Path 45" d="m 102.857,19.238 h 7.43 v 4.378 h -13.1 V 0.331 h 5.672 z"
+            fill="#2ece76" clip-path="url(#clipPath1757)" />
+        <path id="path1997" data-name="Path 46" d="m 120.437,4.71 h -7.426 V 0.331 h 13.1 v 23.285 h -5.672 z"
+            fill="#2ece76" clip-path="url(#clipPath1747)" />
+        <path id="path2003" data-name="Path 48"
+            d="M 107.592,11.587 V 6.365 l 4.52,2.609 4.523,2.611 -4.523,2.613 -4.523,2.611 z" fill="#ffffff"
+            clip-path="url(#clipPath1727)" />
+    </g>
+</svg>
