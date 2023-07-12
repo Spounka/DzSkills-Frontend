@@ -1,7 +1,7 @@
 import { Stack, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { MainButton } from '../../components/ui/MainButton';
 import { CoursesGrid } from '../courses-page';

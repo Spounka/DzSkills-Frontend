@@ -19,6 +19,7 @@ export function InformationCards() {
                 title={'كورساتي'}
                 subtitle={'124'}
                 icon={playButton}
+                link={'/dashboard/teacher/courses/'}
                 sx={{
                     flex: '0 1 20%',
                     flexBasis: '20%',
@@ -30,6 +31,7 @@ export function InformationCards() {
                 title={'عدد الطلبة'}
                 subtitle={'125'}
                 icon={school}
+                link={'/dashboard/teacher/students/'}
                 sx={{
                     flex: '1 1 25%',
                     flexBasis: '25%',

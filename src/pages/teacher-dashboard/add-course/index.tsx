@@ -53,6 +53,7 @@ export function TeacherAddCourse() {
         <TeacherDashboardLayout
             topbar_title={'اضف كورس جديد'}
             topbar_subtitle="كلها في مكـــــان واحد لك"
+            fullScreen
         >
             <form
                 onSubmit={mutate}

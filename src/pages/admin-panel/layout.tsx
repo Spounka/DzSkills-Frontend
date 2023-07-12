@@ -6,6 +6,7 @@ import useLogin from '../authenticate/hooks/useLogin';
 import { AdminPanelTopBar } from './landing-page/components/AdminPanelTopBar';
 import { NotificationsBar } from './landing-page/components/NotificationsBar';
 import { AdminPanelSidebar } from './landing-page/components/Sidebar';
+import { Helmet } from 'react-helmet';
 
 interface AdminDashboardLayoutProps {
     topbar_title: string;
@@ -47,6 +48,10 @@ function AdminDashboardLayout({
                 bgcolor: theme.palette.gray.secondary,
             }}
         >
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>DzSkills | Admin Panel</title>
+            </Helmet>
             <Box
                 display={'grid'}
                 gridColumn={'span 5'}

@@ -1,5 +1,4 @@
-import { Card, Grid, Stack } from '@mui/material';
-import { Box } from '@mui/system';
+import { Card, Stack } from '@mui/material';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar';
@@ -28,68 +27,10 @@ function Autenticate({ startPanel }: props) {
     });
 
     return (
-        // <Grid
-        //     container
-        //     direction="row"
-        //     spacing={5}
-        //     id={'main grid container'}
-        //     sx={{
-        //         backgroundColor: 'white',
-        //         maxWidth: '100%',
-        //         height: '100dvh',
-        //         // my: 0,
-        //     }}
-        // >
-        //     <Grid
-        //         container
-        //         item
-        //         // xs={1}
-        //         sx={{
-        //             maxHeight: '10dvh',
-        //             // py: 12,
-        //         }}
-        //     >
-        //         <AuthenticationTopBar />
-        //     </Grid>
-
-        //     <Grid
-        //         item
-        //         xs={14}
-        //         container
-        //         sx={{
-        //             backgroundColor: 'gray.secondary',
-        //             // height: '100%',
-        //             // maxHeight: '100vh',
-        //         }}
-        //     >
-        //         <Box
-        //             sx={{
-        //                 display: 'grid',
-        //                 gridTemplateColumns: 'repeat(12, minmax(0, 1fr))',
-        //                 width: '100%',
-        //                 marginBottom: '2rem',
-        //             }}
-        //         >
-        // <Card
-        //     elevation={0}
-        //     sx={{
-        //         gridColumnStart: 5,
-        //         gridColumnEnd: 9,
-        //     }}
-        // >
-        //     <FullWidthTab
-        //         tabLabels={tabs}
-        //         panels={panels}
-        //         startState={startPanel}
-        //     />
-        // </Card>
-        //         </Box>
-        //     </Grid>
-        // </Grid>
         <Stack
             gap={8}
             bgcolor={'gray.secondary'}
-            height={'100dvh'}
+            minHeight={'100dvh'}
             pb={'100px'}
         >
             <AuthenticationTopBar />
@@ -100,7 +41,9 @@ function Autenticate({ startPanel }: props) {
                     flex: '1 0 90%',
                     mx: {
                         xs: 3,
-                        lg: 36,
+                        sm: 16,
+                        lg: 48,
+                        xl: 86,
                     },
                 }}
             >

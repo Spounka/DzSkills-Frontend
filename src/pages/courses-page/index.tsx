@@ -13,6 +13,7 @@ import CourseCard from './CourseCard';
 import { TrendingCoursesCarousel } from './TrendingCoursesCarousel';
 import { getCourses } from './api/getAllCourses';
 import FilterComponent from './components/filter';
+import { Helmet } from 'react-helmet';
 
 function CoursesPage() {
     const theme = useTheme();
@@ -98,6 +99,10 @@ function CoursesPage() {
                 maxWidth: '100%',
             }}
         >
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>DzSkills | Courses</title>
+            </Helmet>
             <Grid
                 item
                 xs={0}

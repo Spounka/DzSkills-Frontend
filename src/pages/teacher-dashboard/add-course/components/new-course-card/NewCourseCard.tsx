@@ -45,7 +45,9 @@ export function NewCourseCard({ quizz, updateQuizzCallback }: props) {
             <Box
                 sx={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                    gridTemplateColumns: {
+                        md: 'repeat(2, minmax(0, 1fr))',
+                    },
                     columnGap: theme.spacing(),
                     flexGrow: '1',
                     alignContent: 'center',

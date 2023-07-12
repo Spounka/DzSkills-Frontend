@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { MainButton } from '../../components/ui/MainButton';
 import { Order } from '../../types/payment';
 
@@ -6,6 +6,7 @@ interface props {
     order: Order;
 }
 export function InvoiceRow({ order }: props) {
+    const theme = useTheme();
     function stateFromCode(s: string) {
         switch (s) {
             case 'p':
@@ -53,7 +54,7 @@ export function InvoiceRow({ order }: props) {
             >
                 <MainButton
                     text={'عرض'}
-                    color={'primary.main'}
+                    color={theme.palette.primary.main}
                 />
             </a>
         </Box>

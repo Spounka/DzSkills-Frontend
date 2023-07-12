@@ -39,9 +39,29 @@ const userSlice = createSlice({
                 user: { ...action.payload.user },
             };
         },
+        removeUser: state => {
+            return {
+                access: '',
+                refresh: '',
+                user: {
+                    pk: 1,
+                    username: '',
+                    email: '',
+                    email_valid: false,
+                    first_name: '',
+                    last_name: '',
+                    profile_image: '',
+                    date_joined: '',
+                    description: '',
+                    speciality: '',
+                    nationality: '',
+                    average_rating: 0,
+                },
+            };
+        },
     },
 });
 
-export const { updateUser } = userSlice.actions;
+export const { updateUser, removeUser } = userSlice.actions;
 export const selectUser = (state: RootState) => state.user;
 export default userSlice.reducer;

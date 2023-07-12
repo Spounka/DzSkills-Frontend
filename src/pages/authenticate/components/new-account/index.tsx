@@ -8,6 +8,7 @@ import IconFormPassword from '../../../../components/form/IconFormPassword';
 import { MainButton } from '../../../../components/ui/MainButton';
 import { signUp } from '../../api/authenticate';
 import AuthFormsHeader from '../form-header';
+import { Helmet } from 'react-helmet';
 
 const validationSchema = Yup.object({
     first_name: Yup.string().required('تعبئة الخانة اجبارية'),
@@ -55,6 +56,10 @@ function NewAccount() {
 
     return (
         <form onSubmit={formik.handleSubmit}>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>DzSkills | Register</title>
+            </Helmet>
             <Stack
                 spacing={2}
                 width={'100%'}

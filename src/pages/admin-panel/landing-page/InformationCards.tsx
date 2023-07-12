@@ -37,6 +37,7 @@ export function InformationCards({}: any) {
                         .length.toString() || '0'
                 }
                 icon={timeBlue}
+                link={'/admin/payments'}
                 sx={{
                     flexBasis: '20%',
                     flexShrink: '1',
@@ -54,6 +55,7 @@ export function InformationCards({}: any) {
                         .length.toString() || '12'
                 }
                 icon={students}
+                link={'/admin/users/'}
                 sx={{
                     flexBasis: '25%',
                     flexGrow: '1',
@@ -70,6 +72,7 @@ export function InformationCards({}: any) {
                         .length.toString() || '0'
                 }
                 icon={teaching}
+                link={'/admin/users/'}
                 sx={{
                     flexBasis: '25%',
                     flexGrow: '1',

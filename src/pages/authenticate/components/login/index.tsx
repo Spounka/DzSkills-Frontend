@@ -11,6 +11,7 @@ import axiosInstance from '../../../../globals/axiosInstance';
 import { LoginUser, updateUser } from '../../../../redux/userSlice';
 import { login } from '../../api/authenticate';
 import AuthFormsHeader from '../form-header';
+import { Helmet } from 'react-helmet';
 
 const validationSchema = Yup.object({
     email: Yup.string()
@@ -85,8 +86,12 @@ export default function Login() {
                 px: 4,
             }}
         >
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>DzSkills | Login</title>
+            </Helmet>
             <AuthFormsHeader
-                title="أنشئ حسابك الآن"
+                title="سجل الدخول إلى حسابك"
                 subheader={`بناء المهارات لليوم وغدًا وما بعده\n\ منصتك الأفضل لبدأ أولى خطواتك في العمل الحر`}
             />
             <form onSubmit={formik.handleSubmit}>

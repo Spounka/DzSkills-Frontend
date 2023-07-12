@@ -6,11 +6,13 @@ import useLogin from '../authenticate/hooks/useLogin';
 import { NotificationsBar } from './NotificationsBar';
 import DashboardSidebar from './add-course/components/side-navbar';
 import { DashboardTopbar } from './add-course/components/top-navbar/DashboardTopbar';
+import { Helmet } from 'react-helmet';
 
 interface TeacherDashboardLayoutProps {
     topbar_title: string;
     topbar_subtitle?: string;
     fullScreen?: boolean;
+    page_title?: string;
     children?: React.ReactNode;
 }
 
@@ -52,6 +54,10 @@ function TeacherDashboardLayout({
                 bgcolor: theme.palette.gray.secondary,
             }}
         >
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>DzSkills | Teacher Dashboard</title>
+            </Helmet>
             <Box
                 display={'grid'}
                 gridColumn={'span 5'}
