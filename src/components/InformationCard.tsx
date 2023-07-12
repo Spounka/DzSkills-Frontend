@@ -21,7 +21,11 @@ export function InformationCard({
     return (
         <Link
             to={link || '.'}
-            style={{ width: '100%' }}
+            style={{
+                width: '100%',
+                // cursor: link ? 'pointer' : 'default',
+                pointerEvents: link ? 'auto' : 'none',
+            }}
         >
             <Card
                 elevation={0}
