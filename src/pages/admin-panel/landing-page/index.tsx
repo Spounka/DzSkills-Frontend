@@ -1,4 +1,4 @@
-import { Box, Divider, Stack, Typography } from '@mui/material';
+import { Box, Divider, Stack, Typography, useTheme } from '@mui/material';
 import { StyledCard } from '../../../components/StyledCard';
 import { data } from '../../teacher-dashboard/landing-page';
 import { GraphData } from '../../teacher-dashboard/landing-page/GraphData';
@@ -7,6 +7,7 @@ import { InformationCards } from './InformationCards';
 import { Reminders } from './Reminders';
 
 function AdminLandingPage() {
+    const theme = useTheme();
     return (
         <AdminDashboardLayout topbar_title={'مرحبا بك'}>
             <Box
@@ -24,14 +25,17 @@ function AdminLandingPage() {
             >
                 <Stack
                     direction={'row'}
-                    // alignItems={'stretch'}
                     gap={4}
                 >
                     <Box
                         width={'100%'}
                         flex={'1 1 50%'}
+                        color={theme.palette.secondary.main}
                     >
-                        <GraphData data={data} />
+                        <GraphData
+                            color={theme.palette.secondary.main}
+                            data={data}
+                        />
                     </Box>
                     <Stack
                         gap={2}

@@ -5,7 +5,7 @@ import { StyledCard } from '../../../components/StyledCard';
 import { BarCharts } from './BarCharts';
 import { LineCharts } from './LineCharts';
 
-export function GraphData({ data }: any) {
+export function GraphData({ data, color }: any) {
     const theme = useTheme();
     const containerRef = useRef(null);
     const [currentGraph, setCurrentGraph] = useState<number>(0);
@@ -14,10 +14,11 @@ export function GraphData({ data }: any) {
             <Stack
                 direction={'row'}
                 justifyContent={'space-between'}
+                color={'inherit'}
             >
                 <Typography
                     variant={'h6'}
-                    color={'purple.main'}
+                    color={color || 'purple.main'}
                 >
                     الأرباح
                 </Typography>
