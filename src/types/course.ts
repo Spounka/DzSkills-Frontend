@@ -59,7 +59,7 @@ export type Course = {
     category: Category;
     hashtags: Hashtag[];
 
-    status: string;
+    status: 'pend' | 'app' | 'rej' | string;
     chapters: Chapter[];
     average_rating: number;
 
