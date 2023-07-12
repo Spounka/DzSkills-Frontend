@@ -24,6 +24,7 @@ export function NotificationsBar({ drawerOpen }: NotificationsProps) {
                 left: 0,
                 width: '20%',
                 height: '80%',
+                zIndex: '1',
             }}
         >
             <Typography
