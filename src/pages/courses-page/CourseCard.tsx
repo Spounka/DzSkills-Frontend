@@ -2,7 +2,6 @@ import { Star } from '@mui/icons-material';
 import { Divider, Rating, Typography, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
 import Image from 'mui-image';
-import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Course } from '../../types/course';
 
@@ -34,6 +33,14 @@ function CourseCard({ course, link }: props) {
                     flexDirection: 'column',
                     borderRadius: theme.spacing(2),
                     bgcolor: 'white',
+                    borderColor:
+                        course.status === 'rej'
+                            ? theme.palette.error.dark
+                            : course.status === 'pend'
+                            ? theme.palette.warning.light
+                            : 'none',
+                    borderWidth:
+                        course.status === 'rej' || course.status === 'pend' ? '2px' : 0,
                     aspectRatio: {
                         xs: '9/16',
                         md: '9/10',
