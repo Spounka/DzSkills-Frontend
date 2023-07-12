@@ -1,9 +1,12 @@
-import { Avatar, Card, OutlinedInput, Typography } from '@mui/material';
+import { Avatar, Badge, Card, OutlinedInput, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
+import { useQuery } from 'react-query';
 import { MainButton } from '../../../../components/ui/MainButton';
 import NotificationsIcon from '../../../../components/ui/NotificationsIcon';
 import useLogin from '../../../authenticate/hooks/useLogin';
+import { getCourses } from '../../../courses-page/api/getAllCourses';
+import { useNavigate } from 'react-router-dom';
 
 interface props {
     onNotificationClick: () => void;
@@ -18,8 +21,13 @@ export function AdminPanelTopBar({
     mainColor,
 }: props) {
     const [user] = useLogin();
+    const coursesQuery = useQuery({
+        queryKey: ['courses'],
+        queryFn: () => getCourses(),
+    });
 
     const theme = useTheme();
+    const navigate = useNavigate();
     if (!user?.isSuccess) return <></>;
     return (
         <Card
@@ -59,7 +67,7 @@ export function AdminPanelTopBar({
                 placeholder={'ابحث عن الدورة المناسبة لك'}
                 color={'secondary'}
                 sx={{
-                    gridColumn: '11 / -5',
+                    gridColumn: '11 / -8',
                     borderRadius: theme.spacing(),
                     pr: theme.spacing(2),
                     pl: theme.spacing(),
@@ -81,6 +89,41 @@ export function AdminPanelTopBar({
                     />
                 }
             />
+            {coursesQuery.data?.some(course => course.status === 'pend') ? (
+                <Badge
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                    }}
+                    // overlap={'circular'}
+                    // badgeContent=" "
+                    variant={'dot'}
+                    color={'error'}
+                    sx={{
+                        gridColumn: '-7 / span 3',
+                        width: '100%',
+                        px: 0,
+                        '.MuiBadge-dot': {
+                            height: 12,
+                            width: 12,
+                            borderRadius: '50%',
+                        },
+                    }}
+                >
+                    <MainButton
+                        color={theme.palette.secondary.light}
+                        text="للمراجعة"
+                        onClick={() => navigate('/admin/courses/pending/')}
+                        sx={{
+                            width: '100%',
+                            px: 0,
+                            py: 0.5,
+                        }}
+                    />
+                </Badge>
+            ) : (
+                <></>
+            )}
 
             <span
                 onClick={onNotificationClick}
