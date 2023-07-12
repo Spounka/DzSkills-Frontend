@@ -12,7 +12,6 @@ import { CoursesGrid } from '../../courses-page';
 import { getCourses } from '../../courses-page/api/getAllCourses';
 import AdminDashboardLayout from '../layout';
 
-
 function AdminCourses() {
     const theme = useTheme();
     useLogin();
@@ -27,7 +26,9 @@ function AdminCourses() {
     if (query.isError) return <Typography>Error Occured</Typography>;
     if (query.isLoading) return <Typography>Loading...</Typography>;
 
-    const users = query.data?.map(course => course.owner);
+    const users = query.data
+        ?.filter(course => course.status === 'app')
+        .map(course => course.owner);
     let uniqueUsers: User[] = [];
     if (users) {
         for (let i = 0; i < users.length; i++) {
@@ -113,7 +114,9 @@ function AdminCourses() {
                     }}
                 >
                     <CoursesGrid
-                        activeCourses={query.data}
+                        activeCourses={query.data?.filter(
+                            course => course.status === 'app'
+                        )}
                         sx={{
                             px: 0,
                         }}

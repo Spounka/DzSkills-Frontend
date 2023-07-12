@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { SxProps, useTheme } from '@mui/material/styles';
 import { useCallback, useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
 import blurredBg from '../../assets/svg/blured image.svg';
@@ -13,7 +14,6 @@ import CourseCard from './CourseCard';
 import { TrendingCoursesCarousel } from './TrendingCoursesCarousel';
 import { getCourses } from './api/getAllCourses';
 import FilterComponent from './components/filter';
-import { Helmet } from 'react-helmet';
 
 function CoursesPage() {
     const theme = useTheme();
@@ -169,7 +169,9 @@ function CoursesPage() {
                 />
                 <CoursesGrid
                     cardsPerRow={{ xs: 1, sm: 2, md: 2, lg: 4, xl: 5 }}
-                    activeCourses={activeCourses}
+                    activeCourses={activeCourses?.filter(
+                        course => course.status === 'app'
+                    )}
                 />
             </Grid>
             <Footer />
