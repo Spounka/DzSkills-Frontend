@@ -19,14 +19,26 @@ export function InvoiceRow({ order }: props) {
     }
     return (
         <Box
-            display={'flex'}
+            display={'grid'}
+            gridTemplateColumns={'repeat(16, minmax(0,1fr))'}
             gap={5}
             textAlign={'center'}
             alignItems={'center'}
         >
-            <Typography flex={'1 0 1%'}>{order.id}</Typography>
-            <Typography flex={'1 0 15%'}>{order.course.title}</Typography>
             <Typography
+                flex={'1 0 1%'}
+                gridColumn={'span 2'}
+            >
+                {order.id}
+            </Typography>
+            <Typography
+                gridColumn={'span 4'}
+                flex={'1 0 15%'}
+            >
+                {order.course.title}
+            </Typography>
+            <Typography
+                gridColumn={'span 3'}
                 flex={'1 0 15%'}
                 justifySelf={'flex-start'}
                 textAlign={'right'}
@@ -34,12 +46,14 @@ export function InvoiceRow({ order }: props) {
                 {new Date(order.date_issued).toLocaleDateString()}
             </Typography>
             <Typography
+                gridColumn={'span 3'}
                 flex={'1 0 15%'}
                 textAlign={'right'}
             >
                 {stateFromCode(order.payment?.status || 'p')}
             </Typography>
             <Typography
+                gridColumn={'span 4'}
                 flex={'1 1 15%'}
                 textAlign={'right'}
             >
@@ -50,6 +64,7 @@ export function InvoiceRow({ order }: props) {
                 href={order.payment.receipt}
                 style={{
                     flex: '1 1 10%',
+                    gridColumn: '-1',
                 }}
             >
                 <MainButton
