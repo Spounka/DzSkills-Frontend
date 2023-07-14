@@ -12,7 +12,7 @@ interface addProps {
 export function AddRating({ video }: addProps) {
     const params = useParams();
 
-    if (!params || !params.id) return <Typography>Error</Typography>;
+    if (!params?.id) return <Typography>Error</Typography>;
 
     // @ts-ignore
     if (isNaN(params.id)) return <NotFound />;
@@ -34,7 +34,9 @@ export function AddRating({ video }: addProps) {
     });
 
     useEffect(() => {
-        let rating = video.ratings?.filter(rating => rating.student === user.data?.pk)[0];
+        let rating = video.ratings?.filter(
+            rating => rating.student === user.data?.pk
+        )[0];
         if (rating) {
             setCurrentValue(rating.rating);
             setShouldUpdateOnSubmit(true);

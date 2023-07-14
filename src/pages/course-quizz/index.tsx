@@ -10,7 +10,7 @@ import { getQuizz } from './getQuizz';
 function CourseQuizz() {
     const params = useParams();
 
-    if (!params || !params.id) return <Typography>Error</Typography>;
+    if (!params?.id) return <Typography>Error</Typography>;
     // @ts-ignore
     if (isNaN(params.id)) return <NotFound />;
 

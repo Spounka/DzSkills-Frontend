@@ -34,7 +34,7 @@ import { CourseStudent } from './components/courseStudent';
 function CourseDetails() {
     const params = useParams();
 
-    if (!params || !params.id) return <Typography>Error</Typography>;
+    if (!params?.id) return <Typography>Error</Typography>;
 
     // @ts-ignore
     if (isNaN(params.id)) return <NotFound />;

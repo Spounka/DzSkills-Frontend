@@ -63,7 +63,7 @@ export function ChapterDetails({
             <Box
                 sx={{
                     padding: 0,
-                    bgcolor: color || 'purple.light',
+                    bgcolor: color ?? 'purple.light',
                     width: '100%',
                     borderRadius: theme.spacing(),
                     p: 2,

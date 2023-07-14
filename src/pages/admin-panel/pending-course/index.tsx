@@ -14,7 +14,7 @@ function PendingCourse() {
     const theme = useTheme();
     const params = useParams();
 
-    if (!params || !params.id) return <Typography>Error</Typography>;
+    if (!params?.id) return <Typography>Error</Typography>;
 
     // @ts-ignore
     if (isNaN(params.id)) return <NotFound />;
@@ -34,7 +34,7 @@ function PendingCourse() {
                     gap={4}
                 >
                     <Image
-                        src={course.data?.thumbnail || ''}
+                        src={course.data?.thumbnail ?? ''}
                         fit="cover"
                         style={{
                             flex: '1 1 40%',

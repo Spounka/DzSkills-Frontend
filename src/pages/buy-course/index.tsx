@@ -28,7 +28,7 @@ import { createOrder, getCurrentReceipt } from './api/createOrder';
 function BuyCourse() {
     const params = useParams();
 
-    if (!params || !params.id) return <Typography>Error</Typography>;
+    if (!params?.id) return <Typography>Error</Typography>;
 
     // @ts-ignore
     if (isNaN(params.id)) return <NotFound />;

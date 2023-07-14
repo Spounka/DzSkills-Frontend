@@ -1,18 +1,15 @@
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import NotFound from '../../not-found/NotFound';
-import useLogin from '../../authenticate/hooks/useLogin';
 import { Grid } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import { useParams } from 'react-router-dom';
 import AuthenticationTopBar from '../../../components/ui/AuthenticationTopBar';
+import useLogin from '../../authenticate/hooks/useLogin';
 import { ContactTeacherContent } from '../../messages/ContactTeacherContent';
+import NotFound from '../../not-found/NotFound';
 
 function ContactSupport() {
     const params = useParams();
 
-    if (!params || !params.id) return <Typography>Error</Typography>;
+    if (!params?.id) return <Typography>Error</Typography>;
 
     if (isNaN(Number(params.id))) return <NotFound />;
 

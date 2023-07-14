@@ -1,21 +1,20 @@
-import { Avatar, Grid, Skeleton, Typography } from '@mui/material';
+import { Avatar, Grid, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import useTheme from '@mui/system/useTheme';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
+import { ProfileSocialMedia } from '../../components/ProfileSocialMedia';
 import TopNavigationBar from '../../components/top-bar';
 import { User } from '../../types/user';
 import NotFound from '../not-found/NotFound';
-import { getCourse } from './api/getCourse';
 import { CourseCells } from './CourseCells';
 import { CourseHeader } from './CourseHeader';
-import { ProfileSocialMedia } from '../../components/ProfileSocialMedia';
-import { Suspense } from 'react';
+import { getCourse } from './api/getCourse';
 
 function ViewCourse() {
     const params = useParams();
 
-    if (!params || !params.id) return <Typography>Error</Typography>;
+    if (!params?.id) return <Typography>Error</Typography>;
     // @ts-ignore
     if (isNaN(params.id)) return <NotFound />;
 
