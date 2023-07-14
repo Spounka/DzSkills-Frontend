@@ -3,28 +3,32 @@ import { Box } from '@mui/system';
 import { useState } from 'react';
 import { StyledOutline } from '../../../../../components/form/StyledOutline';
 import { UploadFileInput } from '../../../../../components/form/UploadFileInput';
-import { Video } from './LessonsAccordion';
+import { Video } from '../../../../../types/course';
 
 export interface LessonProps {
     id: string;
     activeLesson: number;
     chapterIndex: number;
     videoIndex: number;
-    getVideo: (param: number) => Video;
-    setVideo: (video: Video) => void;
+    video?: Video & { uuid: string };
+    readonly?: boolean;
+    getVideo: (param: number) => Video & { uuid: string };
+    setVideo: (video: Video & { uuid: string }) => void;
 }
 export function LessonFields({
-    getVideo,
     activeLesson,
     chapterIndex,
     videoIndex,
+    video,
+    readonly,
+    getVideo,
     setVideo,
 }: LessonProps) {
     const [title, setTitle] = useState(getVideo(videoIndex).title);
-    const [description, setDescription] = useState(
-        getVideo(videoIndex).description
+    const [description, setDescription] = useState(getVideo(videoIndex).description);
+    const [vid, setVid] = useState<Video & { uuid: string }>(
+        video || getVideo(videoIndex)
     );
-    const [vid, setVid] = useState<any>(getVideo(videoIndex).video);
 
     function handleTitleChange(event: any) {
         setTitle(event.target.value);
@@ -38,10 +42,12 @@ export function LessonFields({
 
     function updateVideo() {
         let x = {
-            id: getVideo(videoIndex).id,
+            ...vid,
             title: title,
             description: description,
-            video: vid,
+            // uuid: getVideo(videoIndex).uuid,
+            // id: getVideo(videoIndex).id,
+            // video: vid,
         };
         setVideo(x);
     }
@@ -137,22 +143,26 @@ export function LessonFields({
                     فيديو الدرس
                 </Typography>
 
-                <UploadFileInput
-                    inputName={`chapters[${chapterIndex}]videos[${videoIndex}]video`}
-                    onChange={handleVideoChange}
-                    sx={{
-                        alignItems: 'center',
-                        flexDirection: 'column',
-                        height: '100%',
-                        bgcolor: 'white',
-                        justifyContent: 'center',
-                    }}
-                    containerSx={{
-                        alignItems: 'center',
-                        flexGrow: '0',
-                    }}
-                    inputFileTypes="video/*"
-                />
+                {video ? (
+                    <img src={video.video || ''} />
+                ) : (
+                    <UploadFileInput
+                        inputName={`chapters[${chapterIndex}]videos[${videoIndex}]video`}
+                        onChange={handleVideoChange}
+                        sx={{
+                            alignItems: 'center',
+                            flexDirection: 'column',
+                            height: '100%',
+                            bgcolor: 'white',
+                            justifyContent: 'center',
+                        }}
+                        containerSx={{
+                            alignItems: 'center',
+                            flexGrow: '0',
+                        }}
+                        inputFileTypes="video/*"
+                    />
+                )}
             </Box>
         </Box>
     );

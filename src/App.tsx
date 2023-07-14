@@ -37,6 +37,7 @@ import EmailValidationPage from './pages/validate-email';
 import ViewCertificate from './pages/view-certificate';
 import WatchCourse from './pages/view-course';
 import PendingCoursesAdmin from './pages/admin-panel/pending-courses';
+import PendingCourse from './pages/admin-panel/pending-course';
 
 function App() {
     return (
@@ -196,6 +197,10 @@ function App() {
                 <Route
                     path="courses/pending"
                     element={<PendingCoursesAdmin />}
+                />
+                <Route
+                    path="courses/pending/:id/"
+                    element={<PendingCourse />}
                 />
                 <Route
                     path="courses/:id/"

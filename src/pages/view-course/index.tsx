@@ -68,12 +68,14 @@ function WatchCourse() {
     const progression = useQuery({
         queryKey: ['progression', id, user?.pk],
         queryFn: () => getStudentProgress(id),
-        onSuccess: data =>
-            setCurrentVideo(
-                currentCourse.data?.chapters[data?.last_chapter_index || 0].videos[
-                    data?.last_video_index || 0
-                ] || defaultVideo
-            ),
+        onSuccess: data => {
+            const currentChapter =
+                currentCourse.data?.chapters[data?.last_chapter_index || 0];
+            if (currentChapter && 'videos' in currentChapter) {
+                let currentVideo = currentChapter.videos[data?.last_video_index || 0];
+                setCurrentVideo(currentVideo);
+            } else setCurrentVideo(defaultVideo);
+        },
         staleTime: 1000 * 60 * 2,
         onError: (err: AxiosError) => {
             if (err.response?.status === 403) navigate(`/courses/${id}/buy/`);
@@ -441,7 +443,7 @@ function WatchCourse() {
                         index={2}
                     >
                         <VideoRatings video={currentVideo} />
-                        <VideoComments videoID={currentVideo.id} />
+                        <VideoComments videoID={currentVideo.id || 0} />
                     </TabPanel>
                 </Box>
             </Grid>

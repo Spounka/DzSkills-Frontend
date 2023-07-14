@@ -6,11 +6,13 @@ import { QuizzChoice } from '../../../../../types/quizz';
 
 interface QuizzChoiceProps {
     choice: QuizzChoice;
+    color?: string;
     updateQuestion: (c: QuizzChoice) => void;
     removeChoice: (c: QuizzChoice) => void;
 }
 export function QuizzChoiceComponent({
     choice,
+    color,
     updateQuestion,
     removeChoice,
 }: QuizzChoiceProps) {
@@ -23,7 +25,8 @@ export function QuizzChoiceComponent({
         >
             <Checkbox
                 checked={choice.is_correct_answer}
-                color={'purple'}
+                //@ts-expect-error
+                color={color || 'purple'}
                 icon={
                     <CheckBoxOutlineBlank
                         fill={'white'}

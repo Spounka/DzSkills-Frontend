@@ -1,20 +1,33 @@
 import {
     Autocomplete,
+    Box,
     FormControl,
     OutlinedInput,
+    SxProps,
     TextField,
     Typography,
     useTheme,
 } from '@mui/material';
-import { UploadFileInput } from '../../../../../components/form/UploadFileInput';
-import { useQueries, useQuery } from 'react-query';
-import { getHashtags } from '../../../../admin-panel/categories-hashtags/api/queries';
 import { useState } from 'react';
-import { Hashtag } from '../../../../../types/course';
+import { useQuery } from 'react-query';
+import { ReactComponent as UploadImage } from '../../../../../assets/svg/Download.svg';
+import { UploadFileInput } from '../../../../../components/form/UploadFileInput';
+import { Course, Hashtag } from '../../../../../types/course';
+import { getHashtags } from '../../../../admin-panel/categories-hashtags/api/queries';
+import Image from 'mui-image';
 
-export function CourseFields() {
+interface props {
+    course?: Course;
+    readonly?: boolean;
+    color?: string;
+    stringColor?: string;
+}
+
+export function CourseFields({ color, stringColor, course, readonly }: props) {
     const theme = useTheme();
-    const [selectedHashtags, setSelectedHashtags] = useState<Hashtag[]>([]);
+    const [selectedHashtags, setSelectedHashtags] = useState<Hashtag[]>(
+        course?.hashtags || []
+    );
     const hashtagsQuery = useQuery({
         queryFn: () => getHashtags(),
         queryKey: ['hashtags'],
@@ -34,6 +47,8 @@ export function CourseFields() {
             <OutlinedInput
                 name={'title'}
                 color={'secondary'}
+                readOnly={readonly}
+                placeholder={course?.title || ''}
                 sx={{
                     gridColumn: '1',
                     gridRow: '2',
@@ -51,6 +66,8 @@ export function CourseFields() {
                 وصف
             </Typography>
             <OutlinedInput
+                readOnly={readonly}
+                placeholder={course?.description || ''}
                 name={'description'}
                 color={'secondary'}
                 multiline
@@ -72,6 +89,8 @@ export function CourseFields() {
             </Typography>
             <OutlinedInput
                 name={'price'}
+                readOnly={readonly}
+                placeholder={course?.price.toFixed(0) || ''}
                 color={'secondary'}
                 sx={{
                     gridColumn: '2',
@@ -104,10 +123,12 @@ export function CourseFields() {
                     direction: 'ltr',
                 }}
                 //@ts-expect-error
-                color={theme.palette.purple.main}
+                color={color || theme.palette.purple.main}
             >
                 <Autocomplete
+                    readOnly={readonly}
                     options={hashtagsQuery.data || []}
+                    defaultValue={(readonly && selectedHashtags) || []}
                     multiple
                     limitTags={5}
                     filterSelectedOptions
@@ -124,7 +145,7 @@ export function CourseFields() {
                             label="هاشتاغ"
                             placeholder="هاشتاغ"
                             //@ts-expect-error
-                            color={'purple'}
+                            color={stringColor || 'purple'}
                             sx={{
                                 direction: 'ltr',
                                 color: 'inherit',
@@ -152,45 +173,119 @@ export function CourseFields() {
                 ملف التقديم
             </Typography>
 
-            <UploadFileInput inputName="presentation_file" />
+            {readonly ? (
+                <DisplayFileUrl
+                    sx={{ gridColumn: '-2 / span 1', gridRow: '9' }}
+                    url={course?.presentation_file || ''}
+                />
+            ) : (
+                <UploadFileInput inputName="presentation_file" />
+            )}
 
-            <Typography
-                variant={'subtitle2'}
-                color={'gray.main'}
-                sx={{
-                    gridColumn: '2',
-                }}
-            >
-                ملفات إضافية ( اختياري )
-            </Typography>
-
-            <UploadFileInput
-                inputName="additional"
-                multipleFiles
-                inputFileTypes=".pdf, .ppt"
-                sx={{
-                    gridColumn: 'auto',
-                }}
-            />
-            <UploadFileInput
-                sx={{
-                    gridColumn: 'auto',
-                    gridRow: '9 / 12',
-                    alignItems: 'center',
-                    flexDirection: 'column',
-                    height: '100%',
-                    justifyContent: 'center',
-                }}
-                containerSx={{
-                    alignItems: 'center',
-                    flexGrow: '0',
-                }}
-                buttonSx={{
-                    height: 'auto',
-                }}
-                inputFileTypes="image/*"
-                inputName={'thumbnail'}
-            />
+            {readonly ? (
+                <Box
+                    component={'a'}
+                    download
+                    href={course?.thumbnail || ''}
+                    sx={{
+                        border: '1px solid #CCC',
+                        padding: 1,
+                        display: 'flex',
+                        gap: 2,
+                        height: '100%',
+                        p: theme.spacing(3),
+                        borderRadius: theme.spacing(),
+                        overflow: 'hidden',
+                        px: 3,
+                        gridColumn: 'span 1',
+                        gridRow: '9 / 18',
+                    }}
+                >
+                    <Image src={course?.thumbnail || ''} />
+                </Box>
+            ) : (
+                <UploadFileInput
+                    sx={{
+                        gridColumn: 'auto',
+                        gridRow: '9 / 12',
+                        alignItems: 'center',
+                        flexDirection: 'column',
+                        height: '100%',
+                        justifyContent: 'center',
+                    }}
+                    containerSx={{
+                        alignItems: 'center',
+                        flexGrow: '0',
+                    }}
+                    buttonSx={{
+                        height: 'auto',
+                    }}
+                    inputFileTypes="image/*"
+                    inputName={'thumbnail'}
+                />
+            )}
         </>
+    );
+}
+function DisplayFileUrl({ url, sx }: { url: string; sx?: SxProps }) {
+    const theme = useTheme();
+    function fileNameFromURL() {
+        return url.slice(url.lastIndexOf('/') + 1);
+    }
+    return (
+        <Box
+            component={'a'}
+            download
+            href={url}
+            sx={{
+                border: '1px solid #CCC',
+                padding: 1,
+                display: 'flex',
+                gap: 2,
+                p: theme.spacing(3),
+                borderRadius: theme.spacing(),
+                overflow: 'hidden',
+                px: 3,
+                ...sx,
+            }}
+        >
+            <UploadImage
+                style={{
+                    height: theme.spacing(8),
+                    width: theme.spacing(8),
+                    fill: theme.palette.gray.light,
+                }}
+            />
+
+            <Box
+                flexGrow={'1'}
+                display={'flex'}
+                flexDirection={'column'}
+                justifyContent={'center'}
+            >
+                <Typography
+                    color={'gray.dark'}
+                    variant={'caption'}
+                >
+                    اسحب الملفات إلى هنا
+                </Typography>
+                <Typography
+                    color={'gray.main'}
+                    variant={'caption'}
+                    fontWeight={300}
+                >
+                    أو انقر للاختيار يدويا
+                </Typography>
+                <Typography
+                    maxWidth={'250px'}
+                    noWrap
+                    color={'gray.main'}
+                    variant={'subtitle2'}
+                    fontWeight={400}
+                >
+                    {fileNameFromURL()}
+                </Typography>
+            </Box>
+        </Box>
     );
 }

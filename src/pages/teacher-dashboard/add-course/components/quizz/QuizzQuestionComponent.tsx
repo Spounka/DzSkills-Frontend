@@ -10,9 +10,16 @@ import { QuizzChoiceComponent } from './QuizzChoiceComponent';
 
 interface QuizzQuestionProps {
     question: QuizzQuestion;
+    color?: string;
+    stringColor?: string;
     updateQuizz: (question: QuizzQuestion) => void;
 }
-export function QuizzQuestionComponent({ question, updateQuizz }: QuizzQuestionProps) {
+export function QuizzQuestionComponent({
+    question,
+    color,
+    stringColor,
+    updateQuizz,
+}: QuizzQuestionProps) {
     const theme = useTheme();
     const [expanded, setExpanded] = React.useState<boolean>(false);
     const [localQuestion, setLocalQuestion] = React.useState<
@@ -73,7 +80,7 @@ export function QuizzQuestionComponent({ question, updateQuizz }: QuizzQuestionP
             sx={{
                 width: '100%',
                 minHeight: '100px',
-                bgcolor: '#323287',
+                bgcolor: color || '#323287',
                 borderRadius: theme.spacing(),
                 p: 3,
             }}
@@ -115,6 +122,7 @@ export function QuizzQuestionComponent({ question, updateQuizz }: QuizzQuestionP
                                 flex={'1 1 50%'}
                             >
                                 <QuizzChoiceComponent
+                                    color={stringColor}
                                     key={c.key}
                                     choice={c}
                                     updateQuestion={updateQuestionCallback}

@@ -26,7 +26,7 @@ export function AddRating({ video }: addProps) {
     const ratingMutation = useMutation({
         mutationKey: ['video', video.id, 'rating', user.data?.pk],
         mutationFn: (value: number) =>
-            postRating(user.data?.pk, video.id, value, shouldUpdateOnSubmit),
+            postRating(user.data?.pk, value, video.id, shouldUpdateOnSubmit),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['video', video.id, 'ratings'] });
             queryClient.invalidateQueries({ queryKey: ['courses', id] });
@@ -34,7 +34,7 @@ export function AddRating({ video }: addProps) {
     });
 
     useEffect(() => {
-        let rating = video.ratings.filter(rating => rating.student === user.data?.pk)[0];
+        let rating = video.ratings?.filter(rating => rating.student === user.data?.pk)[0];
         if (rating) {
             setCurrentValue(rating.rating);
             setShouldUpdateOnSubmit(true);

@@ -29,7 +29,7 @@ function TeacherDashboardLayout({
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!user || !user.data) return;
+        if (!user?.data) return;
         if (
             !user.data?.groups.some(
                 group => group.name === 'TeacherGroup' || group.name === 'AdminGroup'

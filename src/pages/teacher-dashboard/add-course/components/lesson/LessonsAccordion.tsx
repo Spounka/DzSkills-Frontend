@@ -7,47 +7,56 @@ import {
     Typography,
 } from '@mui/material';
 import { Box, useTheme } from '@mui/system';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import addButton from '../../../../../assets/svg/add-button-green.svg';
 import rightArrow from '../../../../../assets/svg/arrow-right-green.svg';
+import { Video } from '../../../../../types/course';
+import { Chapter } from '../chapter/ChapterDetails';
+import { CourseChapter } from '../chapter/ChapterFields';
 import { LessonFields } from './LessonFields';
 
-export interface Video {
-    id: string;
-    title: string;
-    description: string;
-    video?: any;
+interface props {
+    expanded: boolean;
+    chapterIndex: number;
+    chapter?: Chapter | CourseChapter;
+    readonly?: boolean;
 }
-export function LessonsAccordion({ expanded, chapterIndex }: any) {
+export function LessonsAccordion({ expanded, chapterIndex, chapter, readonly }: props) {
     const theme = useTheme();
     const [activeLesson, setActiveLesson] = useState<number>(0);
     const [isExpanded, setIsExpanded] = useState<boolean>(true);
-    const [videos, setVideos] = useState<Video[]>([
-        { id: uuidv4(), title: '', description: '', video: undefined },
+    const [videos, setVideos] = useState<(Video & { uuid: string })[]>([
+        { uuid: uuidv4(), title: '', description: '', video: undefined },
     ]);
 
     function getVideo(index: number) {
         return videos[index];
     }
 
-    function handleChangeVideo(video: Video) {
+    function handleChangeVideo(video: Video & { uuid: string }) {
         setVideos(v => {
             let t = [...v];
-            return t.map(n =>
-                n.id === video.id ? { ...video, id: n.id } : n
-            );
+            return t.map(n => (n.uuid === video.uuid ? { ...video, uuid: n.uuid } : n));
         });
     }
+
+    useEffect(() => {
+        if (chapter && 'videos' in chapter) {
+            let x = chapter.videos?.map(vid => {
+                return { ...vid, uuid: uuidv4() };
+            });
+            setVideos(x || []);
+        }
+    }, []);
 
     return (
         <Accordion
             expanded={isExpanded && expanded}
             onChange={(_, b) => setIsExpanded(b)}
             sx={{
-                transform: expanded
-                    ? 'translate(0, 0)'
-                    : 'translate(-100%, -100%)',
+                height: '100%',
+                transform: expanded ? 'translate(0, 0)' : 'translate(-100%, -100%)',
                 bgcolor: 'transparent',
                 boxShadow: 'none',
                 color: 'purple',
@@ -100,9 +109,7 @@ export function LessonsAccordion({ expanded, chapterIndex }: any) {
             >
                 {activeLesson > 0 && (
                     <IconButton
-                        onClick={() =>
-                            setActiveLesson(l => (l > 0 ? l - 1 : 0))
-                        }
+                        onClick={() => setActiveLesson(l => (l > 0 ? l - 1 : 0))}
                         sx={{
                             position: 'absolute',
                             right: '0%',
@@ -119,40 +126,42 @@ export function LessonsAccordion({ expanded, chapterIndex }: any) {
                     </IconButton>
                 )}
                 {activeLesson === videos.length - 1 ? (
-                    <IconButton
-                        onClick={() => {
-                            setVideos(vids => {
-                                let v = [...vids];
-                                v.push({
-                                    id: uuidv4(),
-                                    title: '',
-                                    description: '',
+                    !readonly ? (
+                        <IconButton
+                            onClick={() => {
+                                setVideos(vids => {
+                                    let v = [...vids];
+                                    v.push({
+                                        uuid: uuidv4(),
+                                        title: '',
+                                        description: '',
+                                    });
+                                    setActiveLesson(v.length - 1);
+                                    return v;
                                 });
-                                setActiveLesson(v.length - 1);
-                                return v;
-                            });
-                        }}
-                        sx={{
-                            position: 'absolute',
-                            left: '0%',
-                            top: '50%',
-                        }}
-                    >
-                        <img
-                            src={addButton}
-                            style={{
-                                width: theme.spacing(4.5),
-                                height: 'auto',
                             }}
-                        />
-                    </IconButton>
+                            sx={{
+                                position: 'absolute',
+                                left: '0%',
+                                top: '50%',
+                            }}
+                        >
+                            <img
+                                src={addButton}
+                                style={{
+                                    width: theme.spacing(4.5),
+                                    height: 'auto',
+                                }}
+                            />
+                        </IconButton>
+                    ) : (
+                        <></>
+                    )
                 ) : (
                     <IconButton
                         onClick={() =>
                             setActiveLesson(l =>
-                                l < videos.length - 1
-                                    ? l + 1
-                                    : videos.length - 1
+                                l < videos.length - 1 ? l + 1 : videos.length - 1
                             )
                         }
                         sx={{
@@ -187,13 +196,14 @@ export function LessonsAccordion({ expanded, chapterIndex }: any) {
                     {videos.map((video, index) => {
                         return (
                             <LessonFields
-                                key={video.id}
+                                key={video.uuid}
                                 activeLesson={activeLesson}
                                 chapterIndex={chapterIndex}
-                                id={video.id}
+                                id={video.uuid}
                                 getVideo={getVideo}
                                 videoIndex={index}
                                 setVideo={handleChangeVideo}
+                                video={(readonly && video) || undefined}
                             />
                         );
                     })}

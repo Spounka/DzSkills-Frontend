@@ -10,36 +10,42 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { MainButton } from '../../../../../components/ui/MainButton';
 import { LessonsAccordion } from '../lesson/LessonsAccordion';
-import { ChapterFields } from './ChapterFields';
-
-interface Chapter {
-    id: string;
-    title: string;
-    description: string;
-}
+import { ChapterFields, CourseChapter } from './ChapterFields';
 
 interface props {
     chapterIndex: number;
     uuid: string;
-    removeChapter: (param: string) => void;
+    removeChapter?: (param: string) => void;
+    readonly?: boolean;
+    color?: string;
+    courseChapter?: CourseChapter;
 }
 
-export function ChapterDetails({ chapterIndex, uuid, removeChapter }: props) {
+export function ChapterDetails({
+    chapterIndex,
+    uuid,
+    readonly,
+    color,
+    courseChapter,
+    removeChapter,
+}: props) {
     const [expanded, setExpanded] = useState<boolean>(false);
-    const [hasAddedLessons, setHasAddedLessons] = useState<boolean>(false);
-    const [chapter, setChapter] = useState<Chapter>({
-        title: '',
-        description: '',
-        id: uuidv4(),
-    });
+    const [hasAddedLessons, setHasAddedLessons] = useState<boolean>(readonly || false);
+    const [chapter, setChapter] = useState<Chapter | CourseChapter>(
+        courseChapter || {
+            title: '',
+            description: '',
+            uuid: uuidv4(),
+        }
+    );
     const theme = useTheme();
 
-    function handleChapterChange(c: Chapter) {
+    function handleChapterChange(c: Chapter | CourseChapter) {
         setChapter({ ...chapter, ...c });
     }
 
     function handleChapterRemove() {
-        removeChapter(uuid);
+        if (removeChapter) removeChapter(uuid);
     }
 
     return (
@@ -51,12 +57,13 @@ export function ChapterDetails({ chapterIndex, uuid, removeChapter }: props) {
                 height: 'auto',
                 borderRadius: theme.spacing(),
                 width: '100%',
+                overflowX: 'hidden',
             }}
         >
             <Box
                 sx={{
                     padding: 0,
-                    bgcolor: 'purple.light',
+                    bgcolor: color || 'purple.light',
                     width: '100%',
                     borderRadius: theme.spacing(),
                     p: 2,
@@ -105,9 +112,7 @@ export function ChapterDetails({ chapterIndex, uuid, removeChapter }: props) {
                                 display: `${expanded ? 'none' : 'block'}`,
                             }}
                         >
-                            <Typography>
-                                {chapter.title || 'عنوان الفصل'}
-                            </Typography>
+                            <Typography>{chapter.title || 'عنوان الفصل'}</Typography>
                             <Typography
                                 maxWidth={'450px'}
                                 noWrap
@@ -124,47 +129,52 @@ export function ChapterDetails({ chapterIndex, uuid, removeChapter }: props) {
                         }}
                     >
                         <ChapterFields
+                            readonly={readonly}
                             index={chapterIndex}
                             chapter={chapter}
                             setChapter={handleChapterChange}
                         />
-                        <Box
-                            flexGrow={'1'}
-                            display={'flex'}
-                            justifyContent={'space-between'}
-                            sx={{
-                                mt: 0,
-                                width: '100%',
-                            }}
-                        >
-                            <MainButton
-                                text="اضف الدروس"
-                                type={'button'}
-                                color={theme.palette.primary.light}
-                                spin={false}
-                                sx={{
-                                    px: theme.spacing(8),
-                                }}
-                                {...{
-                                    onClick: () => {
-                                        setHasAddedLessons(true);
-                                    },
-                                }}
-                            />
+                        {!readonly && (
+                            <>
+                                <Box
+                                    flexGrow={'1'}
+                                    display={'flex'}
+                                    justifyContent={'space-between'}
+                                    sx={{
+                                        mt: 0,
+                                        width: '100%',
+                                    }}
+                                >
+                                    <MainButton
+                                        text="اضف الدروس"
+                                        type={'button'}
+                                        color={theme.palette.primary.light}
+                                        spin={false}
+                                        sx={{
+                                            px: theme.spacing(8),
+                                        }}
+                                        {...{
+                                            onClick: () => {
+                                                setHasAddedLessons(true);
+                                            },
+                                        }}
+                                    />
 
-                            <MainButton
-                                text="حذف الفصل"
-                                type={'button'}
-                                color={theme.palette.error.light}
-                                spin={false}
-                                sx={{
-                                    px: theme.spacing(8),
-                                }}
-                                {...{
-                                    onClick: () => handleChapterRemove(),
-                                }}
-                            />
-                        </Box>
+                                    <MainButton
+                                        text="حذف الفصل"
+                                        type={'button'}
+                                        color={theme.palette.error.light}
+                                        spin={false}
+                                        sx={{
+                                            px: theme.spacing(8),
+                                        }}
+                                        {...{
+                                            onClick: () => handleChapterRemove(),
+                                        }}
+                                    />
+                                </Box>
+                            </>
+                        )}
                     </AccordionDetails>
                 </Accordion>
             </Box>
@@ -172,6 +182,8 @@ export function ChapterDetails({ chapterIndex, uuid, removeChapter }: props) {
                 <LessonsAccordion
                     expanded={expanded}
                     chapterIndex={chapterIndex}
+                    readonly={readonly}
+                    chapter={chapter}
                 />
             )}
         </Box>

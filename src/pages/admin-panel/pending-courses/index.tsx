@@ -1,8 +1,6 @@
-import { Avatar, Box, Checkbox, Typography, useTheme } from '@mui/material';
-import React from 'react';
+import { Box, Typography, useTheme } from '@mui/material';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 import { User } from '../../../types/user';
 import useLogin from '../../authenticate/hooks/useLogin';
 import { CoursesGrid } from '../../courses-page';
@@ -50,59 +48,6 @@ function PendingCoursesAdmin() {
             >
                 <Box
                     sx={{
-                        flexBasis: '40%',
-                        height: '100%',
-                        width: '100%',
-                        bgcolor: 'white',
-                        // mt: theme.spacing(),
-                        pb: theme.spacing(),
-                        maxHeight: '90dvh',
-                        overflowY: 'scroll',
-                        scrollBehavior: 'smooth',
-                    }}
-                >
-                    {uniqueUsers.map((user: User) => {
-                        return (
-                            <React.Fragment key={uuidv4()}>
-                                <Box
-                                    onClick={() => navigate(`/admin/users/${user.pk}/`)}
-                                    sx={{
-                                        p: 2,
-                                        display: 'flex',
-                                        gap: 2,
-                                        alignItems: 'center',
-                                        cursor: 'pointer',
-                                    }}
-                                >
-                                    <Checkbox color={'secondary'} />
-                                    <Avatar
-                                        src={user.profile_image}
-                                        sx={{
-                                            width: theme.spacing(12),
-                                            height: theme.spacing(12),
-                                        }}
-                                    />
-                                    <Box
-                                        display={'flex'}
-                                        flexDirection={'column'}
-                                    >
-                                        <Typography variant="h6">
-                                            {user.first_name + ' ' + user.last_name}
-                                        </Typography>
-                                        <Typography
-                                            variant="subtitle2"
-                                            color={'gray.main'}
-                                        >
-                                            {user.speciality}
-                                        </Typography>
-                                    </Box>
-                                </Box>
-                            </React.Fragment>
-                        );
-                    })}
-                </Box>
-                <Box
-                    sx={{
                         flex: '1 0 60%',
                         overflowY: 'scroll',
                         width: '100%',
@@ -117,7 +62,7 @@ function PendingCoursesAdmin() {
                         sx={{
                             px: 0,
                         }}
-                        cardsPerRow={3}
+                        cardsPerRow={{ md: 3, xl: 4 }}
                     />
                 </Box>
             </Box>

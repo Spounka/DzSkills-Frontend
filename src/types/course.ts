@@ -25,20 +25,21 @@ export type Rating = {
 };
 
 export type Video = {
-    id: number;
+    id?: number;
     title: string;
     description: string;
-    video: string;
-    duration: string;
-    ratings: Rating[];
-    average_rating: number;
+    video?: string;
+    presentation_file?: string;
+    thumbnail?: string;
+    duration?: string;
+    ratings?: Rating[];
+    average_rating?: number;
 };
 export type Chapter = {
     id: number;
     title: string;
     description: string;
-    thumbnail: string;
-    average_rating: number;
+    average_rating?: number;
     videos: Video[];
 };
 export type Course = {
@@ -80,3 +81,5 @@ export type Certificate = {
     course: Course;
     certificate_image: string;
 };
+
+// export type OptionalsVideo =

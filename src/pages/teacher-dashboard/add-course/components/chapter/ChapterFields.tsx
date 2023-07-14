@@ -1,9 +1,16 @@
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { StyledOutline } from '../../../../../components/form/StyledOutline';
-import { UploadFileInput } from '../../../../../components/form/UploadFileInput';
+import { Chapter as CourseChap } from '../../../../../types/course';
 
-export function ChapterFields({ index, chapter, setChapter }: any) {
+interface props {
+    index: number;
+    chapter: Chapter | CourseChapter;
+    setChapter: (c: Chapter | CourseChapter) => void;
+    readonly?: boolean;
+}
+
+export function ChapterFields({ index, chapter, readonly, setChapter }: props) {
     function handleChapterTitleChange(e: any) {
         setChapter({
             title: e.target.value,
@@ -23,6 +30,8 @@ export function ChapterFields({ index, chapter, setChapter }: any) {
             </Typography>
 
             <StyledOutline
+                readOnly={readonly}
+                placeholder={chapter.title}
                 name={`chapters[${index}]title`}
                 type="text"
                 color={'secondary'}
@@ -57,7 +66,9 @@ export function ChapterFields({ index, chapter, setChapter }: any) {
                     </Typography>
                     <StyledOutline
                         required
-                        onBlur={handleChapterDescriptionChange}
+                        readOnly={readonly}
+                        placeholder={chapter.description || ''}
+                        onBlur={readonly ? () => {} : handleChapterDescriptionChange}
                         name={`chapters[${index}]description`}
                         color="secondary"
                         multiline
@@ -66,35 +77,6 @@ export function ChapterFields({ index, chapter, setChapter }: any) {
                             bgcolor: 'white',
                             height: '100%',
                         }}
-                    />
-                </Box>
-                <Box
-                    flexGrow={'1'}
-                    width={'100%'}
-                    display={'flex'}
-                    flexDirection={'column'}
-                    gap={2}
-                >
-                    <Typography
-                        variant={'subtitle2'}
-                        px={1}
-                    >
-                        صورة مصغرة
-                    </Typography>
-                    <UploadFileInput
-                        inputName={`chapters[${index}]thumbnail`}
-                        sx={{
-                            alignItems: 'center',
-                            flexDirection: 'column',
-                            height: '100%',
-                            bgcolor: 'white',
-                            justifyContent: 'center',
-                        }}
-                        containerSx={{
-                            alignItems: 'center',
-                            flexGrow: '0',
-                        }}
-                        inputFileTypes="image/*"
                     />
                 </Box>
             </Box>

@@ -1,10 +1,5 @@
 import { ExpandMore } from '@mui/icons-material';
-import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Divider,
-} from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Divider } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -32,7 +27,7 @@ export function ChapterAccordion({
 }: props) {
     const theme = useTheme();
     const [expanded, setExpanded] = useState<boolean>(false);
-    const videosWithUUID = chapter.videos.map((v: any) => {
+    const videosWithUUID = chapter.videos?.map((v: any) => {
         return { ...v, key: uuidv4() };
     });
     return (
@@ -79,21 +74,21 @@ export function ChapterAccordion({
                     height: '100%',
                 }}
             >
-                {videosWithUUID.map((video: any, index: number) => {
+                {videosWithUUID?.map((video: any, index: number) => {
                     return (
                         <React.Fragment key={video.key}>
                             <VideoChapterItem
                                 locked={
                                     locked ||
                                     (index > progressionVideoIndex &&
-                                        progresssionChapterIndex <=
-                                            chapterIndex)
+                                        progresssionChapterIndex <= chapterIndex)
                                 }
                                 video={video}
                                 setCurrentVideo={setCurrentVideo}
                                 activeVideo={activeVideo}
                             />
-                            {index < chapter.videos.length - 1 && <Divider />}
+                            {'length' in chapter.videos &&
+                                index < chapter.videos?.length - 1 && <Divider />}
                         </React.Fragment>
                     );
                 })}

@@ -13,11 +13,11 @@ export function AllRatings({ video }: ratingsProps) {
     const theme = useTheme();
     const ratingsQuery = useQuery({
         queryKey: ['video', video.id, 'ratings'],
-        queryFn: () => getRatings(video.id),
+        queryFn: () => getRatings(video.id || 0),
         cacheTime: 1000 * 5,
-        onSuccess: () => setCurrentRating(video.average_rating),
+        onSuccess: () => setCurrentRating(video.average_rating || 0),
     });
-    const [currentRating, setCurrentRating] = useState(0);
+    const [currentRating, setCurrentRating] = useState<number | undefined>(0);
 
     useEffect(() => {
         setCurrentRating(video.average_rating);
@@ -38,7 +38,7 @@ export function AllRatings({ video }: ratingsProps) {
                 alignItems: 'center',
             }}
         >
-            <CourseAverageRating currentRating={currentRating} />
+            <CourseAverageRating currentRating={currentRating || 0} />
             <Stack
                 width={'100%'}
                 flexGrow={'1'}

@@ -16,8 +16,6 @@ import AdminDashboardLayout from '../layout';
 import { getRelatedCourses, getUserByID } from './api/getUserById';
 import { UserDetailsWideRibbon } from './components/UserDetailsWideRibbon';
 
-('المستخدمين');
-
 const columns: GridColDef[] = [
     {
         field: 'id',
@@ -68,7 +66,7 @@ const columns: GridColDef[] = [
 const UserDetails = () => {
     const params = useParams();
 
-    if (!params || !params.id) return <Typography>Error</Typography>;
+    if (!params?.id) return <Typography>Error</Typography>;
 
     // @ts-ignore
     if (isNaN(params.id)) return <NotFound />;
