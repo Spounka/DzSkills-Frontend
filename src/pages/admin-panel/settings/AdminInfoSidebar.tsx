@@ -29,7 +29,7 @@ export function AdminInfoSidebar({}) {
                 }}
             >
                 <Avatar
-                    src={user[0].data?.profile_image || ''}
+                    src={user[0].data?.profile_image ?? ''}
                     sx={{
                         width: '100%',
                         height: 'auto',

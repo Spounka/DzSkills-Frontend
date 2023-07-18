@@ -1,15 +1,19 @@
 import { Avatar, Box, Button, Card, Typography, useTheme } from '@mui/material';
-import { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useMutation } from 'react-query';
 import { MainButton } from '../../../../components/ui/MainButton';
 import useLogin from '../../../authenticate/hooks/useLogin';
 import AdminDashboardLayout from '../../layout';
 import { AdminInfoSidebar } from '../AdminInfoSidebar';
-import { AddAdminUserInfo } from './AddAdminUserInfo';
-import { AddAdminUserPassword } from './AddAdminUserPassword';
-import { createAdmin } from './api/queries';
+import { AddAdminUserInfo } from '../add-admin/AddAdminUserInfo';
+import { AddAdminUserPassword } from '../add-admin/AddAdminUserPassword';
+import axiosInstance from '../../../../globals/axiosInstance';
 
-function AddAdmin() {
+async function createTeacher(data: FormData) {
+    return await axiosInstance.post('/users/teacher/create/', data);
+}
+
+function AddTeacher() {
     const theme = useTheme();
     useLogin();
 
@@ -27,7 +31,7 @@ function AddAdmin() {
     }
 
     const createUserMutation = useMutation({
-        mutationFn: (data: FormData) => createAdmin(data),
+        mutationFn: (data: FormData) => createTeacher(data),
         mutationKey: ['admin', 'create'],
     });
     function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -146,4 +150,4 @@ function AddAdmin() {
     );
 }
 
-export default AddAdmin;
+export default AddTeacher;

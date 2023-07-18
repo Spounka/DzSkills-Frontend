@@ -1,23 +1,33 @@
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { StyledOutline } from '../../../../../components/form/StyledOutline';
-import { Chapter as CourseChap } from '../../../../../types/course';
+import { CreationChapter } from '../../../../../types/course';
+import { useSnackbar } from 'notistack';
 
 interface props {
     index: number;
-    chapter: Chapter | CourseChapter;
-    setChapter: (c: Chapter | CourseChapter) => void;
+    chapter: CreationChapter;
+    setChapter: (c: CreationChapter) => void;
     readonly?: boolean;
 }
 
 export function ChapterFields({ index, chapter, readonly, setChapter }: props) {
+    const { enqueueSnackbar } = useSnackbar();
     function handleChapterTitleChange(e: any) {
+        if (e.target.value > 300) {
+            enqueueSnackbar('300 كلمة كحد أقصى', { variant: 'warning' });
+            e.target.value = '';
+        }
         setChapter({
             title: e.target.value,
             description: chapter.description,
         });
     }
     function handleChapterDescriptionChange(e: any) {
+        if (e.target.value > 300) {
+            enqueueSnackbar('300 كلمة كحد أقصى', { variant: 'warning' });
+            e.target.value = '';
+        }
         setChapter({ description: e.target.value, title: chapter.title });
     }
     return (

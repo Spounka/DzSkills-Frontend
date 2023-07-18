@@ -102,7 +102,7 @@ const UserDetails = () => {
             rating: course?.average_rating.toFixed(1),
             profit: 150000,
             visits: 120,
-            state: Boolean(Math.floor(Math.random() * 2)),
+            state: course?.state === 'running',
         };
     });
 

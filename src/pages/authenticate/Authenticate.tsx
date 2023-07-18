@@ -43,7 +43,7 @@ function Autenticate({ startPanel }: props) {
                         xs: 3,
                         sm: 16,
                         lg: 48,
-                        xl: 86,
+                        xl: '30%',
                     },
                 }}
             >

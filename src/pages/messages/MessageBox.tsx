@@ -9,7 +9,7 @@ import { Message } from './Message';
 interface MessageBoxProps {
     messages?: UserMessage[];
     user: UseQueryResult<User, unknown>;
-    course: UseQueryResult<Course, unknown>;
+    course: Course
 }
 export function MessageBox({ messages, user, course }: MessageBoxProps) {
     const boxRef = useRef(null);
@@ -29,24 +29,28 @@ export function MessageBox({ messages, user, course }: MessageBoxProps) {
                 py: 2,
                 px: 2,
                 display: 'flex',
-                gap: 4,
+                gap: 0,
                 flexDirection: 'column-reverse',
-                maxHeight: '100%',
             }}
         >
-            {messages?.map((message, index) => {
+            {messages?.map((message, index, arr) => {
                 const avatarSrc =
                     message.sender === user.data?.pk
                         ? user.data?.profile_image
-                        : course.data?.owner.profile_image;
+                        : course.owner.profile_image;
                 const isSender = message.sender === user.data?.pk;
                 const dir = isSender ? 'flex-end' : 'flex-start';
+                let useAvatar = true;
+
+                const prevMessage = index > 0 && arr[index - 1];
+                if (prevMessage && prevMessage.sender === message.sender)
+                    useAvatar = false;
                 return (
                     <Message
                         key={message.id}
                         dir={dir}
                         message={message}
-                        avatarSrc={avatarSrc}
+                        avatarSrc={(useAvatar && avatarSrc) || ''}
                         isSender={isSender}
                     />
                 );

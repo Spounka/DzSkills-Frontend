@@ -2,11 +2,11 @@ import { AddCircle } from '@mui/icons-material';
 import { IconButton, Typography } from '@mui/material';
 import { Box, useTheme } from '@mui/system';
 import { v4 as uuidv4 } from 'uuid';
-import { Chapter } from '../../../../../types/course';
+import { CreationChapter } from '../../../../../types/course';
 
 interface AddChapterButtonProps {
     bgcolor?: string;
-    setChapters: React.Dispatch<React.SetStateAction<(Chapter & { uuid: string })[]>>;
+    setChapters: React.Dispatch<React.SetStateAction<CreationChapter[]>>;
 }
 
 export function AddChapterButton({ bgcolor, setChapters }: AddChapterButtonProps) {
@@ -14,8 +14,8 @@ export function AddChapterButton({ bgcolor, setChapters }: AddChapterButtonProps
     return (
         <Box
             onClick={() => {
-                setChapters((chaps: any) => {
-                    let f = [...chaps, uuidv4()];
+                setChapters((chaps: CreationChapter[]) => {
+                    let f = [...chaps, { uuid: uuidv4(), title: '', description: '' }];
                     return f;
                 });
             }}

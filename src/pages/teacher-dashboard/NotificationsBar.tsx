@@ -23,7 +23,7 @@ export function NotificationsBar({ drawerOpen }: NotificationsProps) {
                 position: 'fixed',
                 left: 0,
                 width: '20%',
-                height: '80%',
+                height: '100%',
                 zIndex: '1',
             }}
         >

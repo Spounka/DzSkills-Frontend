@@ -31,6 +31,7 @@ export function FilterChip({ levels, activeLevels, updateActiveLevels }: filterP
                     py: 2,
                     px: 4,
                     width: '100%',
+                    maxWidth: `calc(100dvw - ${theme.spacing(10)})`,
                     borderRadius: theme.spacing(2),
                     textAlign: 'center',
                     display: 'flex',
@@ -58,6 +59,7 @@ export function FilterChip({ levels, activeLevels, updateActiveLevels }: filterP
             <DropdownPopper
                 isOpen={drawerOpen}
                 cardRef={cardRef}
+                clickAway={() => setDrawerOpen(false)}
             >
                 <FilterLevels
                     levels={levels}

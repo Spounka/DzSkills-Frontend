@@ -2,24 +2,49 @@ import { Avatar, Rating, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { useTheme } from '@mui/material/styles';
+import { useQuery } from 'react-query';
+import { v4 as uuidv4 } from 'uuid';
 import { ReactComponent as GpsImage } from '../../assets/svg/place gray.svg';
 import { ProfileSocialMedia } from '../../components/ProfileSocialMedia';
-import useReduxData from '../../stores/reduxUser';
-import { CoursePreview } from './CoursePreview';
+import axiosInstance from '../../globals/axiosInstance';
+import { Course } from '../../types/course';
+import useLogin from '../authenticate/hooks/useLogin';
+import CourseCard from '../courses-page/CourseCard';
+
+export async function getRelatedCourses() {
+    const { data } = await axiosInstance.get('/courses/student/related/');
+    return data as Course[];
+}
 
 export function ProfileContent() {
     const theme = useTheme();
-    const user = useReduxData().user;
+    const [user] = useLogin();
+
+    const ownedCoursesQuery = useQuery({
+        queryKey: ['courses', 'student', user.data?.pk],
+        queryFn: () => getRelatedCourses(),
+    });
+
     return (
         <Card
             elevation={0}
             sx={{
-                gridColumnStart: 4,
-                gridColumnEnd: 11,
+                gridColumnStart: {
+                    xs: 2,
+                    lg: 4,
+                },
+                gridColumnEnd: {
+                    xs: -2,
+                    lg: 11,
+                },
                 maxWidth: '100%',
                 minHeight: '70vh',
                 py: theme.spacing(8),
-                px: theme.spacing(12),
+                px: {
+                    xs: theme.spacing(2),
+                    lg: theme.spacing(6),
+                    xl: theme.spacing(12),
+                },
                 borderRadius: theme.spacing(2),
                 display: 'flex',
                 flexDirection: 'column',
@@ -29,7 +54,10 @@ export function ProfileContent() {
             <Box
                 sx={{
                     display: 'flex',
-                    flexDirection: 'row',
+                    flexDirection: {
+                        xs: 'column-reverse',
+                        md: 'row',
+                    },
                     gap: theme.spacing(8),
                 }}
             >
@@ -44,13 +72,13 @@ export function ProfileContent() {
                     }}
                 >
                     <Typography variant={'h5'}>
-                        {`${user.user.first_name} ${user.user.last_name}`}
+                        {`${user.data?.first_name} ${user.data?.last_name}`}
                     </Typography>
                     <Typography
                         variant={'subtitle2'}
                         color={'gray.light'}
                     >
-                        {`${user.user.speciality || 'speciality'}`}
+                        {`${user.data?.speciality ?? 'speciality'}`}
                     </Typography>
                     <Typography
                         variant={'body2'}
@@ -61,7 +89,7 @@ export function ProfileContent() {
                         }}
                     >
                         <GpsImage style={{ alignSelf: 'center' }} />
-                        {`${user.user.nationality || ' الجنسية'}`}
+                        {`${user.data?.nationality ?? ' الجنسية'}`}
                     </Typography>
 
                     <Box
@@ -69,41 +97,33 @@ export function ProfileContent() {
                         mt={2}
                     >
                         <Box
-                            flexGrow={'1'}
                             display={'flex'}
                             flexDirection={'column'}
-                        >
-                            <Typography
-                                variant={'subtitle2'}
-                                color={'gray.dark'}
-                            >
-                                اجمالي الطلبة
-                            </Typography>
-                            <Typography
-                                variant={'subtitle2'}
-                                color={'secondary.dark'}
-                            >
-                                166
-                            </Typography>
-                        </Box>
-
-                        <Box
-                            display={'flex'}
-                            flexDirection={'column'}
-                            alignItems={'flex-end'}
+                            alignItems={{
+                                xs: 'flex-start',
+                                md: 'flex-end',
+                            }}
                             gap={0.5}
+                            sx={{
+                                placeContent: {
+                                    xs: 'flex-start',
+                                    md: 'flex-end',
+                                },
+                                width: '100%',
+                            }}
                         >
                             <Typography
                                 px={0.5}
                                 component="legend"
                                 variant={'body2'}
                             >
-                                {user.user.average_rating.toFixed(1)}
+                                {user.data?.average_rating.toFixed(1)}
                             </Typography>
                             <Rating
                                 size={'small'}
                                 name="read-only"
-                                value={user.user.average_rating}
+                                precision={0.5}
+                                value={user.data?.average_rating}
                                 dir={'ltr'}
                                 readOnly
                                 sx={{
@@ -126,7 +146,7 @@ export function ProfileContent() {
                     flexGrow={'1'}
                 >
                     <Avatar
-                        src={user.user.profile_image}
+                        src={user.data?.profile_image}
                         sx={{
                             width: theme.spacing(26),
                             height: theme.spacing(26),
@@ -149,7 +169,7 @@ export function ProfileContent() {
                 fontWeight={400}
                 color={'gray.dark'}
             >
-                {user.user.description}
+                {user.data?.description}
             </Typography>
 
             <Typography
@@ -167,14 +187,35 @@ export function ProfileContent() {
                 sx={{
                     flex: '1',
                     width: '100%',
+                    px: -2,
                 }}
             >
-                <CoursePreview />
-                <CoursePreview />
-                <CoursePreview />
-                <CoursePreview />
-                <CoursePreview />
-                <CoursePreview />
+                {ownedCoursesQuery.data?.slice(0, 7)?.map(course => {
+                    return (
+                        <Box
+                            key={uuidv4()}
+                            sx={{
+                                maxWidth: {
+                                    xs: '100%',
+                                    sm: '35%',
+                                    lg: '50%',
+                                },
+                                boxShadow: '0 5px 10px #0000001A',
+                                borderRadius: theme.spacing(2),
+                                flex: '1 1 30%',
+                                width: '100%',
+                                height: 'auto',
+                                // flexBasis: '30%',
+                                aspecRatio: '16/9',
+                            }}
+                        >
+                            <CourseCard
+                                course={course}
+                                link={`/courses/${course.id}/watch/`}
+                            />
+                        </Box>
+                    );
+                })}
             </Box>
         </Card>
     );

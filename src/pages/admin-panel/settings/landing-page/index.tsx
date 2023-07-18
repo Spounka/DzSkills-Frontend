@@ -57,9 +57,7 @@ function LandingPageSettingsForm() {
             >
                 <Stack gap={5}>
                     <SettingsSection title={'الواجهة الاولى'}>
-                        <FirstSectionConfig
-                            adminConfigQuery={adminConfigQuery}
-                        />
+                        <FirstSectionConfig adminConfigQuery={adminConfigQuery} />
                     </SettingsSection>
                     <SettingsSection title={'الأقسام'}>
                         <Box
@@ -78,6 +76,7 @@ function LandingPageSettingsForm() {
                                 }}
                             >
                                 <img
+                                    loading={'lazy'}
                                     src={rightArrow}
                                     style={{
                                         width: theme.spacing(12),
@@ -94,6 +93,7 @@ function LandingPageSettingsForm() {
                                 }}
                             >
                                 <img
+                                    loading={'lazy'}
                                     src={rightArrow}
                                     style={{
                                         width: theme.spacing(12),

@@ -1,6 +1,6 @@
 import { ChatBubbleOutlineOutlined } from '@mui/icons-material';
 import { Badge, Box, Divider, Stack, Typography, useTheme } from '@mui/material';
-import { ReactComponent as MoneyGreen } from '../../../assets/svg/money-nocolor.svg';
+import { ReactComponent as MoneyGreen } from '../../../assets/svg/money-white.svg';
 import { ReactComponent as TimeOrange } from '../../../assets/svg/time-orange.svg';
 import { ReactComponent as TimePurple } from '../../../assets/svg/time-purple.svg';
 import { StyledCard } from '../../../components/StyledCard';
@@ -61,7 +61,7 @@ export function Reminders({}) {
                     }
                     color={'secondary.main'}
                     subtitle="اطلع على الرسائل التي لم تقرأها بعد"
-                />{' '}
+                />
                 <ReminderItem
                     title={'تأكيد دفع'}
                     Icon={
@@ -74,7 +74,7 @@ export function Reminders({}) {
                         >
                             <MoneyGreen
                                 style={{
-                                    // fill: theme.palette.primary.main,
+                                    fill: theme.palette.primary.main,
                                     width: '100%',
                                     zIndex: 10,
                                     height: '100%',
@@ -84,7 +84,7 @@ export function Reminders({}) {
                     }
                     color={'primary.main'}
                     subtitle="تأكيد مدفوعات للاشتراك في كورسات"
-                />{' '}
+                />
                 <ReminderItem
                     title={'في انتظار المراجعة'}
                     Icon={<TimeOrange style={{ width: '100%', height: '100%' }} />}

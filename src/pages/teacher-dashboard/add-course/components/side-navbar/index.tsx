@@ -4,20 +4,11 @@ import { Box } from '@mui/system';
 import { NavLink } from 'react-router-dom';
 import logo from '../../../../../assets/svg/DzSkills.svg';
 
-import grayMessage from '../../../../../assets/svg/message-gray.svg';
-import whiteMessage from '../../../../../assets/svg/message-white.svg';
+import { ReactComponent as ProfileIcon } from '../../../../../assets/svg/profile gray.svg';
 
-import grayProfile from '../../../../../assets/svg/profile gray.svg';
-import whiteProfile from '../../../../../assets/svg/profile white.svg';
-
-import grayPlay from '../../../../../assets/svg/play gray.svg';
-import whitePlay from '../../../../../assets/svg/play white.svg';
-
-import grayData from '../../../../../assets/svg/data-gray.svg';
-import whiteData from '../../../../../assets/svg/data-white.svg';
-
-import grayHome from '../../../../../assets/svg/home gray.svg';
-import whiteHome from '../../../../../assets/svg/home white.svg';
+import { ReactComponent as HomeIcon } from '../../../../../assets/svg/home gray.svg';
+import { ReactComponent as MessageIcon } from '../../../../../assets/svg/message-blue.svg';
+import { ReactComponent as PlayIcon } from '../../../../../assets/svg/play gray.svg';
 
 import Typography from '@mui/material/Typography';
 import { CSSProperties } from 'react';
@@ -75,14 +66,14 @@ function DashboardSidebar() {
         <Card
             elevation={0}
             sx={{
-                height: '100%',
+                height: '100vh',
                 width: '15%',
                 p: theme.spacing(5),
                 px: theme.spacing(3),
                 display: 'flex',
                 flexDirection: 'column',
                 gap: theme.spacing(6),
-                position: 'fixed',
+                position: 'fixed !important',
                 right: 0,
                 top: 0,
             }}
@@ -104,37 +95,27 @@ function DashboardSidebar() {
                 >
                     <DashboardSidebarLink
                         url={'/dashboard/teacher/'}
-                        iconActive={<img src={whiteHome} />}
-                        iconInactive={
-                            <img
-                                style={{ margin: 0 }}
-                                src={grayHome}
-                            />
-                        }
+                        iconActive={<HomeIcon fill={'white'} />}
+                        iconInactive={<HomeIcon fill={'#ccc'} />}
                         label={'الرئيسية'}
                     />
                     <DashboardSidebarLink
                         url={'/dashboard/teacher/messages/'}
-                        iconActive={<img src={whiteMessage} />}
-                        iconInactive={<img src={grayMessage} />}
+                        iconActive={<MessageIcon style={{ fill: 'white' }} />}
+                        iconInactive={<MessageIcon fill={'#ccc'} />}
                         label={'الرسائل'}
                     />
                     <DashboardSidebarLink
                         url={'/dashboard/teacher/courses/'}
-                        iconActive={<img src={whitePlay} />}
-                        iconInactive={<img src={grayPlay} />}
+                        iconActive={<PlayIcon style={{ fill: 'white' }} />}
+                        iconInactive={<PlayIcon style={{ fill: '#ccc' }} />}
                         label={'كورساتي'}
                     />
-                    <DashboardSidebarLink
-                        url={'/dashboard/teacher/statistics/'}
-                        iconActive={<img src={whiteData} />}
-                        iconInactive={<img src={grayData} />}
-                        label={'الإحصائيات'}
-                    />
+
                     <DashboardSidebarLink
                         url={'/dashboard/teacher/account/'}
-                        iconActive={<img src={whiteProfile} />}
-                        iconInactive={<img src={grayProfile} />}
+                        iconActive={<ProfileIcon fill={'white'} />}
+                        iconInactive={<ProfileIcon fill={'#ccc'} />}
                         label={'الحساب'}
                     />
                 </Box>

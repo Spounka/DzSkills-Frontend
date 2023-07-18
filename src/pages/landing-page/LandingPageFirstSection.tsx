@@ -18,6 +18,7 @@ export function LandingPageFirstSection({
     secondaryText,
 }: LandingPageFirstSectionProps) {
     const theme = useTheme();
+    const main_split_index = mainText?.indexOf('\\');
     return (
         <Box
             sx={{
@@ -53,12 +54,12 @@ export function LandingPageFirstSection({
                     fontWeight={600}
                     color={'gray.dark'}
                 >
-                    فضاءك الافضل للوصول لدروس و كورسات في مجالات{' '}
+                    {mainText?.substring(0, main_split_index ?? mainText?.length)}{' '}
                     <Box
                         component={'span'}
                         color={mainColor || 'primary.main'}
                     >
-                        العمل الحر{' '}
+                        {mainText?.substring((main_split_index ?? 0) + 1)}{' '}
                     </Box>
                 </Typography>
                 <Typography

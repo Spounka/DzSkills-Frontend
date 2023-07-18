@@ -1,12 +1,14 @@
 import { Card, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { SxProps, useTheme } from '@mui/material/styles';
+import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
 interface InformationCardProps {
     title: string;
     subtitle: string;
-    icon: string;
+    icon?: string;
+    iconNode?: ReactNode;
     link?: string;
     sx?: SxProps;
 }
@@ -14,13 +16,14 @@ export function InformationCard({
     title,
     subtitle,
     icon,
+    iconNode,
     link,
     sx,
 }: InformationCardProps) {
     const theme = useTheme();
     return (
         <Link
-            to={link || '.'}
+            to={link ?? '.'}
             style={{
                 width: '100%',
                 // cursor: link ? 'pointer' : 'default',
@@ -38,6 +41,9 @@ export function InformationCard({
                     color: theme.palette.secondary.main,
                     gap: 2,
                     borderRadius: theme.spacing(),
+                    '& .MuiCard-root': {
+                        pointerEvents: 'none',
+                    },
                     ...sx,
                 }}
             >
@@ -49,7 +55,7 @@ export function InformationCard({
                     <Typography variant={'subtitle2'}>{title}</Typography>
                     <Typography>{subtitle}</Typography>
                 </Box>
-                <img src={icon} />
+                {iconNode ? iconNode : <img src={icon} />}
             </Card>
         </Link>
     );

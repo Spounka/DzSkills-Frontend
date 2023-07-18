@@ -45,6 +45,7 @@ function WatchCourse() {
         queryKey: ['courses', id],
         queryFn: () => getCourse(id),
         staleTime: 1000 * 60 * 60 * 24,
+        onError: () => alert('Course Error'),
     });
 
     const client = useQueryClient();
@@ -52,7 +53,7 @@ function WatchCourse() {
         mutationFn: () => updateStudentProgress(id),
         mutationKey: ['progression', id, user?.pk, 'submit'],
         onSuccess: () => {
-            progression.refetch();
+            client.invalidateQueries({ queryKey: ['progression', id, user?.pk] });
         },
     });
 
@@ -63,6 +64,8 @@ function WatchCourse() {
         video: '',
         duration: '',
         average_rating: 0,
+        presentation_file: '',
+        thumbnail: '',
         ratings: [],
     };
     const progression = useQuery({
@@ -80,10 +83,11 @@ function WatchCourse() {
         onError: (err: AxiosError) => {
             if (err.response?.status === 403) navigate(`/courses/${id}/buy/`);
         },
+        enabled: !!(currentCourse.data && user?.pk),
     });
 
     const [currentVideo, setCurrentVideo] = useState<Video>(
-        currentCourse.data?.chapters[0].videos[0] || defaultVideo
+        currentCourse.data?.chapters[0].videos[0] ?? defaultVideo
     );
     const [activeTab, setActiveTab] = useState<number>(0);
 

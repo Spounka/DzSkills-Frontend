@@ -21,6 +21,10 @@ export function AdminInfoNavbar({}) {
                 label={'إضافة مسؤول'}
             />
             <AdminInfoSidebarLink
+                url={'/admin/settings/add-teacher'}
+                label={'اضافة مدرب'}
+            />
+            <AdminInfoSidebarLink
                 url={'/admin/settings/receipts'}
                 label={'الوصول'}
             />

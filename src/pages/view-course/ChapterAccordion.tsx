@@ -9,7 +9,7 @@ import { VideoChapterItem } from './VideoChapterItem';
 interface props {
     chapter: Chapter;
     setCurrentVideo: any;
-    activeVideo: Video | undefined;
+    activeVideo?: Video;
     locked: boolean;
     progressionVideoIndex: number;
     progresssionChapterIndex: number;

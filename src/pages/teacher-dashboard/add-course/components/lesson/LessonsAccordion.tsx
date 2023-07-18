@@ -11,22 +11,20 @@ import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import addButton from '../../../../../assets/svg/add-button-green.svg';
 import rightArrow from '../../../../../assets/svg/arrow-right-green.svg';
-import { Video } from '../../../../../types/course';
-import { Chapter } from '../chapter/ChapterDetails';
-import { CourseChapter } from '../chapter/ChapterFields';
+import { CreationChapter, CreationVideo } from '../../../../../types/course';
 import { LessonFields } from './LessonFields';
 
 interface props {
     expanded: boolean;
     chapterIndex: number;
-    chapter?: Chapter | CourseChapter;
+    chapter?: CreationChapter;
     readonly?: boolean;
 }
 export function LessonsAccordion({ expanded, chapterIndex, chapter, readonly }: props) {
     const theme = useTheme();
     const [activeLesson, setActiveLesson] = useState<number>(0);
     const [isExpanded, setIsExpanded] = useState<boolean>(true);
-    const [videos, setVideos] = useState<(Video & { uuid: string })[]>([
+    const [videos, setVideos] = useState<CreationVideo[]>([
         { uuid: uuidv4(), title: '', description: '', video: undefined },
     ]);
 
@@ -34,7 +32,7 @@ export function LessonsAccordion({ expanded, chapterIndex, chapter, readonly }: 
         return videos[index];
     }
 
-    function handleChangeVideo(video: Video & { uuid: string }) {
+    function handleChangeVideo(video: CreationVideo) {
         setVideos(v => {
             let t = [...v];
             return t.map(n => (n.uuid === video.uuid ? { ...video, uuid: n.uuid } : n));
@@ -42,11 +40,11 @@ export function LessonsAccordion({ expanded, chapterIndex, chapter, readonly }: 
     }
 
     useEffect(() => {
-        if (chapter && 'videos' in chapter) {
+        if (chapter?.videos) {
             let x = chapter.videos?.map(vid => {
                 return { ...vid, uuid: uuidv4() };
             });
-            setVideos(x || []);
+            setVideos(x ?? []);
         }
     }, []);
 
@@ -55,7 +53,7 @@ export function LessonsAccordion({ expanded, chapterIndex, chapter, readonly }: 
             expanded={isExpanded && expanded}
             onChange={(_, b) => setIsExpanded(b)}
             sx={{
-                height: '100%',
+                // height: '100%',
                 transform: expanded ? 'translate(0, 0)' : 'translate(-100%, -100%)',
                 bgcolor: 'transparent',
                 boxShadow: 'none',
@@ -117,6 +115,7 @@ export function LessonsAccordion({ expanded, chapterIndex, chapter, readonly }: 
                         }}
                     >
                         <img
+                            loading={'lazy'}
                             src={rightArrow}
                             style={{
                                 width: theme.spacing(4.5),
@@ -147,6 +146,7 @@ export function LessonsAccordion({ expanded, chapterIndex, chapter, readonly }: 
                             }}
                         >
                             <img
+                                loading={'lazy'}
                                 src={addButton}
                                 style={{
                                     width: theme.spacing(4.5),
@@ -171,6 +171,7 @@ export function LessonsAccordion({ expanded, chapterIndex, chapter, readonly }: 
                         }}
                     >
                         <img
+                            loading={'lazy'}
                             src={rightArrow}
                             style={{
                                 width: theme.spacing(4.5),
@@ -199,7 +200,7 @@ export function LessonsAccordion({ expanded, chapterIndex, chapter, readonly }: 
                                 key={video.uuid}
                                 activeLesson={activeLesson}
                                 chapterIndex={chapterIndex}
-                                id={video.uuid}
+                                id={video.id ?? 0}
                                 getVideo={getVideo}
                                 videoIndex={index}
                                 setVideo={handleChangeVideo}

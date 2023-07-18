@@ -1,18 +1,24 @@
 import { Stack, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { MainButton } from '../../components/ui/MainButton';
+import axiosInstance from '../../globals/axiosInstance';
+import { Course } from '../../types/course';
 import { CoursesGrid } from '../courses-page';
-import { getCourses } from '../courses-page/api/getAllCourses';
+
+export async function getMostSoldCourses() {
+    const { data } = await axiosInstance.get('/courses/most-sold/');
+    return data as Course[];
+}
 
 export function MostSoldCourses() {
     const theme = useTheme();
     const navigate = useNavigate();
     const query = useQuery({
-        queryKey: ['courses'],
-        queryFn: () => getCourses(),
+        queryKey: ['courses', 'most_sold'],
+        queryFn: () => getMostSoldCourses(),
     });
 
     if (query.isError) return <>Error in courses...</>;
@@ -49,7 +55,9 @@ export function MostSoldCourses() {
 
             <CoursesGrid
                 baseUrl="/courses/"
-                activeCourses={query.data?.slice(0, 4)}
+                activeCourses={query.data
+                    ?.filter(c => c.status === 'app' && c.state === 'running')
+                    ?.slice(0, 4)}
                 cardsPerRow={{
                     xs: 1,
                     sm: 2,

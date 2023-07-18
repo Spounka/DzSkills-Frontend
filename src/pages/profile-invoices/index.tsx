@@ -95,18 +95,26 @@ function Invoices() {
                             px: theme.spacing(6),
                             borderRadius: theme.spacing(2),
                             display: 'grid',
-                            gap: theme.spacing(4),
                         }}
                     >
                         <Box
                             sx={{
                                 display: 'flex',
                                 flexDirection: 'column',
-                                gap: 2,
+                                // gap: 2,
                             }}
                         >
-                            {invoicesWithUUID?.map(
-                                (order: Order & { key: string }, index: number) => {
+                            {invoicesWithUUID
+                                ?.sort((a, b) => {
+                                    if (!a.payment?.status || !b.payment?.status)
+                                        return 0;
+                                    if(a.payment.status === 'p') return 1;
+                                    if(b.payment.status === 'p') return 1;
+                                    if (a.payment.status < b.payment.status) return -1;
+                                    if (a.payment.status === b.payment.status) return 0;
+                                    return 1;
+                                })
+                                .map((order: Order & { key: string }, index: number) => {
                                     return (
                                         <React.Fragment key={order.key}>
                                             <InvoiceRow order={order} />
@@ -115,8 +123,7 @@ function Invoices() {
                                             )}
                                         </React.Fragment>
                                     );
-                                }
-                            )}
+                                })}
                         </Box>
                     </Card>
                 </Box>

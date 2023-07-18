@@ -1,6 +1,6 @@
 import { useTheme } from '@mui/material/styles';
 import { useQuery } from 'react-query';
-import money from '../../../assets/svg/money-white.svg';
+import { ReactComponent as MoneyIcon } from '../../../assets/svg/money-white.svg';
 import students from '../../../assets/svg/school-blue.svg';
 import teaching from '../../../assets/svg/teaching-blue.svg';
 import timeBlue from '../../../assets/svg/time-transparent.svg';
@@ -87,7 +87,7 @@ export function InformationCards({}: any) {
                         .reduce((acc, a) => acc + a.order.course.price, 0)
                         .toFixed(0) + 'DA' || '0'
                 }
-                icon={money}
+                iconNode={<MoneyIcon fill={'white'} />}
                 sx={{
                     flexBasis: '20%',
                     flexShrink: '1',

@@ -5,11 +5,12 @@ import { SxProps, useTheme } from '@mui/material/styles';
 import { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
-import { v4 as uuidv4 } from 'uuid';
 import blurredBg from '../../assets/svg/blured image.svg';
 import Footer from '../../components/footer';
 import TopNavigationBar from '../../components/top-bar';
+import useReduxData from '../../stores/reduxUser';
 import { Category, Course, Level } from '../../types/course';
+import { getRelatedCourses } from '../profile/ProfileContent';
 import CourseCard from './CourseCard';
 import { TrendingCoursesCarousel } from './TrendingCoursesCarousel';
 import { getCourses } from './api/getAllCourses';
@@ -17,10 +18,17 @@ import FilterComponent from './components/filter';
 
 function CoursesPage() {
     const theme = useTheme();
+    const user = useReduxData().user;
 
     const query = useQuery({
         queryKey: ['courses'],
         queryFn: () => getCourses(),
+    });
+
+    const ownedCoursesQuery = useQuery({
+        queryKey: ['courses', 'student', user.user.pk],
+        queryFn: () => getRelatedCourses(),
+        enabled: user.user.pk > 0,
     });
 
     const [activeCategories, setActiveCategories] = useState<Category[]>([]);
@@ -74,7 +82,7 @@ function CoursesPage() {
         if (activeCategories.length > 0) {
             displayCourses = displayCourses?.filter(course => {
                 return activeCategories.some(
-                    category => category.id === course.category.id
+                    category => category?.id === course.category?.id
                 );
             });
         }
@@ -169,9 +177,13 @@ function CoursesPage() {
                 />
                 <CoursesGrid
                     cardsPerRow={{ xs: 1, sm: 2, md: 2, lg: 4, xl: 5 }}
-                    activeCourses={activeCourses?.filter(
-                        course => course.status === 'app'
-                    )}
+                    activeCourses={activeCourses
+                        ?.filter(course => course.status === 'app')
+                        ?.filter(
+                            course =>
+                                !ownedCoursesQuery.data?.some(c => c.id === course.id)
+                        )
+                        ?.filter(course => !course.trending)}
                 />
             </Grid>
             <Footer />
@@ -186,9 +198,16 @@ interface gridProps {
     cardsPerRow: any;
     sx?: SxProps;
     baseUrl?: string;
+    useBoxShadow?: boolean;
 }
 
-export function CoursesGrid({ activeCourses, cardsPerRow, baseUrl, sx }: gridProps) {
+export function CoursesGrid({
+    activeCourses,
+    cardsPerRow,
+    baseUrl,
+    useBoxShadow,
+    sx,
+}: gridProps) {
     const theme = useTheme();
     return (
         <Box
@@ -212,12 +231,27 @@ export function CoursesGrid({ activeCourses, cardsPerRow, baseUrl, sx }: gridPro
             }}
         >
             {activeCourses?.map((info: Course) => {
-                if (info.trending) return;
-                return (
+                return useBoxShadow ? (
+                    <Box
+                        key={info.id}
+                        sx={{
+                            width: '100%',
+                            boxShadow: '0 5px 10px #0000001A',
+                            borderRadius: theme.spacing(2),
+                            // flex: '1 1 30%',
+                            // aspecRatio: '16/10',
+                        }}
+                    >
+                        <CourseCard
+                            course={info}
+                            link={(baseUrl ?? '') + info.id + '/'}
+                        />
+                    </Box>
+                ) : (
                     <CourseCard
-                        key={uuidv4()}
+                        key={info.id}
                         course={info}
-                        link={(baseUrl || '') + info.id + '/'}
+                        link={(baseUrl ?? '') + info.id + '/'}
                     />
                 );
             })}

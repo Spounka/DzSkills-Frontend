@@ -1,4 +1,5 @@
 import { Box, Typography, useTheme } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { MainButton } from '../../components/ui/MainButton';
 import { Order } from '../../types/payment';
 
@@ -7,6 +8,7 @@ interface props {
 }
 export function InvoiceRow({ order }: props) {
     const theme = useTheme();
+    const navigate = useNavigate();
     function stateFromCode(s: string) {
         switch (s) {
             case 'p':
@@ -21,13 +23,29 @@ export function InvoiceRow({ order }: props) {
         <Box
             display={'grid'}
             gridTemplateColumns={'repeat(16, minmax(0,1fr))'}
-            gap={5}
+            gap={3}
             textAlign={'center'}
             alignItems={'center'}
+            sx={{
+                py: 2,
+                px: 2,
+                cursor: order.payment?.status === 'a' ? 'pointer' : 'default',
+                '&:hover': {
+                    borderRadius: theme.spacing(),
+                    bgcolor:
+                        order.payment?.status === 'a'
+                            ? theme.palette.gray.light
+                            : 'none',
+                },
+            }}
+            onClick={() => {
+                if (order.payment?.status === 'a')
+                    navigate(`/courses/${order.course.id}/watch/`);
+            }}
         >
             <Typography
                 flex={'1 0 1%'}
-                gridColumn={'span 2'}
+                gridColumn={'span 1'}
             >
                 {order.id}
             </Typography>
@@ -38,8 +56,8 @@ export function InvoiceRow({ order }: props) {
                 {order.course.title}
             </Typography>
             <Typography
-                gridColumn={'span 3'}
-                flex={'1 0 15%'}
+                gridColumn={'span 4'}
+                flex={'1 0 10%'}
                 justifySelf={'flex-start'}
                 textAlign={'right'}
             >
@@ -50,28 +68,33 @@ export function InvoiceRow({ order }: props) {
                 flex={'1 0 15%'}
                 textAlign={'right'}
             >
-                {stateFromCode(order.payment?.status || 'p')}
+                {stateFromCode(order.payment?.status ?? 'p')}
             </Typography>
             <Typography
-                gridColumn={'span 4'}
+                gridColumn={'span 3'}
                 flex={'1 1 15%'}
                 textAlign={'right'}
             >
                 {order.course?.price} DA
             </Typography>
-            <a
-                download
-                href={order.payment.receipt}
-                style={{
-                    flex: '1 1 10%',
+            <Box
+                sx={{
                     gridColumn: '-1',
+                    display: 'flex',
+                    gap: 3,
+                    justifyContent: 'space-between',
                 }}
             >
-                <MainButton
-                    text={'عرض'}
-                    color={theme.palette.primary.main}
-                />
-            </a>
+                <a
+                    download
+                    href={order.payment.receipt}
+                >
+                    <MainButton
+                        text={'عرض'}
+                        color={theme.palette.primary.main}
+                    />
+                </a>
+            </Box>
         </Box>
     );
 }

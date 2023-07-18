@@ -14,9 +14,7 @@ import { MostSoldCourses } from './MostSoldCourses';
 import { StudentRatings } from './Ratings';
 import { Teachers } from './Teachers';
 
-interface LandingPageProps {}
-
-export default function LandingPage({}: LandingPageProps) {
+export default function LandingPage() {
     const theme = useTheme();
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
     const token = localStorage.getItem('access');

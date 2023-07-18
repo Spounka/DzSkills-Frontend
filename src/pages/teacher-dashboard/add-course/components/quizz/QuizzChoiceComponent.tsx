@@ -7,12 +7,14 @@ import { QuizzChoice } from '../../../../../types/quizz';
 interface QuizzChoiceProps {
     choice: QuizzChoice;
     color?: string;
+    readonly?: boolean;
     updateQuestion: (c: QuizzChoice) => void;
     removeChoice: (c: QuizzChoice) => void;
 }
 export function QuizzChoiceComponent({
     choice,
     color,
+    readonly,
     updateQuestion,
     removeChoice,
 }: QuizzChoiceProps) {
@@ -26,7 +28,7 @@ export function QuizzChoiceComponent({
             <Checkbox
                 checked={choice.is_correct_answer}
                 //@ts-expect-error
-                color={color || 'purple'}
+                color={color ?? 'purple'}
                 icon={
                     <CheckBoxOutlineBlank
                         fill={'white'}
@@ -41,42 +43,56 @@ export function QuizzChoiceComponent({
                         fill: 'white',
                     },
                 }}
-                onChange={e => {
-                    updateQuestion({
-                        ...choice,
-                        is_correct_answer: e.target.checked,
-                    });
-                }}
+                onChange={
+                    readonly
+                        ? () => {}
+                        : e => {
+                              updateQuestion({
+                                  ...choice,
+                                  is_correct_answer: e.target.checked,
+                              });
+                          }
+                }
             />
             <StyledOutline
                 color={'secondary'}
+                readOnly={readonly}
                 placeholder={choice.content}
-                onBlur={e => {
-                    updateQuestion({ ...choice, content: e.currentTarget.value });
-                }}
+                onBlur={
+                    readonly
+                        ? () => {}
+                        : e => {
+                              updateQuestion({
+                                  ...choice,
+                                  content: e.currentTarget.value,
+                              });
+                          }
+                }
                 sx={{
                     bgcolor: 'white',
                     width: '100%',
                 }}
             />
 
-            <IconButton
-                onClick={() => {
-                    removeChoice(choice);
-                }}
-                sx={{
-                    color: 'white',
-                    transition: 'color 100ms ease-in',
-                    ':hover': {
-                        color: 'red',
-                    },
-                }}
-            >
-                <SvgIcon
-                    component={DeleteIcon}
-                    inheritViewBox
-                />
-            </IconButton>
+            {!readonly && (
+                <IconButton
+                    onClick={() => {
+                        removeChoice(choice);
+                    }}
+                    sx={{
+                        color: 'white',
+                        transition: 'color 100ms ease-in',
+                        ':hover': {
+                            color: 'red',
+                        },
+                    }}
+                >
+                    <SvgIcon
+                        component={DeleteIcon}
+                        inheritViewBox
+                    />
+                </IconButton>
+            )}
         </Stack>
     );
 }

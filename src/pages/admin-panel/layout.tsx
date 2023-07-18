@@ -35,78 +35,79 @@ function AdminDashboardLayout({
     }, [user]);
 
     return (
-        <Box
-            sx={{
-                p: 0,
-                flexGrow: 1,
-                display: 'grid',
-                width: '100%',
-                minHeight: '100vh',
-                gridTemplateColumns: 'repeat(26, 1fr)',
-                gap: theme.spacing(1),
-                rowGap: theme.spacing(2),
-                bgcolor: theme.palette.gray.secondary,
-            }}
-        >
-            <Helmet>
-                <meta charSet="utf-8" />
-                <title>DzSkills | Admin Panel</title>
-            </Helmet>
+        <>
+            <AdminPanelSidebar />
             <Box
-                display={'grid'}
-                gridColumn={'span 5'}
-                height={'100%'}
-                width={'100%'}
+                sx={{
+                    p: 0,
+                    flexGrow: 1,
+                    display: 'grid',
+                    width: '100%',
+                    minHeight: '100vh',
+                    gridTemplateColumns: 'repeat(26, 1fr)',
+                    gap: theme.spacing(1),
+                    rowGap: theme.spacing(2),
+                    bgcolor: theme.palette.gray.secondary,
+                }}
             >
-                <AdminPanelSidebar />
-            </Box>
-            <Box
-                display={'grid'}
-                gridTemplateColumns={'repeat(26 , 1fr)'}
-                gridColumn={'7 / -1'}
-                gridRow={1}
-                rowGap={3}
-                padding={0}
-                pb={8}
-                paddingTop={4}
-                width={'100%'}
-                height={'100%'}
-            >
-                <AdminPanelTopBar
-                    onNotificationClick={toggleDrawer}
-                    title={topbar_title}
-                    subtitle={topbar_subtitle || ''}
-                    mainColor={theme.palette.secondary.main}
-                />
+                <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>DzSkills | Admin Panel</title>
+                </Helmet>
                 <Box
-                    sx={{
-                        gridColumn: '1 / -3',
-                        gridRow: '2 / 16',
-                        height: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 4,
-                    }}
-                >
-                    {children}
-                </Box>
+                    display={'grid'}
+                    gridColumn={'span 5'}
+                    height={'100%'}
+                    width={'100%'}
+                ></Box>
                 <Box
-                    sx={{
-                        gridColumn: '-1 / -7',
-                        gridRow: '2',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        width: '100%',
-                        overflow: 'hidden',
-                    }}
+                    display={'grid'}
+                    gridTemplateColumns={'repeat(26 , 1fr)'}
+                    gridColumn={'7 / -1'}
+                    gridRow={1}
+                    rowGap={3}
+                    padding={0}
+                    pb={8}
+                    paddingTop={4}
+                    width={'100%'}
+                    height={'100%'}
                 >
-                    <NotificationsBar
+                    <AdminPanelTopBar
+                        onNotificationClick={toggleDrawer}
+                        title={topbar_title}
+                        subtitle={topbar_subtitle || ''}
                         mainColor={theme.palette.secondary.main}
-                        drawerOpen={drawerOpen}
                     />
+                    <Box
+                        sx={{
+                            gridColumn: '1 / -3',
+                            gridRow: '2 / 16',
+                            height: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 4,
+                        }}
+                    >
+                        {children}
+                    </Box>
+                    <Box
+                        sx={{
+                            gridColumn: '-1 / -7',
+                            gridRow: '2',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            width: '100%',
+                            overflow: 'hidden',
+                        }}
+                    >
+                        <NotificationsBar
+                            mainColor={theme.palette.secondary.main}
+                            drawerOpen={drawerOpen}
+                        />
+                    </Box>
                 </Box>
             </Box>
-        </Box>
+        </>
     );
 }
 

@@ -1,19 +1,21 @@
-import { Typography } from '@mui/material';
+import { Typography, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
+import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { StyledOutline } from '../../../../../components/form/StyledOutline';
 import { UploadFileInput } from '../../../../../components/form/UploadFileInput';
-import { Video } from '../../../../../types/course';
+import { CreationVideo } from '../../../../../types/course';
+import { DisplayFileUrl } from '../course-fields/CourseFields';
 
 export interface LessonProps {
-    id: string;
+    id: string | number;
     activeLesson: number;
     chapterIndex: number;
     videoIndex: number;
-    video?: Video & { uuid: string };
+    video?: CreationVideo;
     readonly?: boolean;
-    getVideo: (param: number) => Video & { uuid: string };
-    setVideo: (video: Video & { uuid: string }) => void;
+    getVideo: (param: number) => CreationVideo;
+    setVideo: (video: CreationVideo) => void;
 }
 export function LessonFields({
     activeLesson,
@@ -24,19 +26,34 @@ export function LessonFields({
     getVideo,
     setVideo,
 }: LessonProps) {
+    const theme = useTheme();
+    const { enqueueSnackbar } = useSnackbar();
     const [title, setTitle] = useState(getVideo(videoIndex).title);
     const [description, setDescription] = useState(getVideo(videoIndex).description);
-    const [vid, setVid] = useState<Video & { uuid: string }>(
-        video || getVideo(videoIndex)
-    );
+    const [vid, setVid] = useState<CreationVideo>(video ?? getVideo(videoIndex));
 
     function handleTitleChange(event: any) {
+        if (event.target.value > 300) {
+            enqueueSnackbar('300 كلمة كحد أقصى', { variant: 'warning' });
+            event.target.value = '';
+        }
         setTitle(event.target.value);
     }
     function handleDescriptionChange(event: any) {
+        if (event.target.value > 300) {
+            enqueueSnackbar('300 كلمة كحد أقصى', { variant: 'warning' });
+            event.target.value = '';
+        }
         setDescription(event.target.value);
     }
     function handleVideoChange(event: any) {
+        if (!RegExp('video/*').exec(event.target.files[0].type)) {
+            enqueueSnackbar('الرجاء تحميل فيديو', {
+                variant: 'warning',
+                autoHideDuration: 2000,
+            });
+            return 'remove';
+        }
         setVid(event.target.files[0]);
     }
 
@@ -45,9 +62,6 @@ export function LessonFields({
             ...vid,
             title: title,
             description: description,
-            // uuid: getVideo(videoIndex).uuid,
-            // id: getVideo(videoIndex).id,
-            // video: vid,
         };
         setVideo(x);
     }
@@ -66,6 +80,8 @@ export function LessonFields({
         <Box
             sx={{
                 display: 'flex',
+                flexFlow: 'row',
+                flexWrap: 'wrap',
                 width: '100%',
                 transition: 'all ease 300ms',
                 position: activeLesson === videoIndex ? 'unset' : 'absolute',
@@ -78,10 +94,7 @@ export function LessonFields({
                     display: 'flex',
                     flexDirection: 'column',
                     gap: 2,
-                    width: '100%',
-                    flexGrow: '0',
-                    flexShrink: '1',
-                    flexBasis: 'auto',
+                    minWidth: `calc(50% - ${theme.spacing()})`,
                 }}
             >
                 <Typography
@@ -92,6 +105,8 @@ export function LessonFields({
                 </Typography>
 
                 <StyledOutline
+                    required
+                    readOnly={video ? true : false}
                     name={`chapters[${chapterIndex}]videos[${videoIndex}]title`}
                     type="text"
                     value={title}
@@ -103,7 +118,15 @@ export function LessonFields({
                         width: '100%',
                     }}
                 />
-
+            </Box>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                    minWidth: `calc(50% - ${theme.spacing()})`,
+                }}
+            >
                 <Typography
                     variant={'subtitle2'}
                     px={1}
@@ -113,6 +136,10 @@ export function LessonFields({
 
                 <StyledOutline
                     value={description}
+                    multiline
+                    required
+                    maxRows={3}
+                    readOnly={video ? true : false}
                     onChange={handleDescriptionChange}
                     onBlur={() => updateVideo()}
                     name={`chapters[${chapterIndex}]videos[${videoIndex}]description`}
@@ -130,10 +157,7 @@ export function LessonFields({
                     display: 'flex',
                     flexDirection: 'column',
                     gap: 2,
-                    width: '100%',
-                    flexBasis: 'auto',
-                    flexGrow: '0',
-                    flexShrink: '1',
+                    width: `calc(50% - ${theme.spacing()})`,
                 }}
             >
                 <Typography
@@ -144,9 +168,13 @@ export function LessonFields({
                 </Typography>
 
                 {video ? (
-                    <img src={video.video || ''} />
+                    <video
+                        preload={'metadata'}
+                        src={video.video ?? ''}
+                    ></video>
                 ) : (
                     <UploadFileInput
+                        required
                         inputName={`chapters[${chapterIndex}]videos[${videoIndex}]video`}
                         onChange={handleVideoChange}
                         sx={{
@@ -161,6 +189,83 @@ export function LessonFields({
                             flexGrow: '0',
                         }}
                         inputFileTypes="video/*"
+                    />
+                )}
+            </Box>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                    minWidth: `calc(50% - ${theme.spacing()})`,
+                }}
+            >
+                <Typography
+                    variant={'subtitle2'}
+                    px={1}
+                >
+                    صورة مصغرة
+                </Typography>
+                {video ? (
+                    <img
+                        loading="lazy"
+                        src={video.thumbnail ?? ''}
+                    />
+                ) : (
+                    <UploadFileInput
+                        required
+                        inputName={`chapters[${chapterIndex}]videos[${videoIndex}]thumbnail`}
+                        onChange={handleVideoChange}
+                        sx={{
+                            alignItems: 'center',
+                            flexDirection: 'column',
+                            bgcolor: 'white',
+                            justifyContent: 'center',
+                        }}
+                        containerSx={{
+                            alignItems: 'center',
+                            flexGrow: '0',
+                        }}
+                        inputFileTypes="image/*"
+                    />
+                )}
+            </Box>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                    minWidth: '100%',
+                }}
+            >
+                <Typography
+                    variant={'subtitle2'}
+                    color={'gray.main'}
+                    sx={{
+                        gridColumn: '2',
+                    }}
+                >
+                    ملف التقديم
+                </Typography>
+
+                {video ? (
+                    video.presentation_file ? (
+                        <DisplayFileUrl
+                            sx={{
+                                gridColumn: '-2 / span 1',
+                                gridRow: '9',
+                                bgcolor: 'white',
+                            }}
+                            url={video.presentation_file}
+                        />
+                    ) : (
+                        <Typography>لم يتم تحميل أي ملف</Typography>
+                    )
+                ) : (
+                    <UploadFileInput
+                        required
+                        inputName={`chapters[${chapterIndex}]videos[${videoIndex}]presenation_file`}
+                        sx={{ bgcolor: 'white' }}
                     />
                 )}
             </Box>

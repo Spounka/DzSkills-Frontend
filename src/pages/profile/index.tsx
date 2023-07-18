@@ -68,8 +68,14 @@ function Profile() {
                         maxWidth: '100%',
                         gap: theme.spacing(2),
                         marginBottom: '5rem',
-                        paddingRight: theme.spacing(14),
-                        paddingLeft: theme.spacing(14),
+                        // paddingRight: theme.spacing(14),
+                        // paddingLeft: theme.spacing(14),
+                        px: {
+                            xs: theme.spacing(0),
+                            md: theme.spacing(3),
+                            lg: theme.spacing(7),
+                            xl: theme.spacing(7),
+                        },
                         pt: theme.spacing(10),
                         zIndex: 1,
                     }}

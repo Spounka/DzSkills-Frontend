@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import { useParams } from 'react-router-dom';
 import AuthenticationTopBar from '../../../components/ui/AuthenticationTopBar';
 import useLogin from '../../authenticate/hooks/useLogin';
-import { ContactTeacherContent } from '../../messages/ContactTeacherContent';
+import { ContactContent } from '../../messages/ContactContent';
 import NotFound from '../../not-found/NotFound';
 
 function ContactSupport() {
@@ -45,7 +45,7 @@ function ContactSupport() {
                     backgroundColor: 'gray.secondary',
                 }}
             >
-                <ContactTeacherContent
+                <ContactContent
                     id={id}
                     user={user}
                 />

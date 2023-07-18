@@ -1,16 +1,10 @@
 import { Avatar, Card, Stack, useTheme } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { UseQueryResult } from 'react-query';
 import { ProfileSocialMedia } from '../../components/ProfileSocialMedia';
 import { MainButton } from '../../components/ui/MainButton';
-import { Course } from '../../types/course';
 import { User } from '../../types/user';
 
-export function TeacherDetailsPanel({
-    course,
-}: {
-    course: UseQueryResult<Course, unknown>;
-}) {
+export function TeacherDetailsPanel({ teacher }: { teacher: User }) {
     const theme = useTheme();
 
     return (
@@ -20,7 +14,9 @@ export function TeacherDetailsPanel({
                 flexBasis: '40%',
                 bgcolor: 'white',
                 width: '100%',
-                py: theme.spacing(6),
+                height: '100%',
+                overflowY: 'auto',
+                py: { xs: theme.spacing(1), md: theme.spacing(2), lg: theme.spacing(3) },
             }}
         >
             <Stack
@@ -30,23 +26,23 @@ export function TeacherDetailsPanel({
                 textAlign={'center'}
             >
                 <Avatar
-                    src={course.data?.owner.profile_image}
+                    src={teacher.profile_image}
                     sx={{
-                        width: '40%',
+                        width: {
+                            sm: '35%',
+                            xl: '40%',
+                        },
                         height: 'auto',
                         aspectRatio: '1',
                     }}
                 />
-                <UserFullNameAndSpeciality user={course.data?.owner} />
+                <UserFullNameAndSpeciality user={teacher} />
                 <ProfileSocialMedia />
                 <Typography
                     variant={'caption'}
                     color={'gray.main'}
                 >
-                    {course.data?.owner.description ||
-                        `Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                        Aliquam magni blanditiis quidem saepe aperiam consequatur tempora mollitia corrupti,
-                                        atque natus corporis, sit ea perspiciatis beatae alias nisi, inventore ab nemo.`}
+                    {teacher.description ?? ''}
                 </Typography>
                 <Stack gap={2}>
                     <MainButton

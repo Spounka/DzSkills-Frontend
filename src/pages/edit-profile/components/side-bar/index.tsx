@@ -44,7 +44,7 @@ const SideBar = () => {
                 boxShadow: '0px 5px 15px #00000029',
                 borderRadius: theme.spacing(2),
                 mt: theme.spacing(1),
-                pt: theme.spacing(5),
+                py: theme.spacing(5),
             }}
             elevation={0}
         >
@@ -53,21 +53,21 @@ const SideBar = () => {
                 text={'الملف الشخصي'}
                 color={theme.palette.primary.main}
             />
-            <SideBarLink
+            {/* <SideBarLink
                 url={'/profile/courses'}
                 text={'كورساتي'}
                 color={theme.palette.primary.main}
-            />
+            /> */}
             <SideBarLink
                 url={'/profile/cart'}
                 text={'الطلبات والفواتير'}
                 color={theme.palette.primary.main}
             />
-            <SideBarLink
+            {/* <SideBarLink
                 url={'/profile/delete'}
                 text={'حذف الحساب'}
                 color={theme.palette.primary.main}
-            />
+            /> */}
         </Card>
     );
 };

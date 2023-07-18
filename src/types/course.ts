@@ -1,3 +1,4 @@
+import { CourseQuizz } from './quizz';
 import { User } from './user';
 
 export type Hashtag = {
@@ -25,21 +26,21 @@ export type Rating = {
 };
 
 export type Video = {
-    id?: number;
+    id: number;
     title: string;
     description: string;
-    video?: string;
-    presentation_file?: string;
-    thumbnail?: string;
-    duration?: string;
-    ratings?: Rating[];
-    average_rating?: number;
+    video: string;
+    presentation_file: string;
+    thumbnail: string;
+    duration: string;
+    ratings: Rating[];
+    average_rating: number;
 };
 export type Chapter = {
     id: number;
     title: string;
     description: string;
-    average_rating?: number;
+    average_rating: number;
     videos: Video[];
 };
 export type Course = {
@@ -55,12 +56,15 @@ export type Course = {
     duration: string;
     used_programs: string;
     language: string;
+    quizz: CourseQuizz;
+    students_count: number;
 
     course_level: Level;
     category: Category;
     hashtags: Hashtag[];
 
-    status: 'pend' | 'app' | 'rej' | string;
+    status: 'pend' | 'app' | 'rej' | 'edi';
+    state: 'paused' | 'blocked' | 'running';
     chapters: Chapter[];
     average_rating: number;
 
@@ -83,3 +87,21 @@ export type Certificate = {
 };
 
 // export type OptionalsVideo =
+export type CreationChapter = Partial<Chapter> & {
+    title: string;
+    description: string;
+    uuid?: string;
+};
+
+export type CreationCourse = Partial<Course> & {
+    title: string;
+    description: string;
+    thumbnail: string;
+    price: number;
+    uuid?: string;
+};
+export type CreationVideo = Partial<Video> & {
+    title: string;
+    description: string;
+    uuid?: string;
+};

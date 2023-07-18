@@ -54,12 +54,12 @@ export function AllRatings({ video }: ratingsProps) {
                     ).length;
                     return (
                         <Stack
+                            key={uuidv4()}
                             direction={'row'}
                             gap={2}
                             alignItems={'center'}
                         >
                             <LinearProgress
-                                key={uuidv4()}
                                 variant={'determinate'}
                                 color="inherit"
                                 value={(count / ratingsQuery.data?.length) * 100 || 0}

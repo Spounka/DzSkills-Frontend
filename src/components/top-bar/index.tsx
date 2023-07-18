@@ -27,6 +27,7 @@ export default function TopNavigationBar() {
     return (
         <>
             <DropdownPopper
+                clickAway={() => setPopperActive(false)}
                 isOpen={popperActive}
                 cardRef={navRef}
                 placement="bottom-end"
@@ -152,10 +153,7 @@ export default function TopNavigationBar() {
                         alignItems={'center'}
                         sx={{
                             gridColumnStart: 4,
-                            gridColumnEnd: {
-                                md: 9,
-                                lg: 8,
-                            },
+                            gridColumnEnd: 9,
                             typography: 'subtitle1',
                             fontWeight: {
                                 md: 500,

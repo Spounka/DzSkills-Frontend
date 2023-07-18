@@ -46,8 +46,10 @@ export function AddRating({ video }: addProps) {
         }
     }, [video.ratings, video]);
     useEffect(() => {
-        setShouldUpdateOnSubmit(true);
-        ratingMutation.mutate(currentValue);
+        if (currentValue) {
+            setShouldUpdateOnSubmit(true);
+            ratingMutation.mutate(currentValue);
+        }
     }, [currentValue]);
 
     return (

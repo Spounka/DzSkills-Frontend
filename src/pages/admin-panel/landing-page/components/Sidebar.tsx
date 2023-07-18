@@ -1,33 +1,19 @@
 import logo from '../../../..//assets/svg/DzSkills.svg';
 
-import grayMessage from '../../../../assets/svg/message-gray.svg';
-import whiteMessage from '../../../../assets/svg/message-white.svg';
-
-import grayProfile from '../../../../assets/svg/profile gray.svg';
-import whiteProfile from '../../../../assets/svg/profile white.svg';
-
-import grayPlay from '../../../../assets/svg/play gray.svg';
-import whitePlay from '../../../../assets/svg/play white.svg';
-
-import grayHome from '../../../../assets/svg/home gray.svg';
-import whiteHome from '../../../../assets/svg/home white.svg';
-
-import grayMoney from '../../../../assets/svg/money-gray.svg';
-import whiteMoney from '../../../../assets/svg/money-white.svg';
+import { ReactComponent as HomeIcon } from '../../../../assets/svg/home gray.svg';
+import { ReactComponent as MessageIcon } from '../../../../assets/svg/message-gray.svg';
+import { ReactComponent as MoneyIcon } from '../../../../assets/svg/money-white.svg';
+import { ReactComponent as PlayIcon } from '../../../../assets/svg/play gray.svg';
+import { ReactComponent as ProfileIcon } from '../../../../assets/svg/profile gray.svg';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import { CSSProperties } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
-export function AdminPanelSidebarLink({
-    url,
-    label,
-    iconActive,
-    iconInactive,
-}: any) {
+export function AdminPanelSidebarLink({ url, label, iconActive, iconInactive }: any) {
     const theme = useTheme();
     const commonStyle: CSSProperties = {
         display: 'flex',
@@ -61,7 +47,17 @@ export function AdminPanelSidebarLink({
         >
             {({ isActive }) => (
                 <>
-                    {isActive ? iconActive : iconInactive}
+                    <Box
+                        sx={{
+                            maxHeight: theme.spacing(3),
+                            maxWidth: theme.spacing(3),
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        {isActive ? iconActive : iconInactive}
+                    </Box>
                     <Typography
                         variant={'subtitle2'}
                         fontWeight={isActive ? 400 : 300}
@@ -81,23 +77,29 @@ export function AdminPanelSidebar() {
             elevation={0}
             sx={{
                 height: '100%',
-                width: '100%',
+                minWidth: '18%',
+                // width: '100%',
                 p: theme.spacing(5),
                 px: theme.spacing(3),
                 display: 'flex',
                 flexDirection: 'column',
                 gap: theme.spacing(6),
+                position: 'fixed',
+                top: 0,
+                right: 0,
             }}
         >
-            <img
-                src={logo}
-                alt=""
-                width={theme.spacing(15)}
-                style={{
-                    paddingRight: theme.spacing(2),
-                    paddingLeft: theme.spacing(2),
-                }}
-            />
+            <Link to={'/'}>
+                <img
+                    src={logo}
+                    alt=""
+                    width={theme.spacing(15)}
+                    style={{
+                        paddingRight: theme.spacing(2),
+                        paddingLeft: theme.spacing(2),
+                    }}
+                />
+            </Link>
             <nav>
                 <Box
                     gap={0.5}
@@ -106,58 +108,44 @@ export function AdminPanelSidebar() {
                 >
                     <AdminPanelSidebarLink
                         url={'/admin/'}
-                        iconActive={<img src={whiteHome} />}
-                        iconInactive={<img src={grayHome} />}
+                        iconActive={<HomeIcon fill={'white'} />}
+                        iconInactive={<HomeIcon fill={'#ccc'} />}
                         label={'الرئيسية'}
                     />
                     <AdminPanelSidebarLink
-                        url={'/admin/messages'}
-                        iconActive={<img src={whiteMessage} />}
-                        iconInactive={<img src={grayMessage} />}
+                        url={'/admin/messages/'}
+                        iconActive={<MessageIcon fill={'white'} />}
+                        iconInactive={<MessageIcon fill={'#ccc'} />}
                         label={'الرسائل'}
                     />
                     <AdminPanelSidebarLink
-                        url={'/admin/courses'}
-                        iconActive={<img src={whitePlay} />}
-                        iconInactive={<img src={grayPlay} />}
+                        url={'/admin/courses/'}
+                        iconActive={<PlayIcon fill={'white'} />}
+                        iconInactive={<PlayIcon fill={'#ccc'} />}
                         label={'الكورسات'}
                     />
                     <AdminPanelSidebarLink
-                        url={'/admin/hashtags-categories'}
-                        iconActive={
-                            <span style={{ paddingRight: '8px' }}> #</span>
-                        }
-                        iconInactive={
-                            <span style={{ paddingRight: '8px' }}> #</span>
-                        }
+                        url={'/admin/hashtags-categories/'}
+                        iconActive={<span style={{ paddingRight: '8px' }}> #</span>}
+                        iconInactive={<span style={{ paddingRight: '8px' }}> #</span>}
                         label={'الأقسام و الوسوم'}
                     />
                     <AdminPanelSidebarLink
-                        url={'/admin/payments'}
-                        iconActive={
-                            <img
-                                style={{ scale: '0.8 0.8' }}
-                                src={whiteMoney}
-                            />
-                        }
-                        iconInactive={
-                            <img
-                                style={{ scale: '0.8 0.8' }}
-                                src={grayMoney}
-                            />
-                        }
+                        url={'/admin/payments/'}
+                        iconActive={<MoneyIcon fill={'white'} />}
+                        iconInactive={<MoneyIcon fill={'#ccc'} />}
                         label={'المعاملات المالية'}
                     />
                     <AdminPanelSidebarLink
-                        url={'/admin/users'}
-                        iconActive={<img src={whiteProfile} />}
-                        iconInactive={<img src={grayProfile} />}
+                        url={'/admin/users/'}
+                        iconActive={<ProfileIcon fill={'white'} />}
+                        iconInactive={<ProfileIcon fill={'#ccc'} />}
                         label={'المستخدمين'}
                     />
                     <AdminPanelSidebarLink
-                        url={'/admin/settings'}
-                        iconActive={<img src={whiteProfile} />}
-                        iconInactive={<img src={grayProfile} />}
+                        url={'/admin/settings/'}
+                        iconActive={<ProfileIcon fill={'white'} />}
+                        iconInactive={<ProfileIcon fill={'#ccc'} />}
                         label={'الإعدادت'}
                     />
                 </Box>

@@ -10,6 +10,7 @@ import { QuizzChoiceComponent } from './QuizzChoiceComponent';
 
 interface QuizzQuestionProps {
     question: QuizzQuestion;
+    readonly?: boolean;
     color?: string;
     stringColor?: string;
     updateQuizz: (question: QuizzQuestion) => void;
@@ -17,6 +18,7 @@ interface QuizzQuestionProps {
 export function QuizzQuestionComponent({
     question,
     color,
+    readonly,
     stringColor,
     updateQuizz,
 }: QuizzQuestionProps) {
@@ -80,7 +82,7 @@ export function QuizzQuestionComponent({
             sx={{
                 width: '100%',
                 minHeight: '100px',
-                bgcolor: color || '#323287',
+                bgcolor: color ?? '#323287',
                 borderRadius: theme.spacing(),
                 p: 3,
             }}
@@ -91,11 +93,16 @@ export function QuizzQuestionComponent({
                 titleContent={question.content}
             >
                 <StyledOutline
-                    onBlur={e => {
-                        setLocalQuestion(q => {
-                            return { ...q, content: e.currentTarget.value };
-                        });
-                    }}
+                    readOnly={readonly}
+                    onBlur={
+                        readonly
+                            ? () => {}
+                            : e => {
+                                  setLocalQuestion(q => {
+                                      return { ...q, content: e.currentTarget.value };
+                                  });
+                              }
+                    }
                     multiline
                     color={'secondary'}
                     placeholder={question.content}
@@ -125,24 +132,27 @@ export function QuizzQuestionComponent({
                                     color={stringColor}
                                     key={c.key}
                                     choice={c}
+                                    readonly={readonly}
                                     updateQuestion={updateQuestionCallback}
                                     removeChoice={removeChoiceCallback}
                                 />
                             </Grid>
                         );
                     })}
-                    <Grid
-                        item
-                        xs={2}
-                        textAlign={'center'}
-                    >
-                        <IconButton
-                            sx={{ placeSelf: 'center', justifySelf: 'center' }}
-                            onClick={appendChoiceCallback}
+                    {!readonly && (
+                        <Grid
+                            item
+                            xs={2}
+                            textAlign={'center'}
                         >
-                            <AddButtonBlue />
-                        </IconButton>
-                    </Grid>
+                            <IconButton
+                                sx={{ placeSelf: 'center', justifySelf: 'center' }}
+                                onClick={appendChoiceCallback}
+                            >
+                                <AddButtonBlue />
+                            </IconButton>
+                        </Grid>
+                    )}
                 </Grid>
             </QuizzAccordion>
         </Box>

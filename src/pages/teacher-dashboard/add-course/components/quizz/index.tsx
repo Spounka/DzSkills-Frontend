@@ -7,10 +7,11 @@ import { QuizzQuestionComponent } from './QuizzQuestionComponent';
 
 interface quizzProps {
     quizzData?: CourseQuizz;
+    readonly?: boolean;
     color?: string;
     setQuizzData?: (q: CourseQuizz) => void;
 }
-function Quizz({ quizzData, color, setQuizzData }: quizzProps) {
+function Quizz({ quizzData, color, readonly, setQuizzData }: quizzProps) {
     const theme = useTheme();
     const [quizz, setQuizz] = React.useState<CourseQuizz | undefined>(quizzData);
 
@@ -30,11 +31,11 @@ function Quizz({ quizzData, color, setQuizzData }: quizzProps) {
     const updateQuizzCallback = useCallback(updateQuizz, [quizz]);
 
     useEffect(() => {
-        if (setQuizzData) if (quizz) setQuizzData(quizz);
+        if (setQuizzData && quizz) setQuizzData(quizz);
     }, [quizz]);
 
     useEffect(() => {
-        if (!quizz || quizz?.questions) {
+        if (!quizzData?.questions) {
             setQuizz({
                 questions: [
                     {
@@ -56,7 +57,7 @@ function Quizz({ quizzData, color, setQuizzData }: quizzProps) {
     return (
         <Stack gap={2}>
             <Typography
-                color={color || theme.palette.purple.main}
+                color={color ?? theme.palette.purple.main}
                 fontWeight={500}
                 variant={'h6'}
             >
@@ -68,28 +69,32 @@ function Quizz({ quizzData, color, setQuizzData }: quizzProps) {
                     <QuizzQuestionComponent
                         color={color}
                         key={question.key}
+                        stringColor={color ? 'gray' : undefined}
                         question={question}
+                        readonly={readonly}
                         updateQuizz={updateQuizzCallback}
                     />
                 );
             })}
-            <MainButton
-                text={'أضف سؤال'}
-                color={theme.palette.secondary.main}
-                onClick={() => {
-                    updateQuizz({
-                        key: uuidv4(),
-                        content: 'سؤال',
-                        choices: [
-                            {
-                                key: uuidv4(),
-                                content: 'الاختيار',
-                                is_correct_answer: true,
-                            },
-                        ],
-                    });
-                }}
-            />
+            {!readonly && (
+                <MainButton
+                    text={'أضف سؤال'}
+                    color={theme.palette.secondary.main}
+                    onClick={() => {
+                        updateQuizz({
+                            key: uuidv4(),
+                            content: 'سؤال',
+                            choices: [
+                                {
+                                    key: uuidv4(),
+                                    content: 'الاختيار',
+                                    is_correct_answer: true,
+                                },
+                            ],
+                        });
+                    }}
+                />
+            )}
         </Stack>
     );
 }

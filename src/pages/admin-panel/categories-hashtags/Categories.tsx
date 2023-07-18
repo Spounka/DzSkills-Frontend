@@ -3,7 +3,6 @@ import { GridColDef } from '@mui/x-data-grid';
 import { useQuery } from 'react-query';
 import { Category } from '../../../types/course';
 import { DisplayTableDataGrid } from '../payment-management/DisplayTableDataGrid';
-import { AddButton } from './AddButton';
 import { getCategories } from './api/queries';
 
 const columns: GridColDef[] = [

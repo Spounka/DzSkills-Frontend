@@ -31,7 +31,7 @@ export function DashboardTopbar({ title, subtitle, onNotificationClick }: props)
                 boxShadow: '7px 20px 40px #00000014',
                 borderRadius: theme.spacing(),
                 gridColumn: '1 / -3',
-                gridRow: '1',
+                gridRow: '1 / span 1',
                 py: '1rem',
             }}
         >

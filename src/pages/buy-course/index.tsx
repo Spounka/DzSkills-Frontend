@@ -37,11 +37,18 @@ function BuyCourse() {
     const theme = useTheme();
     const [fileName, setFileName] = useState<File>();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [currentSnackbar, setCurrentSnackbar] = useState<SnackbarKey>();
     const navigate = useNavigate();
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+    const { enqueueSnackbar } = useSnackbar();
 
     function handleFilechange(event: any) {
+        if (!RegExp('(image/*|application/pdf)').exec(event.target.files[0].type)) {
+            enqueueSnackbar('الرجاء تحميل صورة', {
+                variant: 'warning',
+                autoHideDuration: 1000 * 2,
+            });
+            event.target.files[0] = '';
+            return;
+        }
         setFileName(event.target.files[0]);
     }
 
@@ -209,30 +216,6 @@ function BuyCourse() {
                                                 {query.data?.price} DA
                                             </Typography>
                                         </Box>
-
-                                        <Box
-                                            display={'flex'}
-                                            justifyContent={'space-between'}
-                                            pl={4}
-                                        >
-                                            <Typography
-                                                color={'gray.main'}
-                                                variant={'h6'}
-                                                fontWeight={500}
-                                            >
-                                                ملحقات
-                                            </Typography>
-                                            <Typography
-                                                color={'secondary.dark'}
-                                                variant={'h6'}
-                                                fontWeight={500}
-                                                sx={{
-                                                    direction: 'ltr',
-                                                }}
-                                            >
-                                                {query.data?.price} DA
-                                            </Typography>
-                                        </Box>
                                     </Box>
 
                                     <Divider />
@@ -295,12 +278,15 @@ function BuyCourse() {
                                             href={imageLink}
                                             style={{
                                                 textDecoration: 'none',
+                                                width: '100%',
+                                                maxWidth: '34%',
                                             }}
                                         >
                                             <MainButton
                                                 sx={{
                                                     borderRadius: theme.spacing(),
                                                     gap: 2,
+                                                    width: '100%',
                                                 }}
                                                 {...{
                                                     size: 'large',
@@ -326,11 +312,9 @@ function BuyCourse() {
                                             flexDirection: 'column',
                                             width: '100%',
                                             height: 'min-content',
-                                            // flexShrink: '1',
                                             borderRadius: theme.spacing(),
                                             paddingTop: 9,
                                             paddingBottom: 9,
-                                            paddingLeft: 12,
                                             paddingRight: 12,
                                             gap: theme.spacing(6),
                                         }}
@@ -360,7 +344,7 @@ function BuyCourse() {
                                                 component={'label'}
                                                 variant={'contained'}
                                                 sx={{
-                                                    flexGrow: '1',
+                                                    // flexGrow: '1',
                                                     bgcolor: 'gray.secondary',
                                                     color: 'gray.main',
                                                     ':hover': {
@@ -390,7 +374,7 @@ function BuyCourse() {
                                                     required={true}
                                                     onChange={handleFilechange}
                                                     name={'payment.receipt'}
-                                                    accept={'*'}
+                                                    accept={'image/*,.pdf'}
                                                     type="file"
                                                 />
                                             </Button>

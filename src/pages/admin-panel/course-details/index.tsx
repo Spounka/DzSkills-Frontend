@@ -89,7 +89,7 @@ function CourseDetails() {
             >
                 <InformationCard
                     title={'متوسط التقييم'}
-                    subtitle={'0'}
+                    subtitle={course.data?.average_rating.toFixed(1).toString() ?? '-'}
                     icon={timeBlue}
                     sx={{
                         flexBasis: '20%',
@@ -98,7 +98,7 @@ function CourseDetails() {
                 />
                 <InformationCard
                     title={'عدد الطلبة'}
-                    subtitle={'5'}
+                    subtitle={relatedStudentsQuery.data?.length.toString() ?? '0'}
                     icon={students}
                     sx={{
                         flexBasis: '25%',
