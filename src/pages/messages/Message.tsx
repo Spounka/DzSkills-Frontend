@@ -38,7 +38,7 @@ export function Message({ message, avatarSrc, dir, isSender }: MessageProps) {
                     sx={{
                         alignSelf: 'flex-end',
                         flexShrink: 1,
-                        flexBasis: '10%',
+                        flexBasis: '3%',
                         width: '100%',
                         height: 'auto',
                         aspectRatio: '1',
@@ -50,7 +50,7 @@ export function Message({ message, avatarSrc, dir, isSender }: MessageProps) {
                     sx={{
                         alignSelf: 'center',
                         flexShrink: 1,
-                        flexBasis: '10%',
+                        flexBasis: '3%',
                         width: '100%',
                         height: 'auto',
                     }}
@@ -70,6 +70,9 @@ export function Message({ message, avatarSrc, dir, isSender }: MessageProps) {
                 <Tooltip
                     title={new Date(message.date).toLocaleString()}
                     followCursor
+                    sx={{
+                        direction: 'ltr',
+                    }}
                 >
                     <Box
                         sx={{

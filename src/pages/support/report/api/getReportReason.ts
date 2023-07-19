@@ -6,7 +6,7 @@ export type Choice = {
 };
 
 export async function getReportTypes() {
-    const { data } = await axiosInstance.options('/support/tickets/', {
+    const { data } = await axiosInstance.options('/tickets/', {
         headers: { 'Accept-Language': 'ar' },
     });
     console.log(data);

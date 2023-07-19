@@ -1,31 +1,21 @@
 import { CircularProgress, Stack } from '@mui/material';
-import { StyledCard } from '../../components/StyledCard';
-import axiosInstance from '../../globals/axiosInstance';
-import { Conversation } from '../../types/messages';
-import { SupportConversationItem } from './SupportConversationItem';
+import { StyledCard } from '../../../components/StyledCard';
+import { Conversation } from '../../../types/messages';
+import { TeacherConversationItem } from './TeacherConversationItem';
 
-export async function getAllConversations() {
-    const { data } = await axiosInstance.get('/conversations/');
-    return data as Conversation[];
-}
-
-export function testLatin(text: string) {
-    if (/"^[\u0600-\u06FF]"/.test(text[0])) return false;
-    else return true;
-}
-
-interface ConversationListProps {
+interface TeacherConversationListProps {
     conversations: Conversation[];
     isLoading: boolean;
     selectedConversation: Partial<Conversation>;
     selectConversation: (convo: Partial<Conversation>) => void;
 }
-function ConversationsListPanel({
+
+export default function TeacherConversationsListPanel({
     conversations,
     isLoading,
     selectedConversation,
     selectConversation,
-}: ConversationListProps) {
+}: TeacherConversationListProps) {
     return (
         <StyledCard
             sx={{
@@ -58,7 +48,7 @@ function ConversationsListPanel({
             >
                 {conversations.map(conversation => {
                     return (
-                        <SupportConversationItem
+                        <TeacherConversationItem
                             key={conversation.id}
                             conversation={conversation}
                             selectedConversation={selectedConversation}
@@ -70,5 +60,3 @@ function ConversationsListPanel({
         </StyledCard>
     );
 }
-
-export default ConversationsListPanel;

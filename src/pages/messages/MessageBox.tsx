@@ -5,13 +5,15 @@ import { Course } from '../../types/course';
 import { UserMessage } from '../../types/messages';
 import { User } from '../../types/user';
 import { Message } from './Message';
+import { useTheme } from '@mui/material';
 
 interface MessageBoxProps {
     messages?: UserMessage[];
     user: UseQueryResult<User, unknown>;
-    course: Course
+    teacher_profile_image: string;
 }
-export function MessageBox({ messages, user, course }: MessageBoxProps) {
+export function MessageBox({ messages, user, teacher_profile_image }: MessageBoxProps) {
+    const theme = useTheme();
     const boxRef = useRef(null);
     useEffect(() => {
         if (boxRef.current) {
@@ -25,6 +27,8 @@ export function MessageBox({ messages, user, course }: MessageBoxProps) {
             sx={{
                 overflowY: messages ? 'scroll' : 'hidden',
                 scrollbarWidth: 'thin',
+                height: 'min-content',
+                maxHeight: `calc(85% - ${theme.spacing(8)})`,
                 flexGrow: '1',
                 py: 2,
                 px: 2,
@@ -37,7 +41,7 @@ export function MessageBox({ messages, user, course }: MessageBoxProps) {
                 const avatarSrc =
                     message.sender === user.data?.pk
                         ? user.data?.profile_image
-                        : course.owner.profile_image;
+                        : teacher_profile_image;
                 const isSender = message.sender === user.data?.pk;
                 const dir = isSender ? 'flex-end' : 'flex-start';
                 let useAvatar = true;

@@ -5,6 +5,7 @@ import bg from '../../assets/png/background.png';
 import TopNavigationBar from '../../components/top-bar';
 import useLogin from '../authenticate/hooks/useLogin';
 import { ProfileContent } from './ProfileContent';
+import Footer from '../../components/footer';
 
 function Profile() {
     const theme = useTheme();
@@ -82,6 +83,7 @@ function Profile() {
                 >
                     <ProfileContent />
                 </Box>
+                <Footer />
             </Grid>
         </Grid>
     );

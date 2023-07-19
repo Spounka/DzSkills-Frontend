@@ -2,6 +2,7 @@ import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar';
 import useLogin from '../authenticate/hooks/useLogin';
 
 import { Box } from '@mui/material';
+import { Helmet } from 'react-helmet';
 import { ContactContent } from './ContactContent';
 
 function ContactTeacher() {
@@ -18,6 +19,10 @@ function ContactTeacher() {
             }}
             bgcolor={'gray.secondary'}
         >
+            <Helmet>
+                <meta charSet="UTF-8" />
+                <title>DzSkills | Contact </title>
+            </Helmet>
             <AuthenticationTopBar />
             <ContactContent user={user} />
         </Box>

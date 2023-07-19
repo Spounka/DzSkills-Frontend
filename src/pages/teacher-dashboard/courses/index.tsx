@@ -18,7 +18,7 @@ import {
 import React from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import money from '../../../assets/svg/money-white.svg';
+import { ReactComponent as MoneyIcon } from '../../../assets/svg/money-white.svg';
 import playButton from '../../../assets/svg/play-purple.svg';
 import school from '../../../assets/svg/school-purple.svg';
 import stars from '../../../assets/svg/stars-purple.svg';
@@ -309,7 +309,7 @@ export function CoursesInformationCards({
             <InformationCard
                 title={'إجمالي الأرباح'}
                 subtitle={earnings?.toString() ?? '0'}
-                icon={money}
+                iconNode={<MoneyIcon fill="white" />}
                 sx={{
                     flex: '0 1 20%',
                     flexBasis: '20%',

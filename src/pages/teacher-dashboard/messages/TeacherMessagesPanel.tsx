@@ -1,32 +1,47 @@
 import { ClearRounded } from '@mui/icons-material';
-import { Card, Chip, CircularProgress, Stack, useTheme } from '@mui/material';
-import Box from '@mui/material/Box';
+import { Box, Card, Chip, CircularProgress, Stack, useTheme } from '@mui/material';
 import { AxiosError } from 'axios';
 import { useSnackbar } from 'notistack';
-import { FormEvent, KeyboardEvent, useCallback, useRef, useState } from 'react';
-import { UseQueryResult, useMutation, useQuery } from 'react-query';
+import {
+    FormEvent,
+    KeyboardEvent,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
+import { useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { ReactComponent as AttachementImage } from '../../assets/svg/attachement.svg';
-import { User } from '../../types/user';
-import { getCourse } from '../course/api/getCourse';
-import { MessageBox } from './MessageBox';
-import { SendMessageInput } from './SendMessageInput';
-import { createMessage, getConversation, getMessages } from './api/queries';
+import { ReactComponent as AttachementImage } from '../../../assets/svg/attachement.svg';
+import { Conversation } from '../../../types/messages';
+import useLogin from '../../authenticate/hooks/useLogin';
+import { getCourse } from '../../course/api/getCourse';
+import { MessageBox } from '../../messages/MessageBox';
+import { SendMessageInput } from '../../messages/SendMessageInput';
+import { createMessage, getConversation, getMessages } from '../../messages/api/queries';
 
-interface props {
-    id: number;
-    user: UseQueryResult<User, unknown>;
+interface MessagesPanelProps {
+    selectedConversation: Partial<Conversation>;
+    startConversation: () => void;
 }
-
-export function CourseConversationPanel({ user, id }: props) {
+export function TeacherMessagesPanel({
+    selectedConversation,
+    startConversation,
+}: MessagesPanelProps) {
     const theme = useTheme();
     const navigate = useNavigate();
+    const [user] = useLogin();
 
     const inputRef = useRef<HTMLInputElement>(null);
     const [isValid, setIsValid] = useState(false);
     const [files, setFiles] = useState<{ file: File; uuid?: string }[]>([]);
     const { enqueueSnackbar } = useSnackbar();
+    const id = useMemo(
+        () => selectedConversation.course ?? 0,
+        [selectedConversation.course]
+    );
 
     const clearFiles = useCallback(() => {
         setFiles([]);
@@ -100,7 +115,7 @@ export function CourseConversationPanel({ user, id }: props) {
             const formData = new FormData(form);
             //@ts-expect-error
             formData.set('content', inputRef.current?.value);
-            formData.set('recipient', courseQuery.data?.owner.pk.toString() ?? '');
+            formData.set('recipient', selectedConversation.student?.toString() ?? '');
             formData.set('course', id.toString());
             if (files) {
                 for (let i = 0; i < files.length; i++) {
@@ -113,6 +128,10 @@ export function CourseConversationPanel({ user, id }: props) {
         }
     };
 
+    useEffect(() => {
+        console.log('ID IS: ', id);
+    }, [id]);
+
     if (conversation.isLoading)
         return (
             <Card
@@ -121,6 +140,7 @@ export function CourseConversationPanel({ user, id }: props) {
                     flexBasis: '60%',
                     bgcolor: 'white',
                     width: '100%',
+                    height: '100%',
                     pb: 2,
                     display: 'flex',
                     flexDirection: 'column',
@@ -140,6 +160,8 @@ export function CourseConversationPanel({ user, id }: props) {
                 flexBasis: '60%',
                 bgcolor: 'white',
                 width: '100%',
+                // height: 'min-content',
+                height: '100%',
                 pb: 2,
                 display: 'flex',
                 flexDirection: 'column',

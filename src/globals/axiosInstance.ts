@@ -7,9 +7,11 @@ const axiosInstance = axios.create({
         ? {
               'Content-Type': 'multipart/form-data',
               Authorization: `Bearer ${token}`,
+              'Accept-Language': 'ar',
           }
         : {
               'Content-Type': 'multipart/form-data',
+              'Accept-Language': 'ar',
           },
 });
 const axiosBare = axios.create({
@@ -18,9 +20,11 @@ const axiosBare = axios.create({
         ? {
               'Content-Type': 'multipart/form-data',
               Authorization: `Bearer ${token}`,
+              'Accept-Language': 'ar',
           }
         : {
               'Content-Type': 'multipart/form-data',
+              'Accept-Language': 'ar',
           },
 });
 
