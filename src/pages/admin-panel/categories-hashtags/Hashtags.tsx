@@ -146,6 +146,7 @@ export function Hashtags() {
     const handleEditHashtag = (id: number, e: MouseEvent<HTMLElement>) => {
         const _hashtag = hashtags.data?.filter(h => h.id === id);
         if (_hashtag && _hashtag?.length > 0) {
+            setOpen(true);
             setSelectedHashtag(_hashtag[0]);
             setAnchorEl(e.currentTarget);
         }
@@ -185,7 +186,6 @@ export function Hashtags() {
             },
         };
     });
-    if (hashtags.isFetching || hashtags.isLoading) rows = [];
     return (
         <Box
             id={'main-container'}

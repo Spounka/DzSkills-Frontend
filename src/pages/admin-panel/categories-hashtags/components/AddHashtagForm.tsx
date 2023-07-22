@@ -61,6 +61,7 @@ export function AddHashtagForm({
                             اسم الوسم
                         </Typography>
                         <StyledOutline
+                            color={'secondary'}
                             placeholder={selectedHashtag?.name ?? ''}
                             name={'name'}
                             fullWidth

@@ -37,14 +37,12 @@ export function Categories() {
         queryKey: ['categories'],
         queryFn: () => getCategories(),
     });
-    if (categories.isFetching) return <>Fetching Categories...</>;
-    if (categories.isError) return <>Error in categories</>;
 
     const rows = categories.data?.map((category: Category) => {
         return {
             id: category.id,
             name: category.name,
-            members: category.courses
+            members: category.courses,
         };
     });
     return (
