@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import { AxiosError } from 'axios';
 import { useSnackbar } from 'notistack';
 import { FormEvent, KeyboardEvent, useCallback, useRef, useState } from 'react';
-import { UseQueryResult, useMutation, useQuery } from 'react-query';
+import { UseQueryResult, useInfiniteQuery, useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactComponent as AttachementImage } from '../../assets/svg/attachement.svg';
@@ -72,11 +72,12 @@ export function CourseConversationPanel({ user, id }: props) {
         enabled: user.isFetched && id > 0,
     });
 
-    const messagesQuery = useQuery({
+    const messagesQuery = useInfiniteQuery({
+        queryKey: ['conversations', 'messages', 'infinite', id],
+        queryFn: ({ pageParam }) => getMessages(id, pageParam),
+        getNextPageParam: (lastPage, pages) => lastPage.next,
+        getPreviousPageParam: res => res.previous,
         enabled: isValid,
-        queryFn: () => getMessages(conversation.data?.id),
-        queryKey: ['conversations', 'messages', id, user.data?.pk],
-        onError: () => setIsValid(false),
         refetchInterval: 3000,
     });
 
@@ -142,15 +143,10 @@ export function CourseConversationPanel({ user, id }: props) {
                 width: '100%',
                 pb: 2,
                 display: 'flex',
-                flexDirection: 'column',
+                flexDirection: 'column-reverse',
                 gap: 4,
             }}
         >
-            <MessageBox
-                messages={messagesQuery.data?.results}
-                user={user}
-                teacher_profile_image={courseQuery.data?.owner.profile_image ?? ''}
-            />
             <Box
                 px={13}
                 mx={0}
@@ -169,6 +165,7 @@ export function CourseConversationPanel({ user, id }: props) {
                     }}
                 >
                     <SendMessageInput
+                        enabled
                         onSubmit={onSubmit}
                         inputRef={inputRef}
                         appendFile={appendFile}
@@ -203,6 +200,14 @@ export function CourseConversationPanel({ user, id }: props) {
                     </Stack>
                 </form>
             </Box>
+
+            <MessageBox
+                messages={messagesQuery.data}
+                hasNextPage={messagesQuery.hasNextPage}
+                loadMore={() => messagesQuery.fetchNextPage()}
+                user={user}
+                teacher_profile_image={courseQuery.data?.owner.profile_image ?? ''}
+            />
         </Card>
     );
 }

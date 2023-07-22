@@ -1,5 +1,5 @@
 import { Send } from '@mui/icons-material';
-import { IconButton, OutlinedInput, Stack } from '@mui/material';
+import { IconButton, OutlinedInput, Stack, useTheme } from '@mui/material';
 import { FormEvent, KeyboardEvent } from 'react';
 import { MessageAddFile } from './MessageAddFile';
 
@@ -11,11 +11,20 @@ interface inputProps {
     ) => void;
     inputRef: any;
     appendFile: (file: { file: File; uuid?: string }) => void;
+    enabled?: boolean;
 }
-export function SendMessageInput({ onSubmit, inputRef, appendFile }: inputProps) {
+export function SendMessageInput({
+    enabled,
+    onSubmit,
+    inputRef,
+    appendFile,
+}: inputProps) {
+    const theme = useTheme();
     return (
         <OutlinedInput
             multiline
+            required
+            disabled={!enabled}
             maxRows={5}
             onKeyDown={event => {
                 if (event.shiftKey && event.key === 'Enter') {
@@ -34,6 +43,9 @@ export function SendMessageInput({ onSubmit, inputRef, appendFile }: inputProps)
                 width: '100%',
                 flexGrow: '1',
                 direction: 'rtl',
+                '&.Mui-disabled': {
+                    bgcolor: theme.palette.gray.light,
+                },
             }}
             startAdornment={
                 <Stack
@@ -43,10 +55,14 @@ export function SendMessageInput({ onSubmit, inputRef, appendFile }: inputProps)
                     <IconButton
                         color="secondary"
                         type="submit"
+                        disabled={!enabled}
                     >
                         <Send fill={'blue'} />
                     </IconButton>
-                    <MessageAddFile appendFile={appendFile} />
+                    <MessageAddFile
+                        enabled={enabled}
+                        appendFile={appendFile}
+                    />
                 </Stack>
             }
         />

@@ -10,7 +10,7 @@ import Footer from '../../components/footer';
 import TopNavigationBar from '../../components/top-bar';
 import useReduxData from '../../stores/reduxUser';
 import { Category, Course, Level } from '../../types/course';
-import { getRelatedCourses } from '../profile/ProfileContent';
+import { getStudentRelatedCourses } from '../profile/getStudentRelatedCourses';
 import CourseCard from './CourseCard';
 import { TrendingCoursesCarousel } from './TrendingCoursesCarousel';
 import { getCourses } from './api/getAllCourses';
@@ -27,7 +27,7 @@ function CoursesPage() {
 
     const ownedCoursesQuery = useQuery({
         queryKey: ['courses', 'student', user.user.pk],
-        queryFn: () => getRelatedCourses(),
+        queryFn: () => getStudentRelatedCourses(),
         enabled: user.user.pk > 0,
     });
 

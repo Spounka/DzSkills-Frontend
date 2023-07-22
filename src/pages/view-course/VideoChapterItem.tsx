@@ -1,8 +1,8 @@
-import { PlayCircle } from '@mui/icons-material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import Container from '@mui/system/Container';
+import Image from 'mui-image';
 import { Video } from '../../types/course';
 
 interface props {
@@ -39,26 +39,36 @@ export function VideoChapterItem({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                bgcolor: getVideoBg(),
+                // bgcolor: getVideoBg(),
+                gap: 4,
+                opacity: locked ? '.4' : 1,
             }}
         >
-            <Box>
-                <Typography>{video.title}</Typography>
+            <Image
+                src={video.thumbnail ?? ''}
+                style={{
+                    flex: '1 1 30%',
+                    width: '100%',
+                    height: 'auto',
+                    aspectRatio: '16/9',
+                    objectFit: 'cover',
+                }}
+            />
+            <Box
+                flex={'1 0 60%'}
+                width={'100%'}
+            >
+                <Typography color={locked ? 'white' : 'gray.dark'}>
+                    {video.title}
+                </Typography>
                 <Typography
                     variant={'subtitle2'}
                     fontWeight={300}
-                    color={'gray.dark'}
+                    color={locked ? 'white' : 'gray.dark'}
                 >
                     {video.duration}
                 </Typography>
             </Box>
-            <PlayCircle
-                sx={{
-                    color: 'gray.main',
-                    width: '32px',
-                    height: 'auto',
-                }}
-            />
         </Container>
     );
 }

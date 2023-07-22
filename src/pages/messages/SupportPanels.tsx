@@ -17,19 +17,26 @@ export function SupportPanels() {
     const [selectedConversation, setSelectedConversation] = useState<
         Partial<Conversation>
     >({ id: 0, student: 0 });
-    const [newTicket, setNewTicket] = useState<Ticket>();
+    const [newTicket, setNewTicket] = useState<Partial<Ticket> | undefined>({ id: 0 });
 
     const createTicketMutation = useMutation({
-        mutationKey: ['conversation', 'create'],
+        mutationKey: ['conversation', 'create', 'ticket'],
         mutationFn: () => createTicket(),
         onSuccess: res => {
             enqueueSnackbar('تم إنشاء المحادثة بنجاح', {
                 variant: 'success',
                 autoHideDuration: 1000 * 3,
             });
-            queryClient.invalidateQueries({ queryKey: ['conversations'] });
+            queryClient.invalidateQueries({
+                queryKey: ['conversations', user.data?.pk],
+            });
             if (typeof res.converesation !== 'number') {
                 setNewTicket(res);
+            } else {
+                enqueueSnackbar('حدث خطأ ما من فضلك حاول مرة أخرى', {
+                    variant: 'error',
+                    autoHideDuration: 1000 * 3,
+                });
             }
         },
         onError: () => {
@@ -39,6 +46,7 @@ export function SupportPanels() {
             });
         },
     });
+
     const closeConversationMutation = useMutation({
         mutationKey: ['conversation', selectedConversation.id, 'close'],
         mutationFn: (id: number) => closeTicket(id),
@@ -63,7 +71,7 @@ export function SupportPanels() {
     const conversationListQuery = useQuery({
         queryKey: ['conversations', user.data?.pk],
         queryFn: () => getAllConversations(),
-        // onSuccess: res => setConversations(res),
+        onSuccess: res => setConversations(res),
         onError: () => {
             enqueueSnackbar('فشل تحميل المحادثات', {
                 variant: 'error',
@@ -95,9 +103,11 @@ export function SupportPanels() {
     );
 
     useEffect(() => {
-        if (newTicket?.converesation && typeof newTicket.converesation !== 'number')
+        if (newTicket?.converesation && typeof newTicket.converesation !== 'number') {
             setSelectedConversation(newTicket.converesation);
-    }, [newTicket?.converesation]);
+            setNewTicket(undefined);
+        }
+    }, [newTicket?.id]);
 
     return (
         <>

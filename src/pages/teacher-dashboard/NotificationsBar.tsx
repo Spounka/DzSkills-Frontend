@@ -12,19 +12,19 @@ export function NotificationsBar({ drawerOpen }: NotificationsProps) {
             sx={{
                 transition: 'all ease-out 300ms',
                 transform: drawerOpen ? 'translate(0, 0)' : 'translate(-105%, 0)',
+                display: 'flex',
                 p: 2,
                 mt: 0,
                 bgcolor: theme.palette.purple.light,
                 color: 'white',
                 borderRadius: `0 ${theme.spacing()} ${theme.spacing()} 0`,
-                display: 'flex',
                 flexDirection: 'column',
                 gap: 7,
                 position: 'fixed',
                 left: 0,
-                width: '20%',
+                width: drawerOpen ? '20%' : 0,
                 height: '100%',
-                zIndex: '1',
+                zIndex: drawerOpen ? 1 : '-100',
             }}
         >
             <Typography

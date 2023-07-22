@@ -2,10 +2,10 @@ import { Avatar, Checkbox } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import { Course } from '../../../types/course';
 import { User } from '../../../types/user';
 import useLogin from '../../authenticate/hooks/useLogin';
 import { CoursesGrid } from '../../courses-page';
@@ -19,9 +19,21 @@ function AdminCourses() {
     const query = useQuery({
         queryKey: ['courses'],
         queryFn: () => getCourses(),
+        onSuccess: res => setCourses(res),
     });
 
-    const navigate = useNavigate();
+    const [selectedUser, setSelectedUser] = useState<Partial<User> | undefined>(
+        undefined
+    );
+    const [courses, setCourses] = useState<Course[] | undefined>(undefined);
+
+    useEffect(() => {
+        if (selectedUser?.pk)
+            setCourses(
+                query.data?.filter(course => course.owner.pk === selectedUser.pk)
+            );
+        else setCourses(query.data);
+    }, [selectedUser?.first_name]);
 
     if (query.isError) return <Typography>Error Occured</Typography>;
     if (query.isLoading) return <Typography>Loading...</Typography>;
@@ -29,16 +41,19 @@ function AdminCourses() {
     const users = query.data
         ?.filter(course => course.status === 'app')
         .map(course => course.owner);
+
     let uniqueUsers: User[] = [];
     if (users) {
-        for (let i = 0; i < users.length; i++) {
-            if (uniqueUsers.length === 0) {
-                uniqueUsers.push(users[i]);
-            } else if (!uniqueUsers.find(user => user.pk === users[i].pk)) {
-                uniqueUsers.push(users[i]);
+        for (const element of users) {
+            if (
+                uniqueUsers.length === 0 ||
+                !uniqueUsers.find(user => user.pk === element.pk)
+            ) {
+                uniqueUsers.push(element);
             }
         }
     }
+
     return (
         <AdminDashboardLayout topbar_title={'الكورسات'}>
             <Box
@@ -68,7 +83,12 @@ function AdminCourses() {
                         return (
                             <React.Fragment key={uuidv4()}>
                                 <Box
-                                    onClick={() => navigate(`/admin/users/${user.pk}/`)}
+                                    // onClick={() => navigate(`/admin/users/${user.pk}/`)}
+                                    onClick={() => {
+                                        if (selectedUser?.pk === user.pk)
+                                            setSelectedUser({ pk: 0 });
+                                        else setSelectedUser(user);
+                                    }}
                                     sx={{
                                         p: 2,
                                         display: 'flex',
@@ -77,7 +97,10 @@ function AdminCourses() {
                                         cursor: 'pointer',
                                     }}
                                 >
-                                    <Checkbox color={'secondary'} />
+                                    <Checkbox
+                                        color={'secondary'}
+                                        checked={selectedUser?.pk === user.pk}
+                                    />
                                     <Avatar
                                         src={user.profile_image}
                                         sx={{
@@ -114,7 +137,7 @@ function AdminCourses() {
                     }}
                 >
                     <CoursesGrid
-                        activeCourses={query.data?.filter(
+                        activeCourses={courses?.filter(
                             course => course.status === 'app'
                         )}
                         sx={{

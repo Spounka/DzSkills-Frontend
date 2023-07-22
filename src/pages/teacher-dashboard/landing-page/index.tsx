@@ -1,14 +1,13 @@
 import { Divider, Stack, Typography } from '@mui/material';
+import { useQuery } from 'react-query';
 import { StyledCard } from '../../../components/StyledCard';
+import { getRelatedCourses } from '../../admin-panel/user-details/api/getUserById';
+import useLogin from '../../authenticate/hooks/useLogin';
+import { CoursesInformationCards } from '../courses/CoursesInformationCards';
 import TeacherDashboardLayout from '../layout';
 import { GraphData } from './GraphData';
-import { InformationCards } from './InformationCards';
 import { MostSold } from './MostSold';
 import { Reminders } from './Reminders';
-import { CoursesInformationCards } from '../courses';
-import { useQuery } from 'react-query';
-import useLogin from '../../authenticate/hooks/useLogin';
-import { getRelatedCourses } from '../../admin-panel/user-details/api/getUserById';
 
 export const data = [
     {

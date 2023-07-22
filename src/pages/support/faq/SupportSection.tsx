@@ -12,7 +12,7 @@ export function SupportSection() {
             py={theme.spacing(12)}
             gap={2}
             alignItems={'center'}
-            justifyContent={'center'}
+            justifyContent={'flex-start'}
             px={{
                 xs: theme.spacing(4),
                 lg: theme.spacing(45),

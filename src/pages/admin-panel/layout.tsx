@@ -7,6 +7,7 @@ import { AdminPanelTopBar } from './landing-page/components/AdminPanelTopBar';
 import { NotificationsBar } from './landing-page/components/NotificationsBar';
 import { AdminPanelSidebar } from './landing-page/components/Sidebar';
 import { Helmet } from 'react-helmet';
+import { ClickAwayListener } from '@mui/material';
 
 interface AdminDashboardLayoutProps {
     topbar_title: string;
@@ -37,6 +38,7 @@ function AdminDashboardLayout({
     return (
         <>
             <AdminPanelSidebar />
+
             <Box
                 sx={{
                     p: 0,
@@ -60,6 +62,7 @@ function AdminDashboardLayout({
                     height={'100%'}
                     width={'100%'}
                 ></Box>
+
                 <Box
                     display={'grid'}
                     gridTemplateColumns={'repeat(26 , 1fr)'}
@@ -96,7 +99,7 @@ function AdminDashboardLayout({
                             gridRow: '2',
                             display: 'flex',
                             justifyContent: 'center',
-                            width: '100%',
+                            width: drawerOpen ? '100%' : '0',
                             overflow: 'hidden',
                         }}
                     >

@@ -6,7 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import { AxiosError } from 'axios';
 import React, { useCallback, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import messagesBlue from '../../assets/svg/message-blue.svg';
 import messagesWhite from '../../assets/svg/message-white.svg';
@@ -22,6 +22,7 @@ import { VideoComments } from './VideoComments';
 import { VideoPlayer } from './VideoPlayer';
 import { VideoRatings } from './VideoRatings';
 import { getStudentProgress, updateStudentProgress } from './api/queries';
+import { useSnackbar } from 'notistack';
 
 function fileNameFromPath(path: string): string {
     const arr = path.split('/');
@@ -40,12 +41,14 @@ function WatchCourse() {
     const [userQuery] = useLogin();
     const navigate = useNavigate();
     const user = userQuery.data;
+    const { enqueueSnackbar } = useSnackbar();
 
     const currentCourse = useQuery({
         queryKey: ['courses', id],
         queryFn: () => getCourse(id),
-        staleTime: 1000 * 60 * 60 * 24,
-        onError: () => alert('Course Error'),
+        onError: () => {
+            enqueueSnackbar('حدث خطأ', { variant: 'error' });
+        },
     });
 
     const client = useQueryClient();
@@ -133,8 +136,8 @@ function WatchCourse() {
     if (progression.isError) return <>Error in data</>;
 
     const chaptersWithUUID = currentCourse.data?.chapters
-        .sort((a: Chapter, b: Chapter) => a.id)
-        .map((chapter: any) => {
+        ?.sort((a: Chapter, b: Chapter) => a.id)
+        ?.map((chapter: any) => {
             return { ...chapter, key: uuidv4() };
         });
 
@@ -193,12 +196,12 @@ function WatchCourse() {
                         color={'primary.main'}
                         variant={'body2'}
                     >
-                        تم إتمام 5% من الكورس
+                        تم إتمام %{progression.data?.percentage.toFixed(0) || 0} من
+                        الكورس
                     </Typography>
                     <Slider
                         size={'medium'}
-                        value={5}
-                        onChange={() => {}}
+                        value={progression.data?.percentage || 0}
                         sx={{
                             // scale: '-1 1',
                             height: 6,
@@ -242,8 +245,14 @@ function WatchCourse() {
                             محتوى الكورس
                         </Typography>
                         <Button
+                            onClick={() => navigate('../certificate/')}
                             variant={'contained'}
-                            color={'gray'}
+                            color={
+                                (progression.data?.percentage ?? 0) < 100
+                                    ? 'gray'
+                                    : 'primary'
+                            }
+                            disabled={(progression.data?.percentage ?? 0) < 100}
                             sx={{
                                 flexGrow: 1,
                                 color: 'white',
@@ -277,6 +286,24 @@ function WatchCourse() {
                             </React.Fragment>
                         );
                     })}
+                    <Button
+                        onClick={() => navigate('../quizz/')}
+                        variant={'contained'}
+                        color={
+                            (progression.data?.percentage ?? 0) < 100
+                                ? 'gray'
+                                : 'primary'
+                        }
+                        disabled={(progression.data?.percentage ?? 0) < 100}
+                        sx={{
+                            flexGrow: 1,
+                            color: 'white',
+                            maxHeight: theme.spacing(6),
+                            py: 1.5,
+                        }}
+                    >
+                        Quizz
+                    </Button>
                 </Box>
                 <Box
                     sx={{
@@ -424,22 +451,20 @@ function WatchCourse() {
                                     variant={'body1'}
                                     color={'gray.dark'}
                                 >
-                                    {fileNameFromPath(
-                                        currentCourse.data.presentation_file
-                                    )}
+                                    {currentVideo.presentation_file
+                                        ? fileNameFromPath(
+                                              currentVideo.presentation_file ?? ''
+                                          )
+                                        : 'لا توجد مرفقات'}
                                 </Typography>
                             </Box>
-                            <a
-                                download="presentation"
-                                target="_blank"
-                                href={currentCourse.data?.presentation_file}
-                            >
-                                <MainButton
-                                    sx={{ width: '50%' }}
-                                    text="تحميل"
-                                    color={theme.palette.primary.main}
-                                />
-                            </a>
+                            <MainButton
+                                href={currentVideo.presentation_file ?? ''}
+                                text="تحميل"
+                                color={theme.palette.primary.main}
+                                disabled={!currentVideo.presentation_file}
+                                {...{ component: 'a' }}
+                            />
                         </Box>
                     </TabPanel>
                     <TabPanel

@@ -93,7 +93,7 @@ function TeacherDashboardLayout({
                             gridRow: '2 / span 11',
                             display: 'flex',
                             justifyContent: 'center',
-                            width: '100%',
+                            width: drawerOpen ? '100%' : '0',
                             height: '100%',
                             overflow: 'hidden',
                         }}

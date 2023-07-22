@@ -4,9 +4,6 @@ import {
     Card,
     Chip,
     CircularProgress,
-    Dialog,
-    DialogActions,
-    DialogContent,
     Stack,
     Typography,
     useTheme,
@@ -23,42 +20,28 @@ import {
     useState,
 } from 'react';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from 'react-query';
-import { Conversation } from '../../types/messages';
-import useLogin from '../authenticate/hooks/useLogin';
-import { MessageBox } from './MessageBox';
-import { SendMessageInput } from './SendMessageInput';
-import { createMessage, getConversation, getMessages } from './api/queries';
-
 import { v4 as uuidv4 } from 'uuid';
-import { ReactComponent as AttachementImage } from '../../assets/svg/attachement.svg';
-import { ReactComponent as ChatWithSupport } from '../../assets/svg/chat-with-support.svg';
-import { MainButton } from '../../components/ui/MainButton';
-import axiosInstance from '../../globals/axiosInstance';
-import { User } from '../../types/user';
-import { getCourse } from '../course/api/getCourse';
+import { ReactComponent as AttachementImage } from '../../../assets/svg/attachement.svg';
+import { ReactComponent as ChatWithSupport } from '../../../assets/svg/chat-with-support.svg';
+import { Conversation } from '../../../types/messages';
+import useLogin from '../../authenticate/hooks/useLogin';
+import { getCourse } from '../../course/api/getCourse';
+import { MessageBox } from '../../messages/MessageBox';
+import { SendMessageInput } from '../../messages/SendMessageInput';
+import { getDzSkillsUser } from '../../messages/SupportConversationPanel';
+import { createMessage, getConversation, getMessages } from '../../messages/api/queries';
+import { MainButton } from '../../../components/ui/MainButton';
 
-export async function getDzSkillsUser() {
-    const { data } = await axiosInstance.get('/users/admin/');
-    return data as User;
-}
-
-interface SupportProps {
+interface ConversationPanelProps {
     selectedConversation: Partial<Conversation>;
-    closeConversation: () => void;
-    endConversation: () => void;
-    startConversation: () => void;
 }
 
-function SupportConversationPanel({
+export function AdminConversationPanel({
     selectedConversation,
-    startConversation,
-    endConversation,
-    closeConversation,
-}: SupportProps) {
+}: ConversationPanelProps) {
     const theme = useTheme();
     const [user] = useLogin();
 
-    const [dialogOpen, setDialogOpen] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement>(null);
     const [isValid, setIsValid] = useState(false);
     const [files, setFiles] = useState<{ file: File; uuid?: string }[]>([]);
@@ -68,16 +51,14 @@ function SupportConversationPanel({
     // for both Course and Ticket ID, since this panel
     // display conversations for both
     const id = useMemo(() => {
+        console.log('Memo conversation: ', selectedConversation);
         if (selectedConversation.course) return selectedConversation.course;
         return 0;
     }, [selectedConversation.id]);
 
-    const [recievingUser, setRecievingUser] = useState<User | undefined>(undefined);
-
     const courseQuery = useQuery({
         queryKey: ['courses', id],
         queryFn: () => getCourse(id ?? -1),
-        onSuccess: res => setRecievingUser(res.owner),
         enabled: Boolean(id),
     });
 
@@ -123,25 +104,19 @@ function SupportConversationPanel({
     });
 
     const messagesQuery = useInfiniteQuery({
-        enabled: isValid,
+        queryKey: ['conversations', 'messages', 'infinite', selectedConversation.id],
         queryFn: ({ pageParam }) => getMessages(selectedConversation.id, pageParam),
-        queryKey: ['conversations', 'messages', selectedConversation.id, user.data?.pk],
-        onError: () => setIsValid(false),
         getNextPageParam: (lastPage, pages) => lastPage.next,
         getPreviousPageParam: res => res.previous,
+        enabled: isValid,
         refetchInterval: 3000,
     });
 
     const dzSkillsAdminQuery = useQuery({
         queryKey: ['users', 'admin'],
         queryFn: () => getDzSkillsUser(),
-        onSuccess: res => setRecievingUser(res),
         enabled: !id,
     });
-
-    useEffect(() => {
-        if (!id) setRecievingUser(dzSkillsAdminQuery.data);
-    }, [id]);
 
     const messageMutation = useMutation({
         mutationFn: ({ body }: { body: FormData }) => createMessage(body),
@@ -151,6 +126,14 @@ function SupportConversationPanel({
             messagesQuery.refetch();
             queryClient.invalidateQueries({
                 queryKey: ['conversations', user.data?.pk],
+            });
+            queryClient.invalidateQueries({
+                queryKey: [
+                    'conversations',
+                    'messages',
+                    'infinite',
+                    selectedConversation.id,
+                ],
             });
             if (inputRef.current) inputRef.current.value = '';
         },
@@ -166,7 +149,7 @@ function SupportConversationPanel({
             const formData = new FormData(form);
             //@ts-expect-error
             formData.set('content', inputRef.current?.value);
-            formData.set('recipient', selectedConversation.recipient?.toString() ?? '');
+            formData.set('recipient', selectedConversation.student?.toString() ?? '');
             if (selectedConversation.course)
                 formData.set('course', selectedConversation.course.toString());
             if (selectedConversation.ticket)
@@ -188,6 +171,8 @@ function SupportConversationPanel({
             clearFiles();
         };
     }, [selectedConversation.id]);
+
+    const loadMore = () => messagesQuery.fetchNextPage();
 
     if (conversation.isLoading)
         return (
@@ -212,126 +197,35 @@ function SupportConversationPanel({
 
     return (
         <>
-            <Dialog
-                open={dialogOpen}
-                onClose={() => setDialogOpen(false)}
-            >
-                <DialogContent>
-                    <Stack
-                        gap={4}
-                        justifyContent={'center'}
-                        alignItems={'center'}
-                        textAlign={'center'}
-                    >
-                        <Typography
-                            color={'gray.dark'}
-                            variant={'h5'}
-                        >
-                            هل أنت متأكد ؟
-                        </Typography>
-                        <Typography
-                            color={'gray.main'}
-                            variant={'h6'}
-                        >
-                            بإنهاء المحادثة سيتم قطع اتصالك عن عميل الدعم الفني , يمكنك
-                            دائما بدأ محادثة جديدة
-                        </Typography>
-                    </Stack>
-                </DialogContent>
-                <DialogActions>
-                    <Stack
-                        direction="row"
-                        sx={{
-                            gap: 3,
-                            width: '100%',
-                            placeContent: 'center',
-                        }}
-                    >
-                        <MainButton
-                            color={theme.palette.secondary.lighter}
-                            text={'نعم'}
-                            {...{
-                                variant: 'outlined',
-                                onClick: () => {
-                                    endConversation();
-                                    setDialogOpen(false);
-                                },
-                            }}
-                        />
-                        <MainButton
-                            color={theme.palette.error.main}
-                            text={'إلغاء'}
-                            {...{
-                                variant: 'outlined',
-                                onClick: () => setDialogOpen(false),
-                            }}
-                        />
-                    </Stack>
-                </DialogActions>
-            </Dialog>
             <Card
                 elevation={0}
                 sx={{
                     flexBasis: { lg: '60%', md: '100%' },
                     bgcolor: 'white',
                     width: '100%',
-                    height: { lg: '100%', xs: '100dvh' },
-                    pb: 2,
+                    height: '100%',
+                    pb: 4,
+                    pt: 2,
                     display: 'flex',
-                    flexDirection: 'column',
-                    // alignContent: 'space-between',
-                    // justifyItems: 'space-between',
-                    gap: 2,
+                    flexDirection: 'column-reverse',
+                    gap: 4,
                 }}
             >
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 0,
-                        flexGrow: 2,
-                        maxHeight: '60dvh',
-                        height: '100%',
-                    }}
-                >
-                    <MessageBox
-                        messages={messagesQuery.data}
-                        hasNextPage={messagesQuery.hasNextPage}
-                        loadMore={() => messagesQuery.fetchNextPage()}
-                        user={user}
-                        teacher_profile_image={recievingUser?.profile_image ?? ''}
-                    />
-                    {selectedConversation.ticket &&
-                        selectedConversation.ticket.state === 'closed' && (
-                            <Typography
-                                variant={'h6'}
-                                color={'gray.main'}
-                                sx={{
-                                    textAlign: 'center',
-                                }}
-                            >
-                                انتهت المحادثة
-                            </Typography>
-                        )}
-                </Box>
-                {(selectedConversation.id ?? 0) > 0 ? (
+                {(selectedConversation.id ?? 0) > 0 ||
+                (selectedConversation.ticket &&
+                    selectedConversation.ticket.state !== 'closed') ? (
                     <Box
-                        // height={'100%'}
-                        // flexGrow={1}
-                        flexShrink={1}
-                        pb={2}
-                        display={'flex'}
-                        alignItems={'center'}
-                        flexDirection={'column'}
-                        justifyItems={'center'}
+                        flexShrink={'1'}
+                        display={
+                            selectedConversation.ticket &&
+                            selectedConversation.ticket.state === 'closed'
+                                ? 'none'
+                                : 'flex'
+                        }
                     >
                         <Box
-                            px={{
-                                xs: 2,
-                                lg: 13,
-                            }}
+                            px={13}
                             mx={0}
-                            display={'flex'}
                             justifyContent={'center'}
                             width={'100%'}
                         >
@@ -341,21 +235,18 @@ function SupportConversationPanel({
                                 style={{
                                     width: '100%',
                                     display: 'flex',
-                                    flexGrow: '1',
                                     flexDirection: 'column',
                                     gap: theme.spacing(),
                                 }}
                             >
                                 <SendMessageInput
-                                    enabled={
-                                        !selectedConversation.ticket ||
-                                        selectedConversation.ticket.state !== 'closed'
-                                    }
                                     onSubmit={onSubmit}
                                     inputRef={inputRef}
                                     appendFile={appendFile}
+                                    enabled={
+                                        selectedConversation.ticket?.state !== 'closed'
+                                    }
                                 />
-
                                 <Stack
                                     direction={'row'}
                                     width={'100%'}
@@ -389,48 +280,19 @@ function SupportConversationPanel({
                                 </Stack>
                             </form>
                         </Box>
-                        <Stack
-                            direction="row"
-                            alignContent={'center'}
-                            flexShrink={'1'}
-                            flexGrow={'2'}
-                            justifyContent="center"
-                            gap={2}
-                            px={2}
-                        >
-                            {selectedConversation.ticket &&
-                                selectedConversation.ticket.state === 'open' && (
-                                    <MainButton
-                                        text={'انهاء المحادثة'}
-                                        color={theme.palette.error.light}
-                                        {...{
-                                            variant: 'outlined',
-                                            onClick: () => setDialogOpen(true),
-                                        }}
-                                    />
-                                )}
-                            <MainButton
-                                text={'غلق المحادثة'}
-                                color={theme.palette.secondary.lighter}
-                                {...{
-                                    variant: 'outlined',
-                                    onClick: () => closeConversation(),
-                                }}
-                            />
-                        </Stack>
                     </Box>
                 ) : (
                     <Stack
                         sx={{
                             width: '100%',
-                            height: 'auto',
-                            maxHeight: '85dvh',
-                            placeContent: 'center',
+                            height: '100%',
                             alignItems: 'center',
-                            gap: 5,
+                            // justifyItems: 'center',
+                            justifyContent: 'center',
                             textAlign: 'center',
                             px: 3,
                             py: 2,
+                            gap: 8,
                         }}
                     >
                         <ChatWithSupport />
@@ -438,27 +300,36 @@ function SupportConversationPanel({
                             variant={'h4'}
                             color={'gray.main'}
                         >
-                            إبدأ محادثة مع الدعم
+                            اضغط على محادثة
                         </Typography>
-                        <Typography
-                            variant={'h6'}
-                            color={'gray.dark'}
-                        >
-                            بالضغط على إبدأ سنتأكد من وصلك مع عميل الدعم الفني للتأكد من
-                            استلام انشغالكم و الرد عليه
-                        </Typography>
-                        <MainButton
-                            text="ابدأ"
-                            color={theme.palette.secondary.lighter}
-                            {...{
-                                onClick: () => startConversation(),
-                            }}
-                        />
                     </Stack>
                 )}
+
+                {selectedConversation.ticket &&
+                    selectedConversation.ticket.state === 'closed' && (
+                        <Typography
+                            variant={'h6'}
+                            color={'gray.main'}
+                            mb={2}
+                            sx={{
+                                textAlign: 'center',
+                                verticalAlign: 'bottom',
+                            }}
+                        >
+                            تم اغلاق المحادثة
+                        </Typography>
+                    )}
+
+                <MessageBox
+                    messages={messagesQuery.data}
+                    hasNextPage={messagesQuery.hasNextPage}
+                    loadMore={loadMore}
+                    user={user}
+                    teacher_profile_image={
+                        selectedConversation.student_data?.profile_image ?? ''
+                    }
+                />
             </Card>
         </>
     );
 }
-
-export default SupportConversationPanel;

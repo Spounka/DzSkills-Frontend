@@ -4,27 +4,26 @@ import { useMutation } from 'react-query';
 import { StyledOutline } from '../../../../components/form/StyledOutline';
 import { MainButton } from '../../../../components/ui/MainButton';
 import { createHashtag } from '../api/queries';
+import { Hashtag } from '../../../../types/course';
 
 interface AddHashtagFormProps {
+    selectedHashtag?: Hashtag;
     closeDialog: () => void;
-    refetch: () => void;
+    mutation: (form: FormData) => void;
 }
-export function AddHashtagForm({ closeDialog, refetch }: AddHashtagFormProps) {
+export function AddHashtagForm({
+    selectedHashtag,
+    closeDialog,
+    mutation,
+}: AddHashtagFormProps) {
     const theme = useTheme();
-    const hashtagMutation = useMutation({
-        mutationFn: (data: FormData) => createHashtag(data),
-        onSuccess: () => {
-            closeDialog();
-            refetch();
-        },
-    });
 
     function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const form = document.querySelector('form');
         if (form) {
             let data = new FormData(form);
-            hashtagMutation.mutate(data);
+            mutation(data);
         }
     }
     return (
@@ -62,6 +61,7 @@ export function AddHashtagForm({ closeDialog, refetch }: AddHashtagFormProps) {
                             اسم الوسم
                         </Typography>
                         <StyledOutline
+                            placeholder={selectedHashtag?.name ?? ''}
                             name={'name'}
                             fullWidth
                             sx={{

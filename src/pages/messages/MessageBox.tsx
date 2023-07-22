@@ -1,64 +1,100 @@
+import { useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
-import { useEffect, useRef } from 'react';
-import { UseQueryResult } from 'react-query';
-import { Course } from '../../types/course';
-import { UserMessage } from '../../types/messages';
+import React from 'react';
+import { InfiniteData, UseQueryResult, useQuery } from 'react-query';
+import { MainButton } from '../../components/ui/MainButton';
+import { MessagePagination } from '../../types/messages';
 import { User } from '../../types/user';
 import { Message } from './Message';
-import { useTheme } from '@mui/material';
+import { getDzSkillsUser } from './SupportConversationPanel';
 
 interface MessageBoxProps {
-    messages?: UserMessage[];
+    messages?: InfiniteData<MessagePagination>;
     user: UseQueryResult<User, unknown>;
     teacher_profile_image: string;
+    hasNextPage?: boolean;
+    loadMore?: any;
 }
-export function MessageBox({ messages, user, teacher_profile_image }: MessageBoxProps) {
+export function MessageBox({
+    messages,
+    user,
+    teacher_profile_image,
+    hasNextPage,
+    loadMore,
+}: MessageBoxProps) {
     const theme = useTheme();
-    const boxRef = useRef(null);
-    useEffect(() => {
-        if (boxRef.current) {
-            //@ts-expect-error
-            boxRef.current.scrollTop = boxRef.current.scrollHeight;
-        }
-    }, [messages]);
+
+    const dzSkillsAdminQuery = useQuery({
+        queryKey: ['users', 'admin'],
+        queryFn: () => getDzSkillsUser(),
+    });
+    console.log(messages?.pages);
+    if (!messages?.pages?.length) return <></>;
     return (
         <Box
-            ref={boxRef}
             sx={{
-                overflowY: messages ? 'scroll' : 'hidden',
+                overflowY: 'auto',
                 scrollbarWidth: 'thin',
-                height: 'min-content',
-                maxHeight: `calc(85% - ${theme.spacing(8)})`,
-                flexGrow: '1',
+                // height: '100%',
+                flexGrow: 1,
                 py: 2,
-                px: 2,
+                // pt: 3,
+                // px: 2,
                 display: 'flex',
                 gap: 0,
                 flexDirection: 'column-reverse',
             }}
         >
-            {messages?.map((message, index, arr) => {
-                const avatarSrc =
-                    message.sender === user.data?.pk
-                        ? user.data?.profile_image
-                        : teacher_profile_image;
-                const isSender = message.sender === user.data?.pk;
-                const dir = isSender ? 'flex-end' : 'flex-start';
-                let useAvatar = true;
-
-                const prevMessage = index > 0 && arr[index - 1];
-                if (prevMessage && prevMessage.sender === message.sender)
-                    useAvatar = false;
+            {messages?.pages.map((page, i) => {
                 return (
-                    <Message
-                        key={message.id}
-                        dir={dir}
-                        message={message}
-                        avatarSrc={(useAvatar && avatarSrc) || ''}
-                        isSender={isSender}
-                    />
+                    <React.Fragment key={i}>
+                        {page.results?.map((message, index, arr) => {
+                            let isSender = false;
+
+                            let avatarSrc = undefined;
+                            isSender = message.sender === user.data?.pk;
+                            if (
+                                user.data?.groups.some(g => g.name === 'AdminGroup') &&
+                                message.sender === dzSkillsAdminQuery.data?.pk
+                            ) {
+                                isSender = true;
+                                avatarSrc = dzSkillsAdminQuery.data?.profile_image;
+                            } else {
+                                avatarSrc = isSender
+                                    ? user.data?.profile_image
+                                    : teacher_profile_image;
+                            }
+                            const dir = isSender ? 'flex-end' : 'flex-start';
+                            let useAvatar = true;
+
+                            const prevMessage = index > 0 && arr[index - 1];
+                            if (prevMessage && prevMessage.sender === message.sender)
+                                useAvatar = false;
+                            return (
+                                <Message
+                                    key={message.id}
+                                    dir={dir}
+                                    message={message}
+                                    avatarSrc={(useAvatar && avatarSrc) || ''}
+                                    isSender={isSender}
+                                />
+                            );
+                        })}
+                    </React.Fragment>
                 );
             })}
+            {hasNextPage && (
+                <MainButton
+                    color={theme.palette.secondary.lighter}
+                    text="تحميل المزيد"
+                    {...{
+                        sx: {
+                            my: 2,
+                        },
+                        onClick: loadMore,
+                    }}
+                />
+            )}
         </Box>
     );
 }

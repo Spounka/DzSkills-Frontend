@@ -2,16 +2,16 @@ import { Avatar, Box, Stack, Typography, useTheme } from '@mui/material';
 import { Conversation } from '../../../types/messages';
 import { testLatin } from '../../messages/ConversationsListPanel';
 
-interface TeacherConversationProps {
+interface ConversationItemProps {
     conversation: Partial<Conversation>;
     selectedConversation: Partial<Conversation>;
-    selectConversation: (e: Partial<Conversation>) => void;
+    selectConversation: (c: Partial<Conversation>) => void;
 }
-export function TeacherConversationItem({
+export function AdminConversationItem({
     conversation,
     selectedConversation,
     selectConversation,
-}: TeacherConversationProps) {
+}: ConversationItemProps) {
     const theme = useTheme();
     return (
         <Box
@@ -33,9 +33,8 @@ export function TeacherConversationItem({
                     alignItems: testLatin(conversation.last_message?.content[0] ?? 'ن')
                         ? 'flex-end'
                         : 'flex-start',
-                    overflowX: 'hidden',
-                    whiteSpace: 'nowrap',
-                    textOverflow: 'fade(10px)',
+                    overflow: 'hidden',
+                    textOverflow: 'fade(25%)',
                 }}
                 gap={4}
             >
@@ -48,10 +47,6 @@ export function TeacherConversationItem({
                     <Typography
                         variant="subtitle2"
                         color={'gray.main'}
-                        display={{
-                            xs: 'none',
-                            lg: 'block',
-                        }}
                     >
                         {conversation.last_message &&
                             new Date(conversation.last_message.date).toLocaleString()}
@@ -64,10 +59,7 @@ export function TeacherConversationItem({
                         {conversation.student_data && (
                             <Avatar src={conversation.student_data.profile_image} />
                         )}
-                        <Stack
-                            alignItems={'flex-end'}
-                            textAlign={'left'}
-                        >
+                        <Stack alignItems={'flex-end'} textAlign={'left'}>
                             {conversation.course_title && (
                                 <Typography
                                     sx={{
@@ -107,6 +99,7 @@ export function TeacherConversationItem({
                     variant="subtitle2"
                     color={'gray.dark'}
                     sx={{
+                        width: '100%',
                         direction: testLatin(conversation.last_message?.content ?? '')
                             ? 'ltr'
                             : 'rtl',

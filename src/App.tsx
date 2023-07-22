@@ -3,6 +3,7 @@ import HashtagsAndCategories from './pages/admin-panel/categories-hashtags';
 import CourseDetails from './pages/admin-panel/course-details';
 import AdminCourses from './pages/admin-panel/courses';
 import AdminLandingPage from './pages/admin-panel/landing-page';
+import { AdminMessages } from './pages/admin-panel/messages/AdminMessages';
 import PaymentManagement from './pages/admin-panel/payment-management';
 import PendingCourse from './pages/admin-panel/pending-course';
 import PendingCoursesAdmin from './pages/admin-panel/pending-courses';
@@ -35,13 +36,13 @@ import FAQ from './pages/support/faq';
 import SubmitReport from './pages/support/report';
 import TeacherAddCourse from './pages/teacher-dashboard/add-course';
 import CourseDetailsTeacherDashboard from './pages/teacher-dashboard/course-details';
-import TeacherCourses from './pages/teacher-dashboard/courses';
+import { TeacherCourses } from './pages/teacher-dashboard/courses/TeacherCourses';
 import EditProfileTeacherDashboard from './pages/teacher-dashboard/edit-profile';
 import TeacherLandingPage from './pages/teacher-dashboard/landing-page';
+import TeacherMessages from './pages/teacher-dashboard/messages';
 import EmailValidationPage from './pages/validate-email';
 import ViewCertificate from './pages/view-certificate';
 import WatchCourse from './pages/view-course';
-import TeacherMessages from './pages/teacher-dashboard/messages';
 
 function App() {
     return (
@@ -209,6 +210,11 @@ function App() {
                 <Route
                     path="courses/:id/"
                     element={<CourseDetails />}
+                />
+
+                <Route
+                    path="messages"
+                    element={<AdminMessages />}
                 />
                 <Route
                     path="hashtags-categories"

@@ -2,7 +2,7 @@ import { Avatar, OutlinedInput, Typography, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { useNavigate } from 'react-router-dom';
-import purpleNotification from '../../../../../assets/svg/notification purple.svg';
+import { ReactComponent as NotificationsIcon } from '../../../../../assets/svg/notification purple.svg';
 import { ReactComponent as UploadIcon } from '../../../../../assets/svg/upload.svg';
 import { MainButton } from '../../../../../components/ui/MainButton';
 import useLogin from '../../../../authenticate/hooks/useLogin';
@@ -100,10 +100,9 @@ export function DashboardTopbar({ title, subtitle, onNotificationClick }: props)
                 }}
                 onClick={() => navigate('/dashboard/teacher/courses/add/')}
             />
-            <img
+            <NotificationsIcon
                 onClick={onNotificationClick}
-                src={purpleNotification}
-                alt=""
+                fill={theme.palette.purple.main}
                 style={{
                     gridColumn: '-3 / span 1',
                     cursor: 'pointer',

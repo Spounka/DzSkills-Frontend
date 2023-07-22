@@ -1,12 +1,21 @@
-import { Avatar, Badge, Card, OutlinedInput, Typography } from '@mui/material';
+import {
+    Avatar,
+    Badge,
+    Card,
+    Menu,
+    MenuItem,
+    OutlinedInput,
+    Typography,
+} from '@mui/material';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
+import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
+import { Link, useNavigate } from 'react-router-dom';
 import { MainButton } from '../../../../components/ui/MainButton';
-import NotificationsIcon from '../../../../components/ui/NotificationsIcon';
 import useLogin from '../../../authenticate/hooks/useLogin';
 import { getCourses } from '../../../courses-page/api/getAllCourses';
-import { useNavigate } from 'react-router-dom';
+import { ReactComponent as NotificationsIcon } from './../../../../assets/svg/notification purple.svg';
 
 interface props {
     onNotificationClick: () => void;
@@ -28,6 +37,13 @@ export function AdminPanelTopBar({
 
     const theme = useTheme();
     const navigate = useNavigate();
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>(undefined);
+    const [menuOpen, setMenuOpen] = useState<boolean>(false);
+
+    useEffect(() => {
+        setMenuOpen(Boolean(anchorEl));
+    }, [anchorEl]);
+
     if (!user?.isSuccess) return <></>;
     return (
         <Card
@@ -140,11 +156,77 @@ export function AdminPanelTopBar({
             </span>
 
             <Avatar
+                onClick={e => setAnchorEl(e.currentTarget)}
                 src={user.data?.profile_image}
                 sx={{
                     gridColumn: '-1',
+                    ':hover': {
+                        cursor: 'pointer',
+                    },
                 }}
             />
+            <Menu
+                open={menuOpen}
+                anchorEl={anchorEl}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+                onClose={() => {
+                    setMenuOpen(false);
+                    setAnchorEl(undefined);
+                }}
+                sx={{
+                    '&root': {
+                        borderRadius: theme.spacing(2),
+                    },
+                }}
+            >
+                <MenuItem
+                    onClick={() => {
+                        setMenuOpen(false);
+                        setAnchorEl(undefined);
+                    }}
+                >
+                    <Link to={'/profile/'}>
+                        <Typography
+                            variant={'body1'}
+                            // color={theme.palette.error.main}
+                        >
+                            الملف الشخصي
+                        </Typography>
+                    </Link>
+                </MenuItem>
+
+                <MenuItem
+                    onClick={() => {
+                        setMenuOpen(false);
+                        setAnchorEl(undefined);
+                    }}
+                >
+                    <Link to={'/dashboard/teacher/'}>
+                        <Typography
+                            variant={'body1'}
+                            // color={theme.palette.error.main}
+                        >
+                            لوحة تحكم المرشد
+                        </Typography>
+                    </Link>
+                </MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        setMenuOpen(false);
+                        setAnchorEl(undefined);
+                    }}
+                >
+                    <Link to={'/logout/'}>
+                        <Typography
+                            variant={'body1'}
+                            color={theme.palette.error.main}
+                        >
+                            تسجيل خروج
+                        </Typography>
+                    </Link>
+                </MenuItem>
+            </Menu>
         </Card>
     );
 }

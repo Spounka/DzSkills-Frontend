@@ -77,6 +77,8 @@ export type Progression = {
     last_chapter_index: number;
     user: number;
     course: number;
+    finished: boolean;
+    percentage: number;
 };
 
 export type Certificate = {

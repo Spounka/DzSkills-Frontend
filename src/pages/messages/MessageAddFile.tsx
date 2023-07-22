@@ -4,10 +4,14 @@ import { ReactComponent as AttachementImage } from '../../assets/svg/attachement
 
 interface addFileProps {
     appendFile: (f: { file: File; uuid?: string }) => void;
+    enabled?: boolean;
 }
-export function MessageAddFile({ appendFile }: addFileProps) {
+export function MessageAddFile({ enabled, appendFile }: addFileProps) {
     return (
-        <IconButton component={'label'}>
+        <IconButton
+            component={'label'}
+            disabled={!enabled}
+        >
             <input
                 style={{
                     width: 1,

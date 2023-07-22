@@ -21,7 +21,7 @@ export default function TeacherConversationsListPanel({
             sx={{
                 display: {
                     xs: 'none',
-                    lg: 'flex',
+                    md: 'flex',
                 },
                 flexBasis: '40%',
                 bgcolor: 'white',

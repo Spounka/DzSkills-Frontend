@@ -2,16 +2,8 @@ import { ClearRounded } from '@mui/icons-material';
 import { Box, Card, Chip, CircularProgress, Stack, useTheme } from '@mui/material';
 import { AxiosError } from 'axios';
 import { useSnackbar } from 'notistack';
-import {
-    FormEvent,
-    KeyboardEvent,
-    useCallback,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
-} from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { FormEvent, KeyboardEvent, useCallback, useMemo, useRef, useState } from 'react';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactComponent as AttachementImage } from '../../../assets/svg/attachement.svg';
@@ -83,24 +75,28 @@ export function TeacherMessagesPanel({
             if (err.response?.status === 403) navigate(`/courses/${id}/buy/`);
             else console.error('Some random error ig?', err);
         },
-        staleTime: 1000 * 60 * 60,
+        staleTime: 1000 * 60 * 5,
         enabled: user.isFetched && id > 0,
     });
 
-    const messagesQuery = useQuery({
+    const messagesQuery = useInfiniteQuery({
         enabled: isValid,
-        queryFn: () => getMessages(conversation.data?.id),
         queryKey: ['conversations', 'messages', id, user.data?.pk],
+        queryFn: ({ pageParam }) => getMessages(conversation.data?.id, pageParam),
         onError: () => setIsValid(false),
+        getNextPageParam: (lastPage, pages) => lastPage.next,
+        getPreviousPageParam: res => res.previous,
         refetchInterval: 3000,
     });
 
+    const client = useQueryClient();
     const messageMutation = useMutation({
         mutationFn: ({ body }: { body: FormData }) => createMessage(body),
         mutationKey: ['create', 'message', id, user.data?.pk, courseQuery.data?.id],
         onSuccess: () => {
-            conversation.refetch();
-            messagesQuery.refetch();
+            client.invalidateQueries(['conversations', 'messages', id, user.data?.pk]);
+            client.invalidateQueries(['conversations', id, user.data?.pk]);
+            client.invalidateQueries(['conversations', user.data?.pk]);
             if (inputRef.current) inputRef.current.value = '';
         },
     });
@@ -128,10 +124,6 @@ export function TeacherMessagesPanel({
         }
     };
 
-    useEffect(() => {
-        console.log('ID IS: ', id);
-    }, [id]);
-
     if (conversation.isLoading)
         return (
             <Card
@@ -141,6 +133,7 @@ export function TeacherMessagesPanel({
                     bgcolor: 'white',
                     width: '100%',
                     height: '100%',
+                    maxHeight: '75dvh',
                     pb: 2,
                     display: 'flex',
                     flexDirection: 'column',
@@ -161,24 +154,21 @@ export function TeacherMessagesPanel({
                 bgcolor: 'white',
                 width: '100%',
                 // height: 'min-content',
+                maxHeight: '75dvh',
                 height: '100%',
                 pb: 2,
                 display: 'flex',
-                flexDirection: 'column',
+                flexDirection: 'column-reverse',
                 gap: 4,
             }}
         >
-            <MessageBox
-                messages={messagesQuery.data?.results}
-                user={user}
-                teacher_profile_image={courseQuery.data?.owner.profile_image ?? ''}
-            />
             <Box
                 px={13}
                 mx={0}
                 display={'flex'}
                 justifyContent={'center'}
                 width={'100%'}
+                flexGrow={0}
             >
                 <form
                     onSubmit={onSubmit}
@@ -191,6 +181,7 @@ export function TeacherMessagesPanel({
                     }}
                 >
                     <SendMessageInput
+                        enabled
                         onSubmit={onSubmit}
                         inputRef={inputRef}
                         appendFile={appendFile}
@@ -225,6 +216,14 @@ export function TeacherMessagesPanel({
                     </Stack>
                 </form>
             </Box>
+
+            <MessageBox
+                messages={messagesQuery.data}
+                hasNextPage={messagesQuery.hasNextPage}
+                loadMore={() => messagesQuery.fetchNextPage()}
+                user={user}
+                teacher_profile_image={courseQuery.data?.owner.profile_image ?? ''}
+            />
         </Card>
     );
 }

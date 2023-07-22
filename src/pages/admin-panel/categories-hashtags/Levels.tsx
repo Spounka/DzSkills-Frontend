@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, IconButton, Stack, Typography } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 import React from 'react';
 import { useQuery } from 'react-query';
@@ -8,6 +8,9 @@ import AddItemPopup from '../settings/AddItemPopup';
 import { AddButton } from './AddButton';
 import { getLevels } from './api/queries';
 import { AddLevelForm } from './components/AddLevelForm';
+import theme from '../../../theme';
+import { ReactComponent as DeleteIcon } from '../../../assets/svg/delete-red.svg';
+import { ReactComponent as EditIcon } from '../../../assets/svg/edit.svg';
 
 const columns: GridColDef[] = [
     {
@@ -17,7 +20,7 @@ const columns: GridColDef[] = [
         width: 60,
         headerClassName: 'super-app-theme--header',
 
-        flex: 2,
+        flex: 1,
     },
     {
         field: 'members',
@@ -30,10 +33,27 @@ const columns: GridColDef[] = [
         field: 'click',
         headerName: '',
         headerClassName: 'super-app-theme--header',
-        flex: 1,
+        flex: 0,
         width: 130,
         align: 'left',
-        // width: 160,
+        renderCell: params => {
+            return (
+                <Stack
+                    direction="row"
+                    gap={2}
+                    justifyContent={'space-between'}
+                >
+                    <IconButton>
+                        <DeleteIcon fill={'red'} />
+                    </IconButton>
+                    <IconButton
+                        sx={{ maxHeight: theme.spacing(7), maxWidth: theme.spacing(7) }}
+                    >
+                        <EditIcon fill={theme.palette.secondary.main} />
+                    </IconButton>
+                </Stack>
+            );
+        },
     },
 ];
 export function Levels() {

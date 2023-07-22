@@ -19,7 +19,7 @@ import { ReactComponent as MessageIcon } from '../../../assets/svg/message-blue.
 import { StyledCard } from '../../../components/StyledCard';
 import { MainButton } from '../../../components/ui/MainButton';
 import theme from '../../../theme';
-import { getRelatedStudents } from '../../admin-panel/course-details/api/relatedStudent';
+import { getCourseRelatedStudents } from '../../admin-panel/course-details/api/relatedStudent';
 import { DisplayTableDataGrid } from '../../admin-panel/payment-management/DisplayTableDataGrid';
 import useLogin from '../../authenticate/hooks/useLogin';
 import { getCourse } from '../../course/api/getCourse';
@@ -154,12 +154,14 @@ function CourseDetailsTeacherDashboard() {
 
     const relatedStudentsQuery = useQuery({
         queryKey: ['courses', id, 'students'],
-        queryFn: () => getRelatedStudents(id),
+        queryFn: () => getCourseRelatedStudents(id),
     });
 
     const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
+
+    const removeUser = (id: number, course: number) => {};
 
     const handleClose = (value: any) => {
         setAnchorEl(null);
@@ -179,6 +181,7 @@ function CourseDetailsTeacherDashboard() {
             actions: {
                 open: onMenuClick,
                 close: onMenuClose,
+                removeUser: removeUser,
                 anchor: anchorEl,
             },
         };

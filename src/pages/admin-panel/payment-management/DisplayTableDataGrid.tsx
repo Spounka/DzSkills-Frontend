@@ -8,7 +8,12 @@ interface DipslayTableProps {
     columns: GridColDef[];
     checkbox?: boolean;
 }
-export function DisplayTableDataGrid({ rows, columns, checkbox }: DipslayTableProps) {
+export function DisplayTableDataGrid({
+    rows,
+    columns,
+    checkbox,
+    ...other
+}: DipslayTableProps) {
     const theme = useTheme();
 
     return (
@@ -68,6 +73,7 @@ export function DisplayTableDataGrid({ rows, columns, checkbox }: DipslayTablePr
                 disableColumnMenu
                 disableRowSelectionOnClick
                 autoHeight
+                {...other}
             />
         </Box>
     );

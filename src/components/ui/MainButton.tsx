@@ -43,6 +43,10 @@ export function MainButton({ text, color, sx, type, spin, ...other }: props) {
                     stroke: `white`,
                     fill: `white`,
                 },
+
+                '&.Mui-disabled': {
+                    border: `${theme.palette.gray.secondary} 2px solid`,
+                },
                 ...sx,
             }}
             disabled={spin}

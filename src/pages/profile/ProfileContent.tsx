@@ -6,15 +6,9 @@ import { useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactComponent as GpsImage } from '../../assets/svg/place gray.svg';
 import { ProfileSocialMedia } from '../../components/ProfileSocialMedia';
-import axiosInstance from '../../globals/axiosInstance';
-import { Course } from '../../types/course';
 import useLogin from '../authenticate/hooks/useLogin';
 import CourseCard from '../courses-page/CourseCard';
-
-export async function getRelatedCourses() {
-    const { data } = await axiosInstance.get('/courses/student/related/');
-    return data as Course[];
-}
+import { getStudentRelatedCourses } from './getStudentRelatedCourses';
 
 export function ProfileContent() {
     const theme = useTheme();
@@ -22,7 +16,7 @@ export function ProfileContent() {
 
     const ownedCoursesQuery = useQuery({
         queryKey: ['courses', 'student', user.data?.pk],
-        queryFn: () => getRelatedCourses(),
+        queryFn: () => getStudentRelatedCourses(),
     });
 
     return (

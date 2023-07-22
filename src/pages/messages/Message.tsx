@@ -32,13 +32,29 @@ export function Message({ message, avatarSrc, dir, isSender }: MessageProps) {
                 mb: avatarSrc ? 2 : 1,
             }}
         >
+            <Box
+                flexBasis={{
+                    xs: '0%',
+                    lg: '10%',
+                }}
+                width={'100%'}
+                flexShrink={0}
+            ></Box>
             {avatarSrc ? (
                 <Avatar
                     src={avatarSrc}
                     sx={{
                         alignSelf: 'flex-end',
                         flexShrink: 1,
-                        flexBasis: '3%',
+                        flexBasis: {
+                            xs: '10%',
+                            md: '4%',
+                            lg: '3%',
+                        },
+                        flexGrow: {
+                            xs: 0,
+                            lg: 1,
+                        },
                         width: '100%',
                         height: 'auto',
                         aspectRatio: '1',
@@ -50,7 +66,11 @@ export function Message({ message, avatarSrc, dir, isSender }: MessageProps) {
                     sx={{
                         alignSelf: 'center',
                         flexShrink: 1,
-                        flexBasis: '3%',
+                        flexBasis: {
+                            xs: '10%',
+                            md: '4%',
+                            lg: '3%',
+                        },
                         width: '100%',
                         height: 'auto',
                     }}
@@ -61,7 +81,7 @@ export function Message({ message, avatarSrc, dir, isSender }: MessageProps) {
                     flexBasis: '80%',
                     flexShrink: '1',
                     flexGrow: '1',
-                    color: isSender ? 'black' : 'white',
+                    color: !isSender ? 'black' : 'white',
                     display: 'flex',
                     justifyContent: isSender ? 'flex-end' : 'flex-start',
                     direction: testLatin(message.content) ? 'ltr' : 'rtl',
@@ -83,11 +103,19 @@ export function Message({ message, avatarSrc, dir, isSender }: MessageProps) {
                             borderRadius: theme.spacing(),
                             borderTopRightRadius: isSender ? '0' : theme.spacing(),
                             borderTopLefttRadius: isSender ? theme.spacing() : '0',
-                            bgcolor: !isSender ? 'secondary.lighter' : 'gray.secondary',
+                            bgcolor: isSender ? 'secondary.lighter' : 'gray.secondary',
                             placeSelf: isSender ? 'flex-end' : 'flex-start',
                             my: isSender ? 'auto 0' : '0 auto',
                             overflowWrap: 'break-word',
-                            maxWidth: '25vw',
+                            width: {
+                                xs: '100%',
+                                lg: 'auto',
+                            },
+                            maxWidth: {
+                                xs: `calc(100vw - ${theme.spacing(7)})`,
+                                sm: '35vw',
+                                lg: '25vw',
+                            },
                             whiteSpace: 'pre-wrap',
                             wordWrap: 'break-word',
                             gap: 1,
@@ -133,14 +161,14 @@ export function Message({ message, avatarSrc, dir, isSender }: MessageProps) {
                                         >
                                             <Typography
                                                 color={
-                                                    isSender ? 'gray.darker' : 'white'
+                                                    !isSender ? 'gray.darker' : 'white'
                                                 }
                                             >
                                                 {message.files.length}
                                             </Typography>
                                             <AttachementImage
                                                 fill={'none'}
-                                                stroke={isSender ? 'black' : 'white'}
+                                                stroke={!isSender ? 'black' : 'white'}
                                             />
                                         </Box>
                                     </IconButton>
@@ -151,9 +179,15 @@ export function Message({ message, avatarSrc, dir, isSender }: MessageProps) {
                 </Tooltip>
             </Box>
             <Box
-                flexBasis={'10%'}
+                flexBasis={{
+                    xs: '0%',
+                    lg: '10%',
+                }}
                 width={'100%'}
-                flexGrow={1}
+                flexGrow={{
+                    xs: 0,
+                    lg: 1,
+                }}
                 flexShrink={0}
             ></Box>
         </Stack>

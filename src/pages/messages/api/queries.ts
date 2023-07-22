@@ -7,10 +7,16 @@ export async function getConversation(id: number, course: boolean = false) {
     return data as Conversation;
 }
 
-export async function getMessages(conversationID: number | undefined) {
-    if (!conversationID) return Promise.reject('No ID');
+export async function getMessages(
+    conversationID: number | undefined,
+    cursor: any = undefined
+) {
+    console.log('Cursor: ', cursor);
+    console.log('Message conversation ID: ', conversationID);
+    if (!conversationID || conversationID === 0) return Promise.reject('No ID');
+    const url = cursor ?? `/conversations/${conversationID}/`;
 
-    const { data } = await axiosBare.get(`/conversations/${conversationID}/`);
+    const { data } = await axiosBare.get(url);
     return data as MessagePagination;
 }
 

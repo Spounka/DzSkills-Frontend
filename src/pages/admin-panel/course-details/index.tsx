@@ -3,16 +3,19 @@ import {
     Box,
     Divider,
     IconButton,
+    Menu,
     MenuItem,
-    Popover,
     Rating,
+    Stack,
+    Tooltip,
     Typography,
     useTheme,
 } from '@mui/material';
-import React, { useState } from 'react';
-import { useQuery } from 'react-query';
+import React, { FormEvent, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
 import createBlack from '../../../assets/svg/create-black.svg';
+import { ReactComponent as DeleteIcon } from '../../../assets/svg/delete-red.svg';
 import deleteWhiteBg from '../../../assets/svg/delete-whitebg.svg';
 import messageWhitebg from '../../../assets/svg/message-white.svg';
 import { InformationCard } from '../../../components/InformationCard';
@@ -21,15 +24,17 @@ import { getCourses } from '../../courses-page/api/getAllCourses';
 import { MoreHoriz, Star } from '@mui/icons-material';
 import Image from 'mui-image';
 import { useParams } from 'react-router-dom';
-import money from '../../../assets/svg/money-white.svg';
+import { ReactComponent as MoneyIcon } from '../../../assets/svg/money-white.svg';
 import students from '../../../assets/svg/school-blue.svg';
 import timeBlue from '../../../assets/svg/time-transparent.svg';
 import { ProfileSocialMedia } from '../../../components/ProfileSocialMedia';
+import axiosInstance from '../../../globals/axiosInstance';
 import { getCourse } from '../../course/api/getCourse';
 import NotFound from '../../not-found/NotFound';
 import AdminDashboardLayout from '../layout';
-import { RelatedStudent, getRelatedStudents } from './api/relatedStudent';
+import { RelatedStudent, getCourseRelatedStudents } from './api/relatedStudent';
 import { CourseStudent } from './components/courseStudent';
+import { useSnackbar } from 'notistack';
 
 function CourseDetails() {
     const params = useParams();
@@ -42,6 +47,7 @@ function CourseDetails() {
     const id: number = parseInt(params.id);
     const theme = useTheme();
 
+    const [checkedStudents, setCheckedStudents] = useState<number[]>([]);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
@@ -66,8 +72,44 @@ function CourseDetails() {
 
     const relatedStudentsQuery = useQuery({
         queryKey: ['courses', id, 'students'],
-        queryFn: () => getRelatedStudents(id),
+        queryFn: () => getCourseRelatedStudents(id),
     });
+
+    const queryClient = useQueryClient();
+    const { enqueueSnackbar } = useSnackbar();
+
+    const removeStudentsMutation = useMutation({
+        mutationKey: ['courses', id, 'students', 'remove'],
+        mutationFn: async (body: FormData) => {
+            const { data } = await axiosInstance.patch(
+                `/courses/${id}/students/remove/`,
+                body
+            );
+            return data;
+        },
+        onSuccess: () => {
+            setCheckedStudents([]);
+            queryClient.invalidateQueries(['courses', id, 'students']);
+            enqueueSnackbar('تمت إزالة الطلاب بنجاح', { variant: 'success' });
+        },
+        onError: () => {
+            enqueueSnackbar('لقد حدث خطأ، رجاء أعد المحاولة لاحقا', {
+                variant: 'error',
+            });
+        },
+    });
+
+    const handleRemoveStudentsFormSubmission = (form: FormEvent<HTMLFormElement>) => {
+        form.preventDefault();
+        let formData = new FormData(form.currentTarget);
+        formData.set('course', id.toString());
+        if (checkedStudents.length) {
+            for (let i = 0; i < checkedStudents.length; i++) {
+                formData.set(`students[${i}]`, checkedStudents[i].toString());
+            }
+        }
+        removeStudentsMutation.mutate(formData);
+    };
 
     if (query.isError) return <Typography>Error Occured In courses</Typography>;
     if (query.isLoading) return <Typography>Loading courses...</Typography>;
@@ -109,7 +151,7 @@ function CourseDetails() {
                 <InformationCard
                     title={'إجمالي الأرباح'}
                     subtitle={'250000DA'}
-                    icon={money}
+                    iconNode={<MoneyIcon fill={'white'} />}
                     sx={{
                         flexBasis: '20%',
                         flexShrink: '1',
@@ -129,7 +171,7 @@ function CourseDetails() {
                     >
                         <MoreHoriz />
                     </IconButton>
-                    <Popover
+                    <Menu
                         id="long-menu"
                         anchorEl={anchorEl}
                         open={open}
@@ -140,25 +182,8 @@ function CourseDetails() {
                         }}
                         transformOrigin={{
                             vertical: 'top',
-                            horizontal: 'center',
+                            horizontal: 'left',
                         }}
-                        PaperProps={{
-                            elevation: 0,
-                            style: {
-                                maxHeight: 48 * 4.5,
-                                width: '20ch',
-                                backgroundColor: 'transparent',
-                            },
-                            sx: {
-                                // root: {
-                                '.Popover-menuItem': {
-                                    display: 'inline-block',
-                                    backgroundColor: 'red',
-                                },
-                                // }
-                            },
-                        }}
-                        sx={{}}
                     >
                         <MenuItem disableRipple>
                             <IconButton>
@@ -193,7 +218,7 @@ function CourseDetails() {
                                 />
                             </IconButton>
                         </MenuItem>
-                    </Popover>
+                    </Menu>
                 </>
             </Box>
 
@@ -214,15 +239,13 @@ function CourseDetails() {
                     }}
                 >
                     {
-                        // @ts-ignore
                         <Image
                             width={'auto'}
-                            src={
-                                (course.data?.thumbnail && course.data?.thumbnail) || ''
-                            }
-                            // @ts-ignore
-                            sx={{
-                                aspectRatio: '16/9',
+                            src={course.data?.thumbnail ?? ''}
+                            {...{
+                                sx: {
+                                    aspectRatio: '16/9',
+                                },
                             }}
                         />
                     }
@@ -264,7 +287,7 @@ function CourseDetails() {
                                     color={'gray.main'}
                                     variant={'subtitle1'}
                                 >
-                                    {2.5}
+                                    {course.data?.average_rating.toFixed(1)}
                                 </Typography>
                                 <Rating
                                     max={1}
@@ -353,7 +376,37 @@ function CourseDetails() {
                             gap: 3,
                         }}
                     >
-                        <Typography color={'secondary.main'}>الطلبة</Typography>
+                        <form onSubmit={handleRemoveStudentsFormSubmission}>
+                            <Stack
+                                direction="row"
+                                justifyContent={'space-between'}
+                                sx={{
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Typography color={'secondary.main'}>الطلبة</Typography>
+                                <Tooltip
+                                    title={
+                                        checkedStudents.length > 0
+                                            ? 'قم بإزالة الطلاب من الدورة'
+                                            : 'يرجى تحديد الطلاب المراد إزالتهم'
+                                    }
+                                >
+                                    <IconButton
+                                        type={'submit'}
+                                        disabled={checkedStudents.length === 0}
+                                        sx={{
+                                            fill: theme.palette.error.main,
+                                            '&.Mui-disabled': {
+                                                fill: theme.palette.gray.main,
+                                            },
+                                        }}
+                                    >
+                                        <DeleteIcon fill="inherit" />
+                                    </IconButton>
+                                </Tooltip>
+                            </Stack>
+                        </form>
                         <Divider />
                     </Box>
                     {relatedStudentsQuery.data?.map((student: RelatedStudent) => {
@@ -361,7 +414,24 @@ function CourseDetails() {
                             <CourseStudent
                                 key={uuidv4()}
                                 student={student}
-                                theme={theme}
+                                checked={checkedStudents.some(
+                                    cs => cs === student.user.pk
+                                )}
+                                handleChecked={(id: number) => {
+                                    if (
+                                        checkedStudents.some(
+                                            cs => cs === student.user.pk
+                                        )
+                                    )
+                                        setCheckedStudents(list =>
+                                            list.filter(u => u !== student.user.pk)
+                                        );
+                                    else
+                                        setCheckedStudents(list => [
+                                            ...list,
+                                            student.user.pk,
+                                        ]);
+                                }}
                             />
                         );
                     })}

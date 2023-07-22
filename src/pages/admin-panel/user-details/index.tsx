@@ -1,9 +1,10 @@
-import { Switch, Typography } from '@mui/material';
+import { CircularProgress, Switch, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
+import { useCallback, useMemo, useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
+import { useNavigate, useParams } from 'react-router-dom';
 import money from '../../../assets/svg/money-white.svg';
 import students from '../../../assets/svg/school-blue.svg';
 import starsBlue from '../../../assets/svg/stars-blue.svg';
@@ -12,6 +13,8 @@ import { InformationCard } from '../../../components/InformationCard';
 import { Course } from '../../../types/course';
 import useLogin from '../../authenticate/hooks/useLogin';
 import NotFound from '../../not-found/NotFound';
+import { getStudentRelatedCourses } from '../../profile/getStudentRelatedCourses';
+import { handleCourseStateChange } from '../../teacher-dashboard/courses';
 import AdminDashboardLayout from '../layout';
 import { getRelatedCourses, getUserByID } from './api/getUserById';
 import { UserDetailsWideRibbon } from './components/UserDetailsWideRibbon';
@@ -25,13 +28,14 @@ const columns: GridColDef[] = [
     {
         field: 'name',
         headerName: 'الاسم',
-        width: 100,
+        width: 250,
         flex: 1,
     },
     {
         field: 'sales',
         headerName: 'المبيعات',
         width: 100,
+        flex: 0,
     },
     {
         field: 'rating',
@@ -47,17 +51,38 @@ const columns: GridColDef[] = [
         field: 'visits',
         headerName: 'الزيارات',
         width: 100,
+        flex: 1,
     },
     {
         field: 'state',
         headerName: 'الحالة',
-        width: 150,
+        width: 250,
+        flex: 0,
         renderCell: params => {
             return (
-                <Switch
-                    defaultChecked
-                    checked={params.value}
-                />
+                <>
+                    <Typography
+                        variant={'subtitle2'}
+                        color={params.value.checked ? 'gray.main' : 'inherit'}
+                    >
+                        {params.value.blocked || params.value.state === 'blocked'
+                            ? 'محظور'
+                            : 'متوقف مؤقتا'}
+                    </Typography>
+                    <Switch
+                        sx={{ scale: '-1 1' }}
+                        color="secondary"
+                        checked={params.value.checked}
+                        onChange={params.value.handleChange}
+                        disabled={params.value.isSubmitting}
+                    />
+                    <Typography
+                        variant={'subtitle2'}
+                        color={params.value.checked ? 'inherit' : 'gray.main'}
+                    >
+                        جار
+                    </Typography>
+                </>
             );
         },
     },
@@ -73,7 +98,8 @@ const UserDetails = () => {
 
     const id: number = parseInt(params.id);
     const theme = useTheme();
-    useLogin();
+    const [user] = useLogin();
+    const navigate = useNavigate();
 
     const query = useQuery({
         queryKey: ['users', id],
@@ -81,33 +107,118 @@ const UserDetails = () => {
         staleTime: 1000 * 60 * 60,
     });
 
+    const [selectedCourseID, setSelectedCourseID] = useState<number>(0);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
     const relatedCoursesQuery = useQuery({
         queryKey: ['users', id, 'courses'],
         queryFn: () => getRelatedCourses(id),
         staleTime: 1000 * 60 * 60 * 24,
     });
 
+    const studentRelatedCoursesQuery = useQuery({
+        queryKey: ['users', id, 'courses', 'student'],
+        queryFn: () => getStudentRelatedCourses(id),
+    });
+
+    const courseData = useMemo(() => {
+        const data = relatedCoursesQuery.data?.filter(c => c.id === selectedCourseID);
+        if (data && data?.length > 0) return { ...data[0] };
+    }, [selectedCourseID]);
+
+    const setSelectedCourse = useCallback(
+        (e: GridRowParams<Course>) => {
+            setSelectedCourseID(e.row.id);
+        },
+        [selectedCourseID]
+    );
+    const courseStateMutation = useMutation({
+        mutationKey: ['course', user.data?.pk, 'state', 'mutation'],
+        mutationFn: ({ id }: { id: number }) => handleCourseStateChange(id),
+        onSuccess: () => {
+            relatedCoursesQuery.refetch();
+            studentRelatedCoursesQuery.refetch();
+            setIsSubmitting(false);
+        },
+        onError: () => setIsSubmitting(false),
+    });
+
     if (query.isLoading) return <>Loading..</>;
     if (query.isError) return <>Error...</>;
 
-    if (relatedCoursesQuery.isLoading) return <>Loading Related Courses..</>;
-    if (relatedCoursesQuery.isError) return <>Error In Related Courses...</>;
-    if (!relatedCoursesQuery.data) return <>Error In Related Courses...</>;
-
-    const rows = relatedCoursesQuery.data.map((course: Course | undefined) => {
-        return {
-            id: course?.id,
-            name: course?.title,
-            sales: 100,
-            rating: course?.average_rating.toFixed(1),
-            profit: 150000,
-            visits: 120,
-            state: course?.state === 'running',
-        };
-    });
+    let teacherCoursesRows: any = [];
+    let studentCoursesRows: any = [];
+    if (relatedCoursesQuery.data && relatedCoursesQuery.data?.length > 0)
+        teacherCoursesRows = relatedCoursesQuery.data?.map(
+            (course: Course | undefined) => {
+                return {
+                    id: course?.id,
+                    name: course?.title,
+                    sales: course?.students_count ?? 0,
+                    rating: course?.average_rating.toFixed(1),
+                    profit: (course?.price ?? 0) * (course?.students_count ?? 0) ?? 0,
+                    visits: 0,
+                    state: {
+                        state: course?.state === 'running',
+                        status: course?.status ?? '',
+                        checked: course?.state === 'running',
+                        isSubmitting: isSubmitting,
+                        blocked: course?.state === 'blocked',
+                        handleChange: () => {
+                            setIsSubmitting(true);
+                            courseStateMutation.mutate({ id: course?.id ?? 0 });
+                        },
+                    },
+                };
+            }
+        );
+    else if (
+        studentRelatedCoursesQuery.data &&
+        studentRelatedCoursesQuery.data?.length > 0
+    )
+        studentCoursesRows = studentRelatedCoursesQuery.data?.map(
+            (course: Course | undefined) => {
+                return {
+                    id: course?.id,
+                    name: course?.title,
+                    sales: course?.students_count ?? 0,
+                    rating: course?.average_rating.toFixed(1),
+                    profit: (course?.price ?? 0) * (course?.students_count ?? 0) ?? 0,
+                    state: {
+                        state: course?.state === 'running',
+                        status: course?.status ?? '',
+                        checked: course?.state === 'running',
+                        blocked:
+                            course?.status !== 'app' ||
+                            (course?.state === 'blocked' &&
+                                !user.data?.groups.some(
+                                    group => group.name === 'AdminGroup'
+                                )),
+                        handleChange: () => {
+                            setIsSubmitting(true);
+                            courseStateMutation.mutate({ id: course?.id ?? 0 });
+                        },
+                    },
+                };
+            }
+        );
 
     return (
         <AdminDashboardLayout topbar_title={'المستخدمين'}>
+            {isSubmitting && (
+                <CircularProgress
+                    id={'progress'}
+                    color={'secondary'}
+                    style={{
+                        position: 'absolute',
+                        bottom: `10%`,
+                        left: `calc(50% - ${theme.spacing(12)})`,
+                        height: theme.spacing(6),
+                        width: theme.spacing(6),
+                        zIndex: 10,
+                    }}
+                />
+            )}
             <Box
                 sx={{
                     display: 'flex',
@@ -128,7 +239,12 @@ const UserDetails = () => {
                 >
                     <InformationCard
                         title={'الكورسات'}
-                        subtitle={'0'}
+                        subtitle={
+                            ((!courseData?.id &&
+                                relatedCoursesQuery.data?.length.toString()) ??
+                                studentRelatedCoursesQuery.data?.length.toString()) ||
+                            '0'
+                        }
                         icon={studiesBlue}
                         sx={{
                             flexBasis: '20%',
@@ -137,7 +253,22 @@ const UserDetails = () => {
                     />
                     <InformationCard
                         title={'عدد الطلبة'}
-                        subtitle={'12'}
+                        subtitle={
+                            courseData?.students_count.toString() ||
+                            (relatedCoursesQuery.data &&
+                                relatedCoursesQuery.data?.length > 0 &&
+                                relatedCoursesQuery.data
+                                    ?.reduce((acc, val) => {
+                                        return {
+                                            ...acc,
+                                            students_count:
+                                                acc?.students_count +
+                                                val?.students_count,
+                                        };
+                                    })
+                                    ?.students_count.toString()) ||
+                            '-'
+                        }
                         icon={students}
                         sx={{
                             flexBasis: '25%',
@@ -147,7 +278,7 @@ const UserDetails = () => {
 
                     <InformationCard
                         title={'متوسط التقييم'}
-                        subtitle={'2'}
+                        subtitle={user.data?.average_rating.toString() ?? '-'}
                         icon={starsBlue}
                         sx={{
                             flexBasis: '25%',
@@ -157,7 +288,21 @@ const UserDetails = () => {
 
                     <InformationCard
                         title={'إجمالي الأرباح'}
-                        subtitle={'250000DA'}
+                        subtitle={
+                            (relatedCoursesQuery.data &&
+                                relatedCoursesQuery.data?.length > 0 &&
+                                relatedCoursesQuery.data
+                                    ?.reduce((acc, curr) => {
+                                        return {
+                                            ...acc,
+                                            price:
+                                                acc.price +
+                                                curr.price * curr.students_count,
+                                        };
+                                    })
+                                    .price.toString()) ||
+                            '0'
+                        }
                         icon={money}
                         sx={{
                             flexBasis: '20%',
@@ -167,7 +312,7 @@ const UserDetails = () => {
                         }}
                     />
                 </Box>
-                {relatedCoursesQuery.data.length > 0 && (
+                {teacherCoursesRows.length > 0 && (
                     <Box
                         sx={{
                             bgcolor: 'white',
@@ -183,11 +328,30 @@ const UserDetails = () => {
                                 border: 'none',
                             }}
                             columns={columns}
-                            rows={rows}
+                            rows={teacherCoursesRows ?? []}
                             autoHeight
+                            onRowClick={setSelectedCourse}
                         />
                     </Box>
                 )}
+                <Box
+                    sx={{
+                        bgcolor: 'white',
+                        borderRadius: theme.spacing(),
+                        p: 2,
+                    }}
+                >
+                    <Typography color={'secondary.main'}>احصائيات الكورسات</Typography>
+                    <DataGrid
+                        sx={{
+                            border: 'none',
+                        }}
+                        columns={columns}
+                        rows={studentCoursesRows ?? []}
+                        autoHeight
+                        onRowClick={e => navigate(`/admin/courses/${e.row.id}`)}
+                    />
+                </Box>
             </Box>
         </AdminDashboardLayout>
     );

@@ -1,13 +1,23 @@
 import { RelatedStudent } from '../api/relatedStudent';
-import { Avatar, Box, Checkbox, colors, Theme, Typography } from '@mui/material';
+import {
+    Avatar,
+    Box,
+    Checkbox,
+    colors,
+    Theme,
+    Typography,
+    useTheme,
+} from '@mui/material';
 import React from 'react';
 
 interface Props {
     student: RelatedStudent;
-    theme: Theme;
+    checked?: boolean;
+    handleChecked: (id: number) => void;
 }
 
 export function CourseStudent(props: Props) {
+    const theme = useTheme();
     return (
         <>
             <Box
@@ -19,13 +29,17 @@ export function CourseStudent(props: Props) {
                     cursor: 'pointer',
                 }}
             >
-                <Checkbox color={'secondary'} />
+                <Checkbox
+                    checked={props.checked}
+                    color={'secondary'}
+                    onChange={() => props.handleChecked(props.student.user.pk)}
+                />
                 <Avatar
                     src={props.student.user.profile_image}
                     sx={{
-                        width: props.theme.spacing(8),
-                        height: props.theme.spacing(8),
-                        borderRadius: props.theme.spacing(1),
+                        width: theme.spacing(8),
+                        height: theme.spacing(8),
+                        borderRadius: theme.spacing(1),
                     }}
                 />
                 <Typography variant="body1">
