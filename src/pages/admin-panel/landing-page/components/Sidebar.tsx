@@ -77,7 +77,7 @@ export function AdminPanelSidebar() {
             elevation={0}
             sx={{
                 height: '100%',
-                minWidth: '18%',
+                minWidth: '15dvw',
                 // width: '100%',
                 p: theme.spacing(5),
                 px: theme.spacing(3),

@@ -15,7 +15,6 @@ import { StudentRatings } from './Ratings';
 import { Teachers } from './Teachers';
 
 export default function LandingPage() {
-    const theme = useTheme();
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
     const token = localStorage.getItem('access');
     const refresh = localStorage.getItem('refresh');
@@ -25,17 +24,11 @@ export default function LandingPage() {
         onSuccess: () => setLoggedIn(true),
         onError: () => setLoggedIn(false),
     });
-    const adminConfigQuery = useQuery({
-        queryKey: ['admin', 'configs'],
-        queryFn: () => getAdminConfigs(),
-    });
 
     useEffect(() => {
         userQuery.refetch();
     }, []);
 
-    if (adminConfigQuery.isError) return <>Error retrieving data...</>;
-    if (adminConfigQuery.isLoading) return <>Loading...</>;
     return (
         <Box
             sx={{
@@ -46,12 +39,7 @@ export default function LandingPage() {
             }}
         >
             {loggedIn ? <TopNavigationBar /> : <LandingPageNavbar />}
-            <LandingPageFirstSection
-                mainColor={adminConfigQuery.data?.main_title_text?.color}
-                mainText={adminConfigQuery.data?.main_title_text?.content}
-                secondaryColor={adminConfigQuery.data?.secondary_title_text?.color}
-                secondaryText={adminConfigQuery.data?.secondary_title_text?.content}
-            />
+            <LandingPageFirstSection />
             <LandingPageSections />
             <MostSoldCourses />
             <GetYourCertificate />

@@ -1,15 +1,20 @@
 import { Check } from '@mui/icons-material';
-import { Typography } from '@mui/material';
+import { IconButton, Stack, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { yellow } from '@mui/material/colors';
 import { GridColDef } from '@mui/x-data-grid';
-import { useState } from 'react';
-import { useQuery } from 'react-query';
+import { useSnackbar } from 'notistack';
+import { MouseEvent, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { ReactComponent as DeleteIcon } from '../../../../assets/svg/delete-red.svg';
+import { ReactComponent as EditIcon } from '../../../../assets/svg/edit.svg';
+import axiosInstance from '../../../../globals/axiosInstance';
+import theme from '../../../../theme';
 import { Receipt } from '../../../../types/admin_config';
 import { AddButton } from '../../categories-hashtags/AddButton';
 import { DisplayTableDataGrid } from '../../payment-management/DisplayTableDataGrid';
 import AddItemPopup from '../AddItemPopup';
-import { getAllReceipts } from './api/queries';
+import { createReceipt, getAllReceipts } from './api/queries';
 import { AddReceiptForm } from './components/AddReceiptFormProps';
 
 const columns: GridColDef[] = [
@@ -19,22 +24,20 @@ const columns: GridColDef[] = [
 
         width: 60,
         headerClassName: 'super-app-theme--header',
-
-        flex: 2,
     },
     {
         field: 'usage',
         headerName: 'الاستعمال',
         width: 60,
-        headerClassName: 'super-app-theme--header',
         flex: 1,
+        headerClassName: 'super-app-theme--header',
     },
     {
         field: 'current',
         headerName: 'الحالي؟',
         width: 60,
-        headerClassName: 'super-app-theme--header',
         flex: 1,
+        headerClassName: 'super-app-theme--header',
         renderCell: params => {
             return params.value ? <Check color="secondary" /> : <></>;
         },
@@ -43,9 +46,9 @@ const columns: GridColDef[] = [
         field: 'link',
         headerName: '',
         headerClassName: 'super-app-theme--header',
-        flex: 1,
-        width: 130,
+        width: 100,
         align: 'left',
+        flex: 1,
         renderCell: params => {
             return (
                 <a
@@ -62,11 +65,44 @@ const columns: GridColDef[] = [
             );
         },
     },
+    {
+        field: 'actions',
+        headerName: '',
+        headerClassName: 'super-app-theme--header',
+        width: 120,
+        flex: 0,
+        align: 'left',
+        renderCell: params => {
+            return (
+                <Stack
+                    direction="row"
+                    gap={2}
+                    justifyContent={'space-between'}
+                >
+                    <IconButton onClick={() => params.value.delete()}>
+                        <DeleteIcon fill={'red'} />
+                    </IconButton>
+                    <IconButton
+                        onClick={params.value.edit}
+                        sx={{ maxHeight: theme.spacing(7), maxWidth: theme.spacing(7) }}
+                    >
+                        <EditIcon fill={theme.palette.secondary.main} />
+                    </IconButton>
+                </Stack>
+            );
+        },
+    },
 ];
 
 function ReceiptsDatagrid() {
     const [popupOpen, setOpen] = useState<boolean>(false);
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+    const [selectedRows, setSelectedRows] = useState<number[]>([]);
+    const [selectedReceipt, setSelectedReceipt] = useState<Receipt | undefined>(
+        undefined
+    );
+    const { enqueueSnackbar } = useSnackbar();
+    const queryClient = useQueryClient();
 
     const receiptsQuery = useQuery({
         queryKey: ['receipts'],
@@ -75,9 +111,91 @@ function ReceiptsDatagrid() {
         refetchIntervalInBackground: true,
     });
 
-    if (receiptsQuery.isError) return <>Error in Receipts</>;
-    if (receiptsQuery.isLoading) return <>Loading...</>;
-    if (!receiptsQuery.data) return <>No Data</>;
+    const receiptMutation = useMutation({
+        mutationFn: (data: FormData) => createReceipt(data),
+        onSuccess: () => {
+            setOpen(false);
+            queryClient.invalidateQueries('receipts');
+        },
+    });
+
+    const deleteReceiptMutation = useMutation({
+        mutationKey: ['receipts', 'delete'],
+        mutationFn: async (id: number) => {
+            const { data } = await axiosInstance.delete(`/configs/receipts/${id}/`);
+            return data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(['receipts']);
+            enqueueSnackbar('تمت إزالة الوصل بنجاح', { variant: 'success' });
+        },
+        onError: () => {
+            queryClient.invalidateQueries(['receipts']);
+            enqueueSnackbar('حدث خطأ ، حاول مرة أخرى في وقت لاحق', {
+                variant: 'error',
+            });
+        },
+    });
+
+    const editReceiptMutation = useMutation({
+        mutationKey: ['receipts', 'edit'],
+        mutationFn: async (values: FormData) => {
+            const { data } = await axiosInstance.patch(
+                `/configs/receipts/${selectedReceipt?.id ?? ''}/`,
+                values
+            );
+            return data;
+        },
+        onSuccess: () => {
+            setAnchorEl(null);
+            setOpen(false);
+            setSelectedReceipt(undefined);
+            enqueueSnackbar('تم تحديث الوصل بنجاح', { variant: 'success' });
+        },
+        onError: () => {
+            setOpen(false);
+            enqueueSnackbar('فشل تحديث الوصل', { variant: 'error' });
+            setSelectedReceipt(undefined);
+            setAnchorEl(null);
+        },
+    });
+    const deleteSelectedReceiptsMutation = useMutation({
+        mutationKey: ['receipts', 'delete'],
+        mutationFn: async (formData: FormData) => {
+            const { data } = await axiosInstance.post(
+                `/configs/receipts/delete/`,
+                formData
+            );
+            return data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(['receipts']);
+            enqueueSnackbar('تمت إزالة الوصل بنجاح', { variant: 'success' });
+        },
+        onError: () => {
+            queryClient.invalidateQueries(['receipts']);
+            enqueueSnackbar('حدث خطأ ، حاول مرة أخرى في وقت لاحق', {
+                variant: 'error',
+            });
+        },
+    });
+
+    const handleEditReceipt = (id: number, e: MouseEvent<HTMLElement>) => {
+        const _receipt = receiptsQuery.data?.filter(h => h.id === id);
+        if (_receipt && _receipt?.length > 0) {
+            setOpen(true);
+            setSelectedReceipt(_receipt[0]);
+            setAnchorEl(e.currentTarget);
+        }
+    };
+
+    const deleteReceiptArray = () => {
+        const formData = new FormData();
+        for (let i = 0; i < selectedRows.length; i++) {
+            formData.set(`receipts[${i}]`, selectedRows[i].toString());
+        }
+        deleteSelectedReceiptsMutation.mutate(formData);
+    };
 
     const rows = receiptsQuery.data?.map((receipt: Receipt) => {
         return {
@@ -85,10 +203,14 @@ function ReceiptsDatagrid() {
             usage: receipt.count,
             current: receipt.is_current,
             link: receipt.image,
+            actions: {
+                delete: () => deleteReceiptMutation.mutate(receipt.id),
+                edit: (e: MouseEvent<HTMLElement>) => handleEditReceipt(receipt.id, e),
+            },
         };
     });
     let largestID = 0;
-    if (rows.length > 0) {
+    if (rows && rows.length > 0) {
         largestID = rows?.reduce((prev, current) => {
             return current.id > prev.id ? current : prev;
         }).id;
@@ -101,6 +223,7 @@ function ReceiptsDatagrid() {
                 display: 'flex',
                 flexDirection: 'column',
                 width: '100%',
+                flex: '0 1 75%',
                 gap: 2,
             }}
         >
@@ -113,13 +236,41 @@ function ReceiptsDatagrid() {
                 }}
             >
                 <Typography>الوصول</Typography>
-                <AddButton
-                    title={'اضف وصل جديد'}
-                    onClick={(e: React.MouseEvent<HTMLElement>) => {
-                        setOpen(true);
-                        setAnchorEl(e.currentTarget);
-                    }}
-                />
+                <Stack
+                    direction={'row'}
+                    gap={2}
+                >
+                    <IconButton
+                        disableFocusRipple
+                        disableRipple
+                        disabled={selectedRows?.length === 0}
+                        onClick={() => deleteReceiptArray()}
+                        sx={{
+                            fill: 'white',
+                            color: 'white',
+                            borderRadius: theme.spacing(0.5),
+                            py: 1,
+                            px: 2,
+                            bgcolor: theme.palette.error.main,
+                            transition: 'all 200ms ease',
+                        }}
+                    >
+                        <Stack
+                            direction="row"
+                            gap={1}
+                        >
+                            <DeleteIcon fill="inherit" />
+                            <Typography>حذف</Typography>
+                        </Stack>
+                    </IconButton>
+                    <AddButton
+                        title={'اضف وصل جديد'}
+                        onClick={(e: React.MouseEvent<HTMLElement>) => {
+                            setOpen(true);
+                            setAnchorEl(e.currentTarget);
+                        }}
+                    />
+                </Stack>
             </Box>
             <Box sx={{ bgcolor: 'white' }}>
                 <AddItemPopup
@@ -131,13 +282,23 @@ function ReceiptsDatagrid() {
                     <AddReceiptForm
                         id={largestID + 1}
                         closeDialog={() => setOpen(false)}
-                        refetch={receiptsQuery.refetch}
+                        selectedReceipt={selectedReceipt}
+                        mutation={
+                            selectedReceipt
+                                ? editReceiptMutation.mutate
+                                : receiptMutation.mutate
+                        }
                     />
                 </AddItemPopup>
                 <DisplayTableDataGrid
                     checkbox
-                    rows={rows}
+                    rows={rows ?? []}
                     columns={columns}
+                    {...{
+                        onRowSelectionModelChange: (newSelection: number[]) => {
+                            setSelectedRows(newSelection);
+                        },
+                    }}
                 />
             </Box>
         </Box>

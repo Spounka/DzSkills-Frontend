@@ -160,17 +160,6 @@ export function Levels() {
         }
         deleteSelectedLevelsMutation.mutate(formData);
     };
-
-    const editLevel = () => {
-        const form = document.querySelector('form') as HTMLFormElement;
-        if (!form) {
-            enqueueSnackbar('حدث خطأ ، حاول مرة أخرى في وقت لاحق', { variant: 'error' });
-            return;
-        }
-        const formData = new FormData(form);
-        editLevelMutation.mutate(formData);
-    };
-
     useEffect(() => {
         if (selectedLevel?.id) setOpen(true);
         else setOpen(false);

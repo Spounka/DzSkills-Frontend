@@ -5,7 +5,7 @@ import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
 import { useCallback, useMemo, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import money from '../../../assets/svg/money-white.svg';
+import { ReactComponent as MoneyIcon } from '../../../assets/svg/money-white.svg';
 import students from '../../../assets/svg/school-blue.svg';
 import starsBlue from '../../../assets/svg/stars-blue.svg';
 import studiesBlue from '../../../assets/svg/studies-blue.svg';
@@ -303,7 +303,7 @@ const UserDetails = () => {
                                     .price.toString()) ||
                             '0'
                         }
-                        icon={money}
+                        iconNode={<MoneyIcon fill={'white'} />}
                         sx={{
                             flexBasis: '20%',
                             flexShrink: '1',
@@ -317,7 +317,10 @@ const UserDetails = () => {
                         sx={{
                             bgcolor: 'white',
                             borderRadius: theme.spacing(),
-                            p: 2,
+                            p: 3,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 4,
                         }}
                     >
                         <Typography color={'secondary.main'}>
@@ -338,10 +341,15 @@ const UserDetails = () => {
                     sx={{
                         bgcolor: 'white',
                         borderRadius: theme.spacing(),
-                        p: 2,
+                        p: 3,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 4,
                     }}
                 >
-                    <Typography color={'secondary.main'}>احصائيات الكورسات</Typography>
+                    <Typography color={'secondary.main'}>
+                        الدورات التي تم شراؤها
+                    </Typography>
                     <DataGrid
                         sx={{
                             border: 'none',

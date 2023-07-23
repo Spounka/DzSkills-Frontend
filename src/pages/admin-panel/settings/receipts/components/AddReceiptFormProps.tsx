@@ -4,32 +4,27 @@ import { useMutation } from 'react-query';
 import { UploadFileInput } from '../../../../../components/form/UploadFileInput';
 import { MainButton } from '../../../../../components/ui/MainButton';
 import { createReceipt } from '../api/queries';
+import { Receipt } from '../../../../../types/admin_config';
 
 interface AddReceiptFormProps {
     id: number;
+    selectedReceipt?: Receipt;
+    mutation: (form: FormData) => void;
     closeDialog: () => void;
-    refetch: () => void;
 }
 export function AddReceiptForm({
     id,
+    selectedReceipt,
+    mutation,
     closeDialog,
-    refetch,
 }: AddReceiptFormProps) {
     const theme = useTheme();
-    const receiptMutation = useMutation({
-        mutationFn: (data: FormData) => createReceipt(data),
-        onSuccess: () => {
-            closeDialog();
-            refetch();
-        },
-    });
-
     function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const form = document.querySelector('form');
         if (form) {
             let data = new FormData(form);
-            receiptMutation.mutate(data);
+            mutation(data);
         }
     }
     return (
@@ -69,7 +64,7 @@ export function AddReceiptForm({
                                 direction: 'rtl',
                             }}
                         >
-                            {id}
+                            {selectedReceipt?.id ?? id}
                         </Typography>
                     </Stack>
                     <Box

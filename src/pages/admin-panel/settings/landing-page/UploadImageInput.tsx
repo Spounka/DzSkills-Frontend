@@ -1,12 +1,13 @@
 import { FileUpload } from '@mui/icons-material';
-import { Button, Stack, useTheme } from '@mui/material';
+import { IconButton, Stack, useTheme } from '@mui/material';
 import Image from 'mui-image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 interface props {
     src: string;
     name: string;
+    onUpdate?: (src: any) => void;
 }
-export function UploadImageInput({ src, name }: props) {
+export function UploadImageInput({ src, name, onUpdate }: props) {
     const theme = useTheme();
 
     const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>('');
@@ -17,10 +18,13 @@ export function UploadImageInput({ src, name }: props) {
             const reader = new FileReader();
             reader.onload = () => {
                 setImageSrc(reader.result);
+                if(onUpdate) onUpdate(reader.result);
             };
             reader.readAsDataURL(files[0]);
         }
     }
+
+    useEffect(() => setImageSrc(src), [src]);
 
     return (
         <Stack
@@ -40,45 +44,37 @@ export function UploadImageInput({ src, name }: props) {
                     aspectRatio: '1',
                 }}
             />
-            <Button
-                variant={'outlined'}
+            <IconButton
                 disableRipple
                 component="label"
                 sx={{
-                    borderRadius: '50%',
+                    color: 'white',
+                    maxWidth: theme.spacing(6),
+                    maxHeight: theme.spacing(6),
                     // height: theme.spacing(6),
-                    width: theme.spacing(),
+                    // width: theme.spacing(),
                     aspectRatio: '1',
                     bgcolor: theme.palette.purple.main,
                     borderColor: theme.palette.purple.main,
                     borderWidth: '2px',
-                    // p: 8,
+                    transition: 'all 150ms ease-in-out',
+                    // p: 2,
                     '&:hover': {
+                        transition: 'all 150ms ease-in-out',
+                        color: theme.palette.purple.main,
                         bgcolor: 'white',
                         borderColor: theme.palette.purple.main,
                         borderWidth: '2px',
-
-                        '.MuiButton-startIcon': {
-                            color: theme.palette.purple.main,
-                        },
-                    },
-                    '.MuiButton-startIcon': {
-                        alignSelf: 'center',
-                        justifySelf: 'center',
-                        color: 'white',
-                        m: 0,
                     },
                 }}
-                startIcon={
-                    <FileUpload
-                        sx={{
-                            aspectRatio: '1',
-                            width: '100%',
-                            height: '100%',
-                        }}
-                    />
-                }
             >
+                <FileUpload
+                    sx={{
+                        aspectRatio: '1',
+                        width: '100%',
+                        height: '100%',
+                    }}
+                />
                 <input
                     type="file"
                     name={name}
@@ -89,7 +85,7 @@ export function UploadImageInput({ src, name }: props) {
                         height: 1,
                     }}
                 />
-            </Button>
+            </IconButton>
         </Stack>
     );
 }

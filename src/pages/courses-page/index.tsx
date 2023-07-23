@@ -226,7 +226,7 @@ export function CoursesGrid({
                 px: { xs: theme.spacing(4), lg: theme.spacing(14) },
                 pb: 5,
                 gap: 2,
-                overflow: 'hidden',
+                // overflow: 'hidden',
                 ...sx,
             }}
         >

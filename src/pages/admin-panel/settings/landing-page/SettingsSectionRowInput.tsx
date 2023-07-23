@@ -1,11 +1,13 @@
 import { OutlinedInput, Stack, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface SettingsSectionRowInputProps {
     inputLabel: string;
     titleInputName: string;
     multiline?: boolean;
     defaultValue?: string;
+    placeholder?: string;
+    required?: boolean;
 }
 
 export function SettingsSectionRowInput({
@@ -13,16 +15,18 @@ export function SettingsSectionRowInput({
     titleInputName,
     multiline,
     defaultValue,
+    placeholder,
+    required,
 }: SettingsSectionRowInputProps) {
-    const [currentValue, setCurrentValue] = useState<string>(
-        defaultValue || ''
-    );
+    const [currentValue, setCurrentValue] = useState<string>(defaultValue ?? '');
 
     const handleChange = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         setCurrentValue(event.target.value);
     };
+
+    useEffect(() => setCurrentValue(defaultValue ?? ''), [defaultValue]);
 
     return (
         <Stack
@@ -40,10 +44,12 @@ export function SettingsSectionRowInput({
             <OutlinedInput
                 name={titleInputName}
                 value={currentValue}
+                placeholder={placeholder ?? ''}
                 onChange={handleChange}
                 color={'secondary'}
                 multiline={multiline}
                 rows={multiline ? 3 : 1}
+                required={required}
             />
         </Stack>
     );
