@@ -51,7 +51,7 @@ export function LandingPageSection({
                 ) : (
                     <Image
                         fit="contain"
-                        src={`https://picsum.photos/300/300/?random=1` || ''}
+                        src={image ?? `https://picsum.photos/300/300/?random=1`}
                         width={'100%'}
                         style={{
                             aspectRatio: '1/1',

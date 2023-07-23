@@ -40,11 +40,10 @@ function AuthFormsHeader({ title, subheader }: props) {
             <Stack
                 direction={'row'}
                 justifyContent={'center'}
-                gap={2}
+                gap={{ xs: 4, md: 6 }}
                 sx={{ width: '100%' }}
             >
                 <SocialLoginButtons />
-
             </Stack>
 
             <Divider

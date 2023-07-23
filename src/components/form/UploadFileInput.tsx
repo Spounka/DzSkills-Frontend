@@ -30,7 +30,12 @@ export function UploadFileInput({
 
     function handleFileChange(e: any) {
         setCurrentFile(e.target.files[0]);
-        if (onChange) onChange(e);
+        if (onChange) {
+            let result = onChange(e);
+            if (result === 'remove') {
+                setCurrentFile(undefined);
+            }
+        }
     }
 
     return (
@@ -39,6 +44,7 @@ export function UploadFileInput({
                 border: '1px solid #CCC',
                 padding: 1,
                 display: 'flex',
+                alignItems: 'center',
                 gap: 2,
                 p: theme.spacing(3),
                 borderRadius: theme.spacing(),
@@ -55,6 +61,7 @@ export function UploadFileInput({
                     color: 'black',
                     bgcolor: 'gray.secondary',
                     borderRadius: '100%',
+                    maxHeight: theme.spacing(10),
                     width: 'auto',
                     height: 'auto',
                     aspectRatio: '1',
@@ -66,9 +73,11 @@ export function UploadFileInput({
                     ...buttonSx,
                 }}
             >
-                <img src={uploadImg} />
+                <img
+                    loading={'lazy'}
+                    src={uploadImg}
+                />
                 <input
-                    // hidden
                     style={{
                         width: 1,
                         height: 1,
@@ -77,8 +86,8 @@ export function UploadFileInput({
                     onChange={handleFileChange}
                     placeholder={defaultFile}
                     name={inputName}
-                    accept={inputFileTypes || '*'}
-                    multiple={multipleFiles || false}
+                    accept={inputFileTypes ?? '*'}
+                    multiple={multipleFiles ?? false}
                     type="file"
                 />
             </Button>

@@ -1,32 +1,30 @@
 import { CloseOutlined } from '@mui/icons-material';
 import { Box, Button, Stack, Typography, useTheme } from '@mui/material';
-import { useMutation } from 'react-query';
 import { StyledOutline } from '../../../../components/form/StyledOutline';
 import { MainButton } from '../../../../components/ui/MainButton';
-import { createLevel } from '../api/queries';
+import { Level } from '../../../../types/course';
 
 interface AddLevelFormProps {
+    selectedLevel?: Level;
     closeDialog: () => void;
-    refetch: () => void;
+    mutation: (form: FormData) => void;
 }
-export function AddLevelForm({ closeDialog, refetch }: AddLevelFormProps) {
+export function AddLevelForm({
+    selectedLevel,
+    closeDialog,
+    mutation,
+}: AddLevelFormProps) {
     const theme = useTheme();
-    const levelMutation = useMutation({
-        mutationFn: (data: FormData) => createLevel(data),
-        onSuccess: () => {
-            closeDialog();
-            refetch();
-        },
-    });
 
     function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const form = document.querySelector('form');
         if (form) {
             let data = new FormData(form);
-            levelMutation.mutate(data);
+            mutation(data);
         }
     }
+
     return (
         <form
             onSubmit={onSubmit}
@@ -62,7 +60,9 @@ export function AddLevelForm({ closeDialog, refetch }: AddLevelFormProps) {
                             اسم المستوى
                         </Typography>
                         <StyledOutline
+                            color={'secondary'}
                             name={'name'}
+                            placeholder={selectedLevel?.name ?? ''}
                             fullWidth
                             sx={{
                                 flexBasis: '1/2',

@@ -4,7 +4,6 @@ import { AdminInfoSidebar } from '../AdminInfoSidebar';
 import ReceiptsDatagrid from './recepits-datagrid';
 
 function Receipts() {
-
     return (
         <AdminDashboardLayout topbar_title={'الإعدادت'}>
             <Box
@@ -12,7 +11,12 @@ function Receipts() {
                 width={'100%'}
                 gap={4}
             >
-                <AdminInfoSidebar />
+                <Box
+                    width={'100%'}
+                    flex={'0 0 25%'}
+                >
+                    <AdminInfoSidebar />
+                </Box>
                 <ReceiptsDatagrid />
             </Box>
         </AdminDashboardLayout>

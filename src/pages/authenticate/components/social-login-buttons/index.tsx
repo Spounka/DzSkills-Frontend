@@ -1,9 +1,9 @@
-import facebook from '../../../../assets/svg/icons8-facebook.svg';
+import { ReactComponent as FacebookSVG } from '../../../../assets/svg/icons8-facebook.svg';
 import axiosInstance from '../../../../globals/axiosInstance';
 import SocialMediaButton from '../social-media-button';
 // import SocialMediaButton from '../social-media-button';
 import { Circle, HighlightOff } from '@mui/icons-material';
-import { Box, Paper, Snackbar, useTheme } from '@mui/material';
+import { Box, Paper, Snackbar, Typography, useTheme } from '@mui/material';
 import { useState } from 'react';
 import {
     LoginSocialFacebook,
@@ -65,6 +65,10 @@ function SocialLoginButtons() {
     return (
         <Box
             display={'flex'}
+            flexDirection={{
+                xs: 'column',
+                md: 'row',
+            }}
             width={'100%'}
             gap={2}
             justifyContent={'center'}
@@ -77,7 +81,10 @@ function SocialLoginButtons() {
                 action={action}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             />
-            <Box width={'100%'}>
+            <Box
+                width={'100%'}
+                sx={{ direction: 'rtl', textAlign: 'center' }}
+            >
                 <LoginSocialFacebook
                     appId={'885228976144174'}
                     version="v17.0"
@@ -96,8 +103,7 @@ function SocialLoginButtons() {
                                     return response;
                                 }
                             );
-                        data()
-                            .finally();
+                        data().finally();
                     }}
                 >
                     <SocialMediaButton
@@ -105,13 +111,24 @@ function SocialLoginButtons() {
                         color="gray"
                         sx={{ width: '100%' }}
                     >
-                        <ButtonSvg icon={facebook} />
-                        فايسبوك
+                        <FacebookSVG
+                            style={{ flex: '1 1 50%' }}
+                            height={theme.spacing(3)}
+                        />
+                        <Typography
+                            flex={'1 1 50%'}
+                            variant={'caption'}
+                        >
+                            فايسبوك
+                        </Typography>
                     </SocialMediaButton>
                 </LoginSocialFacebook>
             </Box>
 
-            <Box width={'100%'}>
+            <Box
+                width={'100%'}
+                sx={{ direction: 'rtl' }}
+            >
                 <LoginSocialGoogle
                     redirect_uri="http://localhost:3000/social/google/login/callback/"
                     client_id={
@@ -142,8 +159,16 @@ function SocialLoginButtons() {
                         variant="outlined"
                         color="gray"
                     >
-                        <GoogleSVG height={theme.spacing(3)} />
-                        غوغل
+                        <GoogleSVG
+                            style={{ flex: '0 1 50%' }}
+                            height={theme.spacing(3)}
+                        />
+                        <Typography
+                            flex={'1 1 50%'}
+                            variant={'caption'}
+                        >
+                            غوغل
+                        </Typography>
                     </SocialMediaButton>
                 </LoginSocialGoogle>
             </Box>

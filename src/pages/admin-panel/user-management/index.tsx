@@ -1,9 +1,9 @@
-import { Avatar, Typography } from '@mui/material';
+import { Avatar, Button, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { yellow } from '@mui/material/colors';
 import { GridColDef } from '@mui/x-data-grid';
 import { useQuery } from 'react-query';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { User } from '../../../types/user';
 import useLogin from '../../authenticate/hooks/useLogin';
 import AdminDashboardLayout from '../layout';
@@ -69,7 +69,7 @@ const columns: GridColDef[] = [
         flex: 1,
     },
     {
-        field: 'link',
+        field: 'actions',
         headerName: '',
         headerClassName: 'super-app-theme--header',
         // flex: 0,
@@ -78,11 +78,13 @@ const columns: GridColDef[] = [
         renderCell: params => {
             return (
                 <>
-                    <Link to={'/admin/users/' + params.id + '/'}>
+                    {/* <Link to={'/admin/users/' + params.id + '/'}> */}
+                    <Button onClick={params.value.actions}>
                         <Typography sx={{ p: 1, color: yellow[800] }}>
                             View profile
                         </Typography>
-                    </Link>
+                    </Button>
+                    {/* </Link> */}
                 </>
             );
         },
@@ -115,7 +117,7 @@ function UserManagement() {
             username: user.username,
             email: user.email,
             type: getUserGrade(user),
-            params: [() => navigate('/')],
+            actions: () => navigate('/'),
         };
     });
 
@@ -132,6 +134,9 @@ function UserManagement() {
                 <DisplayTableDataGrid
                     rows={rows}
                     columns={columns}
+                    {...{
+                        onRowClick: (e: any) => navigate(`./${e.row.id}/`),
+                    }}
                 />
             </Box>
         </AdminDashboardLayout>

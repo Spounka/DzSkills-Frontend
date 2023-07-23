@@ -16,10 +16,7 @@ function CategorizedCoursesList() {
     const query = useQuery({
         queryKey: ['courses'],
         queryFn: () => getCourses(),
-        onSuccess: res =>
-            setCourses(
-                res.filter(course => course.category.name === urlParams?.get('category'))
-            ),
+        onSuccess: res => setCourses(res),
         enabled: !!urlParams,
     });
 
@@ -55,7 +52,7 @@ function CategorizedCoursesList() {
                     </Typography>
                 </Stack>
             )}
-            {query.isLoading ? (
+            {query.isLoading || query.isFetching ? (
                 <CircularProgress color={'secondary'} />
             ) : (
                 <Stack
@@ -66,11 +63,20 @@ function CategorizedCoursesList() {
                         variant="h4"
                         color={'gray.dark'}
                     >
-                        {`دورات القسم: ${urlParams?.get('category')}`}{' '}
+                        {`دورات القسم: ${urlParams?.get('category')}`}
                     </Typography>
                     <CoursesGrid
                         cardsPerRow={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }}
-                        activeCourses={courses}
+                        baseUrl="/courses/"
+                        activeCourses={courses
+                            ?.filter(
+                                course =>
+                                    course.category?.name === urlParams?.get('category')
+                            )
+                            ?.filter(
+                                course =>
+                                    course.state === 'running' && course.status === 'app'
+                            )}
                     />
                 </Stack>
             )}

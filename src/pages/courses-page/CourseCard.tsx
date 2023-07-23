@@ -1,14 +1,19 @@
 import { Star } from '@mui/icons-material';
-import { Divider, Rating, Typography, useTheme } from '@mui/material';
+import { Divider, Rating, Theme, Typography, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
 import Image from 'mui-image';
-import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Course } from '../../types/course';
 
 interface props {
     course: Course;
     link: string;
+}
+function getCourseBorderColor(status: string, theme: Theme) {
+    if (status === 'rej') return theme.palette.error.dark;
+    if (status === 'pend') return theme.palette.warning.light;
+    if (status === 'edi') return theme.palette.gray.main;
+    return 'none';
 }
 
 function CourseCard({ course, link }: props) {
@@ -17,24 +22,23 @@ function CourseCard({ course, link }: props) {
         <Box
             sx={{
                 transition: 'scale ease-in-out 200ms',
+                position: 'relative',
                 maxHeight: {
-                    sm: '80hmax',
+                    xs: '75hmax',
+                    sm: '60hmax',
                     md: '55dvh',
                     lg: '80vh',
-                    // xl: '50vh',
                 },
                 display: 'flex',
                 height: '100%',
-                // height: {
-                //     sm: 'auto',
-                //     // lg: '100%',
-                // },
                 width: '100%',
                 flexDirection: 'column',
                 borderRadius: theme.spacing(2),
                 bgcolor: 'white',
+                borderColor: getCourseBorderColor(course.status, theme),
+                borderWidth: course.status === 'app' ? 0 : '2px',
                 aspectRatio: {
-                    xs: '9/16',
+                    xs: '9/10',
                     md: '9/10',
                 },
                 pb: 2,
@@ -44,10 +48,24 @@ function CourseCard({ course, link }: props) {
                 },
             }}
         >
+            <Link
+                to={link}
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    zIndex: 1,
+                }}
+            ></Link>
             <Box
                 sx={{
-                    borderRadius: `${theme.spacing(2)} ${theme.spacing(2)} 50% 50%`,
+                    borderRadius: `${theme.spacing(2)} ${theme.spacing(2)} 0 0`,
+                    // borderRadius: '0',
                     flex: '0 0 30%',
+                    height: '100%',
+                    // overflowX: 'hidden',
                 }}
             >
                 <Image
@@ -60,6 +78,7 @@ function CourseCard({ course, link }: props) {
                     height={'100%'}
                     style={{
                         borderRadius: `${theme.spacing(2)} ${theme.spacing(2)} 0 0`,
+                        aspectRatio: '16/9',
                         width: '100%',
                         height: '100%',
                     }}
@@ -130,7 +149,7 @@ function CourseCard({ course, link }: props) {
             <Box
                 sx={{
                     overflow: 'hidden',
-                    flex: '0 1 20%',
+                    flex: '0 1 15%',
                     px: 3,
                 }}
             >

@@ -17,11 +17,7 @@ interface dialogProps {
     payment: Payment | undefined;
 }
 
-export default function AlertDialog({
-    open,
-    closeDialog,
-    payment,
-}: dialogProps) {
+export default function AlertDialog({ open, closeDialog, payment }: dialogProps) {
     const theme = useTheme();
     const client = useQueryClient();
     return (
@@ -66,16 +62,12 @@ export default function AlertDialog({
                                     gap: 4,
                                 }}
                             >
-                                <Avatar
-                                    src={payment?.order.buyer.profile_image}
-                                />
+                                <Avatar src={payment?.order.buyer.profile_image} />
                                 <Typography flexBasis={'20%'}>
                                     {payment.order.course.title}
                                 </Typography>
                                 <Typography>{payment.id}</Typography>
-                                <Typography>
-                                    {payment.order.date_issued}
-                                </Typography>
+                                <Typography>{payment.order.date_issued}</Typography>
                                 <Typography flexBasis={'20%'}>
                                     {payment.order.buyer.username}
                                 </Typography>
@@ -87,9 +79,7 @@ export default function AlertDialog({
                                 </Typography>
                                 <Button
                                     color={'gray'}
-                                    endIcon={
-                                        <CloseOutlined sx={{ mx: 'auto' }} />
-                                    }
+                                    endIcon={<CloseOutlined sx={{ mx: 'auto' }} />}
                                     onClick={closeDialog}
                                     sx={{
                                         justifyContent: 'center',
@@ -116,12 +106,12 @@ export default function AlertDialog({
                                         gap: 2,
                                         borderRadius: theme.spacing(),
                                         '&:hover': {
-                                            bgcolor:
-                                                theme.palette.gray.secondary,
+                                            bgcolor: theme.palette.gray.secondary,
                                         },
                                     }}
                                 >
                                     <img
+                                        loading={'lazy'}
                                         src={pdfIcon}
                                         style={{
                                             height: theme.spacing(5),
@@ -133,11 +123,11 @@ export default function AlertDialog({
                                         color={'gray.dark'}
                                     >
                                         {payment.receipt?.substring(
-                                            payment.receipt.lastIndexOf('/') +
-                                                1
+                                            payment.receipt.lastIndexOf('/') + 1
                                         )}
                                     </Typography>
                                     <img
+                                        loading={'lazy'}
                                         src={downloadIcon}
                                         style={{
                                             height: theme.spacing(3),
@@ -155,13 +145,9 @@ export default function AlertDialog({
                                         text="تأكيد"
                                         {...{
                                             onClick: async () => {
-                                                await acceptPayment(
-                                                    payment.id
-                                                );
+                                                await acceptPayment(payment.id);
                                                 closeDialog();
-                                                client.refetchQueries([
-                                                    'payments',
-                                                ]);
+                                                client.refetchQueries(['payments']);
                                             },
                                         }}
                                     />
@@ -170,13 +156,9 @@ export default function AlertDialog({
                                         text="رفض"
                                         {...{
                                             onClick: async () => {
-                                                await rejectPayment(
-                                                    payment.id
-                                                );
+                                                await rejectPayment(payment.id);
                                                 closeDialog();
-                                                client.refetchQueries([
-                                                    'payments',
-                                                ]);
+                                                client.refetchQueries(['payments']);
                                             },
                                         }}
                                     />

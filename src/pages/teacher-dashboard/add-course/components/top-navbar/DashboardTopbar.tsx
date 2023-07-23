@@ -1,7 +1,9 @@
 import { Avatar, OutlinedInput, Typography, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import purpleNotification from '../../../../../assets/svg/notification purple.svg';
+import { useNavigate } from 'react-router-dom';
+import { ReactComponent as NotificationsIcon } from '../../../../../assets/svg/notification purple.svg';
+import { ReactComponent as UploadIcon } from '../../../../../assets/svg/upload.svg';
 import { MainButton } from '../../../../../components/ui/MainButton';
 import useLogin from '../../../../authenticate/hooks/useLogin';
 
@@ -13,6 +15,7 @@ interface props {
 
 export function DashboardTopbar({ title, subtitle, onNotificationClick }: props) {
     const [query] = useLogin();
+    const navigate = useNavigate();
 
     const theme = useTheme();
     if (!query.isSuccess) return <></>;
@@ -28,7 +31,7 @@ export function DashboardTopbar({ title, subtitle, onNotificationClick }: props)
                 boxShadow: '7px 20px 40px #00000014',
                 borderRadius: theme.spacing(),
                 gridColumn: '1 / -3',
-                gridRow: '1',
+                gridRow: '1 / span 1',
                 py: '1rem',
             }}
         >
@@ -55,7 +58,7 @@ export function DashboardTopbar({ title, subtitle, onNotificationClick }: props)
                 //@ts-expect-error
                 color={'purple'}
                 sx={{
-                    gridColumn: '11 / -5',
+                    gridColumn: '7 / 15',
                     borderRadius: theme.spacing(),
                     pr: theme.spacing(2),
                     pl: theme.spacing(),
@@ -76,12 +79,32 @@ export function DashboardTopbar({ title, subtitle, onNotificationClick }: props)
                     />
                 }
             />
-            <img
+            <MainButton
+                color={theme.palette.purple.main}
+                text="اضف كورس"
+                endIcon={
+                    <UploadIcon
+                        width={theme.spacing(3)}
+                        height={theme.spacing(3)}
+                        style={{ outline: theme.palette.purple.main }}
+                    />
+                }
+                sx={{
+                    gridColumn: {
+                        sm: '17 / span 6',
+                        xl: '19 / span 4',
+                    },
+                    gap: 2,
+                    fontSize: theme.typography.subtitle1,
+                    px: { sm: 1 / 4, lg: 2 },
+                }}
+                onClick={() => navigate('/dashboard/teacher/courses/add/')}
+            />
+            <NotificationsIcon
                 onClick={onNotificationClick}
-                src={purpleNotification}
-                alt=""
+                fill={theme.palette.purple.main}
                 style={{
-                    gridColumn: '-3',
+                    gridColumn: '-3 / span 1',
                     cursor: 'pointer',
                 }}
             />

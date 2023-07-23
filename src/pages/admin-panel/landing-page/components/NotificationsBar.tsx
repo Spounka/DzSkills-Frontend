@@ -1,3 +1,4 @@
+import { ClickAwayListener } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -15,11 +16,10 @@ export function NotificationsBar({
     const theme = useTheme();
     return (
         <Card
+            aria-label="notifcations-bar"
             sx={{
                 transition: 'all ease-out 300ms',
-                transform: drawerOpen
-                    ? 'translate(0, 0)'
-                    : 'translate(-105%, 0)',
+                transform: drawerOpen ? 'translate(0, 0)' : 'translate(-105%, 0)',
                 p: 2,
                 mt: 0,
                 bgcolor: mainColor || theme.palette.purple.light,

@@ -1,20 +1,12 @@
-import {
-    Avatar,
-    Box,
-    Button,
-    Card,
-    Stack,
-    Typography,
-    useTheme,
-} from '@mui/material';
+import { Avatar, Box, Button, Card, Typography, useTheme } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import { useMutation } from 'react-query';
-import IconFormPassword from '../../../../components/form/IconFormPassword';
 import { MainButton } from '../../../../components/ui/MainButton';
 import useLogin from '../../../authenticate/hooks/useLogin';
-import EditProfileField from '../../../edit-profile/components/fields';
 import AdminDashboardLayout from '../../layout';
 import { AdminInfoSidebar } from '../AdminInfoSidebar';
+import { AddAdminUserInfo } from './AddAdminUserInfo';
+import { AddAdminUserPassword } from './AddAdminUserPassword';
 import { createAdmin } from './api/queries';
 
 function AddAdmin() {
@@ -154,38 +146,4 @@ function AddAdmin() {
     );
 }
 
-function AddAdminUserInfo({}) {
-    const theme = useTheme();
-    return (
-        <>
-            <EditProfileField
-                name={'username'}
-                type={'text'}
-                label={'إسم المستخدم'}
-                placeholder={'إسم المستخدم'}
-            />
-            <EditProfileField
-                name={'email'}
-                type={'email'}
-                label={'البريد الإلكتروني'}
-                placeholder={'البريد الإلكتروني'}
-            />
-        </>
-    );
-}
-
-function AddAdminUserPassword({}) {
-    return (
-        <Stack gap={4}>
-            <IconFormPassword
-                name="password1"
-                placeholder={'كلمة السر'}
-            />
-            <IconFormPassword
-                name="password2"
-                placeholder={'تأكيد كلمة السر'}
-            />
-        </Stack>
-    );
-}
 export default AddAdmin;

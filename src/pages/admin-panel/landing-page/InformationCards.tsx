@@ -1,6 +1,6 @@
 import { useTheme } from '@mui/material/styles';
 import { useQuery } from 'react-query';
-import money from '../../../assets/svg/money-white.svg';
+import { ReactComponent as MoneyIcon } from '../../../assets/svg/money-white.svg';
 import students from '../../../assets/svg/school-blue.svg';
 import teaching from '../../../assets/svg/teaching-blue.svg';
 import timeBlue from '../../../assets/svg/time-transparent.svg';
@@ -37,6 +37,7 @@ export function InformationCards({}: any) {
                         .length.toString() || '0'
                 }
                 icon={timeBlue}
+                link={'/admin/payments'}
                 sx={{
                     flexBasis: '20%',
                     flexShrink: '1',
@@ -54,6 +55,7 @@ export function InformationCards({}: any) {
                         .length.toString() || '12'
                 }
                 icon={students}
+                link={'/admin/users/'}
                 sx={{
                     flexBasis: '25%',
                     flexGrow: '1',
@@ -70,6 +72,7 @@ export function InformationCards({}: any) {
                         .length.toString() || '0'
                 }
                 icon={teaching}
+                link={'/admin/users/'}
                 sx={{
                     flexBasis: '25%',
                     flexGrow: '1',
@@ -84,7 +87,7 @@ export function InformationCards({}: any) {
                         .reduce((acc, a) => acc + a.order.course.price, 0)
                         .toFixed(0) + 'DA' || '0'
                 }
-                icon={money}
+                iconNode={<MoneyIcon fill={'white'} />}
                 sx={{
                     flexBasis: '20%',
                     flexShrink: '1',

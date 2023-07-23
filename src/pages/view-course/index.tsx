@@ -6,7 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import { AxiosError } from 'axios';
 import React, { useCallback, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import messagesBlue from '../../assets/svg/message-blue.svg';
 import messagesWhite from '../../assets/svg/message-white.svg';
@@ -22,6 +22,7 @@ import { VideoComments } from './VideoComments';
 import { VideoPlayer } from './VideoPlayer';
 import { VideoRatings } from './VideoRatings';
 import { getStudentProgress, updateStudentProgress } from './api/queries';
+import { useSnackbar } from 'notistack';
 
 function fileNameFromPath(path: string): string {
     const arr = path.split('/');
@@ -30,7 +31,7 @@ function fileNameFromPath(path: string): string {
 function WatchCourse() {
     const params = useParams();
 
-    if (!params || !params.id) return <Typography>Error</Typography>;
+    if (!params?.id) return <Typography>Error</Typography>;
 
     // @ts-ignore
     if (isNaN(params.id)) return <NotFound />;
@@ -40,11 +41,14 @@ function WatchCourse() {
     const [userQuery] = useLogin();
     const navigate = useNavigate();
     const user = userQuery.data;
+    const { enqueueSnackbar } = useSnackbar();
 
     const currentCourse = useQuery({
         queryKey: ['courses', id],
         queryFn: () => getCourse(id),
-        staleTime: 1000 * 60 * 60 * 24,
+        onError: () => {
+            enqueueSnackbar('حدث خطأ', { variant: 'error' });
+        },
     });
 
     const client = useQueryClient();
@@ -52,7 +56,7 @@ function WatchCourse() {
         mutationFn: () => updateStudentProgress(id),
         mutationKey: ['progression', id, user?.pk, 'submit'],
         onSuccess: () => {
-            progression.refetch();
+            client.invalidateQueries({ queryKey: ['progression', id, user?.pk] });
         },
     });
 
@@ -63,25 +67,30 @@ function WatchCourse() {
         video: '',
         duration: '',
         average_rating: 0,
+        presentation_file: '',
+        thumbnail: '',
         ratings: [],
     };
     const progression = useQuery({
         queryKey: ['progression', id, user?.pk],
         queryFn: () => getStudentProgress(id),
-        onSuccess: data =>
-            setCurrentVideo(
-                currentCourse.data?.chapters[data?.last_chapter_index || 0].videos[
-                    data?.last_video_index || 0
-                ] || defaultVideo
-            ),
+        onSuccess: data => {
+            const currentChapter =
+                currentCourse.data?.chapters[data?.last_chapter_index || 0];
+            if (currentChapter && 'videos' in currentChapter) {
+                let currentVideo = currentChapter.videos[data?.last_video_index || 0];
+                setCurrentVideo(currentVideo);
+            } else setCurrentVideo(defaultVideo);
+        },
         staleTime: 1000 * 60 * 2,
         onError: (err: AxiosError) => {
             if (err.response?.status === 403) navigate(`/courses/${id}/buy/`);
         },
+        enabled: !!(currentCourse.data && user?.pk),
     });
 
     const [currentVideo, setCurrentVideo] = useState<Video>(
-        currentCourse.data?.chapters[0].videos[0] || defaultVideo
+        currentCourse.data?.chapters[0].videos[0] ?? defaultVideo
     );
     const [activeTab, setActiveTab] = useState<number>(0);
 
@@ -127,8 +136,8 @@ function WatchCourse() {
     if (progression.isError) return <>Error in data</>;
 
     const chaptersWithUUID = currentCourse.data?.chapters
-        .sort((a: Chapter, b: Chapter) => a.id)
-        .map((chapter: any) => {
+        ?.sort((a: Chapter, b: Chapter) => a.id)
+        ?.map((chapter: any) => {
             return { ...chapter, key: uuidv4() };
         });
 
@@ -187,12 +196,12 @@ function WatchCourse() {
                         color={'primary.main'}
                         variant={'body2'}
                     >
-                        تم إتمام 5% من الكورس
+                        تم إتمام %{progression.data?.percentage.toFixed(0) || 0} من
+                        الكورس
                     </Typography>
                     <Slider
                         size={'medium'}
-                        value={5}
-                        onChange={() => {}}
+                        value={progression.data?.percentage || 0}
                         sx={{
                             // scale: '-1 1',
                             height: 6,
@@ -236,8 +245,14 @@ function WatchCourse() {
                             محتوى الكورس
                         </Typography>
                         <Button
+                            onClick={() => navigate('../certificate/')}
                             variant={'contained'}
-                            color={'gray'}
+                            color={
+                                (progression.data?.percentage ?? 0) < 100
+                                    ? 'gray'
+                                    : 'primary'
+                            }
+                            disabled={(progression.data?.percentage ?? 0) < 100}
                             sx={{
                                 flexGrow: 1,
                                 color: 'white',
@@ -271,6 +286,24 @@ function WatchCourse() {
                             </React.Fragment>
                         );
                     })}
+                    <Button
+                        onClick={() => navigate('../quizz/')}
+                        variant={'contained'}
+                        color={
+                            (progression.data?.percentage ?? 0) < 100
+                                ? 'gray'
+                                : 'primary'
+                        }
+                        disabled={(progression.data?.percentage ?? 0) < 100}
+                        sx={{
+                            flexGrow: 1,
+                            color: 'white',
+                            maxHeight: theme.spacing(6),
+                            py: 1.5,
+                        }}
+                    >
+                        Quizz
+                    </Button>
                 </Box>
                 <Box
                     sx={{
@@ -418,22 +451,20 @@ function WatchCourse() {
                                     variant={'body1'}
                                     color={'gray.dark'}
                                 >
-                                    {fileNameFromPath(
-                                        currentCourse.data.presentation_file
-                                    )}
+                                    {currentVideo.presentation_file
+                                        ? fileNameFromPath(
+                                              currentVideo.presentation_file ?? ''
+                                          )
+                                        : 'لا توجد مرفقات'}
                                 </Typography>
                             </Box>
-                            <a
-                                download="presentation"
-                                target="_blank"
-                                href={currentCourse.data?.presentation_file}
-                            >
-                                <MainButton
-                                    sx={{ width: '50%' }}
-                                    text="تحميل"
-                                    color={theme.palette.primary.main}
-                                />
-                            </a>
+                            <MainButton
+                                href={currentVideo.presentation_file ?? ''}
+                                text="تحميل"
+                                color={theme.palette.primary.main}
+                                disabled={!currentVideo.presentation_file}
+                                {...{ component: 'a' }}
+                            />
                         </Box>
                     </TabPanel>
                     <TabPanel
@@ -441,7 +472,7 @@ function WatchCourse() {
                         index={2}
                     >
                         <VideoRatings video={currentVideo} />
-                        <VideoComments videoID={currentVideo.id} />
+                        <VideoComments videoID={currentVideo.id || 0} />
                     </TabPanel>
                 </Box>
             </Grid>

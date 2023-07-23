@@ -1,8 +1,11 @@
 import { Divider, Stack, Typography } from '@mui/material';
+import { useQuery } from 'react-query';
 import { StyledCard } from '../../../components/StyledCard';
+import { getRelatedCourses } from '../../admin-panel/user-details/api/getUserById';
+import useLogin from '../../authenticate/hooks/useLogin';
+import { CoursesInformationCards } from '../courses/CoursesInformationCards';
 import TeacherDashboardLayout from '../layout';
 import { GraphData } from './GraphData';
-import { InformationCards } from './InformationCards';
 import { MostSold } from './MostSold';
 import { Reminders } from './Reminders';
 
@@ -70,6 +73,14 @@ export const data = [
 ];
 
 function TeacherLandingPage() {
+    const [user] = useLogin();
+
+    const relatedCoursesQuery = useQuery({
+        queryKey: ['users', user.data?.pk, 'courses'],
+        queryFn: () => getRelatedCourses(user.data?.pk ?? 0),
+        staleTime: 1000 * 60 * 60 * 24,
+        enabled: !!user.data?.pk,
+    });
     return (
         <TeacherDashboardLayout
             topbar_title={'مرحبا بك'}
@@ -80,7 +91,35 @@ function TeacherLandingPage() {
                 gap={4}
                 height={'auto'}
             >
-                <InformationCards />
+                <CoursesInformationCards
+                    user={user.data}
+                    coursesCount={relatedCoursesQuery.data?.length ?? 0}
+                    //@ts-expect-error
+                    studentsCount={
+                        //@ts-expect-error
+                        (relatedCoursesQuery.data?.length > 0 &&
+                            relatedCoursesQuery.data?.reduce((accumulator, curr) => {
+                                return {
+                                    ...accumulator,
+                                    students_count:
+                                        accumulator.students_count + curr.students_count,
+                                };
+                            }).students_count) ??
+                        0
+                    }
+                    //@ts-expect-error
+                    earnings={
+                        //@ts-expect-error
+                        (relatedCoursesQuery.data?.length > 0 &&
+                            relatedCoursesQuery.data?.reduce((acc, curr) => {
+                                return {
+                                    ...acc,
+                                    price: acc.price + curr.price * curr.students_count,
+                                };
+                            }).price) ??
+                        0
+                    }
+                />
                 <GraphData data={data} />
                 <Stack
                     direction={'row'}

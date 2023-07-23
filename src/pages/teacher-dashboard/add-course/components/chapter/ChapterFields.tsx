@@ -1,16 +1,33 @@
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { StyledOutline } from '../../../../../components/form/StyledOutline';
-import { UploadFileInput } from '../../../../../components/form/UploadFileInput';
+import { CreationChapter } from '../../../../../types/course';
+import { useSnackbar } from 'notistack';
 
-export function ChapterFields({ index, chapter, setChapter }: any) {
+interface props {
+    index: number;
+    chapter: CreationChapter;
+    setChapter: (c: CreationChapter) => void;
+    readonly?: boolean;
+}
+
+export function ChapterFields({ index, chapter, readonly, setChapter }: props) {
+    const { enqueueSnackbar } = useSnackbar();
     function handleChapterTitleChange(e: any) {
+        if (e.target.value > 300) {
+            enqueueSnackbar('300 كلمة كحد أقصى', { variant: 'warning' });
+            e.target.value = '';
+        }
         setChapter({
             title: e.target.value,
             description: chapter.description,
         });
     }
     function handleChapterDescriptionChange(e: any) {
+        if (e.target.value > 300) {
+            enqueueSnackbar('300 كلمة كحد أقصى', { variant: 'warning' });
+            e.target.value = '';
+        }
         setChapter({ description: e.target.value, title: chapter.title });
     }
     return (
@@ -23,6 +40,8 @@ export function ChapterFields({ index, chapter, setChapter }: any) {
             </Typography>
 
             <StyledOutline
+                readOnly={readonly}
+                placeholder={chapter.title}
                 name={`chapters[${index}]title`}
                 type="text"
                 color={'secondary'}
@@ -57,7 +76,9 @@ export function ChapterFields({ index, chapter, setChapter }: any) {
                     </Typography>
                     <StyledOutline
                         required
-                        onBlur={handleChapterDescriptionChange}
+                        readOnly={readonly}
+                        placeholder={chapter.description || ''}
+                        onBlur={readonly ? () => {} : handleChapterDescriptionChange}
                         name={`chapters[${index}]description`}
                         color="secondary"
                         multiline
@@ -66,35 +87,6 @@ export function ChapterFields({ index, chapter, setChapter }: any) {
                             bgcolor: 'white',
                             height: '100%',
                         }}
-                    />
-                </Box>
-                <Box
-                    flexGrow={'1'}
-                    width={'100%'}
-                    display={'flex'}
-                    flexDirection={'column'}
-                    gap={2}
-                >
-                    <Typography
-                        variant={'subtitle2'}
-                        px={1}
-                    >
-                        صورة مصغرة
-                    </Typography>
-                    <UploadFileInput
-                        inputName={`chapters[${index}]thumbnail`}
-                        sx={{
-                            alignItems: 'center',
-                            flexDirection: 'column',
-                            height: '100%',
-                            bgcolor: 'white',
-                            justifyContent: 'center',
-                        }}
-                        containerSx={{
-                            alignItems: 'center',
-                            flexGrow: '0',
-                        }}
-                        inputFileTypes="image/*"
                     />
                 </Box>
             </Box>

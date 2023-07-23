@@ -73,7 +73,7 @@ function PasswordForgotten({ stage }: props) {
             currentStage > 0
         ) {
             setCurrentStage(0);
-            redirect('/password/reset/');
+            // redirect('/password/reset/');
         }
     }, []);
 

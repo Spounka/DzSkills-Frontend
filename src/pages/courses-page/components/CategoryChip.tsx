@@ -28,7 +28,7 @@ export function CategoryChip({
                 px: 4,
                 // width: 'auto',
                 maxHeight: '100%',
-                maxWidth: '10%',
+                maxWidth: `calc(100dvw - ${theme.spacing(10)})`,
                 borderRadius: theme.spacing(2),
                 textAlign: 'center',
                 display: 'flex',

@@ -1,17 +1,32 @@
 import { Avatar, Card, Stack, useTheme } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { UseQueryResult } from 'react-query';
+import { useMemo } from 'react';
+import { useQuery } from 'react-query';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ProfileSocialMedia } from '../../components/ProfileSocialMedia';
 import { MainButton } from '../../components/ui/MainButton';
-import { Course } from '../../types/course';
-import { User } from '../../types/user';
+import { getCourse } from '../course/api/getCourse';
+import { UserFullNameAndSpeciality } from './UserFullNameAndSpeciality';
 
-export function TeacherDetailsPanel({
-    course,
-}: {
-    course: UseQueryResult<Course, unknown>;
-}) {
+export function TeacherDetailsPanel() {
+    const params = useParams();
+    let id = 0;
+    if (params.id && !Number.isNaN(id)) {
+        id = parseInt(params.id);
+    }
+
     const theme = useTheme();
+    const navigate = useNavigate();
+
+    const courseQuery = useQuery({
+        queryKey: ['courses', id],
+        queryFn: () => getCourse(id),
+        staleTime: 1000 * 60 * 60 * 24,
+        enabled: id > 0,
+    });
+    const teacher = useMemo(() => {
+        return { ...courseQuery.data?.owner };
+    }, [courseQuery.data?.owner]);
 
     return (
         <Card
@@ -20,7 +35,9 @@ export function TeacherDetailsPanel({
                 flexBasis: '40%',
                 bgcolor: 'white',
                 width: '100%',
-                py: theme.spacing(6),
+                height: '100%',
+                overflowY: 'auto',
+                py: { xs: theme.spacing(1), md: theme.spacing(2), lg: theme.spacing(3) },
             }}
         >
             <Stack
@@ -30,28 +47,35 @@ export function TeacherDetailsPanel({
                 textAlign={'center'}
             >
                 <Avatar
-                    src={course.data?.owner.profile_image}
+                    src={teacher?.profile_image}
                     sx={{
-                        width: '40%',
+                        width: {
+                            sm: '35%',
+                            xl: '40%',
+                        },
                         height: 'auto',
                         aspectRatio: '1',
                     }}
                 />
-                <UserFullNameAndSpeciality user={course.data?.owner} />
+                <UserFullNameAndSpeciality
+                    first_name={teacher.first_name ?? ''}
+                    last_name={teacher.last_name ?? ''}
+                    speciality={teacher.speciality ?? 'speciality'}
+                />
                 <ProfileSocialMedia />
                 <Typography
                     variant={'caption'}
                     color={'gray.main'}
                 >
-                    {course.data?.owner.description ||
-                        `Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                        Aliquam magni blanditiis quidem saepe aperiam consequatur tempora mollitia corrupti,
-                                        atque natus corporis, sit ea perspiciatis beatae alias nisi, inventore ab nemo.`}
+                    {teacher?.description ?? ''}
                 </Typography>
                 <Stack gap={2}>
                     <MainButton
                         text={'إغلاق المحادثة'}
                         color={theme.palette.secondary.lighter}
+                        {...{
+                            onClick: () => navigate('../watch/'),
+                        }}
                     />
                     <MainButton
                         text={'إبلاغ عن مشكلة'}
@@ -67,27 +91,11 @@ export function TeacherDetailsPanel({
                                     border: `${theme.palette.warning.main} 2px solid`,
                                 },
                             },
+                            onClick: () => navigate('/support/contact/'),
                         }}
                     />
                 </Stack>
             </Stack>
         </Card>
-    );
-}
-
-export function UserFullNameAndSpeciality({ user }: { user?: User }) {
-    if (!user) return <></>;
-    return (
-        <Stack gap={1}>
-            <Typography variant={'h6'}>
-                {`${user.first_name} ${user.last_name}`}
-            </Typography>
-            <Typography
-                variant={'caption'}
-                color={'gray.main'}
-            >
-                {user.speciality || 'speciality'}
-            </Typography>
-        </Stack>
     );
 }

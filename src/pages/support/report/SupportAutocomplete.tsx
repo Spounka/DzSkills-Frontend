@@ -73,7 +73,6 @@ export function SupportAutocomplete({}: {}) {
                 }
                 getOptionLabel={o => o.username}
                 onChange={(event, user) => {
-                    // console.log(user);
                     //@ts-expect-error
                     // reportedRef.current.value = user.pk;
                     setReported(user.id);

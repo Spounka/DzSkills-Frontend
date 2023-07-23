@@ -3,7 +3,6 @@ import { GridColDef } from '@mui/x-data-grid';
 import { useQuery } from 'react-query';
 import { Category } from '../../../types/course';
 import { DisplayTableDataGrid } from '../payment-management/DisplayTableDataGrid';
-import { AddButton } from './AddButton';
 import { getCategories } from './api/queries';
 
 const columns: GridColDef[] = [
@@ -38,14 +37,12 @@ export function Categories() {
         queryKey: ['categories'],
         queryFn: () => getCategories(),
     });
-    if (categories.isFetching) return <>Fetching Categories...</>;
-    if (categories.isError) return <>Error in categories</>;
 
     const rows = categories.data?.map((category: Category) => {
         return {
             id: category.id,
             name: category.name,
-            members: category.courses
+            members: category.courses,
         };
     });
     return (

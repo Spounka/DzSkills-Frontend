@@ -4,19 +4,30 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Stack, useTheme } from '@mui/system';
 import { useRef, useState } from 'react';
+import { useQuery } from 'react-query';
 import { Link, NavLink } from 'react-router-dom';
 import logo from '../../assets/png/logo@2x.png';
 import { ReactComponent as Profile } from '../../assets/svg/Profile icon.svg';
+import { getUser } from '../../pages/edit-profile/api/getUser';
 import { DropdownPopper } from '../dropdown-popper';
 
 export default function TopNavigationBar() {
     const theme = useTheme();
+
+    const token = localStorage.getItem('access');
+    const refresh = localStorage.getItem('refresh');
+    const userQuery = useQuery({
+        queryKey: ['user'],
+        queryFn: () => getUser(token, refresh),
+    });
+
     const [popperActive, setPopperActive] = useState(false);
     const navRef = useRef(null);
 
     return (
         <>
             <DropdownPopper
+                clickAway={() => setPopperActive(false)}
                 isOpen={popperActive}
                 cardRef={navRef}
                 placement="bottom-end"
@@ -61,6 +72,40 @@ export default function TopNavigationBar() {
                     >
                         <Link to={'/support/'}>مساعدة</Link>
                     </Typography>
+
+                    {userQuery.data?.groups.some(
+                        g => g.name == 'TeacherGroup' || g.name == 'AdminGroup'
+                    ) ? (
+                        <Typography
+                            onClick={() => setPopperActive(false)}
+                            sx={{
+                                '&:hover': {
+                                    color: 'primary.main',
+                                    transition: 'color 100ms ease-in-out',
+                                },
+                            }}
+                        >
+                            <Link to={'/dashboard/teacher/'}>لوحة تحكم المرشد</Link>
+                        </Typography>
+                    ) : (
+                        <></>
+                    )}
+                    {userQuery.data?.groups.some(g => g.name == 'AdminGroup') ? (
+                        <Typography
+                            onClick={() => setPopperActive(false)}
+                            sx={{
+                                '&:hover': {
+                                    color: 'primary.main',
+                                    transition: 'color 100ms ease-in-out',
+                                },
+                            }}
+                        >
+                            <Link to={'/admin/'}>لوحة تحكم المسؤول</Link>
+                        </Typography>
+                    ) : (
+                        <></>
+                    )}
+
                     <Typography
                         color={'error'}
                         onClick={() => setPopperActive(false)}
@@ -108,10 +153,7 @@ export default function TopNavigationBar() {
                         alignItems={'center'}
                         sx={{
                             gridColumnStart: 4,
-                            gridColumnEnd: {
-                                md: 9,
-                                lg: 8,
-                            },
+                            gridColumnEnd: 9,
                             typography: 'subtitle1',
                             fontWeight: {
                                 md: 500,

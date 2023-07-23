@@ -1,9 +1,9 @@
-import axiosInstance from '../../../globals/axiosInstance';
+import axiosInstance, { axiosBare } from '../../../globals/axiosInstance';
 import { Progression } from '../../../types/course';
 import { VideoComment } from '../../../types/VideoComment';
 
 export async function getStudentProgress(courseID: number) {
-    const { data, status, statusText } = await axiosInstance.get(
+    const { data, status, statusText } = await axiosBare.get(
         `courses/progress/${courseID}`
     );
     if (status !== 200) return Promise.reject(statusText);

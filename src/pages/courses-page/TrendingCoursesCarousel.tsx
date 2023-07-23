@@ -37,14 +37,21 @@ export function TrendingCoursesCarousel({}: any) {
         >
             <IconButton
                 disableRipple
+                disabled={activeCourse >= query.data?.length - 1}
                 onClick={() => setActiveCourse((l: any) => (l < 2 ? l + 1 : 2))}
                 sx={{
                     zIndex: 4,
                     position: 'absolute',
                     right: '-1.5%',
                     top: '50%',
-                    bgcolor: activeCourse === 2 ? 'gray.main' : 'primary.main',
+                    bgcolor:
+                        activeCourse === 2 || activeCourse >= query.data?.length - 1
+                            ? 'gray.main'
+                            : 'primary.main',
                     borderRadius: 0,
+                    '&.Mui-disabled': {
+                        bgcolor: 'gray.main',
+                    },
                 }}
             >
                 <ArrowRightAlt
@@ -56,6 +63,7 @@ export function TrendingCoursesCarousel({}: any) {
 
             <IconButton
                 disableRipple
+                disabled={activeCourse <= 0}
                 onClick={() => setActiveCourse((l: any) => (l > 0 ? l - 1 : 0))}
                 sx={{
                     zIndex: 4,
@@ -64,6 +72,9 @@ export function TrendingCoursesCarousel({}: any) {
                     borderRadius: 0,
                     left: '-1.5%',
                     top: '50%',
+                    '&.Mui-disabled': {
+                        bgcolor: 'gray.main',
+                    },
                 }}
             >
                 <ArrowRightAlt

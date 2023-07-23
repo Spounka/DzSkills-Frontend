@@ -1,6 +1,7 @@
 import { Box, useTheme } from '@mui/material';
 import Image from 'mui-image';
 import logo from '../../assets/svg/DzSkills.svg';
+import { Link } from 'react-router-dom';
 
 function AuthenticationTopBar() {
     const theme = useTheme();
@@ -19,16 +20,18 @@ function AuthenticationTopBar() {
                 py: 4,
             }}
         >
-            <Image
-                src={logo}
-                fit="contain"
-                alt=""
-                style={{
-                    maxWidth: theme.spacing(24),
-                    width: '100%',
-                    marginRight: 'auto',
-                }}
-            />
+            <Link to={'/'}>
+                <Image
+                    src={logo}
+                    fit="contain"
+                    alt=""
+                    style={{
+                        maxWidth: theme.spacing(24),
+                        width: '100%',
+                        marginRight: 'auto',
+                    }}
+                />
+            </Link>
         </Box>
     );
 }

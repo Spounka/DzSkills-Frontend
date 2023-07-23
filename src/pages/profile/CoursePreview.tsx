@@ -2,9 +2,12 @@ import { CardContent, CardMedia, Slider, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { useTheme } from '@mui/material/styles';
-import course from '../../assets/png/course card.png';
+import { Course } from '../../types/course';
 
-export function CoursePreview() {
+interface props {
+    course: Course;
+}
+export function CoursePreview({ course }: props) {
     const theme = useTheme();
     let value = 12;
     return (
@@ -18,7 +21,8 @@ export function CoursePreview() {
                 position: 'relative',
                 height: 'auto',
                 width: 'auto',
-                maxWidth: '30%',
+                maxWidth: `calc(50% - ${theme.spacing(2)})`,
+                aspectRatio: '16/10',
                 borderRadius: 0,
                 '&:hover': {
                     '.Content': {
@@ -31,8 +35,8 @@ export function CoursePreview() {
         >
             <CardMedia
                 component={'img'}
-                image={course}
-                sx={{ width: '100%', height: 'auto' }}
+                image={course.thumbnail ?? ''}
+                sx={{ aspectRatio: '16/10' }}
             />
             <CardContent
                 className="Content"
@@ -48,7 +52,7 @@ export function CoursePreview() {
                         variant={'body2'}
                         fontWeight={600}
                     >
-                        عنوان الكورس
+                        {course.title}
                     </Typography>
                     <Typography
                         color={'gray.light'}
@@ -56,7 +60,7 @@ export function CoursePreview() {
                         fontWeight={400}
                         fontSize={10}
                     >
-                        الأستاذ المحاضر
+                        {`${course.owner.first_name} ${course.owner.last_name}`}
                     </Typography>
                 </Box>
                 <Box
@@ -88,7 +92,7 @@ export function CoursePreview() {
                             margin: 0,
                             padding: '0 !important',
                             borderRadius: 0,
-                            scale: '-1 1',
+                            // scale: '-1 1',
                             '&.Mui-disabled': {
                                 color: `${theme.palette.primary.main} !important`,
                             },

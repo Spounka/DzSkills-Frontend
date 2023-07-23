@@ -7,11 +7,27 @@ const axiosInstance = axios.create({
         ? {
               'Content-Type': 'multipart/form-data',
               Authorization: `Bearer ${token}`,
+              'Accept-Language': 'ar',
           }
         : {
               'Content-Type': 'multipart/form-data',
+              'Accept-Language': 'ar',
           },
 });
+const axiosBare = axios.create({
+    baseURL: import.meta.env.VITE_HOST || 'https://dzskills.com/api',
+    headers: token
+        ? {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${token}`,
+              'Accept-Language': 'ar',
+          }
+        : {
+              'Content-Type': 'multipart/form-data',
+              'Accept-Language': 'ar',
+          },
+});
+
 axiosInstance.interceptors.response.use(
     response => response,
     error => {
@@ -22,3 +38,4 @@ axiosInstance.interceptors.response.use(
 );
 
 export default axiosInstance;
+export { axiosBare };

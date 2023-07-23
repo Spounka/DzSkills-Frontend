@@ -13,6 +13,7 @@ export type User = {
     description: string;
     speciality: string;
     nationality: string;
+    is_favorite: boolean;
     groups: Group[];
     average_rating: number;
 };

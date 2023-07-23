@@ -7,7 +7,7 @@ export type RelatedStudent = {
     last_chapter_index: number;
 };
 
-export async function getRelatedStudents(pk: number) {
+export async function getCourseRelatedStudents(pk: number) {
     const { data } = await axiosInstance('/courses/' + pk + '/students');
     return data as RelatedStudent[];
 }
