@@ -3,13 +3,14 @@ import { useSnackbar } from 'notistack';
 import { FormEvent } from 'react';
 import { UseQueryResult, useMutation, useQueryClient } from 'react-query';
 import { v4 as uuid } from 'uuid';
+import { MainButton } from '../../../../components/ui/MainButton';
 import axiosInstance from '../../../../globals/axiosInstance';
 import { AdminConfig } from '../../../../types/AdminConfig';
 import { ColoredInputStack } from './ColoredInputStack';
 import { SettingSectionRow } from './SettingSectionRow';
 import { SettingsSectionRowInput } from './SettingsSectionRowInput';
 import { UploadImageInput } from './UploadImageInput';
-import { MainButton } from '../../../../components/ui/MainButton';
+import { useSnackbar } from 'notistack';
 
 interface FirstSectionProps {
     adminConfigQuery: UseQueryResult<AdminConfig, unknown>;
