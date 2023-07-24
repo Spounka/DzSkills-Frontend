@@ -25,6 +25,11 @@ export default function LandingPage() {
         onError: () => setLoggedIn(false),
     });
 
+    const adminConfigQuery = useQuery({
+        queryKey: ['admin', 'configs'],
+        queryFn: () => getAdminConfigs(),
+    });
+
     useEffect(() => {
         userQuery.refetch();
     }, []);
@@ -42,7 +47,9 @@ export default function LandingPage() {
             <LandingPageFirstSection />
             <LandingPageSections />
             <MostSoldCourses />
-            <GetYourCertificate />
+            <GetYourCertificate
+                certificate={adminConfigQuery.data?.certificate_template?.template}
+            />
             <Teachers />
             <StudentRatings />
             <Footer />

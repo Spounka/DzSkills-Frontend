@@ -15,8 +15,8 @@ export function AdminInfoSidebar({}) {
             height={'100%'}
             width={'100%'}
             sx={{
-                width: '100%',
                 flexBasis: '40%',
+                // position: 'fixed',
             }}
         >
             <AdminInfoNavbar />
