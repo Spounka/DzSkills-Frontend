@@ -2,11 +2,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import Image from 'mui-image';
-import certificate from '../../assets/png/certificate.png';
+// import certificate from '../../assets/png/certificate.png';
 import { LoginButton } from './LoginButton';
 import { RegisterButton } from './RegisterButton';
 
-export function GetYourCertificate() {
+export function GetYourCertificate({ certificate }: any) {
     const theme = useTheme();
     return (
         <Box

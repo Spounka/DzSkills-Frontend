@@ -20,11 +20,11 @@ export function LandingPageFirstSection({}) {
     const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
     const [currentImage, setCurrentImage] = useState<string>('');
 
-    const mainText = adminConfigQuery.data?.main_title_text.content;
-    const mainColor = adminConfigQuery.data?.main_title_text.color;
+    const mainText = adminConfigQuery.data?.main_title_text?.content;
+    const mainColor = adminConfigQuery.data?.main_title_text?.color;
 
-    const secondaryText = adminConfigQuery.data?.secondary_title_text.content;
-    const secondaryColor = adminConfigQuery.data?.secondary_title_text.color;
+    const secondaryText = adminConfigQuery.data?.secondary_title_text?.content;
+    const secondaryColor = adminConfigQuery.data?.secondary_title_text?.color;
 
     const main_split_index = mainText?.indexOf('\\') ?? 0;
     const secondary_split_index = secondaryText?.indexOf('\\') ?? 0;

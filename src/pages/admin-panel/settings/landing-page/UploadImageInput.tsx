@@ -1,5 +1,5 @@
 import { FileUpload } from '@mui/icons-material';
-import { IconButton, Stack, useTheme } from '@mui/material';
+import { Box, IconButton, Stack, useTheme } from '@mui/material';
 import Image from 'mui-image';
 import { useEffect, useState } from 'react';
 interface props {
@@ -18,7 +18,7 @@ export function UploadImageInput({ src, name, onUpdate }: props) {
             const reader = new FileReader();
             reader.onload = () => {
                 setImageSrc(reader.result);
-                if(onUpdate) onUpdate(reader.result);
+                if (onUpdate) onUpdate(reader.result);
             };
             reader.readAsDataURL(files[0]);
         }
@@ -36,14 +36,25 @@ export function UploadImageInput({ src, name, onUpdate }: props) {
                 width: '100%',
             }}
         >
-            <Image
-                src={imageSrc?.toString() || src}
-                fit="contain"
-                style={{
-                    height: 'auto',
-                    aspectRatio: '1',
-                }}
-            />
+            {imageSrc ? (
+                <Image
+                    src={imageSrc?.toString() ?? src}
+                    fit="contain"
+                    style={{
+                        width: '100%',
+                        height: 'auto',
+                        aspectRatio: '1',
+                    }}
+                />
+            ) : (
+                <Box
+                    sx={{
+                        height: 'auto',
+                        aspectRatio: '1',
+                        flex: '1',
+                    }}
+                ></Box>
+            )}
             <IconButton
                 disableRipple
                 component="label"
