@@ -1,20 +1,45 @@
 import { FileUpload } from '@mui/icons-material';
 import { Box, IconButton, Stack, useTheme } from '@mui/material';
 import Image from 'mui-image';
+import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 interface props {
     src: string;
     name: string;
+    required?: boolean;
+    maxSize?: number;
     onUpdate?: (src: any) => void;
 }
-export function UploadImageInput({ src, name, onUpdate }: props) {
+export function UploadImageInput({ src, name, required, maxSize, onUpdate }: props) {
     const theme = useTheme();
+    const { enqueueSnackbar } = useSnackbar();
 
     const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>('');
     function onSectionImageChange(e: React.ChangeEvent<HTMLInputElement>) {
         const inputElement = e.target;
         let files: FileList | null = inputElement.files;
         if (files) {
+            const exp = /(image\/*)/i;
+            if (files.item(0) && !RegExp(exp).exec(files.item(0)?.type ?? '')) {
+                enqueueSnackbar('الرجاء تحميل صورة', { variant: 'error' });
+                e.target.value = '';
+                return;
+            }
+            const size = maxSize ?? 1024 * 1024 * 15;
+            if (files.item(0) && (files.item(0)?.size ?? 0) > size) {
+                const size_unit_text: string =
+                    size > 1024
+                        ? size > 1024 * 1024
+                            ? 'ميجابايت'
+                            : 'كيلوبايت'
+                        : 'بايت';
+                const size_text = `${(size % 1024) % 1024} ${size_unit_text}`;
+                enqueueSnackbar(`لا يمكن أن يتجاوز حجم الصورة ${size_text}`, {
+                    variant: 'error',
+                });
+                e.target.value = '';
+                return;
+            }
             const reader = new FileReader();
             reader.onload = () => {
                 setImageSrc(reader.result);
@@ -87,6 +112,7 @@ export function UploadImageInput({ src, name, onUpdate }: props) {
                     }}
                 />
                 <input
+                    required={required}
                     type="file"
                     name={name}
                     accept="image/*,image/svg+xml"

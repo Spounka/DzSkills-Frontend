@@ -30,7 +30,9 @@ export function LessonFields({
     const { enqueueSnackbar } = useSnackbar();
     const [title, setTitle] = useState(getVideo(videoIndex).title);
     const [description, setDescription] = useState(getVideo(videoIndex).description);
-    const [vid, setVid] = useState<CreationVideo>(video ?? getVideo(videoIndex));
+    const [vid, setVid] = useState<CreationVideo | undefined>(
+        video ?? getVideo(videoIndex)
+    );
 
     function handleTitleChange(event: any) {
         if (event.target.value > 300) {
@@ -55,6 +57,16 @@ export function LessonFields({
             return 'remove';
         }
         setVid(event.target.files[0]);
+    }
+
+    function handleImageChange(event: any) {
+        if (!RegExp('image/*').exec(event.target.files[0].type)) {
+            enqueueSnackbar('الرجاء اختيار صورة', {
+                variant: 'warning',
+                autoHideDuration: 2000,
+            });
+            return 'remove';
+        }
     }
 
     function updateVideo() {
@@ -215,7 +227,7 @@ export function LessonFields({
                     <UploadFileInput
                         required
                         inputName={`chapters[${chapterIndex}]videos[${videoIndex}]thumbnail`}
-                        onChange={handleVideoChange}
+                        onChange={handleImageChange}
                         sx={{
                             alignItems: 'center',
                             flexDirection: 'column',

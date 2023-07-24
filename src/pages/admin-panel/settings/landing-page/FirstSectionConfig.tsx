@@ -1,6 +1,7 @@
 import { Box, Stack, Typography, useTheme } from '@mui/material';
+import { useSnackbar } from 'notistack';
 import { FormEvent } from 'react';
-import { UseQueryResult, useMutation } from 'react-query';
+import { UseQueryResult, useMutation, useQueryClient } from 'react-query';
 import { v4 as uuid } from 'uuid';
 import { MainButton } from '../../../../components/ui/MainButton';
 import axiosInstance from '../../../../globals/axiosInstance';
@@ -9,13 +10,13 @@ import { ColoredInputStack } from './ColoredInputStack';
 import { SettingSectionRow } from './SettingSectionRow';
 import { SettingsSectionRowInput } from './SettingsSectionRowInput';
 import { UploadImageInput } from './UploadImageInput';
-import { useSnackbar } from 'notistack';
 
 interface FirstSectionProps {
     adminConfigQuery: UseQueryResult<AdminConfig, unknown>;
 }
 export function FirstSectionConfig({ adminConfigQuery }: FirstSectionProps) {
     const theme = useTheme();
+    const queryClient = useQueryClient();
     const { enqueueSnackbar } = useSnackbar();
 
     const imagesWithUUID = adminConfigQuery.data?.images.map(image => {
@@ -29,7 +30,8 @@ export function FirstSectionConfig({ adminConfigQuery }: FirstSectionProps) {
             return data as AdminConfig;
         },
         onSuccess: () => {
-            enqueueSnackbar('حدث خطأ أثناء معالجة طلبك', { variant: 'error' });
+            enqueueSnackbar('تم التحديث بنجاح', { variant: 'success' });
+            queryClient.invalidateQueries(['admin', 'configs']);
         },
         onError: () => {
             enqueueSnackbar('حدث خطأ أثناء معالجة طلبك', { variant: 'error' });
@@ -116,7 +118,7 @@ export function FirstSectionConfig({ adminConfigQuery }: FirstSectionProps) {
                 <MainButton
                     type={'submit'}
                     text={'حفظ'}
-                    color={theme.palette.purple.main}
+                    color={theme.palette.primary.main}
                 />
             </Stack>
         </form>

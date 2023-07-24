@@ -15,12 +15,7 @@ export function Teachers({}: TeachersProps) {
         queryFn: () => getAllUsers(),
     });
 
-    if (query.isLoading) return <>Loading users...</>;
-    if (query.isError) return <>Error in users...</>;
-
-    const teachers = query.data?.filter(user =>
-        user.groups.filter(group => group.name === 'TeacherGroup')
-    );
+    const teachers = query.data?.filter(user => user.is_favorite);
     return (
         <Box
             display={'flex'}

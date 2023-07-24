@@ -6,6 +6,8 @@ import { useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
 import { User } from '../../types/user';
 import { getAllUsers } from '../admin-panel/user-management/api/getUsers';
+import axiosInstance from '../../globals/axiosInstance';
+import { AdminRating } from '../../types/AdminConfig';
 
 export function StudentRatings() {
     const theme = useTheme();
@@ -14,8 +16,13 @@ export function StudentRatings() {
         queryFn: () => getAllUsers(),
     });
 
-    if (query.isLoading) return <>Loading users...</>;
-    if (query.isError) return <>Error in users...</>;
+    const ratingsQuery = useQuery({
+        queryFn: async () => {
+            const { data } = await axiosInstance.get('/configs/ratings/');
+            return data as AdminRating[];
+        },
+        queryKey: ['ratings'],
+    });
 
     return (
         <Box
@@ -61,7 +68,7 @@ export function StudentRatings() {
                 gap={8}
                 width={'100%'}
             >
-                {query.data?.slice(6, 9).map((user: User) => {
+                {ratingsQuery.data?.slice(0, 3).map((rating: AdminRating) => {
                     return (
                         <Box
                             key={uuidv4()}
@@ -85,10 +92,10 @@ export function StudentRatings() {
                             >
                                 <Rating
                                     readOnly={true}
-                                    value={5}
+                                    value={rating.rating}
                                 />
                                 <Avatar
-                                    src={user.profile_image}
+                                    src={rating.image}
                                     sx={{
                                         position: 'absolute',
                                         left: 0,
@@ -110,11 +117,7 @@ export function StudentRatings() {
                                     }}
                                 />
                             </Box>
-                            <Typography>
-                                هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد
-                                تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد
-                                مثل هذا النص أو العديد من النصوص
-                            </Typography>
+                            <Typography>{rating.description}</Typography>
                             <Box
                                 sx={{
                                     width: '100%',
@@ -129,14 +132,14 @@ export function StudentRatings() {
                                     fontWeight={600}
                                     variant="h6"
                                 >
-                                    {`${user.first_name} ${user.last_name}`}
+                                    {rating.full_name}
                                 </Typography>
-                                <Typography
+                                {/* <Typography
                                     fontWeight={300}
                                     variant="overline"
                                 >
                                     {user.speciality}
-                                </Typography>
+                                </Typography> */}
                             </Box>
                         </Box>
                     );

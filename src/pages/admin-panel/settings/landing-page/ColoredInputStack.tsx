@@ -1,6 +1,6 @@
 import { Stack, Typography, useTheme } from '@mui/material';
 import { MuiColorInput } from 'mui-color-input';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function ColoredInputStack({
     inputName,
@@ -16,10 +16,13 @@ export function ColoredInputStack({
     const handleMainColorChange = (value: string) => {
         setMainColor(value);
     };
+
+    useEffect(() => {
+        if (defaultValue) setMainColor(defaultValue);
+    }, [defaultValue]);
+
     return (
-        <Stack
-            gap={1}
-        >
+        <Stack gap={1}>
             <Typography
                 variant={'subtitle2'}
                 color={'gray.main'}
