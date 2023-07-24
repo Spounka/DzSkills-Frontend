@@ -1,3 +1,10 @@
+export type AdminRating = {
+    id: number;
+    full_name: string;
+    description: string;
+    rating: number;
+    image: string;
+};
 export type TitleText = {
     content: string;
     color: string;

@@ -202,7 +202,7 @@ export function CategoriesSection() {
                     <MainButton
                         type="submit"
                         text={'حفظ'}
-                        color={theme.palette.purple.main}
+                        color={theme.palette.primary.main}
                     />
                 </ButtonGroup>
             </form>

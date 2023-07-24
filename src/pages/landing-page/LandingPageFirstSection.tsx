@@ -7,7 +7,7 @@ import { getAdminConfigs } from '../admin-panel/settings/landing-page/api/query'
 import { LoginButton } from './LoginButton';
 import { RegisterButton } from './RegisterButton';
 
-export function LandingPageFirstSection({}) {
+export function LandingPageFirstSection() {
     const theme = useTheme();
 
     const adminConfigQuery = useQuery({
@@ -44,6 +44,10 @@ export function LandingPageFirstSection({}) {
     useEffect(() => {
         setCurrentImage(imageSources[currentImageIndex]);
     }, [currentImageIndex]);
+
+    useEffect(() => {
+        setImageSources([]);
+    }, []);
 
     return (
         <Box

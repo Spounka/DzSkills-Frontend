@@ -26,6 +26,7 @@ interface props {
     course?: Course;
     color?: string;
     hashtags?: Hashtag[];
+    isSubmitting?: boolean;
 
     setHashtags?: (h: Hashtag[]) => void;
     setLevel?: (l: Level) => void;
@@ -36,6 +37,7 @@ export function NewCourseCard({
     course,
     color,
     readonly,
+    isSubmitting: globalSubmitting,
     setHashtags,
     setLevel,
     setCategory,
@@ -120,6 +122,7 @@ export function NewCourseCard({
                     gap: theme.spacing(2),
                     boxShadow: '7px 20px 40px #00000014',
                     borderRadius: theme.spacing(),
+                    position: 'relative',
                 }}
             >
                 <Typography color={color ?? 'purple.main'}>معلومات الكورس</Typography>
@@ -213,7 +216,12 @@ export function NewCourseCard({
                                     color={theme.palette.gray.main}
                                     text="طلب تعديل"
                                     type="submit"
-                                    {...{ sx: { placeSelf: 'flex-end' } }}
+                                    {...{
+                                        sx: {
+                                            placeSelf: 'flex-end',
+                                        },
+                                        disabled: isSubmitting || globalSubmitting,
+                                    }}
                                     onClick={() =>
                                         statusMutation.mutate({ status: 'edit' })
                                     }
@@ -223,7 +231,12 @@ export function NewCourseCard({
                                     color={theme.palette.primary.main}
                                     text="تأكيد الكورس"
                                     type="submit"
-                                    {...{ sx: { placeSelf: 'flex-end' } }}
+                                    {...{
+                                        sx: {
+                                            placeSelf: 'flex-end',
+                                        },
+                                        disabled: isSubmitting || globalSubmitting,
+                                    }}
                                     onClick={() =>
                                         statusMutation.mutate({ status: 'approve' })
                                     }
@@ -236,7 +249,10 @@ export function NewCourseCard({
                                 color={theme.palette.primary.main}
                                 text="ارسل للمراجعة"
                                 type="submit"
-                                {...{ sx: { placeSelf: 'flex-end' } }}
+                                {...{
+                                    sx: { placeSelf: 'flex-end' },
+                                    disabled: isSubmitting || globalSubmitting,
+                                }}
                             />
                         </>
                     )}

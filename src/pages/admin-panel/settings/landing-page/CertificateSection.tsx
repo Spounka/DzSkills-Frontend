@@ -51,12 +51,13 @@ export function CertificateSection({ adminConfigQuery }: CertificateProps) {
                     <UploadImageInput
                         name={'certificate_template.template'}
                         src={adminConfigQuery.data?.certificate_template?.template ?? ''}
+                        maxSize={1024 * 1024 * 10}
                     />
                 </Box>
                 <MainButton
                     type={'submit'}
                     text={'حفظ'}
-                    color={theme.palette.purple.main}
+                    color={theme.palette.primary.main}
                 />
             </Stack>
         </form>
