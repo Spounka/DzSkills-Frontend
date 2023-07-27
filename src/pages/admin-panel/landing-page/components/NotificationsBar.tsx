@@ -28,6 +28,7 @@ export function NotificationsBar({ drawerOpen, mainColor }: NotificationsProps) 
                 left: 0,
                 width: '20%',
                 height: '100%',
+                zIndex: 4,
             }}
         >
             <Typography

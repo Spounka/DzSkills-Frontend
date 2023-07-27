@@ -1,5 +1,42 @@
-import React from 'react';
+import { Container, Stack, Typography } from '@mui/material';
+import useLogin from '../authenticate/hooks/useLogin';
+import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar';
+import { StyledCard } from '../../components/StyledCard';
 
 export function BannedPage() {
-    return <div>BannedPage</div>;
+    const [user] = useLogin();
+    return (
+        <Stack
+            gap={2}
+            bgcolor={'gray.secondary'}
+            height={'100dvh'}
+        >
+            <AuthenticationTopBar />
+            <Container>
+                <StyledCard>
+                    <Stack
+                        alignItems={'center'}
+                        gap={4}
+                    >
+                        <Typography variant="h6">هذا الحساب محظور حتى</Typography>
+                        <Typography
+                            variant="h6"
+                            color={'error.main'}
+                        >
+                            {user.data?.last_ban.toString()}
+                        </Typography>
+                    </Stack>
+                </StyledCard>
+            </Container>
+        </Stack>
+    );
+}
+
+export function useIsBanned() {
+    const [user] = useLogin();
+    return {
+        banned: user.data?.is_banned,
+        BannedPageComponent: BannedPage,
+        ban_duration: user.data?.last_ban,
+    };
 }

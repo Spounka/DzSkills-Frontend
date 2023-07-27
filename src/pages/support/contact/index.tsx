@@ -6,9 +6,12 @@ import useLogin from '../../authenticate/hooks/useLogin';
 import { ContactContent } from '../../messages/ContactContent';
 import NotFound from '../../not-found/NotFound';
 import { Helmet } from 'react-helmet';
+import { useIsBanned } from '../../banned-page/BannedPage';
 
 function ContactSupport() {
     const [user] = useLogin();
+    const { banned, BannedPageComponent } = useIsBanned();
+    if (banned) return <BannedPageComponent />;
 
     return (
         <Box

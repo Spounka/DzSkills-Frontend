@@ -16,7 +16,7 @@ function useLogin() {
             dispatch(updateUser({ user: response }));
             !response.email_valid && navigate('/register/verify-email/');
         },
-        onError: () => navigate('/register'),
+        onError: () => navigate('/login/'),
     });
     return [query];
 }

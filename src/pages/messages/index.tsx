@@ -4,9 +4,12 @@ import useLogin from '../authenticate/hooks/useLogin';
 import { Box } from '@mui/material';
 import { Helmet } from 'react-helmet';
 import { ContactContent } from './ContactContent';
+import { useIsBanned } from '../banned-page/BannedPage';
 
 function ContactTeacher() {
     const [user] = useLogin();
+    const { banned, BannedPageComponent } = useIsBanned();
+    if (banned) return <BannedPageComponent />;
 
     return (
         <Box

@@ -1,10 +1,10 @@
 import Box from '@mui/material/Box';
-import { useTheme } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import Footer from '../../components/footer';
 import TopNavigationBar from '../../components/top-bar';
 import { getAdminConfigs } from '../admin-panel/settings/landing-page/api/query';
+import { useIsBanned } from '../banned-page/BannedPage';
 import { getUser } from '../edit-profile/api/getUser';
 import { GetYourCertificate } from './GetYourCertificate';
 import { LandingPageFirstSection } from './LandingPageFirstSection';
@@ -16,6 +16,7 @@ import { Teachers } from './Teachers';
 
 export default function LandingPage() {
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
+    const { banned, BannedPageComponent } = useIsBanned();
     const token = localStorage.getItem('access');
     const refresh = localStorage.getItem('refresh');
     const userQuery = useQuery({
@@ -33,6 +34,7 @@ export default function LandingPage() {
     useEffect(() => {
         userQuery.refetch();
     }, []);
+    if (loggedIn && banned) return <BannedPageComponent />;
 
     return (
         <Box

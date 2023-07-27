@@ -24,6 +24,7 @@ import { Receipt } from '../../types/admin_config';
 import { getCourse } from '../course/api/getCourse';
 import NotFound from '../not-found/NotFound';
 import { createOrder, getCurrentReceipt } from './api/createOrder';
+import { useIsBanned } from '../banned-page/BannedPage';
 
 function BuyCourse() {
     const params = useParams();
@@ -100,6 +101,9 @@ function BuyCourse() {
             })
             .catch(err => console.error(err));
     }, []);
+
+    const { banned, BannedPageComponent } = useIsBanned();
+    if (banned) return <BannedPageComponent />;
 
     if (query.isError) return <>Error</>;
     if (query.isLoading || query.isFetching) return <>Loading...</>;

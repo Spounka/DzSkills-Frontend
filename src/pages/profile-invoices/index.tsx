@@ -8,6 +8,7 @@ import { Order } from '../../types/payment';
 import SideBar from '../edit-profile/components/side-bar';
 import { InvoiceRow } from './InvoiceRow';
 import { getRelatedOrders } from './api/getOrders';
+import { useIsBanned } from '../banned-page/BannedPage';
 
 function Invoices() {
     const query = useQuery({
@@ -20,6 +21,8 @@ function Invoices() {
         .map((order: Order) => {
             return { ...order, key: uuidv4() };
         });
+    const { banned, BannedPageComponent } = useIsBanned();
+    if (banned) return <BannedPageComponent />;
     return (
         <Grid
             container
@@ -108,8 +111,8 @@ function Invoices() {
                                 ?.sort((a, b) => {
                                     if (!a.payment?.status || !b.payment?.status)
                                         return 0;
-                                    if(a.payment.status === 'p') return 1;
-                                    if(b.payment.status === 'p') return 1;
+                                    if (a.payment.status === 'p') return 1;
+                                    if (b.payment.status === 'p') return 1;
                                     if (a.payment.status < b.payment.status) return -1;
                                     if (a.payment.status === b.payment.status) return 0;
                                     return 1;
