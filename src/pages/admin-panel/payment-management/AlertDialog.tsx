@@ -144,10 +144,17 @@ export default function AlertDialog({ open, closeDialog, payment }: dialogProps)
                                         color={theme.palette.primary.main}
                                         text="تأكيد"
                                         {...{
-                                            onClick: async () => {
-                                                await acceptPayment(payment.id);
-                                                closeDialog();
-                                                client.refetchQueries(['payments']);
+                                            onClick: () => {
+                                                const result = async () =>
+                                                    await acceptPayment(
+                                                        payment.id
+                                                    ).finally(() => {
+                                                        closeDialog();
+                                                        client.refetchQueries([
+                                                            'payments',
+                                                        ]);
+                                                    });
+                                                result();
                                             },
                                         }}
                                     />
@@ -155,10 +162,17 @@ export default function AlertDialog({ open, closeDialog, payment }: dialogProps)
                                         color={theme.palette.error.main}
                                         text="رفض"
                                         {...{
-                                            onClick: async () => {
-                                                await rejectPayment(payment.id);
-                                                closeDialog();
-                                                client.refetchQueries(['payments']);
+                                            onClick: () => {
+                                                const result = async () =>
+                                                    await rejectPayment(
+                                                        payment.id
+                                                    ).finally(() => {
+                                                        closeDialog();
+                                                        client.refetchQueries([
+                                                            'payments',
+                                                        ]);
+                                                    });
+                                                result();
                                             },
                                         }}
                                     />
