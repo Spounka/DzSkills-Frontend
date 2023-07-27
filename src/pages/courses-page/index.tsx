@@ -15,6 +15,7 @@ import CourseCard from './CourseCard';
 import { TrendingCoursesCarousel } from './TrendingCoursesCarousel';
 import { getCourses } from './api/getAllCourses';
 import FilterComponent from './components/filter';
+import { useIsBanned } from '../banned-page/BannedPage';
 
 function CoursesPage() {
     const theme = useTheme();
@@ -91,6 +92,8 @@ function CoursesPage() {
 
     const updateActiveLevels = useCallback(_ual, [activeLevels]);
     const updateActiveCategories = useCallback(_uac, [activeCategories]);
+    const { banned, BannedPageComponent } = useIsBanned();
+    if (banned) return <BannedPageComponent />;
 
     if (query.isError) return <Typography>Error Occured</Typography>;
     if (query.isLoading) return <Typography>Loading...</Typography>;

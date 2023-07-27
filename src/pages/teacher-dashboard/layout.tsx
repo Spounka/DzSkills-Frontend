@@ -7,6 +7,7 @@ import useLogin from '../authenticate/hooks/useLogin';
 import { NotificationsBar } from './NotificationsBar';
 import DashboardSidebar from './add-course/components/side-navbar';
 import { DashboardTopbar } from './add-course/components/top-navbar/DashboardTopbar';
+import { useIsBanned } from '../banned-page/BannedPage';
 
 interface TeacherDashboardLayoutProps {
     topbar_title: string;
@@ -41,6 +42,8 @@ function TeacherDashboardLayout({
     function toggleDrawer() {
         setDrawerOpen(val => !val);
     }
+    const { banned, BannedPageComponent } = useIsBanned();
+    if (banned) return <BannedPageComponent />;
     return (
         <>
             <DashboardSidebar />

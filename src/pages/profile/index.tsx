@@ -6,10 +6,13 @@ import TopNavigationBar from '../../components/top-bar';
 import useLogin from '../authenticate/hooks/useLogin';
 import { ProfileContent } from './ProfileContent';
 import Footer from '../../components/footer';
+import { useIsBanned } from '../banned-page/BannedPage';
 
 function Profile() {
     const theme = useTheme();
     const [userQuery] = useLogin();
+    const { banned, BannedPageComponent } = useIsBanned();
+    if (banned) return <BannedPageComponent />;
     if (!userQuery.isSuccess) return <></>;
     return (
         <Grid

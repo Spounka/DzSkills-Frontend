@@ -6,6 +6,7 @@ import { MainButton } from '../../components/ui/MainButton';
 import theme from '../../theme';
 import { QuizzAnswer } from './QuizzAnswer';
 import { getQuizz } from './getQuizz';
+import { useIsBanned } from '../banned-page/BannedPage';
 
 function CourseQuizz() {
     const params = useParams();
@@ -20,6 +21,8 @@ function CourseQuizz() {
         queryKey: ['courses', id, 'quizz'],
     });
     const navigate = useNavigate();
+    const { banned, BannedPageComponent } = useIsBanned();
+    if (banned) return <BannedPageComponent />;
 
     return (
         <Grid

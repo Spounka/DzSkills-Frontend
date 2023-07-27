@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import AboutUs from './pages/about-us/about-us';
+import { AboutUs } from './pages/about-us/about-us';
 import HashtagsAndCategories from './pages/admin-panel/categories-hashtags';
 import CourseDetails from './pages/admin-panel/course-details';
 import AdminCourses from './pages/admin-panel/courses';

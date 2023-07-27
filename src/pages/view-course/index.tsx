@@ -23,6 +23,7 @@ import { VideoPlayer } from './VideoPlayer';
 import { VideoRatings } from './VideoRatings';
 import { getStudentProgress, updateStudentProgress } from './api/queries';
 import { useSnackbar } from 'notistack';
+import { useIsBanned } from '../banned-page/BannedPage';
 
 function fileNameFromPath(path: string): string {
     const arr = path.split('/');
@@ -59,6 +60,8 @@ function WatchCourse() {
             client.invalidateQueries({ queryKey: ['progression', id, user?.pk] });
         },
     });
+    const { banned, BannedPageComponent } = useIsBanned();
+    if (banned) return <BannedPageComponent />;
 
     const defaultVideo: Video = {
         id: 0,

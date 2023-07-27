@@ -6,6 +6,7 @@ import TopNavigationBar from '../../components/top-bar';
 import { Course } from '../../types/course';
 import { CoursesGrid } from '../courses-page';
 import { getCourses } from '../courses-page/api/getAllCourses';
+import { useIsBanned } from '../banned-page/BannedPage';
 
 function CategorizedCoursesList() {
     const [urlParams, setURLParams] = useState<URLSearchParams>();
@@ -27,6 +28,9 @@ function CategorizedCoursesList() {
         setURLParams(urlParams);
         if (query.isSuccess && courses.length === 0) setCourses(query.data);
     }, []);
+
+    const { banned, BannedPageComponent } = useIsBanned();
+    if (banned) return <BannedPageComponent />;
     return (
         <Box
             sx={{

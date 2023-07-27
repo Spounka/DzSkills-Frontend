@@ -10,6 +10,8 @@ import App from './App';
 import './index.css';
 import { store } from './stores/store';
 import theme from './theme';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -32,7 +34,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                             autoHideDuration={2000}
                             maxSnack={5}
                         >
-                            <App />
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <App />
+                            </LocalizationProvider>
                         </SnackbarProvider>
                         <div dir="ltr">
                             <ReactQueryDevtools />

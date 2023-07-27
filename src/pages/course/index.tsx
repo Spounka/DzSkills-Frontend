@@ -10,6 +10,7 @@ import { CourseCells } from './CourseCells';
 import { CourseHeader } from './CourseHeader';
 import { CourseVideoShowcase } from './CourseVideoShowcase';
 import { getCourse } from './api/getCourse';
+import { useIsBanned } from '../banned-page/BannedPage';
 
 function ViewCourse() {
     const params = useParams();
@@ -26,6 +27,8 @@ function ViewCourse() {
         queryFn: () => getCourse(id),
         staleTime: 1000 * 60 * 60 * 24,
     });
+    const { banned, BannedPageComponent } = useIsBanned();
+    if (banned) return <BannedPageComponent />;
     if (query.isError || !query.data) return <>Error</>;
     if (query.isLoading) return <>Loading...</>;
     if (query.isFetching) return <>Fetching...</>;

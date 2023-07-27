@@ -8,11 +8,14 @@ import TopNavigationBar from '../../components/top-bar';
 import useLogin from '../authenticate/hooks/useLogin';
 import { EditPasswordForm } from './EditPasswordForm';
 import EditProfileContent from './EditProfileContent';
+import { useIsBanned } from '../banned-page/BannedPage';
 
 function EditProfile() {
     const theme = useTheme();
     const [query] = useLogin();
+    const { banned, BannedPageComponent } = useIsBanned();
     if (!query.isSuccess) return <></>;
+    if (banned) return <BannedPageComponent />;
     return (
         <Grid
             container

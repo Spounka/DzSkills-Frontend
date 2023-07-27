@@ -13,6 +13,7 @@ import useLogin from '../authenticate/hooks/useLogin';
 import NotFound from '../not-found/NotFound';
 import { getStudentProgress } from '../view-course/api/queries';
 import { getCertificate } from './api/query';
+import { useIsBanned } from '../banned-page/BannedPage';
 
 function ViewCertificate() {
     const params = useParams();
@@ -39,6 +40,8 @@ function ViewCertificate() {
         queryFn: () => getCertificate(id),
         staleTime: 1000 * 60 * 2,
     });
+    const { banned, BannedPageComponent } = useIsBanned();
+    if (banned) return <BannedPageComponent />;
 
     if (!progression.data) return <>Error in data</>;
     if (progression.isLoading) return <Typography>Loading...</Typography>;

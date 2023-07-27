@@ -3,8 +3,11 @@ import Footer from '../../../components/footer';
 import TopNavigationBar from '../../../components/top-bar';
 import { FAQSection } from './FAQSection';
 import { SupportSection } from './SupportSection';
+import { useIsBanned } from '../../banned-page/BannedPage';
 
 function FAQ() {
+    const { banned, BannedPageComponent } = useIsBanned();
+    if (banned) return <BannedPageComponent />;
     return (
         <Stack
             bgcolor={'white'}
