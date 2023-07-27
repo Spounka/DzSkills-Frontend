@@ -62,7 +62,7 @@ export function TeacherDetailsPanel() {
                     last_name={teacher.last_name ?? ''}
                     speciality={teacher.speciality ?? 'speciality'}
                 />
-                <ProfileSocialMedia />
+                <ProfileSocialMedia user={teacher} />
                 <Typography
                     variant={'caption'}
                     color={'gray.main'}

@@ -161,8 +161,14 @@ function CoursesPage() {
                         sx={{
                             width: '100%',
                             height: '100%',
-                            paddingRight: theme.spacing(14),
-                            paddingLeft: theme.spacing(14),
+                            paddingRight: {
+                                xs: theme.spacing(2),
+                                lg: theme.spacing(14),
+                            },
+                            paddingLeft: {
+                                xs: theme.spacing(2),
+                                lg: theme.spacing(14),
+                            },
                             overflowX: 'hidden',
                         }}
                     >

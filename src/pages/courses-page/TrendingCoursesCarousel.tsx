@@ -43,7 +43,10 @@ export function TrendingCoursesCarousel({}: any) {
                     zIndex: 4,
                     position: 'absolute',
                     right: '-1.5%',
-                    top: '50%',
+                    top: {
+                        xs: '25%',
+                        md: '50%',
+                    },
                     bgcolor:
                         activeCourse === 2 || activeCourse >= query.data?.length - 1
                             ? 'gray.main'
@@ -71,7 +74,10 @@ export function TrendingCoursesCarousel({}: any) {
                     bgcolor: activeCourse === 0 ? 'gray.main' : 'primary.main',
                     borderRadius: 0,
                     left: '-1.5%',
-                    top: '50%',
+                    top: {
+                        xs: '25%',
+                        md: '50%',
+                    },
                     '&.Mui-disabled': {
                         bgcolor: 'gray.main',
                     },

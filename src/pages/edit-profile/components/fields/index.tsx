@@ -12,6 +12,7 @@ interface props {
     rows?: number;
     typographyProps?: any;
     fontWeight?: number;
+    required?: boolean;
 }
 
 export default function EditProfileField({
@@ -22,6 +23,7 @@ export default function EditProfileField({
     multiline,
     grow,
     rows,
+    required,
     typographyProps,
     fontWeight,
 }: props) {
@@ -50,6 +52,7 @@ export default function EditProfileField({
                 </Typography>
                 {multiline ? (
                     <StyledOutline
+                        required={required}
                         name={name}
                         type={type}
                         placeholder={placeholder}
@@ -57,10 +60,11 @@ export default function EditProfileField({
                         size={'small'}
                         fullWidth={true}
                         multiline
-                        rows={rows || 2}
+                        rows={rows ?? 2}
                     />
                 ) : (
                     <StyledOutline
+                        required={required}
                         name={name}
                         type={type}
                         placeholder={placeholder}

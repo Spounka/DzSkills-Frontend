@@ -74,7 +74,7 @@ export function CourseConversationPanel({ user, id }: props) {
 
     const messagesQuery = useInfiniteQuery({
         queryKey: ['conversations', 'messages', 'infinite', id],
-        queryFn: ({ pageParam }) => getMessages(id, pageParam),
+        queryFn: ({ pageParam }) => getMessages(conversation.data?.id, pageParam),
         getNextPageParam: (lastPage, pages) => lastPage.next,
         getPreviousPageParam: res => res.previous,
         enabled: isValid,

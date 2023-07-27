@@ -1,5 +1,5 @@
 import { Notifications } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
+import { IconButton, Menu } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Stack, useTheme } from '@mui/system';
@@ -22,7 +22,9 @@ export default function TopNavigationBar() {
     });
 
     const [popperActive, setPopperActive] = useState(false);
+    const [notificationsActive, setNotificationsActive] = useState(false);
     const navRef = useRef(null);
+    const menuRef = useRef(null);
 
     return (
         <>
@@ -112,6 +114,22 @@ export default function TopNavigationBar() {
                     >
                         <Link to={'/logout/'}>تسجيل الخروج</Link>
                     </Typography>
+                </Stack>
+            </DropdownPopper>
+            <DropdownPopper
+                clickAway={() => setNotificationsActive(false)}
+                isOpen={notificationsActive}
+                cardRef={menuRef}
+                placement="bottom-end"
+            >
+                <Stack
+                    gap={2}
+                    sx={{
+                        direction: 'rtl',
+                        pl: 2,
+                    }}
+                >
+                    <Typography>لا يوجد أي إشعارات</Typography>
                 </Stack>
             </DropdownPopper>
             <nav style={{ width: '100%' }}>
@@ -234,13 +252,19 @@ export default function TopNavigationBar() {
                             alignItems: 'center',
                         }}
                     >
-                        <Notifications
-                            sx={{
-                                fill: 'white',
-                                height: theme.spacing(4),
-                                width: theme.spacing(4),
-                            }}
-                        />
+                        <IconButton
+                            color={'secondary'}
+                            onClick={() => setNotificationsActive(val => !val)}
+                            ref={menuRef}
+                        >
+                            <Notifications
+                                sx={{
+                                    fill: 'white',
+                                    height: theme.spacing(4),
+                                    width: theme.spacing(4),
+                                }}
+                            />
+                        </IconButton>
 
                         <IconButton
                             ref={navRef}

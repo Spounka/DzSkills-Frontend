@@ -1,15 +1,11 @@
-import {
-    Avatar,
-    Box,
-    Button,
-    Card,
-    Stack,
-    Typography,
-    useTheme,
-} from '@mui/material';
-import React, { FormEvent } from 'react';
+import { Avatar, Box, Button, Card, Stack, Typography, useTheme } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
+import React, { FormEvent, useRef } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 import IconFormPassword from '../../../../components/form/IconFormPassword';
 import { MainButton } from '../../../../components/ui/MainButton';
+import axiosInstance from '../../../../globals/axiosInstance';
+import { User } from '../../../../types/user';
 import useLogin from '../../../authenticate/hooks/useLogin';
 import EditProfileField from '../../../edit-profile/components/fields';
 import AdminDashboardLayout from '../../layout';
@@ -21,9 +17,8 @@ function AdminPersonalDetails() {
     const user = useLogin();
 
     const avatarImage = React.useRef(null);
-    const [imageSrc, setImageSrc] = React.useState<
-        string | ArrayBuffer | null
-    >('');
+    const imageRef = useRef<HTMLInputElement>(null);
+    const [imageSrc, setImageSrc] = React.useState<string | ArrayBuffer | null>('');
     function onProfileImageChange(e: React.ChangeEvent<HTMLInputElement>) {
         const inputElement = e.target;
         let files: FileList | null = inputElement.files;
@@ -35,6 +30,41 @@ function AdminPersonalDetails() {
             reader.readAsDataURL(files[0]);
         }
     }
+
+    const queryClient = useQueryClient();
+    const updateProfileMutation = useMutation({
+        mutationKey: ['user', 'profile', 'edit'],
+        mutationFn: async (body: FormData) => {
+            return (await axiosInstance.patch(`/rest-auth/user/`, body)) as User;
+        },
+        onSuccess: () => {
+            enqueueSnackbar('تم تحديث الملف الشخصي بنجاح', { variant: 'success' });
+            queryClient.invalidateQueries(['user']);
+        },
+        onError: () => {
+            enqueueSnackbar('فشل التحديث', { variant: 'error' });
+        },
+    });
+
+    const onProfileSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        if (!formData.get('email')) {
+            formData.append('email', user[0].data?.email ?? '');
+        }
+        for (const key of formData.keys()) {
+            console.log('KEY: ', key);
+            console.log('KEY VALUE: ', formData.get(key));
+            if (formData.get(key) === '' || !formData.get(key)) {
+                formData.delete(key);
+            }
+        }
+        if (imageRef.current?.files?.item(0)) {
+            formData.append('profile_image', imageRef.current.files[0]);
+        }
+        updateProfileMutation.mutate(formData);
+        e.currentTarget.reset();
+    };
 
     return (
         <AdminDashboardLayout topbar_title={'الإعدادت'}>
@@ -70,10 +100,7 @@ function AdminPersonalDetails() {
                             <Avatar
                                 id={'avatar-image'}
                                 ref={avatarImage}
-                                src={
-                                    imageSrc?.toString() ||
-                                    user[0].data?.profile_image
-                                }
+                                src={imageSrc?.toString() || user[0].data?.profile_image}
                                 sx={{
                                     width: '50%',
                                     height: 'auto',
@@ -98,6 +125,7 @@ function AdminPersonalDetails() {
                                 }}
                             >
                                 <input
+                                    ref={imageRef}
                                     onChange={onProfileImageChange}
                                     style={{
                                         width: 1,
@@ -117,28 +145,39 @@ function AdminPersonalDetails() {
                             flexBasis={'70%'}
                             gap={2}
                         >
-                            <EditProfileField
-                                name={'username'}
-                                type={'text'}
-                                label={'إسم المستخدم'}
-                                placeholder={user[0].data?.username}
-                            />
-                            <EditProfileField
-                                name={'email'}
-                                type={'email'}
-                                label={'البريد الإلكتروني'}
-                                placeholder={user[0].data?.email}
-                            />
-
-                            <Box
-                                display={'flex'}
-                                justifyContent={'flex-end'}
+                            <form
+                                id={'edit-form'}
+                                onSubmit={onProfileSubmit}
+                                style={{
+                                    display: 'flex',
+                                    gap: '16px',
+                                    flexDirection: 'column',
+                                }}
                             >
-                                <MainButton
-                                    text={'حفظ'}
-                                    color={theme.palette.primary.main}
+                                <EditProfileField
+                                    name={'username'}
+                                    type={'text'}
+                                    label={'إسم المستخدم'}
+                                    placeholder={user[0].data?.username}
                                 />
-                            </Box>
+                                <EditProfileField
+                                    name={'email'}
+                                    type={'email'}
+                                    label={'البريد الإلكتروني'}
+                                    placeholder={user[0].data?.email}
+                                />
+
+                                <Box
+                                    display={'flex'}
+                                    justifyContent={'flex-end'}
+                                >
+                                    <MainButton
+                                        type={'submit'}
+                                        text={'حفظ'}
+                                        color={theme.palette.primary.main}
+                                    />
+                                </Box>
+                            </form>
 
                             <Typography
                                 variant="h6"
@@ -158,7 +197,7 @@ function AdminPersonalDetails() {
                                     const result = async () =>
                                         await changePassword(
                                             data,
-                                            user[0].data?.pk || 1
+                                            user[0].data?.pk ?? 0
                                         );
                                     result()
                                         .catch(error => Promise.reject(error))

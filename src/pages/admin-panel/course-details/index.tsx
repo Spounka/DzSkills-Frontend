@@ -14,27 +14,25 @@ import {
 import React, { FormEvent, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
-import createBlack from '../../../assets/svg/create-black.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/svg/delete-red.svg';
-import deleteWhiteBg from '../../../assets/svg/delete-whitebg.svg';
-import messageWhitebg from '../../../assets/svg/message-white.svg';
 import { InformationCard } from '../../../components/InformationCard';
 import { getCourses } from '../../courses-page/api/getAllCourses';
 
-import { MoreHoriz, Star } from '@mui/icons-material';
+import { Favorite, MoreHoriz, Star } from '@mui/icons-material';
 import Image from 'mui-image';
+import { useSnackbar } from 'notistack';
 import { useParams } from 'react-router-dom';
 import { ReactComponent as MoneyIcon } from '../../../assets/svg/money-white.svg';
 import students from '../../../assets/svg/school-blue.svg';
 import timeBlue from '../../../assets/svg/time-transparent.svg';
 import { ProfileSocialMedia } from '../../../components/ProfileSocialMedia';
 import axiosInstance from '../../../globals/axiosInstance';
+import { Course } from '../../../types/course';
 import { getCourse } from '../../course/api/getCourse';
 import NotFound from '../../not-found/NotFound';
 import AdminDashboardLayout from '../layout';
 import { RelatedStudent, getCourseRelatedStudents } from './api/relatedStudent';
 import { CourseStudent } from './components/courseStudent';
-import { useSnackbar } from 'notistack';
 
 function CourseDetails() {
     const params = useParams();
@@ -99,6 +97,26 @@ function CourseDetails() {
         },
     });
 
+    const flipCourseTrending = useMutation({
+        mutationKey: ['course', course.data?.id, 'trending'],
+        mutationFn: async () => {
+            return (await axiosInstance.patch(
+                `/courses/${id}/flip-trending/`
+            )) as Course;
+        },
+        onSuccess: () => {
+            enqueueSnackbar('تم التحديث بنجاح', { variant: 'success' });
+            queryClient.invalidateQueries(['courses', id]);
+        },
+        onError: () => {
+            enqueueSnackbar('فشل في تحديث', { variant: 'error' });
+        },
+    });
+
+    const handleCourseTrendingMutation = () => {
+        flipCourseTrending.mutate();
+    };
+
     const handleRemoveStudentsFormSubmission = (form: FormEvent<HTMLFormElement>) => {
         form.preventDefault();
         let formData = new FormData(form.currentTarget);
@@ -150,7 +168,11 @@ function CourseDetails() {
 
                 <InformationCard
                     title={'إجمالي الأرباح'}
-                    subtitle={'250000DA'}
+                    subtitle={
+                        (
+                            course.data && course.data.students_count * course.data.price
+                        )?.toString() ?? ''
+                    }
                     iconNode={<MoneyIcon fill={'white'} />}
                     sx={{
                         flexBasis: '20%',
@@ -185,37 +207,12 @@ function CourseDetails() {
                             horizontal: 'left',
                         }}
                     >
-                        <MenuItem disableRipple>
-                            <IconButton>
-                                <Image
-                                    src={messageWhitebg}
-                                    width={'auto'}
-                                />
-                            </IconButton>
-                        </MenuItem>
-                        <MenuItem disableRipple>
-                            <IconButton>
-                                <Box
-                                    sx={{
-                                        width: theme.spacing(6.5),
-                                        p: theme.spacing(1.5),
-                                        bgcolor: 'white',
-                                        borderRadius: theme.spacing(),
-                                    }}
-                                >
-                                    <Image
-                                        src={createBlack}
-                                        width={'auto'}
-                                    />
-                                </Box>
-                            </IconButton>
-                        </MenuItem>
-                        <MenuItem disableRipple>
-                            <IconButton>
-                                <Image
-                                    src={deleteWhiteBg}
-                                    width={'auto'}
-                                />
+                        <MenuItem onClick={handleClose}>
+                            <IconButton
+                                onClick={handleCourseTrendingMutation}
+                                color={course.data?.trending ? 'error' : 'default'}
+                            >
+                                <Favorite />
                             </IconButton>
                         </MenuItem>
                     </Menu>
@@ -352,7 +349,7 @@ function CourseDetails() {
                                 amet quasi quisquam beatae maxime!
                             </Typography>
 
-                            <ProfileSocialMedia />
+                            <ProfileSocialMedia user={course.data?.owner} />
                         </Box>
                     </Box>
                 </Box>

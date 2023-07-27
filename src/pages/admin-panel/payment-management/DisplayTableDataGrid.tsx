@@ -29,7 +29,7 @@ export function DisplayTableDataGrid({
             }}
         >
             <DataGrid
-                rows={rows}
+                rows={rows ?? []}
                 columns={columns}
                 checkboxSelection={checkbox}
                 initialState={{

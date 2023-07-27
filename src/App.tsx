@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import AboutUs from './pages/about-us/about-us';
 import HashtagsAndCategories from './pages/admin-panel/categories-hashtags';
 import CourseDetails from './pages/admin-panel/course-details';
 import AdminCourses from './pages/admin-panel/courses';
@@ -40,6 +41,7 @@ import { TeacherCourses } from './pages/teacher-dashboard/courses/TeacherCourses
 import EditProfileTeacherDashboard from './pages/teacher-dashboard/edit-profile';
 import TeacherLandingPage from './pages/teacher-dashboard/landing-page';
 import TeacherMessages from './pages/teacher-dashboard/messages';
+import TeachersPage from './pages/teachers';
 import EmailValidationPage from './pages/validate-email';
 import ViewCertificate from './pages/view-certificate';
 import WatchCourse from './pages/view-course';
@@ -156,6 +158,15 @@ function App() {
                     />
                 </Route>
             </Route>
+
+            <Route
+                path={'about'}
+                element={<AboutUs />}
+            />
+            <Route
+                path={'teachers'}
+                element={<TeachersPage />}
+            />
 
             {/* Teacher Dashboard */}
             <Route path="/dashboard">

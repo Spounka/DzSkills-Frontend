@@ -1,4 +1,5 @@
 import { Button, ButtonProps, SxProps, useTheme } from '@mui/material';
+import { ReactNode } from 'react';
 
 //@ts-ignore
 interface props extends ButtonProps {
@@ -7,9 +8,10 @@ interface props extends ButtonProps {
     sx?: SxProps;
     type?: 'button' | 'reset' | 'submit';
     spin?: boolean;
+    children?: ReactNode;
 }
 
-export function MainButton({ text, color, sx, type, spin, ...other }: props) {
+export function MainButton({ text, color, sx, type, spin, children, ...other }: props) {
     const theme = useTheme();
     return (
         <Button
@@ -52,6 +54,7 @@ export function MainButton({ text, color, sx, type, spin, ...other }: props) {
             disabled={spin}
             {...other}
         >
+            {children}
             {spin && (
                 <div className="h-6 w-6 border-t-2 mx-auto border-white group-hover:border-black rounded-t-full animate-spin">
                     {' '}

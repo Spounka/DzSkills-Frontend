@@ -1,10 +1,49 @@
-import { Typography, TextField } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
+import { useSnackbar } from 'notistack';
+import { FormEvent } from 'react';
+import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { MainButton } from '../../../../components/ui/MainButton';
+import axiosInstance from '../../../../globals/axiosInstance';
 import theme from '../../../../theme';
 
 function PasswordForgottenEmailSection({ onNextButtonClick }: any) {
+    const { enqueueSnackbar } = useSnackbar();
+    const navigate = useNavigate();
+    const sumbitEmailMutation = useMutation({
+        mutationKey: ['user', 'password', 'reset'],
+        mutationFn: async (body: FormData) => {
+            const { data } = await axiosInstance.post(
+                '/rest-auth/password/reset/',
+                body
+            );
+            return data;
+        },
+        onSuccess: () => {
+            enqueueSnackbar('تم إرسال البريد الإلكتروني بنجاح', { variant: 'success' });
+            setTimeout(() => navigate('/login/'), 2000);
+        },
+
+        onError: () => {
+            enqueueSnackbar('فشل إرسال البريد الإلكتروني', { variant: 'error' });
+        },
+    });
+
+    const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        sumbitEmailMutation.mutate(formData);
+    };
+
     return (
-        <>
+        <form
+            onSubmit={onSubmit}
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px',
+            }}
+        >
             <Typography
                 textAlign={'center'}
                 variant={'h5'}
@@ -61,12 +100,13 @@ function PasswordForgottenEmailSection({ onNextButtonClick }: any) {
 
             {
                 <MainButton
+                    type="submit"
                     text={'ارسال التأكيد'}
                     color={theme.palette.secondary.main}
-                    {...{ onClick: onNextButtonClick }}
+                    // {...{ onClick: onNextButtonClick }}
                 />
             }
-        </>
+        </form>
     );
 }
 

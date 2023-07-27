@@ -13,8 +13,6 @@ function EditProfileTeacherDashboard() {
                 <EditProfileContent />
                 <Typography
                     sx={{
-                        // gridColumnStart: 5,
-                        // gridColumnEnd: 14,
                         px: 2,
                     }}
                     variant={'h5'}

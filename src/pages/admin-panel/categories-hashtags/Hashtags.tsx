@@ -260,7 +260,7 @@ export function Hashtags() {
                 </AddItemPopup>
                 <DisplayTableDataGrid
                     checkbox
-                    rows={rows}
+                    rows={rows ?? []}
                     columns={columns}
                     {...{
                         onRowSelectionModelChange: (newSelection: number[]) => {

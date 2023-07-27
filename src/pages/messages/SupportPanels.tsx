@@ -78,6 +78,7 @@ export function SupportPanels() {
                 autoHideDuration: 1000 * 3,
             });
         },
+        enabled: (user.data?.pk ?? 0) > 0,
     });
     const selectConversation = useCallback(
         (conversation: Partial<Conversation>) => setSelectedConversation(conversation),
@@ -118,7 +119,9 @@ export function SupportPanels() {
                 endConversation={endConversation}
             />
             <ConversationsListPanel
-                conversations={conversations}
+                conversations={conversations?.sort(c =>
+                    c.ticket && c.ticket.state === 'closed' ? 1 : 0
+                )}
                 isLoading={conversationListQuery.isLoading}
                 selectedConversation={selectedConversation}
                 selectConversation={selectConversation}

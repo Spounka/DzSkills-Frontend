@@ -60,21 +60,34 @@ function EditProfile() {
                         maxWidth: '100%',
                         gap: theme.spacing(2),
                         marginBottom: '5rem',
-                        paddingRight: theme.spacing(14),
-                        paddingLeft: theme.spacing(14),
+                        px: {
+                            xs: theme.spacing(2),
+                            lg: theme.spacing(14),
+                        },
                         pt: theme.spacing(10),
                     }}
                 >
                     <Container
-                        sx={{ gridColumnStart: 1, gridColumnEnd: 4 }}
+                        sx={{
+                            display: { xs: 'none', lg: 'block' },
+                            gridColumnStart: 1,
+                            gridColumnEnd: 4,
+                        }}
                         style={{ paddingLeft: '0', paddingRight: '0' }}
                     >
                         <SideBar />
                     </Container>
-                    <EditProfileContent />
+                    <Box
+                        sx={{
+                            gridColumnStart: { xs: 1, lg: 5 },
+                            gridColumnEnd: -1,
+                        }}
+                    >
+                        <EditProfileContent />
+                    </Box>
                     <Typography
                         sx={{
-                            gridColumnStart: 5,
+                            gridColumnStart: { xs: 1, lg: 5 },
                             gridColumnEnd: 14,
                             px: 2,
                         }}
@@ -85,7 +98,14 @@ function EditProfile() {
                         كلمة السر
                     </Typography>
 
-                    <EditPasswordForm />
+                    <Box
+                        sx={{
+                            gridColumnStart: { xs: 1, lg: 5 },
+                            gridColumnEnd: -1,
+                        }}
+                    >
+                        <EditPasswordForm />
+                    </Box>
                 </Box>
             </Grid>
         </Grid>
