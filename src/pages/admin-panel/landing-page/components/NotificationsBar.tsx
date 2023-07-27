@@ -1,4 +1,3 @@
-import { ClickAwayListener } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -9,10 +8,7 @@ interface NotificationsProps {
     drawerOpen: boolean;
     mainColor: string | undefined;
 }
-export function NotificationsBar({
-    drawerOpen,
-    mainColor,
-}: NotificationsProps) {
+export function NotificationsBar({ drawerOpen, mainColor }: NotificationsProps) {
     const theme = useTheme();
     return (
         <Card
@@ -22,7 +18,7 @@ export function NotificationsBar({
                 transform: drawerOpen ? 'translate(0, 0)' : 'translate(-105%, 0)',
                 p: 2,
                 mt: 0,
-                bgcolor: mainColor || theme.palette.purple.light,
+                bgcolor: mainColor ?? theme.palette.purple.light,
                 color: 'white',
                 borderRadius: `0 ${theme.spacing()} ${theme.spacing()} 0`,
                 display: 'flex',
@@ -31,7 +27,7 @@ export function NotificationsBar({
                 position: 'fixed',
                 left: 0,
                 width: '20%',
-                height: '80%',
+                height: '100%',
             }}
         >
             <Typography
@@ -45,127 +41,43 @@ export function NotificationsBar({
                 display={'flex'}
                 flexDirection={'column'}
             >
-                <Box
-                    display={'flex'}
-                    gap={2}
-                >
-                    <Avatar
-                        sx={{
-                            width: theme.spacing(6),
-                            height: theme.spacing(6),
-                            aspectRatio: '1/1',
-                            flexGrow: '1',
-                        }}
-                    />
-                    <Box
-                        display={'flex'}
-                        flexDirection={'column'}
-                    >
-                        <Typography
-                            variant={'caption'}
-                            fontWeight={400}
-                        >
-                            اشتراك جديد
-                        </Typography>
-                        <Typography
-                            variant={'caption'}
-                            fontWeight={300}
-                        >
-                            قام اسم المستخدم بالاشتراك في كورس اسم الكورس
-                        </Typography>
-                    </Box>
-                </Box>
-                <Box
-                    display={'flex'}
-                    gap={2}
-                >
-                    <Avatar
-                        sx={{
-                            width: theme.spacing(6),
-                            height: theme.spacing(6),
-                            aspectRatio: '1/1',
-                            flexGrow: '1',
-                        }}
-                    />
-                    <Box
-                        display={'flex'}
-                        flexDirection={'column'}
-                    >
-                        <Typography
-                            variant={'caption'}
-                            fontWeight={400}
-                        >
-                            اشتراك جديد
-                        </Typography>
-                        <Typography
-                            variant={'caption'}
-                            fontWeight={300}
-                        >
-                            قام اسم المستخدم بالاشتراك في كورس اسم الكورس
-                        </Typography>
-                    </Box>
-                </Box>
-                <Box
-                    display={'flex'}
-                    gap={2}
-                >
-                    <Avatar
-                        sx={{
-                            width: theme.spacing(6),
-                            height: theme.spacing(6),
-                            aspectRatio: '1/1',
-                            flexGrow: '1',
-                        }}
-                    />
-                    <Box
-                        display={'flex'}
-                        flexDirection={'column'}
-                    >
-                        <Typography
-                            variant={'caption'}
-                            fontWeight={400}
-                        >
-                            اشتراك جديد
-                        </Typography>
-                        <Typography
-                            variant={'caption'}
-                            fontWeight={300}
-                        >
-                            قام اسم المستخدم بالاشتراك في كورس اسم الكورس
-                        </Typography>
-                    </Box>
-                </Box>
-                <Box
-                    display={'flex'}
-                    gap={2}
-                >
-                    <Avatar
-                        sx={{
-                            width: theme.spacing(6),
-                            height: theme.spacing(6),
-                            aspectRatio: '1/1',
-                            flexGrow: '1',
-                        }}
-                    />
-                    <Box
-                        display={'flex'}
-                        flexDirection={'column'}
-                    >
-                        <Typography
-                            variant={'caption'}
-                            fontWeight={400}
-                        >
-                            اشتراك جديد
-                        </Typography>
-                        <Typography
-                            variant={'caption'}
-                            fontWeight={300}
-                        >
-                            قام اسم المستخدم بالاشتراك في كورس اسم الكورس
-                        </Typography>
-                    </Box>
-                </Box>
+                <Typography>لا يوجد أي إشعارات</Typography>
             </Box>
         </Card>
+    );
+}
+
+function Notification({}) {
+    const theme = useTheme();
+    return (
+        <Box
+            display={'flex'}
+            gap={2}
+        >
+            <Avatar
+                sx={{
+                    width: theme.spacing(6),
+                    height: theme.spacing(6),
+                    aspectRatio: '1/1',
+                }}
+            />
+            <Box
+                display={'flex'}
+                flexDirection={'column'}
+            >
+                <Typography
+                    variant={'caption'}
+                    fontWeight={400}
+                >
+                    اشتراك جديد
+                </Typography>
+                <Typography
+                    variant={'caption'}
+                    fontWeight={300}
+                >
+                    قام اسم المستخدم بالاشتراك في كورس اسم الكورس
+                </Typography>
+            </Box>
+        </Box>
     );
 }

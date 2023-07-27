@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { AxiosError } from 'axios';
 import Image from 'mui-image';
-import { SnackbarKey, useSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -139,7 +139,7 @@ function BuyCourse() {
                     sx={{
                         backgroundColor: 'gray.secondary',
                         height: '100%',
-                        minHeight: '100dvh',
+                        // minHeight: '100dvh',
                     }}
                 >
                     <Box
@@ -171,6 +171,10 @@ function BuyCourse() {
                             </Typography>
                             <Box
                                 display="flex"
+                                flexDirection={{
+                                    xs: 'column-reverse',
+                                    lg: 'row',
+                                }}
                                 gap={2}
                             >
                                 <Box
@@ -250,59 +254,74 @@ function BuyCourse() {
                                         flexDirection: 'column',
                                         flexBasis: '60%',
                                         width: '100%',
-                                        height: 'min-content',
+                                        height: {
+                                            xs: '100%',
+                                            lg: 'min-content',
+                                        },
                                         // flexShrink: '1',
                                         borderRadius: theme.spacing(),
-                                        py: 9,
-                                        px: 12,
-                                        gap: 6,
+                                        py: {
+                                            xs: 2,
+                                            lg: 9,
+                                        },
+                                        px: {
+                                            xs: 2,
+                                            lg: 12,
+                                        },
+                                        gap: {
+                                            xs: 2,
+                                            lg: 6,
+                                        },
                                     }}
                                 >
                                     <Box
                                         display={'flex'}
+                                        flexDirection={{
+                                            xs: 'column',
+                                            lg: 'row',
+                                        }}
                                         justifyContent={'space-between'}
                                         alignItems={'center'}
+                                        gap={2}
+                                        pr={2}
                                     >
                                         <Typography
                                             color={'gray.main'}
                                             variant={'subtitle2'}
                                             fontWeight={400}
-                                            maxWidth={'60%'}
+                                            maxWidth={'100%'}
                                         >
                                             يرجى تحميل معلومات الدفع الخاصة بالموقع من
                                             هنا
                                         </Typography>
-                                        <a
-                                            download
-                                            target="_blank"
-                                            href={imageLink}
-                                            style={{
-                                                textDecoration: 'none',
-                                                width: '100%',
-                                                maxWidth: '34%',
+
+                                        <MainButton
+                                            sx={{
+                                                borderRadius: theme.spacing(),
+                                                gap: 2,
+                                                width: {
+                                                    xs: 'auto',
+                                                    lg: '34%',
+                                                },
                                             }}
-                                        >
-                                            <MainButton
-                                                sx={{
-                                                    borderRadius: theme.spacing(),
-                                                    gap: 2,
-                                                    width: '100%',
-                                                }}
-                                                {...{
-                                                    size: 'large',
-                                                    endIcon: (
-                                                        <DownloadSvgIcon
-                                                            {...{
-                                                                width: theme.spacing(2),
-                                                                height: theme.spacing(2),
-                                                            }}
-                                                        />
-                                                    ),
-                                                }}
-                                                text={'تحميل'}
-                                                color={theme.palette.primary.main}
-                                            />
-                                        </a>
+                                            {...{
+                                                component: 'a',
+                                                href: imageLink,
+                                                target: '_blank',
+                                                download: true,
+                                                size: 'large',
+                                                endIcon: (
+                                                    <DownloadSvgIcon
+                                                        {...{
+                                                            width: theme.spacing(2),
+                                                            height: theme.spacing(2),
+                                                        }}
+                                                    />
+                                                ),
+                                            }}
+                                            text={'تحميل'}
+                                            color={theme.palette.primary.main}
+                                        />
                                     </Box>
 
                                     <form
@@ -311,25 +330,35 @@ function BuyCourse() {
                                             display: 'flex',
                                             flexDirection: 'column',
                                             width: '100%',
-                                            height: 'min-content',
+                                            // height: 'min-content',
                                             borderRadius: theme.spacing(),
                                             paddingTop: 9,
                                             paddingBottom: 9,
                                             paddingRight: 12,
-                                            gap: theme.spacing(6),
+                                            gap: theme.spacing(2),
                                         }}
                                     >
                                         <Box
                                             display={'flex'}
+                                            flexDirection={{
+                                                xs: 'column',
+                                                lg: 'row',
+                                            }}
                                             justifyContent={'space-between'}
                                             alignItems={'center'}
-                                            gap={9}
+                                            gap={{
+                                                xs: 2,
+                                                lg: 9,
+                                            }}
                                         >
                                             <Typography
                                                 color={'gray.main'}
                                                 variant={'subtitle2'}
                                                 fontWeight={400}
-                                                maxWidth={'60%'}
+                                                maxWidth={{
+                                                    xs: '80%',
+                                                    lg: '60%',
+                                                }}
                                             >
                                                 عند إكمال الدفع يرجى ارفاق الوصل حتى
                                                 نتمكن من تأكيد دفعكم . عملية التأكيد بين
@@ -408,12 +437,16 @@ function BuyCourse() {
                                         </Box>
                                         <Box
                                             display={'flex'}
+                                            gap={2}
                                             justifyContent={'space-between'}
                                         >
                                             <MainButton
                                                 type={'submit'}
                                                 text={'شراء الآن'}
                                                 color={theme.palette.primary.main}
+                                                {...{
+                                                    size: 'small',
+                                                }}
                                             />
 
                                             <MainButton
@@ -421,6 +454,7 @@ function BuyCourse() {
                                                 color={theme.palette.error.main}
                                                 {...{
                                                     onClick: () => navigate('..'),
+                                                    size: 'small',
                                                 }}
                                             />
                                         </Box>

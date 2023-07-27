@@ -9,8 +9,8 @@ import Footer from '../../components/footer';
 
 function Profile() {
     const theme = useTheme();
-    const [query] = useLogin();
-    if (!query.isSuccess) return <></>;
+    const [userQuery] = useLogin();
+    if (!userQuery.isSuccess) return <></>;
     return (
         <Grid
             container

@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import { NavLink } from 'react-router-dom';
 import { Course } from '../../types/course';
+import Image from 'mui-image';
 
 interface props {
     data: Course;
@@ -30,8 +31,8 @@ export function BestCourseCard({ data, index, currentCourseIndex }: props) {
             sx={{
                 display: 'flex',
                 flexDirection: {
-                    xs: 'column',
-                    lg: 'row',
+                    xs: 'column-reverse',
+                    md: 'row',
                 },
                 height: '100%',
                 width: '100%',
@@ -41,12 +42,16 @@ export function BestCourseCard({ data, index, currentCourseIndex }: props) {
                 position: 'absolute',
                 transition: 'all ease-in 200ms',
                 transform: getTransformValue(),
+                overflow: 'hidden',
             }}
         >
             <Box
                 sx={{
-                    flexBasis: '50%',
-                    flexShrink: '1',
+                    flex: {
+                        xs: '1 1 40%',
+                        md: '1 1 50%',
+                    },
+                    width: '100%',
                     display: 'flex',
                     flexDirection: 'column',
                     py: 2,
@@ -131,7 +136,7 @@ export function BestCourseCard({ data, index, currentCourseIndex }: props) {
                     </Box>
                 </Box>
             </Box>
-            <Box
+            {/* <Box
                 sx={{
                     zIndex: 3,
                     flexGrow: '1',
@@ -141,11 +146,22 @@ export function BestCourseCard({ data, index, currentCourseIndex }: props) {
                     minHeight: '100%',
                     bgcolor: 'white',
                     backgroundImage: `url('${data.thumbnail}')`,
-                    backgroundSize: 'cover',
+                    backgroundSize: 'contain',
                     backgroundRepeat: 'no-repeat',
-                    backgroundPosition: '50% 50%',
+                    // backgroundPosition: '50% 50%',
                 }}
-            ></Box>
+            ></Box> */}
+            <Box
+                flex={{
+                    xs: '1 1 60%',
+                    md: '1 1 50%',
+                }}
+            >
+                <Image
+                    fit="contain"
+                    src={data.thumbnail}
+                />
+            </Box>
         </Card>
     );
 }

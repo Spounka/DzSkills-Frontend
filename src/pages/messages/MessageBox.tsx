@@ -7,6 +7,7 @@ import { MessagePagination } from '../../types/messages';
 import { User } from '../../types/user';
 import { Message } from './Message';
 import { getDzSkillsUser } from './SupportConversationPanel';
+import useLogin from '../authenticate/hooks/useLogin';
 
 interface MessageBoxProps {
     messages?: InfiniteData<MessagePagination>;
@@ -17,12 +18,13 @@ interface MessageBoxProps {
 }
 export function MessageBox({
     messages,
-    user,
+    // user,
     teacher_profile_image,
     hasNextPage,
     loadMore,
 }: MessageBoxProps) {
     const theme = useTheme();
+    const [user] = useLogin();
 
     const dzSkillsAdminQuery = useQuery({
         queryKey: ['users', 'admin'],
@@ -45,7 +47,7 @@ export function MessageBox({
                 flexDirection: 'column-reverse',
             }}
         >
-            {messages?.pages.map((page, i) => {
+            {messages?.pages?.map((page, i) => {
                 return (
                     <React.Fragment key={i}>
                         {page.results?.map((message, index, arr) => {

@@ -1,13 +1,62 @@
-import { Box, Card, Grid, Stack, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Box, Card, Grid, Stack, Typography, useTheme } from '@mui/material';
+import { FormEvent, useEffect, useState } from 'react';
+import { useMutation } from 'react-query';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/svg/DzSkills.svg';
 import IconFormPassword from '../../components/form/IconFormPassword';
+import { MainButton } from '../../components/ui/MainButton';
+import axiosInstance from '../../globals/axiosInstance';
 import PasswordForgottenEmailSection from './components/email-validation';
-import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 
-export function PasswordResetForm() {
+export function PasswordResetForm({
+    userUID,
+    token,
+}: {
+    userUID: string;
+    token: string;
+}) {
+    const theme = useTheme();
+    const navigate = useNavigate();
+
+    const { enqueueSnackbar } = useSnackbar();
+
+    useEffect(() => {
+        if (!userUID || userUID === '' || !token || token === '')
+            navigate('/password/reset/');
+    }, [userUID, token]);
+
+    const submitPasswordMutation = useMutation({
+        mutationKey: ['user', 'password', 'change'],
+        mutationFn: async (body: FormData) => {
+            return await axiosInstance.post(`/rest-auth/password/reset/confirm/`, body);
+        },
+        onSuccess: () => {
+            enqueueSnackbar('تم تغيير كلمة المرور بنجاح', { variant: 'success' });
+            setTimeout(() => navigate('/login/'), 2000);
+        },
+        onError: () => {
+            enqueueSnackbar('حدث خطأ أثناء تغيير كلمة المرور', { variant: 'error' });
+            enqueueSnackbar('حاول مرة اخرى', { variant: 'error' });
+        },
+    });
+    const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        formData.set('uid', userUID);
+        formData.set('token', token);
+        submitPasswordMutation.mutate(formData);
+    };
     return (
-        <>
+        <form
+            onSubmit={onSubmit}
+            style={{
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px',
+            }}
+        >
             <Typography
                 textAlign={'center'}
                 variant={'h5'}
@@ -34,18 +83,43 @@ export function PasswordResetForm() {
                 }
             </Typography>
             <IconFormPassword
-                name="password1"
+                name="new_password1"
                 placeholder={'هنا كلمة السر'}
             />
             <IconFormPassword
-                name="password2"
+                name="new_password2"
                 placeholder={'تأكيد كلمة السر'}
             />
-        </>
+            <input
+                hidden
+                readOnly
+                name={'uid'}
+                value={userUID}
+            />
+            <input
+                hidden
+                readOnly
+                name={'token'}
+                value={token}
+            />
+            <MainButton
+                color={theme.palette.secondary.main}
+                type="submit"
+                text="إرسال"
+                {...{
+                    sx: { alignSelf: 'flex-end' },
+                }}
+            />
+        </form>
     );
 }
 
-function getStageComponent(stage: number, moveNextStage: any) {
+function getStageComponent(
+    stage: number,
+    moveNextStage: any,
+    token: string,
+    uid: string
+) {
     switch (stage) {
         case 0:
             return (
@@ -54,7 +128,12 @@ function getStageComponent(stage: number, moveNextStage: any) {
                 />
             );
         case 1:
-            return <PasswordResetForm />;
+            return (
+                <PasswordResetForm
+                    token={token}
+                    userUID={uid}
+                />
+            );
     }
 }
 
@@ -62,20 +141,18 @@ interface props {
     stage?: number;
 }
 function PasswordForgotten({ stage }: props) {
-    const [currentStage, setCurrentStage] = useState(stage || 0);
+    const [currentStage, setCurrentStage] = useState(stage ?? 0);
+    const [uid, setUID] = useState('');
+    const [token, setToken] = useState('');
 
-    const redirect = useNavigate();
     const url = new URL(location.href);
     useEffect(() => {
-        if (
-            !url.searchParams.has('t') &&
-            !url.searchParams.has('u') &&
-            currentStage > 0
-        ) {
-            setCurrentStage(0);
-            // redirect('/password/reset/');
+        if (url.searchParams.has('u') && url.searchParams.has('t')) {
+            setCurrentStage(1);
+            setUID(url.searchParams.get('u') ?? '');
+            setToken(url.searchParams.get('t') ?? '');
         }
-    }, []);
+    }, [uid, token, currentStage]);
 
     return (
         <Grid
@@ -111,11 +188,13 @@ function PasswordForgotten({ stage }: props) {
                         px: 4,
                     }}
                 >
-                    <img
-                        src={logo}
-                        alt=""
-                        className="max-h-10 w-32"
-                    />
+                    <Link to={'/'}>
+                        <img
+                            src={logo}
+                            alt=""
+                            className="max-h-10 w-32"
+                        />
+                    </Link>
                 </Grid>
             </Grid>
 
@@ -139,8 +218,8 @@ function PasswordForgotten({ stage }: props) {
                     <Card
                         elevation={0}
                         sx={{
-                            gridColumnStart: 5,
-                            gridColumnEnd: 9,
+                            gridColumnStart: { xs: 2, lg: 5 },
+                            gridColumnEnd: { lg: 9, xs: -1 },
                             maxWidth: '100%',
                             minHeight: '70vh',
                             marginTop: 8,
@@ -148,8 +227,16 @@ function PasswordForgotten({ stage }: props) {
                             px: 4,
                         }}
                     >
-                        <Stack spacing={4}>
-                            {getStageComponent(currentStage, setCurrentStage)}
+                        <Stack
+                            spacing={4}
+                            height={'100%'}
+                        >
+                            {getStageComponent(
+                                currentStage,
+                                setCurrentStage,
+                                token,
+                                uid
+                            )}
                         </Stack>
                     </Card>
                 </Box>

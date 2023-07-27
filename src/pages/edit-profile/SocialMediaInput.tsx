@@ -18,8 +18,10 @@ export default function SocialMediaInput({ name, text, placeholder }: any) {
                 color={'white'}
                 variant={'h6'}
                 sx={{
-                    flexBasis: '2/3',
+                    flexBasis: '40%',
                     flexGrow: '1',
+                    flexShrink: '0',
+                    width: '100%',
                 }}
             >
                 {text}
@@ -31,8 +33,9 @@ export default function SocialMediaInput({ name, text, placeholder }: any) {
                 dir={'ltr'}
                 color={'secondary'}
                 sx={{
+                    width: '100%',
                     flexGrow: '1',
-                    flexBasis: '1/3',
+                    flexBasis: '60%',
                     bgcolor: 'white',
                     borderRadius: theme.spacing(),
                 }}

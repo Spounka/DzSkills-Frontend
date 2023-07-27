@@ -8,6 +8,7 @@ export default function EditProfileColumn({ children }: any) {
             sx={{
                 width: 'full',
                 display: 'flex',
+                flexDirection: { xs: 'column', lg: 'row' },
                 flexGrow: '1',
                 maxHeight: '100%',
                 gap: theme.spacing(2),

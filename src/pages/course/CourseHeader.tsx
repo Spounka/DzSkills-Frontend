@@ -4,6 +4,7 @@ import useTheme from '@mui/system/useTheme';
 import { useNavigate } from 'react-router-dom';
 import { MainButton } from '../../components/ui/MainButton';
 import { Course } from '../../types/course';
+import Image from 'mui-image';
 
 interface CourseHeaerProps {
     data: Course;
@@ -70,7 +71,7 @@ export function CourseHeader({ data }: CourseHeaerProps) {
                     </Typography>
                 </Box>
             </Box>
-            <Box
+            {/* <Box
                 sx={{
                     backgroundImage: `url('${data.thumbnail}')`,
                     width: '100%',
@@ -81,7 +82,16 @@ export function CourseHeader({ data }: CourseHeaerProps) {
                     backgroundSize: 'cover',
                     backgroundPosition: '50% 50%',
                 }}
-            ></Box>
+            ></Box> */}
+            <Box
+                sx={{
+                    flex: '1 1 50%',
+                    width: '100%',
+                    height: '100%',
+                }}
+            >
+                <Image src={data.thumbnail} />
+            </Box>
         </>
     );
 }

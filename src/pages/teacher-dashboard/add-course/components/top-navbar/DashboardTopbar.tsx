@@ -1,7 +1,16 @@
-import { Avatar, OutlinedInput, Typography, useTheme } from '@mui/material';
+import {
+    Avatar,
+    IconButton,
+    Menu,
+    MenuItem,
+    OutlinedInput,
+    Typography,
+    useTheme,
+} from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as NotificationsIcon } from '../../../../../assets/svg/notification purple.svg';
 import { ReactComponent as UploadIcon } from '../../../../../assets/svg/upload.svg';
 import { MainButton } from '../../../../../components/ui/MainButton';
@@ -16,9 +25,13 @@ interface props {
 export function DashboardTopbar({ title, subtitle, onNotificationClick }: props) {
     const [query] = useLogin();
     const navigate = useNavigate();
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>(undefined);
+    const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
     const theme = useTheme();
+
     if (!query.isSuccess) return <></>;
+
     return (
         <Card
             elevation={0}
@@ -108,12 +121,80 @@ export function DashboardTopbar({ title, subtitle, onNotificationClick }: props)
                     cursor: 'pointer',
                 }}
             />
-            <Avatar
-                src={query.data?.profile_image}
+            <IconButton
+                onClick={e => {
+                    setAnchorEl(e.currentTarget);
+                    setMenuOpen(true);
+                }}
                 sx={{
                     gridColumn: '-1',
                 }}
-            />
+            >
+                <Avatar src={query.data?.profile_image} />
+            </IconButton>
+            <Menu
+                open={menuOpen}
+                anchorEl={anchorEl}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+                onClose={() => {
+                    setMenuOpen(false);
+                    setAnchorEl(undefined);
+                }}
+                sx={{
+                    '&root': {
+                        borderRadius: theme.spacing(2),
+                    },
+                }}
+            >
+                <MenuItem
+                    onClick={() => {
+                        setMenuOpen(false);
+                        setAnchorEl(undefined);
+                    }}
+                >
+                    <Link to={'/profile/'}>
+                        <Typography
+                            variant={'body1'}
+                            // color={theme.palette.error.main}
+                        >
+                            الملف الشخصي
+                        </Typography>
+                    </Link>
+                </MenuItem>
+
+                {query.data.groups.some(g => g.name === 'AdminGroup') && (
+                    <MenuItem
+                        onClick={() => {
+                            setMenuOpen(false);
+                            setAnchorEl(undefined);
+                        }}
+                    >
+                        <Link to={'/admin/'}>
+                            <Typography
+                                variant={'body1'}
+                            >
+                                لوحة تحكم المسؤول
+                            </Typography>
+                        </Link>
+                    </MenuItem>
+                )}
+                <MenuItem
+                    onClick={() => {
+                        setMenuOpen(false);
+                        setAnchorEl(undefined);
+                    }}
+                >
+                    <Link to={'/logout/'}>
+                        <Typography
+                            variant={'body1'}
+                            color={theme.palette.error.main}
+                        >
+                            تسجيل خروج
+                        </Typography>
+                    </Link>
+                </MenuItem>
+            </Menu>
         </Card>
     );
 }

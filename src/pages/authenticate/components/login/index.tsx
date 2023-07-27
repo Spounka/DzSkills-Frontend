@@ -1,6 +1,7 @@
 import { Stack, TextField, Typography, useTheme } from '@mui/material';
 import { useFormik } from 'formik';
 import { useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import { useMutation } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -11,11 +12,10 @@ import axiosInstance from '../../../../globals/axiosInstance';
 import { LoginUser, updateUser } from '../../../../redux/userSlice';
 import { login } from '../../api/authenticate';
 import AuthFormsHeader from '../form-header';
-import { Helmet } from 'react-helmet';
 
 const validationSchema = Yup.object({
     email: Yup.string()
-        .email('البريد الإلكتروني غير صالح')
+        // .email('البريد الإلكتروني غير صالح')
         .required('تعبئة الخانة اجبارية'),
     password: Yup.string()
         .min(8, 'يجب ألا يقل طول الحقل عن 8 أحرف')
@@ -155,7 +155,7 @@ export default function Login() {
                     />
 
                     <Link
-                        to="password-reset"
+                        to="/password/reset/"
                         style={{
                             color: `${theme.palette.secondary.main}`,
                             alignSelf: 'center',

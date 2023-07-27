@@ -129,7 +129,7 @@ export function UserDetailsWideRibbon({ user }: UserDetailsWideRibbonProps) {
                 }}
             >
                 <Typography>{user.email}</Typography>
-                <ProfileSocialMedia />
+                <ProfileSocialMedia user={user} />
             </Box>
             <Box
                 flexGrow="1"

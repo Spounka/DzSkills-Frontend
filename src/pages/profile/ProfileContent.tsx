@@ -147,7 +147,7 @@ export function ProfileContent() {
                         }}
                     />
 
-                    <ProfileSocialMedia />
+                    <ProfileSocialMedia user={user.data} />
                 </Box>
             </Box>
 
