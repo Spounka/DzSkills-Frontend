@@ -1,15 +1,15 @@
-import { Avatar, ButtonGroup, useTheme } from '@mui/material';
+import {Avatar, ButtonGroup, useTheme} from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import { useSnackbar } from 'notistack';
-import { FormEvent, useEffect, useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
-import { useSelector } from 'react-redux';
-import { MainButton } from '../../components/ui/MainButton';
+import {useSnackbar} from 'notistack';
+import {FormEvent, useEffect, useState} from 'react';
+import {useMutation, useQueryClient} from 'react-query';
+import {useSelector} from 'react-redux';
+import {MainButton} from '../../components/ui/MainButton';
 import UploadSvgIcon from '../../components/ui/UploadSvgIcon';
 import axiosInstance from '../../globals/axiosInstance';
-import { selectUser } from '../../redux/userSlice';
-import { User } from '../../types/user';
+import {selectUser} from '../../redux/userSlice';
+import {User} from '../../types/user';
 import useLogin from '../authenticate/hooks/useLogin';
 import SocialMediaInput from './SocialMediaInput';
 import EditProfileField from './components/fields';
@@ -17,36 +17,42 @@ import EditProfileColumn from './components/fields-column';
 
 export default function EditProfileContent({}) {
     const theme = useTheme();
-    const [image, setImage] = useState<string>();
+    const [imageLink, setImageLink] = useState<string>();
+    const [imageFile, setImageFile] = useState<File | null>(null)
     const user = useSelector(selectUser);
     const [query] = useLogin();
     const queryClient = useQueryClient();
-    const { enqueueSnackbar } = useSnackbar();
+    const {enqueueSnackbar} = useSnackbar();
 
     const updateProfileMutation = useMutation({
         mutationKey: ['profile', 'update'],
         mutationFn: async (body: FormData) => {
-            const { data } = await axiosInstance.patch(`/rest-auth/user/`, body);
+            const {data} = await axiosInstance.patch(`/rest-auth/user/`, body);
             return data as User;
         },
         onSuccess: () => {
-            enqueueSnackbar('تم التحديث بنجاح', { variant: 'success' });
+            enqueueSnackbar('تم التحديث بنجاح', {variant: 'success'});
             queryClient.invalidateQueries(['user']);
         },
         onError: () => {
-            enqueueSnackbar('حدث خطأ ، يرجى المحاولة مرة أخرى', { variant: 'error' });
+            enqueueSnackbar('حدث خطأ ، يرجى المحاولة مرة أخرى', {variant: 'error'});
         },
     });
 
     useEffect(() => {
-        setImage(query.data?.profile_image);
+        setImageLink(query.data?.profile_image);
     }, []);
 
     const updateProfile = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        for (const field of formData.keys()) {
-            if (formData.get(field) === '') formData.delete(field);
+        const formData = new FormData();
+        for (let _field of e.currentTarget) {
+            const field = _field as HTMLInputElement
+            if (field.value)
+                formData.set(field.name, field.value)
+        }
+        if (imageFile) {
+            formData.set('profile_image', imageFile)
         }
         updateProfileMutation.mutate(formData);
         e.currentTarget.reset();
@@ -73,13 +79,13 @@ export default function EditProfileContent({}) {
                 <Box
                     sx={{
                         display: 'flex',
-                        flexDirection: { xs: 'column', lg: 'row' },
+                        flexDirection: {xs: 'column', lg: 'row'},
                         alignItems: 'center',
                         gap: theme.spacing(8),
                     }}
                 >
                     <Avatar
-                        src={image}
+                        src={imageLink}
                         sx={{
                             width: theme.spacing(26),
                             height: theme.spacing(26),
@@ -111,7 +117,7 @@ export default function EditProfileContent({}) {
                     >
                         <input
                             type="file"
-                            style={{ width: '1px', height: '1px' }}
+                            style={{width: '1px', height: '1px'}}
                             accept="image/*"
                             onChange={e => {
                                 const files = e.target.files;
@@ -123,7 +129,8 @@ export default function EditProfileContent({}) {
                                     });
                                 if (files?.item(0)) {
                                     //@ts-expect-error
-                                    setImage(URL.createObjectURL(files.item(0)));
+                                    setImageLink(URL.createObjectURL(files.item(0)));
+                                    setImageFile(files.item(0))
                                 }
                             }}
                         />
@@ -199,12 +206,12 @@ export default function EditProfileContent({}) {
                     }}
                 >
                     <MainButton
-                        {...{ fullWidth: true }}
+                        {...{fullWidth: true}}
                         text={'إلغاء'}
                         color={theme.palette.error.main}
                     />
                     <MainButton
-                        {...{ fullWidth: true }}
+                        {...{fullWidth: true}}
                         text={'حفظ'}
                         type={'submit'}
                         color={theme.palette.primary.main}

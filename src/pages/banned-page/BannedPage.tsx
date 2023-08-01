@@ -1,7 +1,9 @@
-import { Container, Stack, Typography } from '@mui/material';
+import {Container, Stack, Typography} from '@mui/material';
 import useLogin from '../authenticate/hooks/useLogin';
 import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar';
-import { StyledCard } from '../../components/StyledCard';
+import {StyledCard} from '../../components/StyledCard';
+import {useQuery} from "react-query";
+import {getUser} from "../edit-profile/api/getUser";
 
 export function BannedPage() {
     const [user] = useLogin();
@@ -11,7 +13,7 @@ export function BannedPage() {
             bgcolor={'gray.secondary'}
             height={'100dvh'}
         >
-            <AuthenticationTopBar />
+            <AuthenticationTopBar/>
             <Container>
                 <StyledCard>
                     <Stack
@@ -33,10 +35,15 @@ export function BannedPage() {
 }
 
 export function useIsBanned() {
-    const [user] = useLogin();
+    const token = localStorage.getItem('access');
+    const refresh = localStorage.getItem('refresh');
+    const userQuery = useQuery({
+        queryKey: ['user'],
+        queryFn: () => getUser(token, refresh),
+    });
     return {
-        banned: user.data?.is_banned,
+        banned: userQuery.data?.is_banned,
         BannedPageComponent: BannedPage,
-        ban_duration: user.data?.last_ban,
+        ban_duration: userQuery.data?.last_ban,
     };
 }

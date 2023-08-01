@@ -10,12 +10,12 @@ import { ReactComponent as DeleteIcon } from '../../../../assets/svg/delete-red.
 import { ReactComponent as EditIcon } from '../../../../assets/svg/edit.svg';
 import axiosInstance from '../../../../globals/axiosInstance';
 import theme from '../../../../theme';
-import { Receipt } from '../../../../types/admin_config';
 import { AddButton } from '../../categories-hashtags/AddButton';
 import { DisplayTableDataGrid } from '../../payment-management/DisplayTableDataGrid';
 import AddItemPopup from '../AddItemPopup';
 import { createReceipt, getAllReceipts } from './api/queries';
 import { AddReceiptForm } from './components/AddReceiptFormProps';
+import {Receipt} from "../../../../types/AdminConfig";
 
 const columns: GridColDef[] = [
     {
