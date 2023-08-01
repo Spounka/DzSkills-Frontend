@@ -1,13 +1,13 @@
-import { useTheme } from '@mui/material';
+import {useTheme} from '@mui/material';
 import Box from '@mui/material/Box';
-import React, { useEffect } from 'react';
-import { Helmet } from 'react-helmet';
-import { Outlet, useNavigate } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import {Helmet} from 'react-helmet';
+import {Outlet, useNavigate} from 'react-router-dom';
 import useLogin from '../authenticate/hooks/useLogin';
-import { NotificationsBar } from './NotificationsBar';
+import {NotificationsBar} from './NotificationsBar';
 import DashboardSidebar from './add-course/components/side-navbar';
-import { DashboardTopbar } from './add-course/components/top-navbar/DashboardTopbar';
-import { useIsBanned } from '../banned-page/BannedPage';
+import {DashboardTopbar} from './add-course/components/top-navbar/DashboardTopbar';
+import {useIsBanned} from '../banned-page/BannedPage';
 
 interface TeacherDashboardLayoutProps {
     topbar_title: string;
@@ -18,11 +18,11 @@ interface TeacherDashboardLayoutProps {
 }
 
 function TeacherDashboardLayout({
-    topbar_title,
-    topbar_subtitle,
-    fullScreen,
-    children,
-}: TeacherDashboardLayoutProps) {
+                                    topbar_title,
+                                    topbar_subtitle,
+                                    fullScreen,
+                                    children,
+                                }: TeacherDashboardLayoutProps) {
     const theme = useTheme();
     const [drawerOpen, setDrawerOpen] = React.useState<boolean>(false);
 
@@ -42,11 +42,12 @@ function TeacherDashboardLayout({
     function toggleDrawer() {
         setDrawerOpen(val => !val);
     }
-    const { banned, BannedPageComponent } = useIsBanned();
-    if (banned) return <BannedPageComponent />;
+
+    const {banned, BannedPageComponent} = useIsBanned();
+    if (banned) return <BannedPageComponent/>;
     return (
         <>
-            <DashboardSidebar />
+            <DashboardSidebar/>
             <Box
                 sx={{
                     flexGrow: 1,
@@ -60,7 +61,7 @@ function TeacherDashboardLayout({
                 }}
             >
                 <Helmet>
-                    <meta charSet="utf-8" />
+                    <meta charSet="utf-8"/>
                     <title>DzSkills | Teacher Dashboard</title>
                 </Helmet>
                 <Box
@@ -88,7 +89,7 @@ function TeacherDashboardLayout({
                         }}
                     >
                         {children}
-                        <Outlet />
+                        <Outlet/>
                     </Box>
                     <Box
                         sx={{
@@ -99,9 +100,10 @@ function TeacherDashboardLayout({
                             width: drawerOpen ? '100%' : '0',
                             height: '100%',
                             overflow: 'hidden',
+                            transition: 'width 300ms ease-in-out, position 300ms ease-ou'
                         }}
                     >
-                        <NotificationsBar drawerOpen={drawerOpen} />
+                        <NotificationsBar drawerOpen={drawerOpen}/>
                     </Box>
                 </Box>
             </Box>

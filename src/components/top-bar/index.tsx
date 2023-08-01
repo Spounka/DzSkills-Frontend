@@ -1,5 +1,5 @@
 import {MarkChatRead, MarkunreadMailboxRounded, Notifications} from '@mui/icons-material';
-import {IconButton, Menu, Tooltip} from '@mui/material';
+import {Badge, IconButton, Menu, Tooltip} from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {Stack, useTheme} from '@mui/system';
@@ -111,7 +111,8 @@ export default function TopNavigationBar() {
         queryFn: async () => {
             const {data} = await axiosInstance.get('/notifications/')
             return data as Notification[];
-        }
+        },
+        refetchInterval: 1000 * 60 * 5,
     })
 
     const queryClient = useQueryClient()
@@ -257,7 +258,7 @@ export default function TopNavigationBar() {
                         {
                             notificationsQuery.data?.length === 0 ?
                                 <Typography>لا يوجد أي إشعارات</Typography>
-                                : notificationsQuery.data?.map(
+                                : notificationsQuery.data?.slice(-5).map(
                                     n => {
                                         return (
                                             <React.Fragment key={n.id}>
@@ -391,21 +392,26 @@ export default function TopNavigationBar() {
                             alignItems: 'center',
                         }}
                     >
-                        <Tooltip title={'الإشعارات'}>
-                            <IconButton
-                                color={'secondary'}
-                                onClick={() => setNotificationsActive(val => !val)}
-                                ref={menuRef}
-                            >
-                                <Notifications
-                                    sx={{
-                                        fill: 'white',
-                                        height: theme.spacing(4),
-                                        width: theme.spacing(4),
-                                    }}
-                                />
-                            </IconButton>
-                        </Tooltip>
+                        <Badge color={'error'}
+                               badgeContent={notificationsQuery.data?.filter(n => !n.is_read).length}
+                        >
+
+                            <Tooltip title={'الإشعارات'}>
+                                <IconButton
+                                    color={'secondary'}
+                                    onClick={() => setNotificationsActive(val => !val)}
+                                    ref={menuRef}
+                                >
+                                    <Notifications
+                                        sx={{
+                                            fill: 'white',
+                                            height: theme.spacing(4),
+                                            width: theme.spacing(4),
+                                        }}
+                                    />
+                                </IconButton>
+                            </Tooltip>
+                        </Badge>
                         <IconButton
                             ref={navRef}
                             color={'secondary'}
