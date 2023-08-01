@@ -20,11 +20,11 @@ import uploadImg from '../../assets/svg/upload gray.svg';
 import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar';
 import DownloadSvgIcon from '../../components/ui/DownloadSvgIcon';
 import { MainButton } from '../../components/ui/MainButton';
-import { Receipt } from '../../types/admin_config';
 import { getCourse } from '../course/api/getCourse';
 import NotFound from '../not-found/NotFound';
 import { createOrder, getCurrentReceipt } from './api/createOrder';
 import { useIsBanned } from '../banned-page/BannedPage';
+import {Receipt} from "../../types/AdminConfig";
 
 function BuyCourse() {
     const params = useParams();

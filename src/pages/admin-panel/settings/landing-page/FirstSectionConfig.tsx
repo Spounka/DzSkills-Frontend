@@ -10,7 +10,6 @@ import { ColoredInputStack } from './ColoredInputStack';
 import { SettingSectionRow } from './SettingSectionRow';
 import { SettingsSectionRowInput } from './SettingsSectionRowInput';
 import { UploadImageInput } from './UploadImageInput';
-import { useSnackbar } from 'notistack';
 
 interface FirstSectionProps {
     adminConfigQuery: UseQueryResult<AdminConfig, unknown>;

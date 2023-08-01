@@ -1,13 +1,13 @@
-import { Avatar, Rating } from '@mui/material';
+import {Avatar, Rating} from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
-import { useQuery } from 'react-query';
-import { v4 as uuidv4 } from 'uuid';
-import { User } from '../../types/user';
-import { getAllUsers } from '../admin-panel/user-management/api/getUsers';
+import {useTheme} from '@mui/material/styles';
+import {useQuery} from 'react-query';
+import {v4 as uuidv4} from 'uuid';
+import {User} from '../../types/user';
+import {getAllUsers} from '../admin-panel/user-management/api/getUsers';
 import axiosInstance from '../../globals/axiosInstance';
-import { AdminRating } from '../../types/AdminConfig';
+import {AdminRating} from '../../types/AdminConfig';
 
 export function StudentRatings() {
     const theme = useTheme();
@@ -18,7 +18,7 @@ export function StudentRatings() {
 
     const ratingsQuery = useQuery({
         queryFn: async () => {
-            const { data } = await axiosInstance.get('/configs/ratings/');
+            const {data} = await axiosInstance.get('/configs/ratings/');
             return data as AdminRating[];
         },
         queryKey: ['ratings'],
@@ -117,7 +117,13 @@ export function StudentRatings() {
                                     }}
                                 />
                             </Box>
-                            <Typography>{rating.description}</Typography>
+                            <Box sx={{
+                                width: '100%',
+                                overflowX: 'hidden',
+                                wordWrap: 'break-word',
+                            }}>
+                                <Typography>{rating.description}</Typography>
+                            </Box>
                             <Box
                                 sx={{
                                     width: '100%',
@@ -126,6 +132,7 @@ export function StudentRatings() {
                                     p: 2,
                                     justifyContent: 'flex-start',
                                     alignItems: 'flex-end',
+                                    overflowX: 'hidden',
                                 }}
                             >
                                 <Typography

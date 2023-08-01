@@ -14,13 +14,14 @@ interface props {
     placement?: PopperPlacementType;
     clickAway: () => void;
 }
+
 export function DropdownPopper({
-    isOpen,
-    cardRef,
-    placement,
-    clickAway,
-    children,
-}: props) {
+                                   isOpen,
+                                   cardRef,
+                                   placement,
+                                   clickAway,
+                                   children,
+                               }: props) {
     const theme = useTheme();
     return (
         <Popper
@@ -35,7 +36,7 @@ export function DropdownPopper({
             }}
             transition
         >
-            {({ TransitionProps }) => (
+            {({TransitionProps}) => (
                 <ClickAwayListener onClickAway={clickAway}>
                     <Fade {...TransitionProps}>
                         <Card

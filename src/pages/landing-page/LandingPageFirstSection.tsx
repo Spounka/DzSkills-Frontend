@@ -1,11 +1,11 @@
-import { Typography, useTheme } from '@mui/material';
+import {Typography, useTheme} from '@mui/material';
 import Box from '@mui/material/Box';
 import Image from 'mui-image';
-import { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
-import { getAdminConfigs } from '../admin-panel/settings/landing-page/api/query';
-import { LoginButton } from './LoginButton';
-import { RegisterButton } from './RegisterButton';
+import {useEffect, useState} from 'react';
+import {useQuery} from 'react-query';
+import {getAdminConfigs} from '../admin-panel/settings/landing-page/api/query';
+import {LoginButton} from './LoginButton';
+import {RegisterButton} from './RegisterButton';
 
 export function LandingPageFirstSection() {
     const theme = useTheme();
@@ -46,18 +46,21 @@ export function LandingPageFirstSection() {
     }, [currentImageIndex]);
 
     useEffect(() => {
-        setImageSources([]);
+        if ((adminConfigQuery.data?.images?.length ?? 0) > 0)
+            setImageSources(adminConfigQuery.data?.images.map(i => i.image) ?? [])
+        else
+            setImageSources([]);
     }, []);
 
     return (
         <Box
             sx={{
                 display: 'flex',
-                flexDirection: { xs: 'column-reverse', lg: 'row' },
+                flexDirection: {xs: 'column-reverse', lg: 'row'},
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                pt: { xs: '15dvh', md: '5%', lg: 0 },
-                pb: { xs: 5, lg: 0 },
+                pt: {xs: '15dvh', md: '5%', lg: 0},
+                pb: {xs: 5, lg: 0},
                 gap: {
                     xs: 4,
                     lg: 0,
@@ -83,7 +86,7 @@ export function LandingPageFirstSection() {
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: { xs: 'center', lg: 'flex-start' },
+                    alignItems: {xs: 'center', lg: 'flex-start'},
                     textAlign: {
                         xs: 'center',
                         lg: 'right',
@@ -128,8 +131,8 @@ export function LandingPageFirstSection() {
                         alignItems: 'center',
                     }}
                 >
-                    <LoginButton />
-                    <RegisterButton />
+                    <LoginButton/>
+                    <RegisterButton/>
                 </Box>
             </Box>
             <Box
@@ -158,9 +161,9 @@ export function LandingPageFirstSection() {
 }
 
 function ImageSwitcher({
-    source,
-    currentImage,
-}: {
+                           source,
+                           currentImage,
+                       }: {
     source: string;
     currentImage: string;
 }) {

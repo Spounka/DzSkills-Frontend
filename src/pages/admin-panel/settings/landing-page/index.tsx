@@ -16,7 +16,6 @@ import { MainButton } from '../../../../components/ui/MainButton';
 import axiosInstance from '../../../../globals/axiosInstance';
 import { AdminRating as UserRating } from '../../../../types/AdminConfig';
 import useLogin from '../../../authenticate/hooks/useLogin';
-import { getCategories } from '../../categories-hashtags/api/queries';
 import AdminDashboardLayout from '../../layout';
 import { AdminInfoSidebar } from '../AdminInfoSidebar';
 import { CategoriesSection } from './CategoriesSection';

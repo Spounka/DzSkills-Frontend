@@ -23,3 +23,9 @@ export type AdminConfig = {
     images: LandingPageImage[];
     receipt_usage_count: number;
 };
+export type Receipt = {
+    id: number;
+    image: string;
+    count: number;
+    is_current: Boolean;
+};

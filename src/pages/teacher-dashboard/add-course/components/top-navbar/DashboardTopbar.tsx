@@ -1,5 +1,5 @@
 import {
-    Avatar,
+    Avatar, Badge,
     IconButton,
     Menu,
     MenuItem,
@@ -9,12 +9,15 @@ import {
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ReactComponent as NotificationsIcon } from '../../../../../assets/svg/notification purple.svg';
-import { ReactComponent as UploadIcon } from '../../../../../assets/svg/upload.svg';
-import { MainButton } from '../../../../../components/ui/MainButton';
+import {useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import {ReactComponent as NotificationsIcon} from '../../../../../assets/svg/notification purple.svg';
+import {ReactComponent as UploadIcon} from '../../../../../assets/svg/upload.svg';
+import {MainButton} from '../../../../../components/ui/MainButton';
 import useLogin from '../../../../authenticate/hooks/useLogin';
+import {useQuery} from "react-query";
+import axiosInstance from "../../../../../globals/axiosInstance";
+import {Notification as NotificationType} from "../../../../../types/notifications";
 
 interface props {
     title: string;
@@ -22,13 +25,22 @@ interface props {
     onNotificationClick: () => void;
 }
 
-export function DashboardTopbar({ title, subtitle, onNotificationClick }: props) {
+export function DashboardTopbar({title, subtitle, onNotificationClick}: props) {
     const [query] = useLogin();
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>(undefined);
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
     const theme = useTheme();
+
+    const notificationsQuery = useQuery({
+        queryKey: ['notifications'],
+        queryFn: async () => {
+            const {data} = await axiosInstance.get('/notifications/')
+            return data as NotificationType[];
+        },
+        refetchInterval: 1000 * 60 * 5,
+    })
 
     if (!query.isSuccess) return <></>;
 
@@ -99,7 +111,7 @@ export function DashboardTopbar({ title, subtitle, onNotificationClick }: props)
                     <UploadIcon
                         width={theme.spacing(3)}
                         height={theme.spacing(3)}
-                        style={{ outline: theme.palette.purple.main }}
+                        style={{outline: theme.palette.purple.main}}
                     />
                 }
                 sx={{
@@ -109,18 +121,25 @@ export function DashboardTopbar({ title, subtitle, onNotificationClick }: props)
                     },
                     gap: 2,
                     fontSize: theme.typography.subtitle1,
-                    px: { sm: 1 / 4, lg: 2 },
+                    px: {sm: 1 / 4, lg: 2},
                 }}
                 onClick={() => navigate('/dashboard/teacher/courses/add/')}
             />
-            <NotificationsIcon
+            <span
                 onClick={onNotificationClick}
-                fill={theme.palette.purple.main}
                 style={{
                     gridColumn: '-3 / span 1',
                     cursor: 'pointer',
-                }}
-            />
+                }}>
+                <Badge
+                    color={'error'}
+                    badgeContent={notificationsQuery.data
+                        ?.filter(n => !n.is_read).length} sx={{}}>
+                    <NotificationsIcon
+                        fill={theme.palette.purple.main}
+                    />
+                </Badge>
+          </span>
             <IconButton
                 onClick={e => {
                     setAnchorEl(e.currentTarget);
@@ -130,13 +149,13 @@ export function DashboardTopbar({ title, subtitle, onNotificationClick }: props)
                     gridColumn: '-1',
                 }}
             >
-                <Avatar src={query.data?.profile_image} />
+                <Avatar src={query.data?.profile_image}/>
             </IconButton>
             <Menu
                 open={menuOpen}
                 anchorEl={anchorEl}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-                transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+                transformOrigin={{vertical: 'top', horizontal: 'left'}}
                 onClose={() => {
                     setMenuOpen(false);
                     setAnchorEl(undefined);
