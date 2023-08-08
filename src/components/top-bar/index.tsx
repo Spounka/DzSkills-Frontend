@@ -1,44 +1,45 @@
-import {MarkChatRead, MarkunreadMailboxRounded, Notifications} from '@mui/icons-material';
-import {Badge, IconButton, Menu, Tooltip} from '@mui/material';
+import { MarkChatRead, MarkunreadMailboxRounded, Notifications } from '@mui/icons-material';
+import { Badge, IconButton, Menu, Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {Stack, useTheme} from '@mui/system';
-import {useRef, useState} from 'react';
-import {useMutation, useQuery, useQueryClient} from 'react-query';
-import {Link, NavLink} from 'react-router-dom';
+import { Stack, useTheme } from '@mui/system';
+import { useEffect, useRef, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { Link, NavLink } from 'react-router-dom';
 import logo from '../../assets/png/logo@2x.png';
-import {ReactComponent as Profile} from '../../assets/svg/Profile icon.svg';
-import {getUser} from '../../pages/edit-profile/api/getUser';
-import {DropdownPopper} from '../dropdown-popper';
-import axiosInstance from "../../globals/axiosInstance";
-import {Notification} from "../../types/notifications";
+import { ReactComponent as Profile } from '../../assets/svg/Profile icon.svg';
+import { getUser } from '../../pages/edit-profile/api/getUser';
+import { DropdownPopper } from '../dropdown-popper';
+import axiosInstance from '../../globals/axiosInstance';
+import { Notification } from '../../types/notifications';
 import React from 'react';
-import Image from "mui-image";
-import {Course} from "../../types/course";
-import {Order} from "../../types/payment";
-import dayjs, {Dayjs} from "dayjs";
+import Image from 'mui-image';
+import { Course } from '../../types/course';
+import { Order } from '../../types/payment';
+import dayjs, { Dayjs } from 'dayjs';
+import { LandingPageNavbar } from '../../pages/landing-page/LandingPageNavbar';
 
 
 function get_notification_string_from_type(notification_type: string): string | null {
     switch (notification_type) {
         case 'payment_accepted':
-            return 'تم قبول الدفع'
+            return 'تم قبول الدفع';
         case 'payment_refused':
-            return 'تم رفض الدفع'
+            return 'تم رفض الدفع';
         case 'course_bought':
-            return 'مستخدم اشترى دورتك'
+            return 'مستخدم اشترى دورتك';
         case 'course_accepted':
-            return 'تم قبول دورتك'
+            return 'تم قبول دورتك';
         case 'course_favourite':
-            return 'دورتك شائعة الآن'
+            return 'دورتك شائعة الآن';
         case 'course_refused':
-            return 'تم رفض دورتك'
+            return 'تم رفض دورتك';
         case 'course_blocked':
-            return 'تم تجميد دورتك'
+            return 'تم تجميد دورتك';
         case 'removed_from_course':
-            return 'لقد تم إخراجك من الدورة'
+            return 'لقد تم إخراجك من الدورة';
         default:
-            throw new Error('unkown notification type')
+            throw new Error('unkown notification type');
     }
 }
 
@@ -55,34 +56,34 @@ function get_notification_subtitle_from_type(notification: Notification): string
                 notification.extra_data &&
                 'course' in notification.extra_data) {
                 const course = notification.extra_data?.course as Course;
-                const dateDiffrence = dayjs().diff(notification.date_created, 'minutes')
+                const dateDiffrence = dayjs().diff(notification.date_created, 'minutes');
                 let dateString = '';
                 if (dateDiffrence < 60)
-                    dateString = `${dateDiffrence}m`
+                    dateString = `${dateDiffrence}m`;
                 else if (dateDiffrence > 60 && dateDiffrence < 3600)
-                    dateString = `${dateDiffrence % 60}m`
+                    dateString = `${dateDiffrence % 60}m`;
                 else if (dateDiffrence < 86400)
-                    dateString = `${(dateDiffrence / 60) % 60}h`
-                return [course.title, dateString]
+                    dateString = `${(dateDiffrence / 60) % 60}h`;
+                return [course.title, dateString];
             }
-            return []
+            return [];
         case 'course_bought':
             if (typeof notification.extra_data === 'object' &&
                 notification.extra_data &&
                 'order' in notification.extra_data) {
                 const order = notification.extra_data?.order as Order;
-                return [order.course.title, order.buyer.profile_image]
+                return [order.course.title, order.buyer.profile_image];
             }
-            return []
+            return [];
         default:
-            return []
+            return [];
     }
 }
 
-function NotificationElement({notification}: { notification: Notification }) {
+function NotificationElement({ notification }: { notification: Notification }) {
     return (
-        <Stack direction={"row"} width={"100%"} justifyContent={'space-between'} gap={2} alignItems={'center'}>
-            <Stack sx={{flex: '1 1 50%'}}>
+        <Stack direction={'row'} width={'100%'} justifyContent={'space-between'} gap={2} alignItems={'center'}>
+            <Stack sx={{ flex: '1 1 50%' }}>
                 <Typography flex={'0 1 50%'} color={notification.is_read ? 'gray.main' : 'black'}>
                     {get_notification_string_from_type(notification.notification_type)}
                 </Typography>
@@ -100,37 +101,45 @@ function NotificationElement({notification}: { notification: Notification }) {
 export default function TopNavigationBar() {
     const theme = useTheme();
 
+    const [loggedIn, setLoggedIn] = useState<boolean>(false);
     const token = localStorage.getItem('access');
     const refresh = localStorage.getItem('refresh');
     const userQuery = useQuery({
         queryKey: ['user'],
         queryFn: () => getUser(token, refresh),
+        onSuccess: () => setLoggedIn(true),
+        onError: () => setLoggedIn(false),
     });
     const notificationsQuery = useQuery({
         queryKey: ['notifications'],
         queryFn: async () => {
-            const {data} = await axiosInstance.get('/notifications/')
+            const { data } = await axiosInstance.get('/notifications/');
             return data as Notification[];
         },
         refetchInterval: 1000 * 60 * 5,
-    })
+    });
 
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
     const notificationsReadMutation = useMutation({
         mutationKey: ['notifications', 'read'],
         mutationFn: async () => {
-            return await axiosInstance.post('/notifications/read/')
+            return await axiosInstance.post('/notifications/read/');
         },
-        onSuccess: () => queryClient.invalidateQueries(['notifications'])
-    })
+        onSuccess: () => queryClient.invalidateQueries(['notifications']),
+    });
 
     const [popperActive, setPopperActive] = useState(false);
     const [notificationsActive, setNotificationsActive] = useState(false);
     const navRef = useRef(null);
     const menuRef = useRef(null);
     const handleMarkAsReadClick = () => {
-        notificationsReadMutation.mutate()
-    }
+        notificationsReadMutation.mutate();
+    };
+    useEffect(() => {
+        setLoggedIn(userQuery.isSuccess ? true : false);
+    }, [userQuery.data?.username]);
+
+    if (!loggedIn) return <LandingPageNavbar />;
 
     return (
         <>
@@ -138,7 +147,7 @@ export default function TopNavigationBar() {
                 clickAway={() => setPopperActive(false)}
                 isOpen={popperActive}
                 cardRef={navRef}
-                placement="bottom-end"
+                placement='bottom-end'
             >
                 <Stack
                     gap={2}
@@ -182,7 +191,7 @@ export default function TopNavigationBar() {
                     </Typography>
 
                     {userQuery.data?.groups.some(
-                        g => g.name == 'TeacherGroup' || g.name == 'AdminGroup'
+                        g => g.name == 'TeacherGroup' || g.name == 'AdminGroup',
                     ) ? (
                         <Typography
                             onClick={() => setPopperActive(false)}
@@ -226,7 +235,7 @@ export default function TopNavigationBar() {
                 clickAway={() => setNotificationsActive(false)}
                 isOpen={notificationsActive}
                 cardRef={menuRef}
-                placement="bottom-end"
+                placement='bottom-end'
             >
                 <Stack
                     gap={2}
@@ -246,10 +255,10 @@ export default function TopNavigationBar() {
                                 onClick={handleMarkAsReadClick}
                                 disabled={!notificationsQuery.data?.some(n => !n.is_read)}
                                 sx={{
-                                    px: 0
+                                    px: 0,
                                 }}
                             >
-                                <MarkChatRead/>
+                                <MarkChatRead />
                             </IconButton>
                         </Tooltip>
                     </Stack>
@@ -262,17 +271,17 @@ export default function TopNavigationBar() {
                                     n => {
                                         return (
                                             <React.Fragment key={n.id}>
-                                                <NotificationElement notification={n}/>
+                                                <NotificationElement notification={n} />
                                             </React.Fragment>
-                                        )
-                                    }
+                                        );
+                                    },
                                 )
 
                         }
                     </Stack>
                 </Stack>
             </DropdownPopper>
-            <nav style={{width: '100%'}}>
+            <nav style={{ width: '100%' }}>
                 <Box
                     sx={{
                         backgroundColor: 'black',
@@ -298,7 +307,7 @@ export default function TopNavigationBar() {
                     <Link to={'/'}>
                         <img
                             src={logo}
-                            alt=""
+                            alt=''
                             style={{
                                 gridColumnStart: 1,
                                 gridColumnEnd: 3,
@@ -327,7 +336,7 @@ export default function TopNavigationBar() {
                     >
                         <Typography
                             variant={'subtitle1'}
-                            fontWeight={{md: 500, lg: 600}}
+                            fontWeight={{ md: 500, lg: 600 }}
                             sx={{
                                 transition: 'all ease 300ms',
                                 '&:hover': {
@@ -336,7 +345,7 @@ export default function TopNavigationBar() {
                             }}
                         >
                             <NavLink
-                                to="/courses"
+                                to='/courses'
                                 style={{}}
                             >
                                 كورسات
@@ -345,7 +354,7 @@ export default function TopNavigationBar() {
 
                         <Typography
                             variant={'subtitle1'}
-                            fontWeight={{md: 500, lg: 600}}
+                            fontWeight={{ md: 500, lg: 600 }}
                             sx={{
                                 transition: 'all ease 100ms',
                                 '&:hover': {
@@ -353,12 +362,12 @@ export default function TopNavigationBar() {
                                 },
                             }}
                         >
-                            <NavLink to="/about">من نحن</NavLink>
+                            <NavLink to='/about'>من نحن</NavLink>
                         </Typography>
 
                         <Typography
                             variant={'subtitle1'}
-                            fontWeight={{md: 500, lg: 600}}
+                            fontWeight={{ md: 500, lg: 600 }}
                             sx={{
                                 transition: 'all ease 100ms',
                                 '&:hover': {
@@ -366,12 +375,12 @@ export default function TopNavigationBar() {
                                 },
                             }}
                         >
-                            <NavLink to="/teachers">المدربون</NavLink>
+                            <NavLink to='/teachers'>المدربون</NavLink>
                         </Typography>
 
                         <Typography
                             variant={'subtitle1'}
-                            fontWeight={{md: 500, lg: 600}}
+                            fontWeight={{ md: 500, lg: 600 }}
                             sx={{
                                 transition: 'all ease 100ms',
                                 '&:hover': {
@@ -379,7 +388,7 @@ export default function TopNavigationBar() {
                                 },
                             }}
                         >
-                            <NavLink to="/support">تواصل</NavLink>
+                            <NavLink to='/support'>تواصل</NavLink>
                         </Typography>
                     </Box>
                     <Box
