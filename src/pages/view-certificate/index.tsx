@@ -51,7 +51,7 @@ function ViewCertificate() {
         <Grid
             container
             columns={14}
-            direction="column"
+            direction='column'
             spacing={5}
             id={'main-grid-container'}
             sx={{
@@ -102,12 +102,12 @@ function ViewCertificate() {
                         color={'primary.main'}
                         variant={'body2'}
                     >
-                        تم إتمام 5% من الكورس
+                        تم إتمام 100% من الكورس
                     </Typography>
                     <Slider
                         size={'medium'}
-                        value={5}
-                        onChange={() => {}}
+                        value={progression.data?.percentage}
+                        aria-readonly
                         sx={{
                             scale: '-1 1',
                             height: 6,
@@ -157,7 +157,7 @@ function ViewCertificate() {
                             ألف مبروك, لقد أتممت الدورة بنجاح
                         </Typography>
                         <Typography
-                            variant="caption"
+                            variant='caption'
                             color={'gray.main'}
                         >
                             نبارك لك اكمالك للدورة بنجاح, يمكنك تحميل شهادتك و استغلال
@@ -168,6 +168,11 @@ function ViewCertificate() {
                         <MainButton
                             text={'تحميل'}
                             color={theme.palette.primary.main}
+                            {...{
+                                download: true,
+                                component: 'a',
+                                href: certificate.data?.certificate_image ?? '',
+                            }}
                         />
                     </Stack>
                     <Image
@@ -178,10 +183,7 @@ function ViewCertificate() {
                             flexBasis: '50%',
                             // maxHeight: '50%',
                         }}
-                        src={
-                            `http://localhost:8000${certificate.data?.data?.certificate_image}` ||
-                            ''
-                        }
+                        src={certificate.data?.certificate_image ?? ''}
                     />
                 </Box>
             </Grid>

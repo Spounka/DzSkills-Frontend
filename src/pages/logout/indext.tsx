@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from './api/queries';
 import { useDispatch } from 'react-redux';
 import { removeUser, updateUser } from '../../redux/userSlice';
+import { useEffect } from 'react';
 
 function Logout() {
     const token = localStorage.getItem('access');
@@ -19,6 +20,9 @@ function Logout() {
             navigate('/');
         },
     });
+    useEffect(() => {
+        logoutQuery.refetch();
+    }, []);
     return <div>Logout</div>;
 }
 

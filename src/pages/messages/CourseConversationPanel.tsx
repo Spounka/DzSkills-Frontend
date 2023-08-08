@@ -41,7 +41,7 @@ export function CourseConversationPanel({ user, id }: props) {
                     autoHideDuration: 2500,
                 });
         },
-        [files]
+        [files],
     );
 
     const removeFile = useCallback(
@@ -50,7 +50,7 @@ export function CourseConversationPanel({ user, id }: props) {
                 return f.filter(file => file.uuid !== uuid);
             });
         },
-        [files]
+        [files],
     );
 
     const courseQuery = useQuery({
@@ -68,7 +68,7 @@ export function CourseConversationPanel({ user, id }: props) {
             if (err.response?.status === 403) navigate(`/courses/${id}/buy/`);
             else console.error('Some random error ig?', err);
         },
-        staleTime: 1000 * 60 * 60,
+        staleTime: 1000 * 60 * 5,
         enabled: user.isFetched && id > 0,
     });
 
@@ -93,7 +93,7 @@ export function CourseConversationPanel({ user, id }: props) {
     const onSubmit = (
         e:
             | FormEvent<HTMLFormElement>
-            | KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>
+            | KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>,
     ) => {
         e.preventDefault();
         const form = document.querySelector('form');
@@ -156,7 +156,7 @@ export function CourseConversationPanel({ user, id }: props) {
             >
                 <form
                     onSubmit={onSubmit}
-                    encType="multipart/form-data"
+                    encType='multipart/form-data'
                     style={{
                         width: '100%',
                         display: 'flex',

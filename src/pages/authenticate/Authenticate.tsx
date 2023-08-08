@@ -21,7 +21,13 @@ function Autenticate({ startPanel }: props) {
     const checkUser = useQuery({
         queryKey: ['login'],
         queryFn: () => verifyOrRefreshToken(access, refresh),
-        onSuccess: () => navigate('/profile/'),
+        onSuccess: () => {
+            const url = new URL(window.location.href);
+            const searchParams = url.searchParams;
+            if (searchParams.get('next') !== null)
+                navigate(searchParams.get('next') ?? '');
+            navigate('/profile/');
+        },
         onError: error => console.error(error),
         enabled: !!access && !!refresh,
     });

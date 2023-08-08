@@ -56,7 +56,13 @@ export default function Login() {
             localStorage.setItem('refresh', response.refresh || '');
             if (!response.user.email_valid) {
                 verifyEmail.mutate();
-            } else navigate('/profile');
+            } else {
+                const url = new URL(window.location.href);
+                if (url.searchParams.get('next'))
+                    navigate(url.searchParams.get('next') ?? '/');
+                else
+                    navigate('/profile');
+            }
         },
     });
 
@@ -65,17 +71,23 @@ export default function Login() {
         validationSchema: validationSchema,
         onSubmit: async ({ email, password }, actions) => {
             actions.setSubmitting(true);
+
             async function fn() {
                 query.mutate({ email, password });
                 // actions.setSubmitting(false)
             }
+
             await fn();
         },
         validateOnMount: false,
     });
 
     useEffect(() => {
-        window.history.replaceState(null, '', '/login/');
+        const url = new URL(window.location.href);
+        let next = '';
+        if (url.searchParams.get('next'))
+            next = `?next=${url.searchParams.get('next')}`;
+        window.history.replaceState(null, '', `/login/${next}`);
     }, []);
     return (
         <Stack
@@ -87,11 +99,11 @@ export default function Login() {
             }}
         >
             <Helmet>
-                <meta charSet="utf-8" />
+                <meta charSet='utf-8' />
                 <title>DzSkills | Login</title>
             </Helmet>
             <AuthFormsHeader
-                title="سجل الدخول إلى حسابك"
+                title='سجل الدخول إلى حسابك'
                 subheader={`بناء المهارات لليوم وغدًا وما بعده\n\ منصتك الأفضل لبدأ أولى خطواتك في العمل الحر`}
             />
             <form onSubmit={formik.handleSubmit}>
@@ -100,12 +112,12 @@ export default function Login() {
                     width={'100%'}
                 >
                     <TextField
-                        name="email"
+                        name='email'
                         type={'email'}
-                        variant="outlined"
+                        variant='outlined'
                         fullWidth
-                        color="secondary"
-                        placeholder="البريد الإلكتروني"
+                        color='secondary'
+                        placeholder='البريد الإلكتروني'
                         value={formik.values.email}
                         onChange={formik.handleChange}
                         error={formik.touched.email && Boolean(formik.errors.email)}
@@ -130,7 +142,7 @@ export default function Login() {
                         error={
                             formik.touched.password && Boolean(formik.errors.password)
                         }
-                        name="password"
+                        name='password'
                         placeholder={'هنا كلمة السر'}
                     />
                     {formik.touched.password && formik.errors.password ? (
@@ -155,7 +167,7 @@ export default function Login() {
                     />
 
                     <Link
-                        to="/password/reset/"
+                        to='/password/reset/'
                         style={{
                             color: `${theme.palette.secondary.main}`,
                             alignSelf: 'center',

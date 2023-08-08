@@ -1,11 +1,11 @@
-import {Typography, useTheme} from '@mui/material';
+import { Typography, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Image from 'mui-image';
-import {useEffect, useState} from 'react';
-import {useQuery} from 'react-query';
-import {getAdminConfigs} from '../admin-panel/settings/landing-page/api/query';
-import {LoginButton} from './LoginButton';
-import {RegisterButton} from './RegisterButton';
+import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
+import { getAdminConfigs } from '../admin-panel/settings/landing-page/api/query';
+import { LoginButton } from './LoginButton';
+import { RegisterButton } from './RegisterButton';
 
 export function LandingPageFirstSection() {
     const theme = useTheme();
@@ -32,7 +32,7 @@ export function LandingPageFirstSection() {
     useEffect(() => {
         const timeout = setInterval(
             () => setCurrentImageIndex(i => ++i % imageSources.length),
-            3000
+            3000,
         );
 
         return () => clearInterval(timeout);
@@ -47,7 +47,7 @@ export function LandingPageFirstSection() {
 
     useEffect(() => {
         if ((adminConfigQuery.data?.images?.length ?? 0) > 0)
-            setImageSources(adminConfigQuery.data?.images.map(i => i.image) ?? [])
+            setImageSources(adminConfigQuery.data?.images.map(i => i.image) ?? []);
         else
             setImageSources([]);
     }, []);
@@ -56,11 +56,11 @@ export function LandingPageFirstSection() {
         <Box
             sx={{
                 display: 'flex',
-                flexDirection: {xs: 'column-reverse', lg: 'row'},
+                flexDirection: { xs: 'column-reverse', lg: 'row' },
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                pt: {xs: '15dvh', md: '5%', lg: 0},
-                pb: {xs: 5, lg: 0},
+                pt: { xs: '15dvh', md: '5%', lg: 0 },
+                pb: { xs: 5, lg: 0 },
                 gap: {
                     xs: 4,
                     lg: 0,
@@ -74,7 +74,7 @@ export function LandingPageFirstSection() {
                 width: '100%',
                 height: {
                     xs: '110dvh',
-                    lg: `calc(100dvh - 5dvh)`,
+                    lg: `calc(80dvh - 5dvh)`,
                 },
                 bgcolor: {
                     xs: theme.palette.gray.light,
@@ -86,7 +86,7 @@ export function LandingPageFirstSection() {
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: {xs: 'center', lg: 'flex-start'},
+                    alignItems: { xs: 'center', lg: 'flex-start' },
                     textAlign: {
                         xs: 'center',
                         lg: 'right',
@@ -114,7 +114,7 @@ export function LandingPageFirstSection() {
                 >
                     {secondaryText?.substring(
                         0,
-                        secondary_split_index ?? secondaryText?.length
+                        secondary_split_index ?? secondaryText?.length,
                     )}{' '}
                     <Box
                         component={'span'}
@@ -131,8 +131,8 @@ export function LandingPageFirstSection() {
                         alignItems: 'center',
                     }}
                 >
-                    <LoginButton/>
-                    <RegisterButton/>
+                    <LoginButton />
+                    <RegisterButton />
                 </Box>
             </Box>
             <Box
@@ -170,9 +170,9 @@ function ImageSwitcher({
     return currentImage === source ? (
         <Image
             src={source}
-            fit="contain"
+            fit='contain'
             duration={650}
-            easing="ease-in-out"
+            easing='ease-in-out'
             style={{
                 width: '100%',
                 height: 'auto',
