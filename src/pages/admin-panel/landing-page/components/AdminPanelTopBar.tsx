@@ -8,16 +8,16 @@ import {
     Typography,
 } from '@mui/material';
 import Box from '@mui/material/Box';
-import {useTheme} from '@mui/material/styles';
-import {useEffect, useState} from 'react';
-import {useQuery} from 'react-query';
-import {Link, useNavigate} from 'react-router-dom';
-import {MainButton} from '../../../../components/ui/MainButton';
+import { useTheme } from '@mui/material/styles';
+import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
+import { Link, useNavigate } from 'react-router-dom';
+import { MainButton } from '../../../../components/ui/MainButton';
 import useLogin from '../../../authenticate/hooks/useLogin';
-import {getCourses} from '../../../courses-page/api/getAllCourses';
-import {ReactComponent as NotificationsIcon} from './../../../../assets/svg/notification purple.svg';
-import axiosInstance from "../../../../globals/axiosInstance";
-import {Notification as NotificationType} from "../../../../types/notifications";
+import { getCourses } from '../../../courses-page/api/getAllCourses';
+import { ReactComponent as NotificationsIcon } from './../../../../assets/svg/notification purple.svg';
+import axiosInstance from '../../../../globals/axiosInstance';
+import { Notification as NotificationType } from '../../../../types/notifications';
 
 interface props {
     onNotificationClick: () => void;
@@ -50,11 +50,11 @@ export function AdminPanelTopBar({
     const notificationsQuery = useQuery({
         queryKey: ['notifications'],
         queryFn: async () => {
-            const {data} = await axiosInstance.get('/notifications/')
+            const { data } = await axiosInstance.get('/notifications/');
             return data as NotificationType[];
         },
         refetchInterval: 1000 * 60 * 5,
-    })
+    });
 
     if (!user?.isSuccess) return <></>;
     return (
@@ -140,7 +140,7 @@ export function AdminPanelTopBar({
                 >
                     <MainButton
                         color={theme.palette.secondary.light}
-                        text="للمراجعة"
+                        text='للمراجعة'
                         onClick={() => navigate('/admin/courses/pending/')}
                         sx={{
                             width: '100%',
@@ -161,7 +161,7 @@ export function AdminPanelTopBar({
                 }}
             >
                <Badge badgeContent={notificationsQuery.data?.filter(n => !n.is_read).length} color={'error'}
-                      anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
+                      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
                     <NotificationsIcon
                         width={'20'}
                         height={'26'}
@@ -183,8 +183,8 @@ export function AdminPanelTopBar({
             <Menu
                 open={menuOpen}
                 anchorEl={anchorEl}
-                anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
-                transformOrigin={{vertical: 'top', horizontal: 'left'}}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                transformOrigin={{ vertical: 'top', horizontal: 'left' }}
                 onClose={() => {
                     setMenuOpen(false);
                     setAnchorEl(undefined);

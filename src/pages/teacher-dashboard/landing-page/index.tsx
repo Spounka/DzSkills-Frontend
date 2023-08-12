@@ -1,6 +1,8 @@
 import { Divider, Stack, Typography } from '@mui/material';
 import { useQuery } from 'react-query';
 import { StyledCard } from '../../../components/StyledCard';
+import axiosInstance from '../../../globals/axiosInstance';
+import { AccountBalance } from '../../../types/account-balance';
 import { getRelatedCourses } from '../../admin-panel/user-details/api/getUserById';
 import useLogin from '../../authenticate/hooks/useLogin';
 import { CoursesInformationCards } from '../courses/CoursesInformationCards';
@@ -75,6 +77,15 @@ export const data = [
 function TeacherLandingPage() {
     const [user] = useLogin();
 
+    const accountBalanceQuery = useQuery({
+        //@ts-ignore
+        queryKey: ['user', user?.pk, 'balance'],
+        queryFn: async () => {
+            const { data } = await axiosInstance.get('/balance/');
+            return data as AccountBalance;
+        },
+    });
+
     const relatedCoursesQuery = useQuery({
         queryKey: ['users', user.data?.pk, 'courses'],
         queryFn: () => getRelatedCourses(user.data?.pk ?? 0),
@@ -107,18 +118,7 @@ function TeacherLandingPage() {
                             }).students_count) ??
                         0
                     }
-                    //@ts-expect-error
-                    earnings={
-                        //@ts-expect-error
-                        (relatedCoursesQuery.data?.length > 0 &&
-                            relatedCoursesQuery.data?.reduce((acc, curr) => {
-                                return {
-                                    ...acc,
-                                    price: acc.price + curr.price * curr.students_count,
-                                };
-                            }).price) ??
-                        0
-                    }
+                    earnings={accountBalanceQuery.data?.balance ?? 0}
                 />
                 <GraphData data={data} />
                 <Stack
@@ -128,7 +128,7 @@ function TeacherLandingPage() {
                     gap={4}
                 >
                     <MostSold />
-                    <Reminders />
+                    <Reminders balance={accountBalanceQuery.data?.balance ?? 0} />
                 </Stack>
                 <StyledCard>
                     <Typography
@@ -146,4 +146,5 @@ function TeacherLandingPage() {
         </TeacherDashboardLayout>
     );
 }
+
 export default TeacherLandingPage;
