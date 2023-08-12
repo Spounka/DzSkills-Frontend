@@ -170,6 +170,10 @@ function ImageSwitcher({
     return currentImage === source ? (
         <Image
             src={source}
+            showLoading
+           
+            alt={'image'}
+            errorIcon={null}
             fit="contain"
             duration={650}
             easing="ease-in-out"

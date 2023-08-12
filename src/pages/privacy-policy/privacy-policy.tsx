@@ -8,7 +8,6 @@ import {
     Typography,
     useTheme,
 } from '@mui/material';
-import React from 'react';
 import { useIsBanned } from '../banned-page/BannedPage';
 import TopNavigationBar from '../../components/top-bar';
 import { Circle } from '@mui/icons-material';
