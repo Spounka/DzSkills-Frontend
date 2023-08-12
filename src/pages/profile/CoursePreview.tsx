@@ -10,7 +10,6 @@ interface props {
 export function CoursePreview({ course }: props) {
     const theme = useTheme();
     let value = 12;
-    const socket = new WebSocket('ws://localhost:8000/ws/chat/')
     return (
         <Card
             elevation={1}

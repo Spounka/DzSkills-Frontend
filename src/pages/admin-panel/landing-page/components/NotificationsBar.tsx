@@ -1,46 +1,45 @@
+import { MarkChatRead } from '@mui/icons-material';
+import { IconButton, Tooltip } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
-import {useTheme} from '@mui/material/styles';
-import {useMutation, useQuery, useQueryClient} from "react-query";
-import axiosInstance from "../../../../globals/axiosInstance";
-import {Stack} from "@mui/system";
-import {IconButton, Tooltip} from "@mui/material";
-import {MarkChatRead} from "@mui/icons-material";
-import {Notification as NotificationType} from '../../../../types/notifications'
-import React from "react";
-import {Order} from "../../../../types/payment";
+import { useTheme } from '@mui/material/styles';
+import { Stack } from '@mui/system';
 import dayjs from 'dayjs';
-
+import React from 'react';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import axiosInstance from '../../../../globals/axiosInstance';
+import { Notification as NotificationType } from '../../../../types/notifications';
+import { Order } from '../../../../types/payment';
 
 interface NotificationsProps {
     drawerOpen: boolean;
     mainColor: string | undefined;
 }
 
-export function NotificationsBar({drawerOpen, mainColor}: NotificationsProps) {
+export function NotificationsBar({ drawerOpen, mainColor }: NotificationsProps) {
     const theme = useTheme();
     const notificationsQuery = useQuery({
         queryKey: ['notifications'],
         queryFn: async () => {
-            const {data} = await axiosInstance.get('/notifications/')
+            const { data } = await axiosInstance.get('/notifications/');
             return data as NotificationType[];
         },
         refetchInterval: 1000 * 60 * 5,
-    })
+    });
     const handleMarkAsReadClick = () => {
-        notificationsReadMutation.mutate()
-    }
+        notificationsReadMutation.mutate();
+    };
 
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
     const notificationsReadMutation = useMutation({
         mutationKey: ['notifications', 'read'],
         mutationFn: async () => {
-            return await axiosInstance.post('/notifications/read/')
+            return await axiosInstance.post('/notifications/read/');
         },
-        onSuccess: () => queryClient.invalidateQueries(['notifications'])
-    })
+        onSuccess: () => queryClient.invalidateQueries(['notifications']),
+    });
     return (
         <Card
             aria-label="notifcations-bar"
@@ -62,11 +61,15 @@ export function NotificationsBar({drawerOpen, mainColor}: NotificationsProps) {
                 zIndex: 4,
             }}
         >
-            <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} gap={2}
-                   width={'100%'} pl={2}>
-                <Typography>
-                    الإشعارات
-                </Typography>
+            <Stack
+                direction={'row'}
+                justifyContent={'space-between'}
+                alignItems={'center'}
+                gap={2}
+                width={'100%'}
+                pl={2}
+            >
+                <Typography>الإشعارات</Typography>
                 <Tooltip title={'اعتبر مقروء'}>
                     <IconButton
                         onClick={handleMarkAsReadClick}
@@ -77,67 +80,73 @@ export function NotificationsBar({drawerOpen, mainColor}: NotificationsProps) {
                             color: 'white',
                         }}
                     >
-                        <MarkChatRead/>
+                        <MarkChatRead />
                     </IconButton>
                 </Tooltip>
             </Stack>
-            <Stack direction={'column-reverse'} gap={1}>
-
-                {
-                    notificationsQuery.data?.length === 0 ?
-                        <Typography>لا يوجد أي إشعارات</Typography>
-                        : notificationsQuery.data?.slice(-5).map(
-                            n => {
-                                return (
-                                    <React.Fragment key={n.id}>
-                                        <Notification notification={n}/>
-                                    </React.Fragment>
-                                )
-                            }
-                        )
-
-                }
+            <Stack
+                direction={'column-reverse'}
+                gap={1}
+            >
+                {notificationsQuery.data?.length === 0 ? (
+                    <Typography>لا يوجد أي إشعارات</Typography>
+                ) : (
+                    notificationsQuery.data?.slice(-5).map(n => {
+                        return (
+                            <React.Fragment key={n.id}>
+                                <Notification notification={n} />
+                            </React.Fragment>
+                        );
+                    })
+                )}
             </Stack>
-
         </Card>
     );
 }
 
-function Notification({notification}: { notification: NotificationType }) {
+function Notification({ notification }: { notification: NotificationType }) {
     const theme = useTheme();
-
 
     const getNotificationTitleFromType = (notification_type: string): string | null => {
         switch (notification_type) {
             case 'course_bought':
-                return 'قام مستخدم بشراء كورس'
+                return 'قام مستخدم بشراء كورس';
+            case 'user_registration':
+                return 'قام مستخدم جديد بالتسجيل';
             default:
-                throw new Error('unkown notification type')
+                return '';
         }
-    }
+    };
 
-    const getNotificationSubtitle = (notification: NotificationType): string[] | null => {
+    const getNotificationSubtitle = (
+        notification: NotificationType
+    ): string[] | null => {
+        const dateDiffrence = dayjs().diff(notification.date_created, 'minutes');
+        let dateString = '';
+        if (dateDiffrence < 60) dateString = `${dateDiffrence}m`;
+        else if (dateDiffrence < 1440) dateString = `${dateDiffrence % 60}h`;
+        else dateString = `${Math.floor(dateDiffrence / 60 / 24)}d`;
         switch (notification.notification_type) {
             case 'course_bought':
-                if (typeof notification.extra_data === 'object' &&
+                if (
+                    typeof notification.extra_data === 'object' &&
                     notification.extra_data &&
-                    'order' in notification.extra_data) {
+                    'order' in notification.extra_data
+                ) {
                     const order = notification.extra_data?.order as Order;
-                    const dateDiffrence = dayjs().diff(notification.date_created, 'minutes')
-                    let dateString = '';
-                    if (dateDiffrence < 60)
-                        dateString = `${dateDiffrence}m`
-                    else if (dateDiffrence > 60 && dateDiffrence < 3600)
-                        dateString = `${dateDiffrence % 60}m`
-                    else if (dateDiffrence < 86400)
-                        dateString = `${(dateDiffrence / 60) % 60}h`
-                    return [order.course.title, order.buyer.profile_image, dateString]
+                    return [order.course.title, order.buyer.profile_image, dateString];
                 }
-                return []
+                return [];
+            case 'user_registration':
+                return [
+                    `${notification.sender.first_name} ${notification.sender.last_name}`,
+                    notification.sender.profile_image,
+                    dateString,
+                ];
             default:
-                return []
+                return [];
         }
-    }
+    };
 
     return (
         <Box
@@ -170,8 +179,12 @@ function Notification({notification}: { notification: NotificationType }) {
                     {getNotificationSubtitle(notification)?.at(0) ?? ''}
                 </Typography>
             </Box>
-            <Typography variant={'subtitle2'} flex={'1 1'} textAlign={'left'}
-                        fontWeight={notification.is_read ? 300 : 400}>
+            <Typography
+                variant={'subtitle2'}
+                flex={'1 1'}
+                textAlign={'left'}
+                fontWeight={notification.is_read ? 300 : 400}
+            >
                 {getNotificationSubtitle(notification)?.at(2) ?? ''}
             </Typography>
         </Box>
