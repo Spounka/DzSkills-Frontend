@@ -44,9 +44,10 @@ export function FirstSectionConfig({ adminConfigQuery }: FirstSectionProps) {
         if (form) {
             const formData = new FormData(form);
             for (let i = 0; i < 3; i++) {
-                const file = formData.get(`images[${i}]`) as File;
+                const file = formData.get(`images[${i}].image`) as File;
                 if (file.size === 0 || file.name === '') {
-                    formData.delete(`images[${i}]`);
+                    formData.delete(`images[${i}].id`);
+                    formData.delete(`images[${i}].image`);
                 }
             }
             submitHeaderSectionMutation.mutate(formData);
@@ -106,9 +107,14 @@ export function FirstSectionConfig({ adminConfigQuery }: FirstSectionProps) {
                                     height={'100%'}
                                     key={image.key}
                                 >
+                                    <input
+                                        hidden
+                                        name={`images[${index}].id`}
+                                        value={image.id}
+                                    />
                                     <UploadImageInput
                                         src={image.image ?? ''}
-                                        name={`images[${index}]`}
+                                        name={`images[${index}].image`}
                                     />
                                 </Box>
                             );
