@@ -289,24 +289,26 @@ function WatchCourse() {
                             </React.Fragment>
                         );
                     })}
-                    <Button
-                        onClick={() => navigate('../quizz/')}
-                        variant={'contained'}
-                        color={
-                            (progression.data?.percentage ?? 0) < 100
-                                ? 'gray'
-                                : 'primary'
-                        }
-                        disabled={(progression.data?.percentage ?? 0) < 100}
-                        sx={{
-                            flexGrow: 1,
-                            color: 'white',
-                            maxHeight: theme.spacing(6),
-                            py: 1.5,
-                        }}
-                    >
-                        Quizz
-                    </Button>
+                    {currentCourse.data?.quizz && (
+                        <Button
+                            onClick={() => navigate('../quizz/')}
+                            variant={'contained'}
+                            color={
+                                (progression.data?.percentage ?? 0) < 100
+                                    ? 'gray'
+                                    : 'primary'
+                            }
+                            disabled={(progression.data?.percentage ?? 0) < 100}
+                            sx={{
+                                flexGrow: 1,
+                                color: 'white',
+                                maxHeight: theme.spacing(6),
+                                py: 1.5,
+                            }}
+                        >
+                            Quizz
+                        </Button>
+                    )}
                 </Box>
                 <Box
                     sx={{

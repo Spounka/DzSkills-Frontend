@@ -29,7 +29,7 @@ export function LandingPageSection({
                 flex={'1 1'}
                 width={'100%'}
                 onMouseLeave={() => setHovering(false)}
-                gap={6}
+                gap={2}
                 alignItems={'center'}
                 mb={4}
                 onMouseEnter={() => setHovering(true)}
@@ -66,11 +66,16 @@ export function LandingPageSection({
                     sx={{
                         flex: '0 0 35%',
                         alignItems: 'center',
-                        gap: 8,
+                        gap: 3,
                         overflow: 'hidden',
+                        width: '100%',
                     }}
                 >
-                    <Box flex={'0 0 10%'}>
+                    <Box
+                        flex={'0 0 10%'}
+                        width={'100%'}
+                        textAlign={'center'}
+                    >
                         {isLoading ? (
                             <Skeleton sx={{ width: '100%' }} />
                         ) : (
@@ -81,6 +86,7 @@ export function LandingPageSection({
                     <Box
                         alignItems={'center'}
                         flex={'1 1 40%'}
+                        width="100%"
                     >
                         {isLoading ? (
                             <Skeleton sx={{ width: '100%' }} />
@@ -108,7 +114,7 @@ export function LandingPageSection({
                         onClick: () => {
                             navigate(`/courses/categorized/?category=${title}`);
                         },
-                        flex: '1 1 25%',
+                        flex: '1 1 20%',
                         height: '100%',
                     }}
                 />

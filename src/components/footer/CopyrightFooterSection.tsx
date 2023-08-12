@@ -18,7 +18,7 @@ export function CopyrightFooterSection({}) {
                     <Link to={'/support/'}>Contact us</Link>
                 </Typography>
                 <Typography variant="body2">
-                    <Link to={'/terms/'}>Terms</Link>
+                    <Link to={'/privacy/'}>Terms</Link>
                 </Typography>
             </Box>
         </>
