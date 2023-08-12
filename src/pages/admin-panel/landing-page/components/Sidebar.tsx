@@ -137,6 +137,12 @@ export function AdminPanelSidebar() {
                         label={'المعاملات المالية'}
                     />
                     <AdminPanelSidebarLink
+                        url={'/admin/money-requests/'}
+                        iconActive={<MoneyIcon fill={'white'} />}
+                        iconInactive={<MoneyIcon fill={'#ccc'} />}
+                        label={'طلبات سحب الأموال'}
+                    />
+                    <AdminPanelSidebarLink
                         url={'/admin/users/'}
                         iconActive={<ProfileIcon fill={'white'} />}
                         iconInactive={<ProfileIcon fill={'#ccc'} />}

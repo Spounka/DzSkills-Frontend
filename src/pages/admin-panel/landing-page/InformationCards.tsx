@@ -69,7 +69,7 @@ export function InformationCards({}: any) {
                         ?.filter(user =>
                             user.groups.some(group => group.name === 'TeacherGroup')
                         )
-                        .length.toString() || '0'
+                        .length.toString() ?? '0'
                 }
                 icon={teaching}
                 link={'/admin/users/'}
@@ -84,7 +84,7 @@ export function InformationCards({}: any) {
                 subtitle={
                     paymentsQuery.data
                         ?.filter(m => m.status === 'a')
-                        .reduce((acc, a) => acc + a.order.course.price, 0)
+                        .reduce((acc, a) => acc + a.order.course.price * 0.4, 0)
                         .toFixed(0) + 'DA' || '0'
                 }
                 iconNode={<MoneyIcon fill={'white'} />}
