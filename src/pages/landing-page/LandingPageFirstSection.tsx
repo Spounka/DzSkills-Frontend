@@ -32,7 +32,7 @@ export function LandingPageFirstSection() {
     useEffect(() => {
         const timeout = setInterval(
             () => setCurrentImageIndex(i => ++i % imageSources.length),
-            3000,
+            3000
         );
 
         return () => clearInterval(timeout);
@@ -46,10 +46,10 @@ export function LandingPageFirstSection() {
     }, [currentImageIndex]);
 
     useEffect(() => {
+        if (!adminConfigQuery.isSuccess) setImageSources([]);
         if ((adminConfigQuery.data?.images?.length ?? 0) > 0)
             setImageSources(adminConfigQuery.data?.images.map(i => i.image) ?? []);
-        else
-            setImageSources([]);
+        else setImageSources([]);
     }, []);
 
     return (
@@ -114,7 +114,7 @@ export function LandingPageFirstSection() {
                 >
                     {secondaryText?.substring(
                         0,
-                        secondary_split_index ?? secondaryText?.length,
+                        secondary_split_index ?? secondaryText?.length
                     )}{' '}
                     <Box
                         component={'span'}
@@ -161,18 +161,18 @@ export function LandingPageFirstSection() {
 }
 
 function ImageSwitcher({
-                           source,
-                           currentImage,
-                       }: {
+    source,
+    currentImage,
+}: {
     source: string;
     currentImage: string;
 }) {
     return currentImage === source ? (
         <Image
             src={source}
-            fit='contain'
+            fit="contain"
             duration={650}
-            easing='ease-in-out'
+            easing="ease-in-out"
             style={{
                 width: '100%',
                 height: 'auto',

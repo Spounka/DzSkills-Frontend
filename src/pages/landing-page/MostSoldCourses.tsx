@@ -21,8 +21,6 @@ export function MostSoldCourses() {
         queryFn: () => getMostSoldCourses(),
     });
 
-    if (query.isError) return <>Error in courses...</>;
-
     return (
         <Box
             bgcolor={theme.palette.gray.secondary}

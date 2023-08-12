@@ -10,10 +10,10 @@ import Footer from '../../components/footer';
 import TopNavigationBar from '../../components/top-bar';
 import { MainButton } from '../../components/ui/MainButton';
 import useLogin from '../authenticate/hooks/useLogin';
+import { useIsBanned } from '../banned-page/BannedPage';
 import NotFound from '../not-found/NotFound';
 import { getStudentProgress } from '../view-course/api/queries';
 import { getCertificate } from './api/query';
-import { useIsBanned } from '../banned-page/BannedPage';
 
 function ViewCertificate() {
     const params = useParams();
@@ -51,7 +51,7 @@ function ViewCertificate() {
         <Grid
             container
             columns={14}
-            direction='column'
+            direction="column"
             spacing={5}
             id={'main-grid-container'}
             sx={{
@@ -151,13 +151,13 @@ function ViewCertificate() {
                             variant={'h4'}
                             fontWeight={600}
                         >
-                            60/100
+                            {certificate.data?.course.quizz ? '100/100' : '0/0'}
                         </Typography>
                         <Typography variant={'h6'}>
                             ألف مبروك, لقد أتممت الدورة بنجاح
                         </Typography>
                         <Typography
-                            variant='caption'
+                            variant="caption"
                             color={'gray.main'}
                         >
                             نبارك لك اكمالك للدورة بنجاح, يمكنك تحميل شهادتك و استغلال
