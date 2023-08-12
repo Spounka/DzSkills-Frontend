@@ -1,24 +1,21 @@
-import { MarkChatRead, MarkunreadMailboxRounded, Notifications } from '@mui/icons-material';
-import { Badge, IconButton, Menu, Tooltip } from '@mui/material';
+import { MarkChatRead, Notifications } from '@mui/icons-material';
+import { Badge, IconButton, Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Stack, useTheme } from '@mui/system';
-import { useEffect, useRef, useState } from 'react';
+import dayjs from 'dayjs';
+import React, { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Link, NavLink } from 'react-router-dom';
 import logo from '../../assets/png/logo@2x.png';
 import { ReactComponent as Profile } from '../../assets/svg/Profile icon.svg';
-import { getUser } from '../../pages/edit-profile/api/getUser';
-import { DropdownPopper } from '../dropdown-popper';
 import axiosInstance from '../../globals/axiosInstance';
-import { Notification } from '../../types/notifications';
-import React from 'react';
-import Image from 'mui-image';
-import { Course } from '../../types/course';
-import { Order } from '../../types/payment';
-import dayjs, { Dayjs } from 'dayjs';
+import { getUser } from '../../pages/edit-profile/api/getUser';
 import { LandingPageNavbar } from '../../pages/landing-page/LandingPageNavbar';
-
+import { Course } from '../../types/course';
+import { Notification } from '../../types/notifications';
+import { Order } from '../../types/payment';
+import { DropdownPopper } from '../dropdown-popper';
 
 function get_notification_string_from_type(notification_type: string): string | null {
     switch (notification_type) {
@@ -38,12 +35,21 @@ function get_notification_string_from_type(notification_type: string): string | 
             return 'تم تجميد دورتك';
         case 'removed_from_course':
             return 'لقد تم إخراجك من الدورة';
+        case 'user_registration':
+            return 'قام مستخدم جديد بالتسجيل';
         default:
-            throw new Error('unkown notification type');
+            return '';
     }
 }
 
-function get_notification_subtitle_from_type(notification: Notification): string[] | null {
+function get_notification_subtitle_from_type(
+    notification: Notification
+): string[] | null {
+    const dateDiffrence = dayjs().diff(notification.date_created, 'minutes');
+    let dateString = '';
+    if (dateDiffrence < 60) dateString = `${dateDiffrence}m`;
+    else if (dateDiffrence < 1440) dateString = `${dateDiffrence % 60}h`;
+    else dateString = `${(dateDiffrence / 60 / 24).toFixed(0)}d`;
     switch (notification.notification_type) {
         case 'removed_from_course':
         case 'course_favourite':
@@ -52,29 +58,30 @@ function get_notification_subtitle_from_type(notification: Notification): string
         case 'course_accepted':
         case 'course_refused':
         case 'course_blocked':
-            if (typeof notification.extra_data === 'object' &&
+            if (
+                typeof notification.extra_data === 'object' &&
                 notification.extra_data &&
-                'course' in notification.extra_data) {
+                'course' in notification.extra_data
+            ) {
                 const course = notification.extra_data?.course as Course;
-                const dateDiffrence = dayjs().diff(notification.date_created, 'minutes');
-                let dateString = '';
-                if (dateDiffrence < 60)
-                    dateString = `${dateDiffrence}m`;
-                else if (dateDiffrence > 60 && dateDiffrence < 3600)
-                    dateString = `${dateDiffrence % 60}m`;
-                else if (dateDiffrence < 86400)
-                    dateString = `${(dateDiffrence / 60) % 60}h`;
                 return [course.title, dateString];
             }
             return [];
         case 'course_bought':
-            if (typeof notification.extra_data === 'object' &&
+            if (
+                typeof notification.extra_data === 'object' &&
                 notification.extra_data &&
-                'order' in notification.extra_data) {
+                'order' in notification.extra_data
+            ) {
                 const order = notification.extra_data?.order as Order;
-                return [order.course.title, order.buyer.profile_image];
+                return [order.course.title, dateString];
             }
             return [];
+        case 'user_registration':
+            return [
+                `${notification.sender.first_name} ${notification.sender.last_name}`,
+                dateString,
+            ];
         default:
             return [];
     }
@@ -82,16 +89,32 @@ function get_notification_subtitle_from_type(notification: Notification): string
 
 function NotificationElement({ notification }: { notification: Notification }) {
     return (
-        <Stack direction={'row'} width={'100%'} justifyContent={'space-between'} gap={2} alignItems={'center'}>
+        <Stack
+            direction={'row'}
+            width={'100%'}
+            justifyContent={'space-between'}
+            gap={2}
+            alignItems={'center'}
+        >
             <Stack sx={{ flex: '1 1 50%' }}>
-                <Typography flex={'0 1 50%'} color={notification.is_read ? 'gray.main' : 'black'}>
+                <Typography
+                    flex={'0 1 50%'}
+                    color={notification.is_read ? 'gray.main' : 'black'}
+                >
                     {get_notification_string_from_type(notification.notification_type)}
                 </Typography>
-                <Typography flex={'0 1 50%'} variant={'subtitle2'} color={'gray.main'}>
+                <Typography
+                    flex={'0 1 50%'}
+                    variant={'subtitle2'}
+                    color={'gray.main'}
+                >
                     {get_notification_subtitle_from_type(notification)?.at(0) ?? 'jjj'}
                 </Typography>
             </Stack>
-            <Typography variant={'overline'} color={'gray.main'}>
+            <Typography
+                variant={'overline'}
+                color={'gray.main'}
+            >
                 {get_notification_subtitle_from_type(notification)?.at(1) ?? 'jjj'}
             </Typography>
         </Stack>
@@ -147,7 +170,7 @@ export default function TopNavigationBar() {
                 clickAway={() => setPopperActive(false)}
                 isOpen={popperActive}
                 cardRef={navRef}
-                placement='bottom-end'
+                placement="bottom-end"
             >
                 <Stack
                     gap={2}
@@ -191,7 +214,7 @@ export default function TopNavigationBar() {
                     </Typography>
 
                     {userQuery.data?.groups.some(
-                        g => g.name == 'TeacherGroup' || g.name == 'AdminGroup',
+                        g => g.name == 'TeacherGroup' || g.name == 'AdminGroup'
                     ) ? (
                         <Typography
                             onClick={() => setPopperActive(false)}
@@ -235,7 +258,7 @@ export default function TopNavigationBar() {
                 clickAway={() => setNotificationsActive(false)}
                 isOpen={notificationsActive}
                 cardRef={menuRef}
-                placement='bottom-end'
+                placement="bottom-end"
             >
                 <Stack
                     gap={2}
@@ -244,16 +267,21 @@ export default function TopNavigationBar() {
                         pl: 2,
                     }}
                 >
-                    <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} gap={2}
-                           width={'100%'}>
-                        <Typography>
-                            الإشعارات
-                        </Typography>
+                    <Stack
+                        direction={'row'}
+                        justifyContent={'space-between'}
+                        alignItems={'center'}
+                        gap={2}
+                        width={'100%'}
+                    >
+                        <Typography>الإشعارات</Typography>
                         <Tooltip title={'اعتبر مقروء'}>
                             <IconButton
                                 color={'primary'}
                                 onClick={handleMarkAsReadClick}
-                                disabled={!notificationsQuery.data?.some(n => !n.is_read)}
+                                disabled={
+                                    !notificationsQuery.data?.some(n => !n.is_read)
+                                }
                                 sx={{
                                     px: 0,
                                 }}
@@ -262,22 +290,21 @@ export default function TopNavigationBar() {
                             </IconButton>
                         </Tooltip>
                     </Stack>
-                    <Stack direction={'column-reverse'} gap={1}>
-
-                        {
-                            notificationsQuery.data?.length === 0 ?
-                                <Typography>لا يوجد أي إشعارات</Typography>
-                                : notificationsQuery.data?.slice(-5).map(
-                                    n => {
-                                        return (
-                                            <React.Fragment key={n.id}>
-                                                <NotificationElement notification={n} />
-                                            </React.Fragment>
-                                        );
-                                    },
-                                )
-
-                        }
+                    <Stack
+                        direction={'column-reverse'}
+                        gap={1}
+                    >
+                        {notificationsQuery.data?.length === 0 ? (
+                            <Typography>لا يوجد أي إشعارات</Typography>
+                        ) : (
+                            notificationsQuery.data?.slice(-5).map(n => {
+                                return (
+                                    <React.Fragment key={n.id}>
+                                        <NotificationElement notification={n} />
+                                    </React.Fragment>
+                                );
+                            })
+                        )}
                     </Stack>
                 </Stack>
             </DropdownPopper>
@@ -307,7 +334,7 @@ export default function TopNavigationBar() {
                     <Link to={'/'}>
                         <img
                             src={logo}
-                            alt=''
+                            alt=""
                             style={{
                                 gridColumnStart: 1,
                                 gridColumnEnd: 3,
@@ -345,7 +372,7 @@ export default function TopNavigationBar() {
                             }}
                         >
                             <NavLink
-                                to='/courses'
+                                to="/courses"
                                 style={{}}
                             >
                                 كورسات
@@ -362,7 +389,7 @@ export default function TopNavigationBar() {
                                 },
                             }}
                         >
-                            <NavLink to='/about'>من نحن</NavLink>
+                            <NavLink to="/about">من نحن</NavLink>
                         </Typography>
 
                         <Typography
@@ -375,7 +402,7 @@ export default function TopNavigationBar() {
                                 },
                             }}
                         >
-                            <NavLink to='/teachers'>المدربون</NavLink>
+                            <NavLink to="/teachers">المدربون</NavLink>
                         </Typography>
 
                         <Typography
@@ -388,7 +415,7 @@ export default function TopNavigationBar() {
                                 },
                             }}
                         >
-                            <NavLink to='/support'>تواصل</NavLink>
+                            <NavLink to="/support">تواصل</NavLink>
                         </Typography>
                     </Box>
                     <Box
@@ -401,10 +428,12 @@ export default function TopNavigationBar() {
                             alignItems: 'center',
                         }}
                     >
-                        <Badge color={'error'}
-                               badgeContent={notificationsQuery.data?.filter(n => !n.is_read).length}
+                        <Badge
+                            color={'error'}
+                            badgeContent={
+                                notificationsQuery.data?.filter(n => !n.is_read).length
+                            }
                         >
-
                             <Tooltip title={'الإشعارات'}>
                                 <IconButton
                                     color={'secondary'}
