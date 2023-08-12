@@ -1,8 +1,7 @@
+import React, { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import React, { lazy, Suspense } from 'react';
-import { AboutUs } from './pages/about-us/about-us';
 
-import HashtagsAndCategories from './pages/admin-panel/categories-hashtags';
+import { Skeleton } from '@mui/material';
 import CourseDetails from './pages/admin-panel/course-details';
 import AdminCourses from './pages/admin-panel/courses';
 import AdminLandingPage from './pages/admin-panel/landing-page';
@@ -25,7 +24,6 @@ import CourseQuizz from './pages/course-quizz';
 import CoursesPage from './pages/courses-page';
 import EditProfile from './pages/edit-profile';
 import GoogleCallbackView from './pages/google-callback';
-import LandingPage from './pages/landing-page';
 import Logout from './pages/logout/indext';
 import ContactTeacher from './pages/messages';
 import NotFound from './pages/not-found/NotFound';
@@ -47,7 +45,6 @@ import TeachersPage from './pages/teachers';
 import EmailValidationPage from './pages/validate-email';
 import ViewCertificate from './pages/view-certificate';
 import WatchCourse from './pages/view-course';
-import { Skeleton } from '@mui/material';
 
 const LandingPageLazy = React.lazy(() => import('./pages/landing-page'));
 const AboutUsLazy = lazy(() => import('./pages/about-us/'));
@@ -55,6 +52,7 @@ const HashtagsAndCategoriesLazy = React.lazy(
     () => import('./pages/admin-panel/categories-hashtags')
 );
 const MoneyRequests = React.lazy(() => import('./pages/admin-panel/money-requests'));
+const PrivacyPolicy = React.lazy(() => import('./pages/privacy-policy'));
 
 function App() {
     return (
@@ -185,6 +183,18 @@ function App() {
                     </Suspense>
                 }
             />
+            <Route
+                path={'privacy'}
+                //     element={
+                //     <AboutUs />
+                // }
+                element={
+                    <Suspense fallback={<Skeleton sx={{ height: '100%' }} />}>
+                        <PrivacyPolicy />
+                    </Suspense>
+                }
+            />
+
             <Route
                 path={'teachers'}
                 element={<TeachersPage />}
