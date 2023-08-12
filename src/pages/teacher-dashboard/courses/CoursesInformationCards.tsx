@@ -5,16 +5,13 @@ import school from '../../../assets/svg/school-purple.svg';
 import stars from '../../../assets/svg/stars-purple.svg';
 import { InformationCard } from '../../../components/InformationCard';
 import { User } from '../../../types/user';
-import { useQuery } from 'react-query';
-import axiosInstance from '../../../globals/axiosInstance';
-import { AccountBalance } from '../../../types/account-balance';
 
 export function CoursesInformationCards({
-                                            user,
-                                            coursesCount,
-                                            studentsCount,
-                                            earnings,
-                                        }: {
+    user,
+    coursesCount,
+    studentsCount,
+    earnings,
+}: {
     coursesCount: number;
     user?: User;
     studentsCount?: number;
@@ -66,8 +63,8 @@ export function CoursesInformationCards({
 
             <InformationCard
                 title={'إجمالي الأرباح'}
-                subtitle={earnings.toString() ?? '0'}
-                iconNode={<MoneyIcon fill='white' />}
+                subtitle={earnings?.toString() ?? '0'}
+                iconNode={<MoneyIcon fill="white" />}
                 sx={{
                     flex: '0 1 20%',
                     flexBasis: '20%',
