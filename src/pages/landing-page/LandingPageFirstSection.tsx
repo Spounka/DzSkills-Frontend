@@ -63,7 +63,7 @@ export function LandingPageFirstSection() {
                 pb: { xs: 5, lg: 0 },
                 gap: {
                     xs: 4,
-                    lg: 0,
+                    lg: 4,
                 },
                 px: {
                     xs: theme.spacing(4),
@@ -137,11 +137,11 @@ export function LandingPageFirstSection() {
             </Box>
             <Box
                 sx={{
-                    flexBasis: '30%',
+                    flexBasis: '50%',
                     display: 'flex',
                     alignItems: 'center',
                     maxWidth: {
-                        xs: '55dvw',
+                        xs: 'calc(100vw - 10vw)',
                         lg: '100%',
                     },
                 }}
@@ -171,7 +171,6 @@ function ImageSwitcher({
         <Image
             src={source}
             showLoading
-           
             alt={'image'}
             errorIcon={null}
             fit="contain"
@@ -179,7 +178,8 @@ function ImageSwitcher({
             easing="ease-in-out"
             style={{
                 width: '100%',
-                height: 'auto',
+                height: '100%',
+                aspectRatio: '16/10',
             }}
         />
     ) : (
