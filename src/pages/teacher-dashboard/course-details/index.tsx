@@ -1,19 +1,9 @@
 import { MoreHoriz, Star } from '@mui/icons-material';
-import {
-    Avatar,
-    Divider,
-    IconButton,
-    Menu,
-    MenuItem,
-    Stack,
-    Typography,
-    useTheme,
-} from '@mui/material';
+import { Avatar, Divider, IconButton, Menu, MenuItem, Stack, Typography, useTheme } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 import Image from 'mui-image';
 import React from 'react';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
 import { ReactComponent as DeleteIcon } from '../../../assets/svg/delete-red.svg';
 import { ReactComponent as MessageIcon } from '../../../assets/svg/message-blue.svg';
 import { StyledCard } from '../../../components/StyledCard';
@@ -23,8 +13,8 @@ import { getCourseRelatedStudents } from '../../admin-panel/course-details/api/r
 import { DisplayTableDataGrid } from '../../admin-panel/payment-management/DisplayTableDataGrid';
 import useLogin from '../../authenticate/hooks/useLogin';
 import { getCourse } from '../../course/api/getCourse';
-import NotFound from '../../not-found/NotFound';
 import TeacherDashboardLayout from '../layout';
+import { useRouteID } from '../../../globals/hooks';
 
 const columns: GridColDef[] = [
     {
@@ -135,13 +125,7 @@ const columns: GridColDef[] = [
 ];
 
 function CourseDetailsTeacherDashboard() {
-    const params = useParams();
-
-    if (!params?.id) return <Typography>Error</Typography>;
-
-    if (isNaN(Number(params.id))) return <NotFound />;
-
-    const id: number = parseInt(params.id);
+    const id: number = useRouteID();
 
     const theme = useTheme();
     const [user] = useLogin();

@@ -1,12 +1,4 @@
-import {
-    Backdrop,
-    Button,
-    Card,
-    CircularProgress,
-    Divider,
-    Typography,
-    useTheme,
-} from '@mui/material';
+import { Backdrop, Button, Card, CircularProgress, Divider, Typography, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { AxiosError } from 'axios';
@@ -14,28 +6,21 @@ import Image from 'mui-image';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import pdf_icon from '../../assets/png/pdf@2x.png';
 import uploadImg from '../../assets/svg/upload gray.svg';
 import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar';
 import DownloadSvgIcon from '../../components/ui/DownloadSvgIcon';
 import { MainButton } from '../../components/ui/MainButton';
 import { getCourse } from '../course/api/getCourse';
-import NotFound from '../not-found/NotFound';
 import { createOrder, getCurrentReceipt } from './api/createOrder';
 import { useIsBanned } from '../banned-page/BannedPage';
 import { Receipt } from '../../types/AdminConfig';
 import useLogin from '../authenticate/hooks/useLogin';
+import { useRouteID } from '../../globals/hooks';
 
 function BuyCourse() {
-    const params = useParams();
-
-    if (!params?.id) return <Typography>Error</Typography>;
-
-    // @ts-ignore
-    if (isNaN(params.id)) return <NotFound />;
-
-    const id: number = parseInt(params.id);
+    const id: number = useRouteID();
     const theme = useTheme();
     const [userQuery] = useLogin();
     const [fileName, setFileName] = useState<File>();

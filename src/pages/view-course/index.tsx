@@ -6,7 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import { AxiosError } from 'axios';
 import React, { useCallback, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import messagesBlue from '../../assets/svg/message-blue.svg';
 import messagesWhite from '../../assets/svg/message-white.svg';
@@ -15,7 +15,6 @@ import { MainButton } from '../../components/ui/MainButton';
 import { Chapter, Progression, Video } from '../../types/course';
 import useLogin from '../authenticate/hooks/useLogin';
 import { getCourse } from '../course/api/getCourse';
-import NotFound from '../not-found/NotFound';
 import AnimatedIconButton from './AnimatedIconButton';
 import { ChapterAccordion } from './ChapterAccordion';
 import { VideoComments } from './VideoComments';
@@ -24,20 +23,12 @@ import { VideoRatings } from './VideoRatings';
 import { getStudentProgress, updateStudentProgress } from './api/queries';
 import { useSnackbar } from 'notistack';
 import { useIsBanned } from '../banned-page/BannedPage';
+import { fileNameFromPath } from '../../globals/utils';
+import { useRouteID } from '../../globals/hooks';
 
-function fileNameFromPath(path: string): string {
-    const arr = path.split('/');
-    return arr[arr.length - 1];
-}
+
 function WatchCourse() {
-    const params = useParams();
-
-    if (!params?.id) return <Typography>Error</Typography>;
-
-    // @ts-ignore
-    if (isNaN(params.id)) return <NotFound />;
-
-    const id: number = parseInt(params.id);
+    const id: number = useRouteID();
     const theme = useTheme();
     const [userQuery] = useLogin();
     const navigate = useNavigate();
@@ -57,7 +48,7 @@ function WatchCourse() {
         mutationFn: () => updateStudentProgress(id),
         mutationKey: ['progression', id, user?.pk, 'submit'],
         onSuccess: () => {
-            client.invalidateQueries({ queryKey: ['progression', id, user?.pk] });
+            return client.invalidateQueries({ queryKey: ['progression', id, user?.pk] });
         },
     });
     const { banned, BannedPageComponent } = useIsBanned();
@@ -93,7 +84,7 @@ function WatchCourse() {
     });
 
     const [currentVideo, setCurrentVideo] = useState<Video>(
-        currentCourse.data?.chapters[0].videos[0] ?? defaultVideo
+        currentCourse.data?.chapters[0].videos[0] ?? defaultVideo,
     );
     const [activeTab, setActiveTab] = useState<number>(0);
 
@@ -101,7 +92,7 @@ function WatchCourse() {
         (video: any) => {
             setCurrentVideo(video);
         },
-        [currentVideo]
+        [currentVideo],
     );
 
     function updateStudentProgression(progression: Progression | undefined) {
@@ -148,7 +139,7 @@ function WatchCourse() {
         <Grid
             container
             columns={14}
-            direction="column"
+            direction='column'
             spacing={5}
             id={'main-grid-container'}
             sx={{
@@ -334,8 +325,8 @@ function WatchCourse() {
                     >
                         <Tabs
                             variant={'fullWidth'}
-                            indicatorColor="secondary"
-                            textColor="inherit"
+                            indicatorColor='secondary'
+                            textColor='inherit'
                             value={activeTab}
                             onChange={(e, value) => setActiveTab(value)}
                             sx={{
@@ -446,7 +437,7 @@ function WatchCourse() {
                         index={1}
                     >
                         <Box
-                            display="flex"
+                            display='flex'
                             justifyContent={'space-between'}
                             gap={8}
                             alignItems={'center'}
@@ -458,14 +449,14 @@ function WatchCourse() {
                                 >
                                     {currentVideo.presentation_file
                                         ? fileNameFromPath(
-                                              currentVideo.presentation_file ?? ''
-                                          )
+                                            currentVideo.presentation_file ?? '',
+                                        )
                                         : 'لا توجد مرفقات'}
                                 </Typography>
                             </Box>
                             <MainButton
                                 href={currentVideo.presentation_file ?? ''}
-                                text="تحميل"
+                                text='تحميل'
                                 color={theme.palette.primary.main}
                                 disabled={!currentVideo.presentation_file}
                                 {...{ component: 'a' }}
@@ -496,11 +487,11 @@ function TabPanel(props: TabPanelProps) {
 
     return (
         <div
-            role="tabpanel"
+            role='tabpanel'
             hidden={value !== index}
             id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
-            dir="rtl"
+            dir='rtl'
             {...other}
         >
             {value === index && <Box sx={{ p: 3 }}>{children}</Box>}

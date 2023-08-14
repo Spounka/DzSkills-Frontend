@@ -1,25 +1,18 @@
 import { Grid, Stack, Typography, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
 import Footer from '../../components/footer';
 import TopNavigationBar from '../../components/top-bar';
-import NotFound from '../not-found/NotFound';
 import { AboutMentor } from './AboutMentor';
 import { CourseCells } from './CourseCells';
 import { CourseHeader } from './CourseHeader';
 import { CourseVideoShowcase } from './CourseVideoShowcase';
 import { getCourse } from './api/getCourse';
 import { useIsBanned } from '../banned-page/BannedPage';
+import { useRouteID } from '../../globals/hooks';
 
 function ViewCourse() {
-    const params = useParams();
-
-    if (!params?.id) return <Typography>Error</Typography>;
-    // @ts-ignore
-    if (isNaN(params.id)) return <NotFound />;
-
-    const id: number = parseInt(params.id);
+    const id: number = useRouteID();
     const theme = useTheme();
 
     const query = useQuery({
@@ -36,7 +29,7 @@ function ViewCourse() {
         <Grid
             container
             columns={14}
-            direction="column"
+            direction='column'
             spacing={0}
             id={'main-grid-container'}
             sx={{

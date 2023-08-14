@@ -5,25 +5,17 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import Image from 'mui-image';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
 import Footer from '../../components/footer';
 import TopNavigationBar from '../../components/top-bar';
 import { MainButton } from '../../components/ui/MainButton';
 import useLogin from '../authenticate/hooks/useLogin';
 import { useIsBanned } from '../banned-page/BannedPage';
-import NotFound from '../not-found/NotFound';
 import { getStudentProgress } from '../view-course/api/queries';
 import { getCertificate } from './api/query';
+import { useRouteID } from '../../globals/hooks';
 
 function ViewCertificate() {
-    const params = useParams();
-
-    if (!params?.id) return <Typography>Error</Typography>;
-
-    // @ts-ignore
-    if (isNaN(params.id)) return <NotFound />;
-
-    const id: number = parseInt(params.id);
+    const id: number = useRouteID();
     const theme = useTheme();
     const [userQuery] = useLogin();
     const user = userQuery.data;

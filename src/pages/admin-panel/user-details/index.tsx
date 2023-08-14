@@ -3,8 +3,8 @@ import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
 import { useCallback, useMemo, useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useMutation, useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { ReactComponent as MoneyIcon } from '../../../assets/svg/money-white.svg';
 import students from '../../../assets/svg/school-blue.svg';
 import starsBlue from '../../../assets/svg/stars-blue.svg';
@@ -12,12 +12,12 @@ import studiesBlue from '../../../assets/svg/studies-blue.svg';
 import { InformationCard } from '../../../components/InformationCard';
 import { Course } from '../../../types/course';
 import useLogin from '../../authenticate/hooks/useLogin';
-import NotFound from '../../not-found/NotFound';
 import { getStudentRelatedCourses } from '../../profile/getStudentRelatedCourses';
 import { handleCourseStateChange } from '../../teacher-dashboard/courses';
 import AdminDashboardLayout from '../layout';
 import { getRelatedCourses, getUserByID } from './api/getUserById';
 import { UserDetailsWideRibbon } from './components/UserDetailsWideRibbon';
+import { useRouteID } from '../../../globals/hooks';
 
 const columns: GridColDef[] = [
     {
@@ -71,7 +71,7 @@ const columns: GridColDef[] = [
                     </Typography>
                     <Switch
                         sx={{ scale: '-1 1' }}
-                        color="secondary"
+                        color='secondary'
                         checked={params.value.checked}
                         onChange={params.value.handleChange}
                         disabled={params.value.isSubmitting}
@@ -89,14 +89,7 @@ const columns: GridColDef[] = [
 ];
 
 const UserDetails = () => {
-    const params = useParams();
-
-    if (!params?.id) return <Typography>Error</Typography>;
-
-    // @ts-ignore
-    if (isNaN(params.id)) return <NotFound />;
-
-    const id: number = parseInt(params.id);
+    const id: number = useRouteID();
     const theme = useTheme();
     const [user] = useLogin();
     const navigate = useNavigate();
@@ -130,7 +123,7 @@ const UserDetails = () => {
         (e: GridRowParams<Course>) => {
             setSelectedCourseID(e.row.id);
         },
-        [selectedCourseID]
+        [selectedCourseID],
     );
     const courseStateMutation = useMutation({
         mutationKey: ['course', user.data?.pk, 'state', 'mutation'],
@@ -170,7 +163,7 @@ const UserDetails = () => {
                         },
                     },
                 };
-            }
+            },
         );
     else if (
         studentRelatedCoursesQuery.data &&
@@ -192,7 +185,7 @@ const UserDetails = () => {
                             course?.status !== 'app' ||
                             (course?.state === 'blocked' &&
                                 !user.data?.groups.some(
-                                    group => group.name === 'AdminGroup'
+                                    group => group.name === 'AdminGroup',
                                 )),
                         handleChange: () => {
                             setIsSubmitting(true);
@@ -200,7 +193,7 @@ const UserDetails = () => {
                         },
                     },
                 };
-            }
+            },
         );
 
     return (
@@ -241,7 +234,7 @@ const UserDetails = () => {
                         title={'الكورسات'}
                         subtitle={
                             ((!courseData?.id &&
-                                relatedCoursesQuery.data?.length.toString()) ??
+                                    relatedCoursesQuery.data?.length.toString()) ??
                                 studentRelatedCoursesQuery.data?.length.toString()) ||
                             '0'
                         }

@@ -1,10 +1,7 @@
-import { Box, Grid } from '@mui/material';
-import Typography from '@mui/material/Typography';
-import { useParams } from 'react-router-dom';
+import { Box } from '@mui/material';
 import AuthenticationTopBar from '../../../components/ui/AuthenticationTopBar';
 import useLogin from '../../authenticate/hooks/useLogin';
 import { ContactContent } from '../../messages/ContactContent';
-import NotFound from '../../not-found/NotFound';
 import { Helmet } from 'react-helmet';
 import { useIsBanned } from '../../banned-page/BannedPage';
 

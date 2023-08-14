@@ -1,10 +1,14 @@
 import React from "react";
-import {Previews} from "@react-buddy/ide-toolbox";
+import { ComponentPreview, Previews } from '@react-buddy/ide-toolbox';
 import {PaletteTree} from "./palette";
+import FullPageLoading from '../components/full-page-loading';
 
 const ComponentPreviews = () => {
     return (
         <Previews palette={<PaletteTree/>}>
+            <ComponentPreview path='/FullPageLoading'>
+                <FullPageLoading />
+            </ComponentPreview>
         </Previews>
     );
 };

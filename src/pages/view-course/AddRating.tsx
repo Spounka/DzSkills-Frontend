@@ -1,23 +1,17 @@
 import { Rating, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { useParams } from 'react-router-dom';
 import { Video } from '../../types/course';
 import useLogin from '../authenticate/hooks/useLogin';
 import { postRating } from './api/postRating';
+import { useRouteID } from '../../globals/hooks';
 
 interface addProps {
     video: Video;
 }
+
 export function AddRating({ video }: addProps) {
-    const params = useParams();
-
-    if (!params?.id) return <Typography>Error</Typography>;
-
-    // @ts-ignore
-    if (isNaN(params.id)) return <NotFound />;
-
-    const id: number = parseInt(params.id);
+    const id: number = useRouteID();
     const [user] = useLogin();
     const [currentValue, setCurrentValue] = useState<any>(null);
     const [shouldUpdateOnSubmit, setShouldUpdateOnSubmit] = useState<boolean>(true);
@@ -35,7 +29,7 @@ export function AddRating({ video }: addProps) {
 
     useEffect(() => {
         let rating = video.ratings?.filter(
-            rating => rating.student === user.data?.pk
+            rating => rating.student === user.data?.pk,
         )[0];
         if (rating) {
             setCurrentValue(rating.rating);

@@ -2,22 +2,15 @@ import { Divider, Stack, useTheme } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Image from 'mui-image';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
 import { StyledCard } from '../../../components/StyledCard';
 import { getCourse } from '../../course/api/getCourse';
 import { NewCourseCard } from '../../teacher-dashboard/add-course/components/new-course-card/NewCourseCard';
 import AdminDashboardLayout from '../layout';
+import { useRouteID } from '../../../globals/hooks';
 
 function PendingCourse() {
     const theme = useTheme();
-    const params = useParams();
-
-    if (!params?.id) return <Typography>Error</Typography>;
-
-    // @ts-ignore
-    if (isNaN(params.id)) return <NotFound />;
-
-    const id: number = parseInt(params.id);
+    const id: number = useRouteID();
     const course = useQuery({
         queryKey: ['courses', id],
         queryFn: () => getCourse(id),

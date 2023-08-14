@@ -1,21 +1,16 @@
 import { Box, Grid, Slider, Stack, Typography } from '@mui/material';
 import { useQuery } from 'react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import TopNavigationBar from '../../components/top-bar';
 import { MainButton } from '../../components/ui/MainButton';
 import theme from '../../theme';
 import { QuizzAnswer } from './QuizzAnswer';
 import { getQuizz } from './getQuizz';
 import { useIsBanned } from '../banned-page/BannedPage';
+import { useRouteID } from '../../globals/hooks';
 
 function CourseQuizz() {
-    const params = useParams();
-
-    if (!params?.id) return <Typography>Error</Typography>;
-    // @ts-ignore
-    if (isNaN(params.id)) return <NotFound />;
-
-    const id: number = parseInt(params.id);
+    const id: number = useRouteID();
     const quizzQuery = useQuery({
         queryFn: () => getQuizz(id),
         queryKey: ['courses', id, 'quizz'],
@@ -28,7 +23,7 @@ function CourseQuizz() {
         <Grid
             container
             columns={14}
-            direction="column"
+            direction='column'
             spacing={5}
             id={'main-grid-container'}
             sx={{
@@ -87,7 +82,8 @@ function CourseQuizz() {
                     <Slider
                         size={'medium'}
                         value={100}
-                        onChange={() => {}}
+                        onChange={() => {
+                        }}
                         sx={{
                             // scale: '-1 1',
                             height: 6,
@@ -138,7 +134,7 @@ function CourseQuizz() {
                                 width={'100%'}
                                 alignItems={'center'}
                             >
-                                <Typography variant="h6">
+                                <Typography variant='h6'>
                                     {`${i + 1} - ${q.content}`}
                                 </Typography>
                                 <Grid

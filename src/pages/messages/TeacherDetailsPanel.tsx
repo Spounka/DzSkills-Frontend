@@ -2,19 +2,15 @@ import { Avatar, Card, Stack, useTheme } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useMemo } from 'react';
 import { useQuery } from 'react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ProfileSocialMedia } from '../../components/ProfileSocialMedia';
 import { MainButton } from '../../components/ui/MainButton';
 import { getCourse } from '../course/api/getCourse';
 import { UserFullNameAndSpeciality } from './UserFullNameAndSpeciality';
+import { useRouteID } from '../../globals/hooks';
 
 export function TeacherDetailsPanel() {
-    const params = useParams();
-    let id = 0;
-    if (params.id && !Number.isNaN(id)) {
-        id = parseInt(params.id);
-    }
-
+    const id = useRouteID();
     const theme = useTheme();
     const navigate = useNavigate();
 

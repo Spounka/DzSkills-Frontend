@@ -1,21 +1,16 @@
 import { useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import { UseQueryResult } from 'react-query';
-import { useParams } from 'react-router-dom';
 import { User } from '../../types/user';
 import { CourseConversation } from './CourseConversation';
 import { SupportPanels } from './SupportPanels';
+import { useRouteID } from '../../globals/hooks';
 
 interface ContactContentProps {
     user: UseQueryResult<User, unknown>;
 }
 export function ContactContent({ user }: ContactContentProps) {
-    const params = useParams();
-    let id = 0;
-    if (params.id && !Number.isNaN(id)) {
-        id = parseInt(params.id);
-    }
-
+    const id = useRouteID();
     const theme = useTheme();
 
     return (
