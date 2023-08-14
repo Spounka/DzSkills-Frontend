@@ -159,7 +159,7 @@ export default function TopNavigationBar() {
         notificationsReadMutation.mutate();
     };
     useEffect(() => {
-        setLoggedIn(userQuery.isSuccess ? true : false);
+        setLoggedIn(userQuery.isSuccess);
     }, [userQuery.data?.username]);
 
     if (!loggedIn) return <LandingPageNavbar />;
