@@ -24,7 +24,7 @@ import CourseQuizz from './pages/course-quizz';
 import CoursesPage from './pages/courses-page';
 import EditProfile from './pages/edit-profile';
 import GoogleCallbackView from './pages/google-callback';
-import Logout from './pages/logout/indext';
+import Logout from './pages/logout';
 import ContactTeacher from './pages/messages';
 import NotFound from './pages/not-found/NotFound';
 import PasswordForgotten from './pages/password-forgotten';
