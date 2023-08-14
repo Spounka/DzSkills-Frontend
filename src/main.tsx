@@ -1,19 +1,19 @@
-import {ThemeProvider} from '@mui/material';
-import {SnackbarProvider} from 'notistack';
+import { ThemeProvider } from '@mui/material';
+import { SnackbarProvider } from 'notistack';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {QueryClient, QueryClientProvider} from 'react-query';
-import {ReactQueryDevtools} from 'react-query/devtools';
-import {Provider} from 'react-redux';
-import {BrowserRouter} from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
-import {store} from './stores/store';
+import { store } from './stores/store';
 import theme from './theme';
-import {LocalizationProvider} from '@mui/x-date-pickers';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-import {DevSupport} from "@react-buddy/ide-toolbox";
-import {ComponentPreviews, useInitial} from "./dev";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DevSupport } from '@react-buddy/ide-toolbox';
+import { ComponentPreviews, useInitial } from './dev';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -40,16 +40,16 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                                 <DevSupport ComponentPreviews={ComponentPreviews}
                                             useInitialHook={useInitial}
                                 >
-                                    <App/>
+                                    <App />
                                 </DevSupport>
                             </LocalizationProvider>
                         </SnackbarProvider>
-                        <div dir="ltr">
-                            <ReactQueryDevtools/>
+                        <div dir='ltr'>
+                            <ReactQueryDevtools />
                         </div>
                     </QueryClientProvider>
                 </Provider>
             </BrowserRouter>
         </ThemeProvider>
-    </React.StrictMode>
+    </React.StrictMode>,
 );

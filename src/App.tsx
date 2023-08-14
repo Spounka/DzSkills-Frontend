@@ -49,7 +49,7 @@ import WatchCourse from './pages/view-course';
 const LandingPageLazy = React.lazy(() => import('./pages/landing-page'));
 const AboutUsLazy = lazy(() => import('./pages/about-us/'));
 const HashtagsAndCategoriesLazy = React.lazy(
-    () => import('./pages/admin-panel/categories-hashtags')
+    () => import('./pages/admin-panel/categories-hashtags'),
 );
 const MoneyRequests = React.lazy(() => import('./pages/admin-panel/money-requests'));
 const PrivacyPolicy = React.lazy(() => import('./pages/privacy-policy'));
@@ -59,7 +59,7 @@ function App() {
         <Routes>
             {/* User Application */}
             <Route
-                path=""
+                path=''
                 // element={<LandingPage />}
                 element={
                     <Suspense fallback={<Skeleton height={'100dvh'} />}>
@@ -68,105 +68,105 @@ function App() {
                 }
             />
             <Route
-                path="login"
+                path='login'
                 element={<Authenticate startPanel={1} />}
             />
-            <Route path="register">
+            <Route path='register'>
                 <Route
-                    path=""
+                    path=''
                     element={<Authenticate startPanel={0} />}
                 />
                 <Route
-                    path="verify-email/"
+                    path='verify-email/'
                     element={<EmailSendPage />}
                 />
                 <Route
-                    path="verify-email/:key/"
+                    path='verify-email/:key/'
                     element={<EmailValidationPage />}
                 />
                 <Route
-                    path="google"
+                    path='google'
                     element={<GoogleCallbackView />}
                 />
             </Route>
 
             <Route
-                path="logout"
+                path='logout'
                 element={<Logout />}
             />
-            <Route path="password">
-                <Route path="reset">
+            <Route path='password'>
+                <Route path='reset'>
                     <Route
-                        path=""
+                        path=''
                         element={<PasswordForgotten />}
                     />
                     <Route
-                        path="confirm"
+                        path='confirm'
                         element={<PasswordForgotten stage={1} />}
                     />
                 </Route>
             </Route>
-            <Route path="/profile">
+            <Route path='/profile'>
                 <Route
-                    path=""
+                    path=''
                     element={<Profile />}
                 />
                 <Route
-                    path="edit"
+                    path='edit'
                     element={<EditProfile />}
                 />
                 <Route
-                    path="cart"
+                    path='cart'
                     element={<Invoices />}
                 />
             </Route>
-            <Route path="support">
+            <Route path='support'>
                 <Route
-                    path=""
+                    path=''
                     element={<FAQ />}
                 />
                 <Route
-                    path="report"
+                    path='report'
                     element={<SubmitReport />}
                 />
                 <Route
-                    path="contact"
+                    path='contact'
                     element={<ContactSupport />}
                 />
             </Route>
-            <Route path="/courses">
+            <Route path='/courses'>
                 <Route
-                    path=""
+                    path=''
                     element={<CoursesPage />}
                 />
                 <Route
-                    path="categorized"
+                    path='categorized'
                     element={<CategorizedCoursesList />}
                 />
-                <Route path=":id">
+                <Route path=':id'>
                     <Route
-                        path=""
+                        path=''
                         element={<ViewCourse />}
                     />
 
                     <Route
-                        path="watch"
+                        path='watch'
                         element={<WatchCourse />}
                     />
                     <Route
-                        path="quizz"
+                        path='quizz'
                         element={<CourseQuizz />}
                     />
                     <Route
-                        path="certificate"
+                        path='certificate'
                         element={<ViewCertificate />}
                     />
                     <Route
-                        path="buy"
+                        path='buy'
                         element={<BuyCourse />}
                     />
                     <Route
-                        path="contact"
+                        path='contact'
                         element={<ContactTeacher />}
                     />
                 </Route>
@@ -201,66 +201,66 @@ function App() {
             />
 
             {/* Teacher Dashboard */}
-            <Route path="/dashboard">
-                <Route path="teacher">
+            <Route path='/dashboard'>
+                <Route path='teacher'>
                     <Route
                         path={''}
                         element={<TeacherLandingPage />}
                     />
-                    <Route path="courses/*">
+                    <Route path='courses/*'>
                         <Route
-                            path=""
+                            path=''
                             element={<TeacherCourses />}
                         />
                         <Route
-                            path="add"
+                            path='add'
                             element={<TeacherAddCourse />}
                         />
                         <Route
-                            path=":id"
+                            path=':id'
                             element={<CourseDetailsTeacherDashboard />}
                         />
                     </Route>
                     <Route
-                        path="messages"
+                        path='messages'
                         element={<TeacherMessages />}
                     />
                     <Route
-                        path="account"
+                        path='account'
                         element={<EditProfileTeacherDashboard />}
                     />
                 </Route>
             </Route>
 
             {/* Admin Panel */}
-            <Route path="/admin">
+            <Route path='/admin'>
                 <Route
-                    path=""
+                    path=''
                     element={<AdminLandingPage />}
                 />
                 <Route
-                    path="courses"
+                    path='courses'
                     element={<AdminCourses />}
                 />
                 <Route
-                    path="courses/pending"
+                    path='courses/pending'
                     element={<PendingCoursesAdmin />}
                 />
                 <Route
-                    path="courses/pending/:id/"
+                    path='courses/pending/:id/'
                     element={<PendingCourse />}
                 />
                 <Route
-                    path="courses/:id/"
+                    path='courses/:id/'
                     element={<CourseDetails />}
                 />
 
                 <Route
-                    path="messages"
+                    path='messages'
                     element={<AdminMessages />}
                 />
                 <Route
-                    path="hashtags-categories"
+                    path='hashtags-categories'
                     // element={<HashtagsAndCategories />}
                     element={
                         <Suspense fallback={<Skeleton />}>
@@ -269,11 +269,11 @@ function App() {
                     }
                 />
                 <Route
-                    path="payments"
+                    path='payments'
                     element={<PaymentManagement />}
                 />
                 <Route
-                    path="money-requests"
+                    path='money-requests'
                     element={
                         <Suspense fallback={<>Loading...</>}>
                             <MoneyRequests />
@@ -281,28 +281,28 @@ function App() {
                     }
                 />
                 <Route
-                    path="users"
+                    path='users'
                     element={<UserManagement />}
                 />
                 <Route
-                    path="users/:id/"
+                    path='users/:id/'
                     element={<UserDetails />}
                 />
                 <Route
-                    path="settings/"
+                    path='settings/'
                     element={<AdminPersonalDetails />}
                 />
-                <Route path="settings">
+                <Route path='settings'>
                     <Route
-                        path="add-admin"
+                        path='add-admin'
                         element={<AddAdmin />}
                     />
                     <Route
-                        path="add-teacher"
+                        path='add-teacher'
                         element={<AddTeacher />}
                     />
                     <Route
-                        path="receipts"
+                        path='receipts'
                         element={<Receipts />}
                     />
                     <Route
@@ -313,11 +313,11 @@ function App() {
             </Route>
 
             <Route
-                path="/permission-denied/"
+                path='/permission-denied/'
                 element={<PermissionDeniedPage />}
             />
             <Route
-                path="*"
+                path='*'
                 element={<NotFound />}
             />
         </Routes>

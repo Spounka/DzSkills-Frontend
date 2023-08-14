@@ -43,7 +43,7 @@ function get_notification_string_from_type(notification_type: string): string | 
 }
 
 function get_notification_subtitle_from_type(
-    notification: Notification
+    notification: Notification,
 ): string[] | null {
     const dateDiffrence = dayjs().diff(notification.date_created, 'minutes');
     let dateString = '';
@@ -170,7 +170,7 @@ export default function TopNavigationBar() {
                 clickAway={() => setPopperActive(false)}
                 isOpen={popperActive}
                 cardRef={navRef}
-                placement="bottom-end"
+                placement='bottom-end'
             >
                 <Stack
                     gap={2}
@@ -214,7 +214,7 @@ export default function TopNavigationBar() {
                     </Typography>
 
                     {userQuery.data?.groups.some(
-                        g => g.name == 'TeacherGroup' || g.name == 'AdminGroup'
+                        g => g.name == 'TeacherGroup' || g.name == 'AdminGroup',
                     ) ? (
                         <Typography
                             onClick={() => setPopperActive(false)}
@@ -258,7 +258,7 @@ export default function TopNavigationBar() {
                 clickAway={() => setNotificationsActive(false)}
                 isOpen={notificationsActive}
                 cardRef={menuRef}
-                placement="bottom-end"
+                placement='bottom-end'
             >
                 <Stack
                     gap={2}
@@ -334,7 +334,7 @@ export default function TopNavigationBar() {
                     <Link to={'/'}>
                         <img
                             src={logo}
-                            alt=""
+                            alt=''
                             style={{
                                 gridColumnStart: 1,
                                 gridColumnEnd: 3,
@@ -372,7 +372,7 @@ export default function TopNavigationBar() {
                             }}
                         >
                             <NavLink
-                                to="/courses"
+                                to='/courses'
                                 style={{}}
                             >
                                 كورسات
@@ -389,7 +389,7 @@ export default function TopNavigationBar() {
                                 },
                             }}
                         >
-                            <NavLink to="/about">من نحن</NavLink>
+                            <NavLink to='/about'>من نحن</NavLink>
                         </Typography>
 
                         <Typography
@@ -402,7 +402,7 @@ export default function TopNavigationBar() {
                                 },
                             }}
                         >
-                            <NavLink to="/teachers">المدربون</NavLink>
+                            <NavLink to='/teachers'>المدربون</NavLink>
                         </Typography>
 
                         <Typography
@@ -415,7 +415,7 @@ export default function TopNavigationBar() {
                                 },
                             }}
                         >
-                            <NavLink to="/support">تواصل</NavLink>
+                            <NavLink to='/support'>تواصل</NavLink>
                         </Typography>
                     </Box>
                     <Box
