@@ -1,5 +1,5 @@
-import {useTheme} from '@mui/material/styles';
-import {Video} from '../../types/course';
+import { useTheme } from '@mui/material/styles';
+import { Video } from '../../types/course';
 import useLogin from "../authenticate/hooks/useLogin";
 
 interface props {
@@ -8,11 +8,11 @@ interface props {
 }
 
 export function VideoPlayer({
-                                video,
-                                onVideoFinish: handleVideoFinish,
-                            }: props) {
+    video,
+    onVideoFinish: handleVideoFinish,
+}: props) {
     const theme = useTheme();
-    const [user] = useLogin()
+    const user = useLogin()
     return (
         <figure
             style={{
@@ -46,7 +46,7 @@ export function VideoPlayer({
                 fontWeight: '500'
 
             }}>
-                {user.data?.pk}
+                {user?.pk}
             </span>
         </figure>
     );

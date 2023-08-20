@@ -128,7 +128,6 @@ function CourseDetailsTeacherDashboard() {
     const id: number = useRouteID();
 
     const theme = useTheme();
-    const [user] = useLogin();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const courseQuery = useQuery({
@@ -144,8 +143,6 @@ function CourseDetailsTeacherDashboard() {
     const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
-
-    const removeUser = (id: number, course: number) => {};
 
     const handleClose = (value: any) => {
         setAnchorEl(null);
@@ -241,10 +238,9 @@ function CourseDetailsTeacherDashboard() {
                                 />
                                 <TeacherCourseDetailsRow
                                     title={'أرباح الكورس'}
-                                    value={`${
-                                        (courseQuery.data?.price ?? 0) *
+                                    value={`${(courseQuery.data?.price ?? 0) *
                                         (courseQuery.data?.students_count ?? 0)
-                                    }DA`}
+                                        }DA`}
                                 />
                             </Stack>
                             <Divider />

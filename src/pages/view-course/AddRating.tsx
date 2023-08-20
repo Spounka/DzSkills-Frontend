@@ -12,15 +12,15 @@ interface addProps {
 
 export function AddRating({ video }: addProps) {
     const id: number = useRouteID();
-    const [user] = useLogin();
+    const user = useLogin();
     const [currentValue, setCurrentValue] = useState<any>(null);
     const [shouldUpdateOnSubmit, setShouldUpdateOnSubmit] = useState<boolean>(true);
 
     const queryClient = useQueryClient();
     const ratingMutation = useMutation({
-        mutationKey: ['video', video.id, 'rating', user.data?.pk],
+        mutationKey: ['video', video.id, 'rating', user?.pk],
         mutationFn: (value: number) =>
-            postRating(user.data?.pk, value, video.id, shouldUpdateOnSubmit),
+            postRating(user?.pk, value, video.id, shouldUpdateOnSubmit),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ['video', video.id, 'ratings'] });
             await queryClient.invalidateQueries({ queryKey: ['courses', id] });
@@ -29,7 +29,7 @@ export function AddRating({ video }: addProps) {
 
     useEffect(() => {
         let rating = video.ratings?.filter(
-            rating => rating.student === user.data?.pk,
+            rating => rating.student === user?.pk,
         )[0];
         if (rating) {
             setCurrentValue(rating.rating);

@@ -16,7 +16,7 @@ import { createMessage, getConversation, getMessages } from './api/queries';
 
 interface props {
     id: number;
-    user: UseQueryResult<User, unknown>;
+    user: User;
 }
 
 export function CourseConversationPanel({ user, id }: props) {
@@ -69,13 +69,13 @@ export function CourseConversationPanel({ user, id }: props) {
             else console.error('Some random error ig?', err);
         },
         staleTime: 1000 * 60 * 5,
-        enabled: user.isFetched && id > 0,
+        enabled: user?.pk > 0 && id > 0,
     });
 
     const messagesQuery = useInfiniteQuery({
         queryKey: ['conversations', 'messages', 'infinite', id],
         queryFn: ({ pageParam }) => getMessages(conversation.data?.id, pageParam),
-        getNextPageParam: (lastPage, pages) => lastPage.next,
+        getNextPageParam: (lastPage, _) => lastPage.next,
         getPreviousPageParam: res => res.previous,
         enabled: isValid,
         refetchInterval: 3000,

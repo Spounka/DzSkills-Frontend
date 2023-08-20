@@ -1,13 +1,12 @@
 import { useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
-import { UseQueryResult } from 'react-query';
 import { User } from '../../types/user';
 import { CourseConversation } from './CourseConversation';
 import { SupportPanels } from './SupportPanels';
 import { useRouteID } from '../../globals/hooks';
 
 interface ContactContentProps {
-    user: UseQueryResult<User, unknown>;
+    user: User;
 }
 export function ContactContent({ user }: ContactContentProps) {
     const id = useRouteID();

@@ -30,9 +30,8 @@ import { useRouteID } from '../../globals/hooks';
 function WatchCourse() {
     const id: number = useRouteID();
     const theme = useTheme();
-    const [userQuery] = useLogin();
     const navigate = useNavigate();
-    const user = userQuery.data;
+    const user = useLogin();
     const { enqueueSnackbar } = useSnackbar();
 
     const currentCourse = useQuery({

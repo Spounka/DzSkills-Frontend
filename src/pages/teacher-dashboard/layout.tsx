@@ -26,13 +26,13 @@ function TeacherDashboardLayout({
     const theme = useTheme();
     const [drawerOpen, setDrawerOpen] = React.useState<boolean>(false);
 
-    const [user] = useLogin();
+    const user = useLogin();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!user?.data) return;
+        if (!user) return;
         if (
-            !user.data?.groups.some(
+            !user?.groups.some(
                 group => group.name === 'TeacherGroup' || group.name === 'AdminGroup'
             )
         ) navigate('/permission-denied/');

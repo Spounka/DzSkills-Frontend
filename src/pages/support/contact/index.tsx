@@ -1,12 +1,12 @@
 import { Box } from '@mui/material';
 import AuthenticationTopBar from '../../../components/ui/AuthenticationTopBar';
-import useLogin from '../../authenticate/hooks/useLogin';
 import { ContactContent } from '../../messages/ContactContent';
 import { Helmet } from 'react-helmet';
 import { useIsBanned } from '../../banned-page/BannedPage';
+import useReduxData from '../../../stores/reduxUser';
 
 function ContactSupport() {
-    const [user] = useLogin();
+    const user = useReduxData().user.user;
     const { banned, BannedPageComponent } = useIsBanned();
     if (banned) return <BannedPageComponent />;
 

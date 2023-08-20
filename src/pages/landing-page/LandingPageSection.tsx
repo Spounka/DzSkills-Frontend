@@ -37,7 +37,8 @@ export function LandingPageSection({
                 sx={{
                     cursor: 'pointer',
                     transition: 'all 200ms ease-in-out',
-                    p: theme.spacing(2),
+                    px: theme.spacing(2),
+                    py: theme.spacing(4),
                     ":hover": {
                         backgroundColor: 'white',
                         transition: 'all 200ms ease-in-out',

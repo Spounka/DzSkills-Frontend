@@ -1,13 +1,13 @@
 import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar';
-import useLogin from '../authenticate/hooks/useLogin';
 
 import { Box } from '@mui/material';
 import { Helmet } from 'react-helmet';
 import { ContactContent } from './ContactContent';
 import { useIsBanned } from '../banned-page/BannedPage';
+import useReduxData from '../../stores/reduxUser';
 
 function ContactTeacher() {
-    const [user] = useLogin();
+    const user = useReduxData().user.user;
     const { banned, BannedPageComponent } = useIsBanned();
     if (banned) return <BannedPageComponent />;
 

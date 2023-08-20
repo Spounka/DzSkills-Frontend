@@ -14,11 +14,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as NotificationsIcon } from '../../../../../assets/svg/notification purple.svg';
 import { ReactComponent as UploadIcon } from '../../../../../assets/svg/upload.svg';
 import { MainButton } from '../../../../../components/ui/MainButton';
-import useLogin from '../../../../authenticate/hooks/useLogin';
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import axiosInstance from "../../../../../globals/axiosInstance";
 import { Notification as NotificationType } from "../../../../../types/notifications";
 import { NotificationsMenu } from '../../../../../components/notifications-menu/NotificationsMenu';
+import useReduxData from '../../../../../stores/reduxUser';
 
 interface props {
     isOpen: boolean;
@@ -28,7 +28,7 @@ interface props {
 }
 
 export function DashboardTopbar({ isOpen, title, subtitle, onNotificationClick }: props) {
-    const [query] = useLogin();
+    const user = useReduxData().user.user;
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>(undefined);
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -52,8 +52,6 @@ export function DashboardTopbar({ isOpen, title, subtitle, onNotificationClick }
         },
         onSuccess: () => queryClient.invalidateQueries(['notifications']),
     });
-
-    if (!query.isSuccess) return <></>;
 
     return (
         <>
@@ -168,7 +166,7 @@ export function DashboardTopbar({ isOpen, title, subtitle, onNotificationClick }
                         gridColumn: '-1',
                     }}
                 >
-                    <Avatar src={query.data?.profile_image} />
+                    <Avatar src={user?.profile_image} />
                 </IconButton>
                 <Menu
                     open={menuOpen}
@@ -194,14 +192,13 @@ export function DashboardTopbar({ isOpen, title, subtitle, onNotificationClick }
                         <Link to={'/profile/'}>
                             <Typography
                                 variant={'body1'}
-                            // color={theme.palette.error.main}
                             >
                                 الملف الشخصي
                             </Typography>
                         </Link>
                     </MenuItem>
 
-                    {query.data.groups.some(g => g.name === 'AdminGroup') && (
+                    {user.groups.some(g => g.name === 'AdminGroup') && (
                         <MenuItem
                             onClick={() => {
                                 setMenuOpen(false);

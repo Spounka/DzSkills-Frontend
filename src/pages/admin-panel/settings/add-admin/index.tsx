@@ -3,7 +3,6 @@ import { enqueueSnackbar } from 'notistack';
 import { ChangeEvent, useState } from 'react';
 import { useMutation } from 'react-query';
 import { MainButton } from '../../../../components/ui/MainButton';
-import useLogin from '../../../authenticate/hooks/useLogin';
 import AdminDashboardLayout from '../../layout';
 import { AdminInfoSidebar } from '../AdminInfoSidebar';
 import { AddAdminUserInfo } from './AddAdminUserInfo';
@@ -12,7 +11,6 @@ import { createAdmin } from './api/queries';
 
 function AddAdmin() {
     const theme = useTheme();
-    useLogin();
 
     const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>('');
     function onProfileImageChange(e: ChangeEvent<HTMLInputElement>) {

@@ -8,23 +8,22 @@ import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactComponent as AttachementImage } from '../../../assets/svg/attachement.svg';
 import { Conversation } from '../../../types/messages';
-import useLogin from '../../authenticate/hooks/useLogin';
 import { getCourse } from '../../course/api/getCourse';
 import { MessageBox } from '../../messages/MessageBox';
 import { SendMessageInput } from '../../messages/SendMessageInput';
 import { createMessage, getConversation, getMessages } from '../../messages/api/queries';
+import useReduxData from '../../../stores/reduxUser';
 
 interface MessagesPanelProps {
     selectedConversation: Partial<Conversation>;
-    startConversation: () => void;
+    startConversation?: () => void;
 }
 export function TeacherMessagesPanel({
     selectedConversation,
-    startConversation,
 }: MessagesPanelProps) {
     const theme = useTheme();
     const navigate = useNavigate();
-    const [user] = useLogin();
+    const user = useReduxData().user.user;
 
     const inputRef = useRef<HTMLInputElement>(null);
     const [isValid, setIsValid] = useState(false);
@@ -68,7 +67,7 @@ export function TeacherMessagesPanel({
     });
 
     const conversation = useQuery({
-        queryKey: ['conversations', id, user.data?.pk],
+        queryKey: ['conversations', id, user?.pk],
         queryFn: () => getConversation(id, true),
         onSuccess: () => setIsValid(true),
         onError: (err: AxiosError) => {
@@ -76,15 +75,15 @@ export function TeacherMessagesPanel({
             else console.error('Some random error ig?', err);
         },
         staleTime: 1000 * 60 * 5,
-        enabled: user.isFetched && id > 0,
+        enabled: user?.pk > 0 && id > 0,
     });
 
     const messagesQuery = useInfiniteQuery({
         enabled: isValid,
-        queryKey: ['conversations', 'messages', id, user.data?.pk],
+        queryKey: ['conversations', 'messages', id, user?.pk],
         queryFn: ({ pageParam }) => getMessages(conversation.data?.id, pageParam),
         onError: () => setIsValid(false),
-        getNextPageParam: (lastPage, pages) => lastPage.next,
+        getNextPageParam: (lastPage, _) => lastPage.next,
         getPreviousPageParam: res => res.previous,
         refetchInterval: 3000,
     });
@@ -92,11 +91,11 @@ export function TeacherMessagesPanel({
     const client = useQueryClient();
     const messageMutation = useMutation({
         mutationFn: ({ body }: { body: FormData }) => createMessage(body),
-        mutationKey: ['create', 'message', id, user.data?.pk, courseQuery.data?.id],
+        mutationKey: ['create', 'message', id, user?.pk, courseQuery.data?.id],
         onSuccess: () => {
-            client.invalidateQueries(['conversations', 'messages', id, user.data?.pk]);
-            client.invalidateQueries(['conversations', id, user.data?.pk]);
-            client.invalidateQueries(['conversations', user.data?.pk]);
+            client.invalidateQueries(['conversations', 'messages', id, user?.pk]);
+            client.invalidateQueries(['conversations', id, user?.pk]);
+            client.invalidateQueries(['conversations', user?.pk]);
             if (inputRef.current) inputRef.current.value = '';
         },
     });
@@ -221,7 +220,6 @@ export function TeacherMessagesPanel({
                 messages={messagesQuery.data}
                 hasNextPage={messagesQuery.hasNextPage}
                 loadMore={() => messagesQuery.fetchNextPage()}
-                user={user}
                 teacher_profile_image={courseQuery.data?.owner.profile_image ?? ''}
             />
         </Card>

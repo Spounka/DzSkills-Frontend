@@ -22,7 +22,7 @@ import { useRouteID } from '../../globals/hooks';
 function BuyCourse() {
     const id: number = useRouteID();
     const theme = useTheme();
-    const [userQuery] = useLogin();
+    useLogin()
     const [fileName, setFileName] = useState<File>();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const navigate = useNavigate();
@@ -374,7 +374,7 @@ function BuyCourse() {
                                                         color: 'gray.main',
                                                     },
                                                 }}
-                                                // endIcon={ }
+                                            // endIcon={ }
                                             >
                                                 رفع
                                                 <img

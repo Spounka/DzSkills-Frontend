@@ -4,10 +4,10 @@ import playButton from '../../../assets/svg/play-purple.svg';
 import school from '../../../assets/svg/school-purple.svg';
 import stars from '../../../assets/svg/stars-purple.svg';
 import { InformationCard } from '../../../components/InformationCard';
-import useLogin from '../../authenticate/hooks/useLogin';
+import useReduxData from '../../../stores/reduxUser';
 
 export function InformationCards() {
-    const [user] = useLogin();
+    const user = useReduxData().user.user;
     const theme = useTheme();
     return (
         <Stack
@@ -42,7 +42,7 @@ export function InformationCards() {
 
             <InformationCard
                 title={'متوسط التقييم'}
-                subtitle={user?.data?.average_rating.toFixed(1) || '0.0'}
+                subtitle={user?.average_rating.toFixed(1) || '0.0'}
                 icon={stars}
                 sx={{
                     flex: '1 1 25%',

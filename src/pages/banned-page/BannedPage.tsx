@@ -1,11 +1,11 @@
 import { Container, Stack, Typography } from '@mui/material';
-import useLogin from '../authenticate/hooks/useLogin';
 import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar';
 import { StyledCard } from '../../components/StyledCard';
 import { useGetUser } from '../../globals/hooks';
+import useReduxData from '../../stores/reduxUser';
 
 export function BannedPage() {
-    const [user] = useLogin();
+    const user = useReduxData().user.user
     return (
         <Stack
             gap={2}
@@ -24,7 +24,7 @@ export function BannedPage() {
                             variant="h6"
                             color={'error.main'}
                         >
-                            {user.data?.last_ban.toString()}
+                            {user?.last_ban.toString()}
                         </Typography>
                     </Stack>
                 </StyledCard>

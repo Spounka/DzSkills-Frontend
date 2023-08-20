@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { logout } from './api/queries';
 import { useDispatch } from 'react-redux';
-import { removeUser, updateUser } from '../../redux/userSlice';
+import { removeUser } from '../../redux/userSlice';
 import { useEffect } from 'react';
 
 function Logout() {
@@ -13,17 +13,17 @@ function Logout() {
     const logoutQuery = useQuery({
         queryKey: ['user', 'logout'],
         queryFn: () => logout(token),
-        onSuccess: () => {
+        onSuccess: async () => {
             localStorage.removeItem('access');
             localStorage.removeItem('refresh');
-            queryClient.invalidateQueries({ queryKey: ['user'] });
+            await queryClient.invalidateQueries({ queryKey: ['user'] });
             dispatch(removeUser)
             navigate('/');
         },
     });
     useEffect(() => {
-        logoutQuery.refetch();
-    }, []);
+        (async () => await logoutQuery.refetch())();
+    },);
     return <div>Logout</div>;
 }
 

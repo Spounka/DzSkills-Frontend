@@ -11,7 +11,7 @@ import { AdminConversationItem } from './AdminConversationItem';
 import { AdminConversationPanel } from './AdminConversationPanel';
 
 export function AdminMessages() {
-    const [user] = useLogin();
+    const user = useLogin();
     const { enqueueSnackbar } = useSnackbar();
 
     const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -20,7 +20,7 @@ export function AdminMessages() {
     >({ id: 0, student: 0 });
 
     const conversationListQuery = useQuery({
-        queryKey: ['conversations', user.data?.pk],
+        queryKey: ['conversations', user?.pk],
         queryFn: () => getAllConversations(),
         onSuccess: res => setConversations(res),
         onError: () => {

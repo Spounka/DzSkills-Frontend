@@ -10,7 +10,6 @@ import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { MainButton } from '../../../components/ui/MainButton';
-import useLogin from '../../authenticate/hooks/useLogin';
 import { SupportAutocomplete } from './SupportAutocomplete';
 import { SupportRadioGroup } from './SupportRadioGroup';
 import { getReportTypes } from './api/getReportReason';
@@ -18,7 +17,6 @@ import { submitReport } from './api/submitReport';
 
 export function SupportForm() {
     const theme = useTheme();
-    const [user] = useLogin();
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();

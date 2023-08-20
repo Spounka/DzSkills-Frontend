@@ -1,24 +1,8 @@
 import { ClearRounded } from '@mui/icons-material';
-import {
-    Box,
-    Card,
-    Chip,
-    CircularProgress,
-    Stack,
-    Typography,
-    useTheme,
-} from '@mui/material';
+import { Box, Card, Chip, CircularProgress, Stack, Typography, useTheme } from '@mui/material';
 import { AxiosError } from 'axios';
 import { useSnackbar } from 'notistack';
-import {
-    FormEvent,
-    KeyboardEvent,
-    useCallback,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
-} from 'react';
+import { FormEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactComponent as AttachementImage } from '../../../assets/svg/attachement.svg';
@@ -30,7 +14,6 @@ import { MessageBox } from '../../messages/MessageBox';
 import { SendMessageInput } from '../../messages/SendMessageInput';
 import { getDzSkillsUser } from '../../messages/SupportConversationPanel';
 import { createMessage, getConversation, getMessages } from '../../messages/api/queries';
-import { MainButton } from '../../../components/ui/MainButton';
 
 interface ConversationPanelProps {
     selectedConversation: Partial<Conversation>;
@@ -40,7 +23,7 @@ export function AdminConversationPanel({
     selectedConversation,
 }: ConversationPanelProps) {
     const theme = useTheme();
-    const [user] = useLogin();
+    const user = useLogin();
 
     const inputRef = useRef<HTMLInputElement>(null);
     const [isValid, setIsValid] = useState(false);
@@ -92,14 +75,14 @@ export function AdminConversationPanel({
 
     const queryClient = useQueryClient();
     const conversation = useQuery({
-        queryKey: ['conversations', selectedConversation.id, user.data?.pk],
+        queryKey: ['conversations', selectedConversation.id, user?.pk],
         queryFn: () => getConversation(selectedConversation.id ?? 0),
         onSuccess: () => setIsValid(true),
         onError: (err: AxiosError) => {
             console.error('Some random error ig?', err);
         },
         staleTime: 1000 * 60 * 60,
-        enabled: user.isFetched && (selectedConversation.id ?? 0) > 0,
+        enabled: Boolean(user) && (selectedConversation.id ?? 0) > 0,
     });
 
     const messagesQuery = useInfiniteQuery({
@@ -119,14 +102,14 @@ export function AdminConversationPanel({
 
     const messageMutation = useMutation({
         mutationFn: ({ body }: { body: FormData }) => createMessage(body),
-        mutationKey: ['create', 'message', selectedConversation.id, user.data?.pk],
-        onSuccess: () => {
-            conversation.refetch();
-            messagesQuery.refetch();
-            queryClient.invalidateQueries({
-                queryKey: ['conversations', user.data?.pk],
+        mutationKey: ['create', 'message', selectedConversation.id, user?.pk],
+        onSuccess: async () => {
+            await conversation.refetch();
+            await messagesQuery.refetch();
+            await queryClient.invalidateQueries({
+                queryKey: ['conversations', user?.pk],
             });
-            queryClient.invalidateQueries({
+            await queryClient.invalidateQueries({
                 queryKey: [
                     'conversations',
                     'messages',
@@ -323,7 +306,6 @@ export function AdminConversationPanel({
                     messages={messagesQuery.data}
                     hasNextPage={messagesQuery.hasNextPage}
                     loadMore={loadMore}
-                    user={user}
                     teacher_profile_image={
                         selectedConversation.student_data?.profile_image ?? ''
                     }

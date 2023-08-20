@@ -9,7 +9,7 @@ import { closeTicket } from './api/closeTicket';
 import { createTicket } from './api/createTicket';
 
 export function SupportPanels() {
-    const [user] = useLogin();
+    const user = useLogin();
     const { enqueueSnackbar } = useSnackbar();
 
     const queryClient = useQueryClient();
@@ -28,7 +28,7 @@ export function SupportPanels() {
                 autoHideDuration: 1000 * 3,
             });
             queryClient.invalidateQueries({
-                queryKey: ['conversations', user.data?.pk],
+                queryKey: ['conversations', user?.pk],
             });
             if (typeof res.converesation !== 'number') {
                 setNewTicket(res);
@@ -57,7 +57,7 @@ export function SupportPanels() {
             });
             setSelectedConversation({ id: 0 });
             queryClient.invalidateQueries({
-                queryKey: ['conversations', user.data?.pk],
+                queryKey: ['conversations', user?.pk],
             });
         },
         onError: () => {
@@ -69,7 +69,7 @@ export function SupportPanels() {
     });
 
     const conversationListQuery = useQuery({
-        queryKey: ['conversations', user.data?.pk],
+        queryKey: ['conversations', user?.pk],
         queryFn: () => getAllConversations(),
         onSuccess: res => setConversations(res),
         onError: () => {
@@ -78,7 +78,7 @@ export function SupportPanels() {
                 autoHideDuration: 1000 * 3,
             });
         },
-        enabled: (user.data?.pk ?? 0) > 0,
+        enabled: (user?.pk ?? 0) > 0,
     });
     const selectConversation = useCallback(
         (conversation: Partial<Conversation>) => setSelectedConversation(conversation),
@@ -95,7 +95,7 @@ export function SupportPanels() {
 
     const startConversation = useCallback(() => {
         createTicketMutation.mutate();
-        queryClient.invalidateQueries({ queryKey: ['conversations', user.data?.pk] });
+        queryClient.invalidateQueries({ queryKey: ['conversations', user?.pk] });
     }, [selectedConversation.id]);
 
     useEffect(

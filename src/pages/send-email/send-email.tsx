@@ -3,13 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import axiosInstance from '../../globals/axiosInstance';
 import { useEffect } from 'react';
-import { Box, Button, Card, Fab, Grid, Typography } from '@mui/material';
-import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar';
+import { Box, Button, Card, Fab, Typography } from '@mui/material';
 import theme from '../../theme';
 import { Check } from '@mui/icons-material';
 
 function EmailSendPage() {
-    const [user] = useLogin();
+    const user = useLogin();
     const navigate = useNavigate();
 
     const verifyEmail = useMutation({
@@ -17,7 +16,7 @@ function EmailSendPage() {
         mutationFn: () => {
             const result = async () => {
                 return axiosInstance.post('/rest-auth/registration/resend-email/', {
-                    email: user.data?.email,
+                    email: user?.email,
                 });
             };
             return result();
@@ -26,12 +25,12 @@ function EmailSendPage() {
             navigate('/register/verify-email/');
         },
     });
-    if (user.data?.email === '') navigate('/login/');
+    if (user?.email === '') navigate('/login/');
     useEffect(() => {
-        if (user.data?.email_valid) {
+        if (user?.email_valid) {
             navigate('/profile/');
         } else verifyEmail.mutate();
-    }, [user.data?.email]);
+    }, [user?.email]);
 
     return (
         <Box
@@ -66,7 +65,7 @@ function EmailSendPage() {
                 >
                     تم إرسال رابط التأكيد إلى بريدك الإلكتروني
                     <br />
-                    {user.data?.email}
+                    {user?.email}
                 </Typography>
                 <Fab
                     color={'secondary'}

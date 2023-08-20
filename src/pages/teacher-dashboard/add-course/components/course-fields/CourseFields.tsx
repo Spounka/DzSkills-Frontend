@@ -271,7 +271,7 @@ export function CourseFields({
                     }
                     renderInput={params => (
                         <TextField
-                            required={localLevel?.id === 0}
+                            required={localLevel === null || localLevel?.id === 0}
                             {...params}
                             label="مستوى"
                             placeholder="مستوى"

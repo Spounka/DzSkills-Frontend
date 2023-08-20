@@ -9,6 +9,7 @@ import TeacherDashboardLayout from '../layout';
 import TeacherConversationsListPanel from './TeacherConversationListPanel';
 import { TeacherMessagesPanel } from './TeacherMessagesPanel';
 import axiosInstance from '../../../globals/axiosInstance';
+import useReduxData from '../../../stores/reduxUser';
 
 
 export async function getTeacherOnlyConversations() {
@@ -20,7 +21,7 @@ interface TeacherMessagesProps {
     id?: number;
 }
 function TeacherMessages({ id }: TeacherMessagesProps) {
-    const [user] = useLogin();
+    const user = useReduxData().user.user;
     const { enqueueSnackbar } = useSnackbar();
 
     const queryClient = useQueryClient();
@@ -51,7 +52,7 @@ function TeacherMessages({ id }: TeacherMessagesProps) {
     });
 
     const conversationListQuery = useQuery({
-        queryKey: ['conversations', user.data?.pk],
+        queryKey: ['conversations', user?.pk],
         queryFn: () => getTeacherOnlyConversations(),
         onSuccess: res => setConversations(res),
         onError: () => {

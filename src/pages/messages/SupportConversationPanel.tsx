@@ -36,6 +36,7 @@ import { MainButton } from '../../components/ui/MainButton';
 import axiosInstance from '../../globals/axiosInstance';
 import { User } from '../../types/user';
 import { getCourse } from '../course/api/getCourse';
+import useReduxData from '../../stores/reduxUser';
 
 export async function getDzSkillsUser() {
     const { data } = await axiosInstance.get('/users/admin/');
@@ -50,13 +51,13 @@ interface SupportProps {
 }
 
 function SupportConversationPanel({
-                                      selectedConversation,
-                                      startConversation,
-                                      endConversation,
-                                      closeConversation,
-                                  }: SupportProps) {
+    selectedConversation,
+    startConversation,
+    endConversation,
+    closeConversation,
+}: SupportProps) {
     const theme = useTheme();
-    const [user] = useLogin();
+    const user = useReduxData().user.user;
 
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -101,7 +102,7 @@ function SupportConversationPanel({
 
     const queryClient = useQueryClient();
     const conversation = useQuery({
-        queryKey: ['conversations', selectedConversation.id, user.data?.pk],
+        queryKey: ['conversations', selectedConversation.id, user?.pk],
         queryFn: () => getConversation(selectedConversation.id ?? 0),
         onSuccess: () => setIsValid(true),
         onError: (err: AxiosError) => {
@@ -114,7 +115,7 @@ function SupportConversationPanel({
     const messagesQuery = useInfiniteQuery({
         enabled: isValid,
         queryFn: ({ pageParam }) => getMessages(selectedConversation.id, pageParam),
-        queryKey: ['conversations', 'messages', selectedConversation.id, user.data?.pk],
+        queryKey: ['conversations', 'messages', selectedConversation.id, user?.pk],
         onError: () => setIsValid(false),
         getNextPageParam: (lastPage, pages) => lastPage.next,
         getPreviousPageParam: res => res.previous,
@@ -134,12 +135,12 @@ function SupportConversationPanel({
 
     const messageMutation = useMutation({
         mutationFn: ({ body }: { body: FormData }) => createMessage(body),
-        mutationKey: ['create', 'message', selectedConversation.id, user.data?.pk],
+        mutationKey: ['create', 'message', selectedConversation.id, user?.pk],
         onSuccess: () => {
             conversation.refetch();
             messagesQuery.refetch();
             queryClient.invalidateQueries({
-                queryKey: ['conversations', user.data?.pk],
+                queryKey: ['conversations', user?.pk],
             });
             if (inputRef.current) inputRef.current.value = '';
         },
@@ -287,7 +288,6 @@ function SupportConversationPanel({
                         messages={messagesQuery.data}
                         hasNextPage={messagesQuery.hasNextPage}
                         loadMore={() => messagesQuery.fetchNextPage()}
-                        user={user}
                         teacher_profile_image={recievingUser?.profile_image ?? ''}
                     />
                     {selectedConversation.ticket &&

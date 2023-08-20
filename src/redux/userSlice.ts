@@ -22,7 +22,7 @@ const userSlice = createSlice({
                 ...state,
                 access: action.payload.access || state.access,
                 refresh: action.payload.refresh || state.refresh,
-                user: { ...action.payload.user },
+                user: { ...state.user, ...action.payload.user, groups: [...state.user.groups, ...action.payload.user.groups] },
             };
         },
         removeUser: () => {

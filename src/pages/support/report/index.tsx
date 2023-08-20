@@ -1,12 +1,10 @@
 import { Stack, useTheme } from '@mui/material';
 import Footer from '../../../components/footer';
 import TopNavigationBar from '../../../components/top-bar';
-import useLogin from '../../authenticate/hooks/useLogin';
 import { ContactSupportPanels } from './ContactSupportPanels';
 import { useIsBanned } from '../../banned-page/BannedPage';
 
 export function SubmitReport() {
-    const [user] = useLogin();
     const theme = useTheme();
     const { banned, BannedPageComponent } = useIsBanned();
     if (banned) return <BannedPageComponent />;

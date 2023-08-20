@@ -4,10 +4,8 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useLogin from '../authenticate/hooks/useLogin';
 import { AdminPanelTopBar } from './landing-page/components/AdminPanelTopBar';
-import { NotificationsBar } from './landing-page/components/NotificationsBar';
 import { AdminPanelSidebar } from './landing-page/components/Sidebar';
 import { Helmet } from 'react-helmet';
-import { ClickAwayListener } from '@mui/material';
 
 interface AdminDashboardLayoutProps {
     topbar_title: string;
@@ -21,7 +19,7 @@ function AdminDashboardLayout({
     children,
 }: AdminDashboardLayoutProps) {
     const theme = useTheme();
-    const [user] = useLogin();
+    const user = useLogin();
     const [drawerOpen, setDrawerOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -29,11 +27,8 @@ function AdminDashboardLayout({
         setDrawerOpen(val => !val);
     }
 
-    useEffect(() => {
-        if (!user.data) return;
-        if (!user.data?.groups.some(group => group.name === 'AdminGroup'))
-            navigate('/permission-denied/');
-    }, [user]);
+    if (!user?.groups.some(group => group.name === 'AdminGroup'))
+        navigate('/permission-denied/');
 
     return (
         <>

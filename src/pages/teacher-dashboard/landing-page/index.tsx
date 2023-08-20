@@ -75,7 +75,7 @@ export const data = [
 ];
 
 function TeacherLandingPage() {
-    const [user] = useLogin();
+    const user = useLogin();
 
     const accountBalanceQuery = useQuery({
         //@ts-ignore
@@ -87,10 +87,10 @@ function TeacherLandingPage() {
     });
 
     const relatedCoursesQuery = useQuery({
-        queryKey: ['users', user.data?.pk, 'courses'],
-        queryFn: () => getRelatedCourses(user.data?.pk ?? 0),
+        queryKey: ['users', user?.pk, 'courses'],
+        queryFn: () => getRelatedCourses(user?.pk ?? 0),
         staleTime: 1000 * 60 * 60 * 24,
-        enabled: !!user.data?.pk,
+        enabled: !!user?.pk,
     });
     return (
         <TeacherDashboardLayout
@@ -103,7 +103,7 @@ function TeacherLandingPage() {
                 height={'auto'}
             >
                 <CoursesInformationCards
-                    user={user.data}
+                    user={user}
                     coursesCount={relatedCoursesQuery.data?.length ?? 0}
                     //@ts-expect-error
                     studentsCount={

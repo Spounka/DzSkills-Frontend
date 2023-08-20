@@ -6,16 +6,16 @@ import { useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactComponent as GpsImage } from '../../assets/svg/place gray.svg';
 import { ProfileSocialMedia } from '../../components/ProfileSocialMedia';
-import useLogin from '../authenticate/hooks/useLogin';
+import useReduxData from '../../stores/reduxUser';
 import CourseCard from '../courses-page/CourseCard';
 import { getStudentRelatedCourses } from './getStudentRelatedCourses';
 
 export function ProfileContent() {
     const theme = useTheme();
-    const [user] = useLogin();
+    const user = useReduxData().user.user;
 
     const ownedCoursesQuery = useQuery({
-        queryKey: ['courses', 'student', user.data?.pk],
+        queryKey: ['courses', 'student', user?.pk],
         queryFn: () => getStudentRelatedCourses(),
     });
 
@@ -66,13 +66,13 @@ export function ProfileContent() {
                     }}
                 >
                     <Typography variant={'h5'}>
-                        {`${user.data?.first_name} ${user.data?.last_name}`}
+                        {`${user?.first_name} ${user?.last_name}`}
                     </Typography>
                     <Typography
                         variant={'subtitle2'}
                         color={'gray.light'}
                     >
-                        {`${user.data?.speciality ?? 'speciality'}`}
+                        {`${user?.speciality ?? 'speciality'}`}
                     </Typography>
                     <Typography
                         variant={'body2'}
@@ -83,7 +83,7 @@ export function ProfileContent() {
                         }}
                     >
                         <GpsImage style={{ alignSelf: 'center' }} />
-                        {`${user.data?.nationality ?? ' الجنسية'}`}
+                        {`${user?.nationality ?? ' الجنسية'}`}
                     </Typography>
 
                     <Box
@@ -111,13 +111,13 @@ export function ProfileContent() {
                                 component="legend"
                                 variant={'body2'}
                             >
-                                {user.data?.average_rating.toFixed(1)}
+                                {user?.average_rating.toFixed(1)}
                             </Typography>
                             <Rating
                                 size={'small'}
                                 name="read-only"
                                 precision={0.5}
-                                value={user.data?.average_rating}
+                                value={user?.average_rating}
                                 dir={'ltr'}
                                 readOnly
                                 sx={{
@@ -140,14 +140,14 @@ export function ProfileContent() {
                     flexGrow={'1'}
                 >
                     <Avatar
-                        src={user.data?.profile_image}
+                        src={user?.profile_image}
                         sx={{
                             width: theme.spacing(26),
                             height: theme.spacing(26),
                         }}
                     />
 
-                    <ProfileSocialMedia user={user.data} />
+                    <ProfileSocialMedia user={user} />
                 </Box>
             </Box>
 
@@ -163,7 +163,7 @@ export function ProfileContent() {
                 fontWeight={400}
                 color={'gray.dark'}
             >
-                {user.data?.description}
+                {user?.description}
             </Typography>
 
             <Typography

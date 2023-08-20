@@ -8,17 +8,16 @@ import { useQuery } from 'react-query';
 import Footer from '../../components/footer';
 import TopNavigationBar from '../../components/top-bar';
 import { MainButton } from '../../components/ui/MainButton';
-import useLogin from '../authenticate/hooks/useLogin';
 import { useIsBanned } from '../banned-page/BannedPage';
 import { getStudentProgress } from '../view-course/api/queries';
 import { getCertificate } from './api/query';
 import { useRouteID } from '../../globals/hooks';
+import useReduxData from '../../stores/reduxUser';
 
 function ViewCertificate() {
     const id: number = useRouteID();
     const theme = useTheme();
-    const [userQuery] = useLogin();
-    const user = userQuery.data;
+    const user = useReduxData().user.user;
 
     const progression = useQuery({
         queryKey: ['progression', id, user?.pk],
@@ -34,10 +33,6 @@ function ViewCertificate() {
     });
     const { banned, BannedPageComponent } = useIsBanned();
     if (banned) return <BannedPageComponent />;
-
-    if (!progression.data) return <>Error in data</>;
-    if (progression.isLoading) return <Typography>Loading...</Typography>;
-    if (progression.isError) return <>Error in data</>;
 
     return (
         <Grid

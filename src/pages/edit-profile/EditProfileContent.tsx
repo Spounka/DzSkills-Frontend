@@ -1,46 +1,43 @@
-import {Avatar, ButtonGroup, useTheme} from '@mui/material';
+import { Avatar, ButtonGroup, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import {useSnackbar} from 'notistack';
-import {FormEvent, useEffect, useState} from 'react';
-import {useMutation, useQueryClient} from 'react-query';
-import {useSelector} from 'react-redux';
-import {MainButton} from '../../components/ui/MainButton';
+import { useSnackbar } from 'notistack';
+import { FormEvent, useEffect, useState } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
+import { MainButton } from '../../components/ui/MainButton';
 import UploadSvgIcon from '../../components/ui/UploadSvgIcon';
 import axiosInstance from '../../globals/axiosInstance';
-import {selectUser} from '../../redux/userSlice';
-import {User} from '../../types/user';
-import useLogin from '../authenticate/hooks/useLogin';
+import { User } from '../../types/user';
 import SocialMediaInput from './SocialMediaInput';
 import EditProfileField from './components/fields';
 import EditProfileColumn from './components/fields-column';
+import useReduxData from '../../stores/reduxUser';
 
-export default function EditProfileContent({}) {
+export default function EditProfileContent({ }) {
     const theme = useTheme();
     const [imageLink, setImageLink] = useState<string>();
     const [imageFile, setImageFile] = useState<File | null>(null)
-    const user = useSelector(selectUser);
-    const [query] = useLogin();
+    const user = useReduxData().user.user
     const queryClient = useQueryClient();
-    const {enqueueSnackbar} = useSnackbar();
+    const { enqueueSnackbar } = useSnackbar();
 
     const updateProfileMutation = useMutation({
         mutationKey: ['profile', 'update'],
         mutationFn: async (body: FormData) => {
-            const {data} = await axiosInstance.patch(`/rest-auth/user/`, body);
+            const { data } = await axiosInstance.patch(`/rest-auth/user/`, body);
             return data as User;
         },
         onSuccess: () => {
-            enqueueSnackbar('تم التحديث بنجاح', {variant: 'success'});
+            enqueueSnackbar('تم التحديث بنجاح', { variant: 'success' });
             queryClient.invalidateQueries(['user']);
         },
         onError: () => {
-            enqueueSnackbar('حدث خطأ ، يرجى المحاولة مرة أخرى', {variant: 'error'});
+            enqueueSnackbar('حدث خطأ ، يرجى المحاولة مرة أخرى', { variant: 'error' });
         },
     });
 
     useEffect(() => {
-        setImageLink(query.data?.profile_image);
+        setImageLink(user?.profile_image);
     }, []);
 
     const updateProfile = (e: FormEvent<HTMLFormElement>) => {
@@ -79,7 +76,7 @@ export default function EditProfileContent({}) {
                 <Box
                     sx={{
                         display: 'flex',
-                        flexDirection: {xs: 'column', lg: 'row'},
+                        flexDirection: { xs: 'column', lg: 'row' },
                         alignItems: 'center',
                         gap: theme.spacing(8),
                     }}
@@ -117,7 +114,7 @@ export default function EditProfileContent({}) {
                     >
                         <input
                             type="file"
-                            style={{width: '1px', height: '1px'}}
+                            style={{ width: '1px', height: '1px' }}
                             accept="image/*"
                             onChange={e => {
                                 const files = e.target.files;
@@ -142,14 +139,14 @@ export default function EditProfileContent({}) {
                         grow
                         name={'first_name'}
                         type={'text'}
-                        placeholder={query.data?.first_name}
+                        placeholder={user?.first_name}
                         label={'الإسم الأول'}
                     />
                     <EditProfileField
                         grow
                         name={'last_name'}
                         type={'label'}
-                        placeholder={query.data?.last_name}
+                        placeholder={user?.last_name}
                         label={'اسم العائلة'}
                     />
                 </EditProfileColumn>
@@ -158,14 +155,14 @@ export default function EditProfileContent({}) {
                         grow
                         name={'email'}
                         type={'email'}
-                        placeholder={query.data?.email}
+                        placeholder={user?.email}
                         label={'البريد الإلكتروني'}
                     />
                     <EditProfileField
                         grow
                         name={'speciality'}
                         type={'label'}
-                        placeholder={user.user.speciality || 'التخصص'}
+                        placeholder={user?.speciality || 'التخصص'}
                         label={'التخصص'}
                     />
                 </EditProfileColumn>
@@ -174,7 +171,7 @@ export default function EditProfileContent({}) {
                         grow
                         name={'description'}
                         type={'label'}
-                        placeholder={user.user.description || 'وصف'}
+                        placeholder={user?.description || 'وصف'}
                         label={'وصف'}
                         multiline
                     />
@@ -182,22 +179,22 @@ export default function EditProfileContent({}) {
                 <SocialMediaInput
                     text={'Facebook'}
                     name={'facebook_link'}
-                    placeholder={query.data?.facebook_link || 'https://facebook.com/'}
+                    placeholder={user?.facebook_link || 'https://facebook.com/'}
                 />
                 <SocialMediaInput
                     text={'Twitter'}
                     name={'twitter_link'}
-                    placeholder={query.data?.twitter_link || 'https://twitter.com/'}
+                    placeholder={user?.twitter_link || 'https://twitter.com/'}
                 />
                 <SocialMediaInput
                     text={'LinkedIn'}
                     name={'linkedin_link'}
-                    placeholder={query.data?.linkedin_link || 'https://linkedin.com/'}
+                    placeholder={user?.linkedin_link || 'https://linkedin.com/'}
                 />
                 <SocialMediaInput
                     text={'Instagram'}
                     name={'instagram_link'}
-                    placeholder={query.data?.instagram_link || 'https://instagram.com/'}
+                    placeholder={user?.instagram_link || 'https://instagram.com/'}
                 />
                 <ButtonGroup
                     sx={{
@@ -206,12 +203,12 @@ export default function EditProfileContent({}) {
                     }}
                 >
                     <MainButton
-                        {...{fullWidth: true}}
+                        {...{ fullWidth: true }}
                         text={'إلغاء'}
                         color={theme.palette.error.main}
                     />
                     <MainButton
-                        {...{fullWidth: true}}
+                        {...{ fullWidth: true }}
                         text={'حفظ'}
                         type={'submit'}
                         color={theme.palette.primary.main}

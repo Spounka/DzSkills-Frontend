@@ -1,9 +1,10 @@
-import { useState, ReactNode } from 'react';
+import { useState, ReactNode, Suspense } from 'react';
 import { useIsBanned } from '../pages/banned-page/BannedPage';
 import Box from '@mui/material/Box';
 import Footer from './footer';
 import { Outlet } from 'react-router-dom';
 import { useGetUser } from '../globals/hooks';
+import FullScreenLoadingFallback from './full-screen-loading-fallback';
 
 interface Props {
     allowOffScreen?: boolean;
@@ -27,7 +28,9 @@ const UserLayout = ({ allowOffScreen, navBar }: Props) => {
             }}
         >
             {navBar}
-            <Outlet />
+            <Suspense fallback={<FullScreenLoadingFallback />}>
+                <Outlet />
+            </Suspense>
             <Footer />
         </Box>
     );

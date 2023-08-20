@@ -91,7 +91,7 @@ const columns: GridColDef[] = [
 const UserDetails = () => {
     const id: number = useRouteID();
     const theme = useTheme();
-    const [user] = useLogin();
+    const user = useLogin();
     const navigate = useNavigate();
 
     const query = useQuery({
@@ -126,7 +126,7 @@ const UserDetails = () => {
         [selectedCourseID],
     );
     const courseStateMutation = useMutation({
-        mutationKey: ['course', user.data?.pk, 'state', 'mutation'],
+        mutationKey: ['course', user?.pk, 'state', 'mutation'],
         mutationFn: ({ id }: { id: number }) => handleCourseStateChange(id),
         onSuccess: () => {
             relatedCoursesQuery.refetch();
@@ -184,7 +184,7 @@ const UserDetails = () => {
                         blocked:
                             course?.status !== 'app' ||
                             (course?.state === 'blocked' &&
-                                !user.data?.groups.some(
+                                !user?.groups.some(
                                     group => group.name === 'AdminGroup',
                                 )),
                         handleChange: () => {
@@ -234,7 +234,7 @@ const UserDetails = () => {
                         title={'الكورسات'}
                         subtitle={
                             ((!courseData?.id &&
-                                    relatedCoursesQuery.data?.length.toString()) ??
+                                relatedCoursesQuery.data?.length.toString()) ??
                                 studentRelatedCoursesQuery.data?.length.toString()) ||
                             '0'
                         }
@@ -271,7 +271,7 @@ const UserDetails = () => {
 
                     <InformationCard
                         title={'متوسط التقييم'}
-                        subtitle={user.data?.average_rating.toString() ?? '-'}
+                        subtitle={user?.average_rating.toString() ?? '-'}
                         icon={starsBlue}
                         sx={{
                             flexBasis: '25%',

@@ -1,30 +1,27 @@
 import { useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import React from 'react';
-import { InfiniteData, UseQueryResult, useQuery } from 'react-query';
+import { InfiniteData, useQuery } from 'react-query';
 import { MainButton } from '../../components/ui/MainButton';
 import { MessagePagination } from '../../types/messages';
-import { User } from '../../types/user';
 import { Message } from './Message';
 import { getDzSkillsUser } from './SupportConversationPanel';
-import useLogin from '../authenticate/hooks/useLogin';
+import useReduxData from '../../stores/reduxUser';
 
 interface MessageBoxProps {
     messages?: InfiniteData<MessagePagination>;
-    user: UseQueryResult<User, unknown>;
     teacher_profile_image: string;
     hasNextPage?: boolean;
     loadMore?: any;
 }
 export function MessageBox({
     messages,
-    // user,
     teacher_profile_image,
     hasNextPage,
     loadMore,
 }: MessageBoxProps) {
     const theme = useTheme();
-    const [user] = useLogin();
+    const user = useReduxData().user.user;
 
     const dzSkillsAdminQuery = useQuery({
         queryKey: ['users', 'admin'],
@@ -36,11 +33,8 @@ export function MessageBox({
             sx={{
                 overflowY: 'auto',
                 scrollbarWidth: 'thin',
-                // height: '100%',
                 flexGrow: 1,
                 py: 2,
-                // pt: 3,
-                // px: 2,
                 display: 'flex',
                 gap: 0,
                 flexDirection: 'column-reverse',
@@ -53,16 +47,16 @@ export function MessageBox({
                             let isSender = false;
 
                             let avatarSrc = undefined;
-                            isSender = message.sender === user.data?.pk;
+                            isSender = message.sender === user?.pk;
                             if (
-                                user.data?.groups.some(g => g.name === 'AdminGroup') &&
+                                user?.groups.some(g => g?.name === 'AdminGroup') &&
                                 message.sender === dzSkillsAdminQuery.data?.pk
                             ) {
                                 isSender = true;
                                 avatarSrc = dzSkillsAdminQuery.data?.profile_image;
                             } else {
                                 avatarSrc = isSender
-                                    ? user.data?.profile_image
+                                    ? user?.profile_image
                                     : teacher_profile_image;
                             }
                             const dir = isSender ? 'flex-end' : 'flex-start';

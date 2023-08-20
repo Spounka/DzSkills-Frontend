@@ -1,4 +1,5 @@
-export const defaultUser = {
+import { User } from '../types/user'
+export const defaultUser: { access: string, refresh: string, user: User } = {
     access: '',
     refresh: '',
     user: {

@@ -1,25 +1,16 @@
-import {
-    Avatar,
-    Badge,
-    Card,
-    ClickAwayListener,
-    Menu,
-    MenuItem,
-    OutlinedInput,
-    Typography,
-} from '@mui/material';
+import { Avatar, Badge, Card, Menu, MenuItem, OutlinedInput, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
-import { useEffect, useState, MouseEvent, RefObject, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import { MainButton } from '../../../../components/ui/MainButton';
-import useLogin from '../../../authenticate/hooks/useLogin';
 import { getCourses } from '../../../courses-page/api/getAllCourses';
 import { ReactComponent as NotificationsIcon } from './../../../../assets/svg/notification purple.svg';
 import axiosInstance from '../../../../globals/axiosInstance';
 import { Notification as NotificationType } from '../../../../types/notifications';
 import { NotificationsMenu } from '../../../../components/notifications-menu/NotificationsMenu';
+import useReduxData from '../../../../stores/reduxUser';
 
 interface props {
     onNotificationClick: () => void;
@@ -36,17 +27,17 @@ export function AdminPanelTopBar({
     subtitle,
     mainColor,
 }: props) {
-    const [user] = useLogin();
-    const coursesQuery = useQuery({
-        queryKey: ['courses'],
-        queryFn: () => getCourses(),
-    });
-
+    const user = useReduxData().user.user;
     const theme = useTheme();
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>(undefined);
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
     const menuRef = useRef<HTMLElement>(null)
+
+    const coursesQuery = useQuery({
+        queryKey: ['courses'],
+        queryFn: () => getCourses(),
+    });
 
     useEffect(() => {
         setMenuOpen(Boolean(anchorEl));
@@ -70,7 +61,6 @@ export function AdminPanelTopBar({
         onSuccess: () => queryClient.invalidateQueries(['notifications']),
     });
 
-    if (!user?.isSuccess) return <></>;
     return (
         <>
             <NotificationsMenu
@@ -189,7 +179,7 @@ export function AdminPanelTopBar({
 
                 <Avatar
                     onClick={e => setAnchorEl(e.currentTarget)}
-                    src={user.data?.profile_image}
+                    src={user?.profile_image}
                     sx={{
                         gridColumn: '-1',
                         ':hover': {

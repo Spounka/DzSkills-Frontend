@@ -12,12 +12,12 @@ import { CoursesInformationCards } from './CoursesInformationCards';
 
 export function TeacherCourses() {
     const theme = useTheme();
-    const [user] = useLogin();
+    const user = useLogin();
     const [isSubmitting, setIsSubmitting] = React.useState(false);
     const navigate = useNavigate();
 
     const courseStateMutation = useMutation({
-        mutationKey: ['course', user.data?.pk, 'state', 'mutation'],
+        mutationKey: ['course', user?.pk, 'state', 'mutation'],
         mutationFn: ({ id }: { id: number }) => handleCourseStateChange(id),
         onSuccess: () => {
             relatedCoursesQuery.refetch();
@@ -27,10 +27,10 @@ export function TeacherCourses() {
     });
 
     const relatedCoursesQuery = useQuery({
-        queryKey: ['users', user.data?.pk, 'courses'],
-        queryFn: () => getRelatedCourses(user.data?.pk ?? 0),
+        queryKey: ['users', user?.pk, 'courses'],
+        queryFn: () => getRelatedCourses(user?.pk ?? 0),
         staleTime: 1000 * 60 * 60 * 24,
-        enabled: !!user.data?.pk,
+        enabled: !!user?.pk,
     });
 
     const getStateFromString = (state: string) => {
@@ -70,7 +70,7 @@ export function TeacherCourses() {
                 blocked:
                     isSubmitting ||
                     (course?.state === 'blocked' &&
-                        !user.data?.groups.some(group => group.name === 'AdminGroup')),
+                        !user?.groups.some(group => group.name === 'AdminGroup')),
                 handleChange: () => handleChange(course.id),
             },
         };
@@ -105,7 +105,7 @@ export function TeacherCourses() {
             )}
             <Stack gap={4}>
                 <CoursesInformationCards
-                    user={user.data}
+                    user={user}
                     coursesCount={relatedCoursesQuery.data?.length ?? 0}
                     //@ts-expect-error
                     studentsCount={

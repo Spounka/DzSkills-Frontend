@@ -28,7 +28,7 @@ function useGetUser({ onSuccess, onError }: GetUserProps) {
         queryKey: ['user'],
         queryFn: () => getUser(token, refresh),
         onSuccess: (user) => {
-            dispatch(updateUser({ user: user }))
+            dispatch(updateUser({ access: token, refresh: refresh, user: user }))
             onSuccess?.(user);
         },
         onError: (err) => {
