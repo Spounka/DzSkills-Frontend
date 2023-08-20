@@ -1,11 +1,7 @@
 import { Box, useTheme } from '@mui/material';
 import { useQuery } from 'react-query';
 import { Category, Level } from '../../../types/course';
-import {
-    getCategories,
-    getHashtags,
-    getLevels,
-} from '../../admin-panel/categories-hashtags/api/queries';
+import { getCategories, getHashtags, getLevels } from '../../admin-panel/categories-hashtags/api/queries';
 import { CategoryChip } from './CategoryChip';
 import { FilterChip } from './FilterChip';
 
@@ -41,15 +37,16 @@ function FilterComponent({
 
     return (
         <Box
-            mx={{ lg: theme.spacing(15), xs: theme.spacing(4) }}
             py={2}
             sx={{
                 width: '100%',
+                maxWidth: '100%',
                 display: 'flex',
                 direction: 'ltr',
-                overflowX: 'scroll',
+                overflowX: 'auto',
                 scrollSnapType: 'y mandatory',
                 gap: 2,
+
 
                 cursor: 'grap',
                 '&:active': {

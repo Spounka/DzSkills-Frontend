@@ -8,9 +8,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { Course } from '../../../types/course';
 import { User } from '../../../types/user';
 import useLogin from '../../authenticate/hooks/useLogin';
-import { CoursesGrid } from '../../courses-page';
 import { getCourses } from '../../courses-page/api/getAllCourses';
 import AdminDashboardLayout from '../layout';
+import { CoursesGrid } from '../../courses-page/courses-grid';
 
 function AdminCourses() {
     const theme = useTheme();

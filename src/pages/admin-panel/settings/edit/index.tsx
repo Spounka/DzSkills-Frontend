@@ -53,8 +53,6 @@ function AdminPersonalDetails() {
             formData.append('email', user[0].data?.email ?? '');
         }
         for (const key of formData.keys()) {
-            console.log('KEY: ', key);
-            console.log('KEY VALUE: ', formData.get(key));
             if (formData.get(key) === '' || !formData.get(key)) {
                 formData.delete(key);
             }

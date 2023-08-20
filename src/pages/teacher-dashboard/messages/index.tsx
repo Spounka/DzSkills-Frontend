@@ -1,21 +1,25 @@
-import { Box, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useCallback, useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Conversation } from '../../../types/messages';
 import useLogin from '../../authenticate/hooks/useLogin';
-import { getAllConversations } from '../../messages/ConversationsListPanel';
-import { closeTicket } from '../../messages/api/closeTicket';
 import { createTicket } from '../../messages/api/createTicket';
 import TeacherDashboardLayout from '../layout';
 import TeacherConversationsListPanel from './TeacherConversationListPanel';
 import { TeacherMessagesPanel } from './TeacherMessagesPanel';
+import axiosInstance from '../../../globals/axiosInstance';
+
+
+export async function getTeacherOnlyConversations() {
+    const { data } = await axiosInstance.get('/conversations/teacher/');
+    return data as Conversation[];
+}
 
 interface TeacherMessagesProps {
     id?: number;
 }
 function TeacherMessages({ id }: TeacherMessagesProps) {
-    const theme = useTheme();
     const [user] = useLogin();
     const { enqueueSnackbar } = useSnackbar();
 
@@ -45,28 +49,10 @@ function TeacherMessages({ id }: TeacherMessagesProps) {
             });
         },
     });
-    const closeConversationMutation = useMutation({
-        mutationKey: ['conversation', selectedConversation.id, 'close'],
-        mutationFn: (id: number) => closeTicket(id),
-        onSuccess: () => {
-            enqueueSnackbar('تم إغلاق المحادثة بنجاح', {
-                variant: 'success',
-                autoHideDuration: 1000 * 3,
-            });
-            setSelectedConversation({ id: 0 });
-            queryClient.invalidateQueries({ queryKey: ['conversations'] });
-        },
-        onError: () => {
-            enqueueSnackbar('حدث خطأ ما من فضلك حاول مرة أخرى', {
-                variant: 'error',
-                autoHideDuration: 1000 * 3,
-            });
-        },
-    });
 
     const conversationListQuery = useQuery({
         queryKey: ['conversations', user.data?.pk],
-        queryFn: () => getAllConversations(),
+        queryFn: () => getTeacherOnlyConversations(),
         onSuccess: res => setConversations(res),
         onError: () => {
             enqueueSnackbar('فشل تحميل المحادثات', {

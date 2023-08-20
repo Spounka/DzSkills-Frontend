@@ -7,6 +7,7 @@ import { AdminPanelTopBar } from './landing-page/components/AdminPanelTopBar';
 import { NotificationsBar } from './landing-page/components/NotificationsBar';
 import { AdminPanelSidebar } from './landing-page/components/Sidebar';
 import { Helmet } from 'react-helmet';
+import { ClickAwayListener } from '@mui/material';
 
 interface AdminDashboardLayoutProps {
     topbar_title: string;
@@ -24,7 +25,7 @@ function AdminDashboardLayout({
     const [drawerOpen, setDrawerOpen] = useState(false);
     const navigate = useNavigate();
 
-    function toggleDrawer() {
+    const toggleDrawer = () => {
         setDrawerOpen(val => !val);
     }
 
@@ -37,7 +38,6 @@ function AdminDashboardLayout({
     return (
         <>
             <AdminPanelSidebar />
-
             <Box
                 sx={{
                     p: 0,
@@ -69,10 +69,12 @@ function AdminDashboardLayout({
                 >
                     <AdminPanelTopBar
                         onNotificationClick={toggleDrawer}
+                        isOpen={drawerOpen}
                         title={topbar_title}
                         subtitle={topbar_subtitle || ''}
                         mainColor={theme.palette.secondary.main}
                     />
+
                     <Box
                         sx={{
                             gridColumn: '1 / -3',
@@ -95,10 +97,6 @@ function AdminDashboardLayout({
                             overflow: 'hidden',
                         }}
                     >
-                        <NotificationsBar
-                            mainColor={theme.palette.secondary.main}
-                            drawerOpen={drawerOpen}
-                        />
                     </Box>
                 </Box>
             </Box>

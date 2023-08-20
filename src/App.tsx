@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { Skeleton } from '@mui/material';
@@ -16,25 +16,14 @@ import LandingPageSettings from './pages/admin-panel/settings/landing-page';
 import Receipts from './pages/admin-panel/settings/receipts';
 import UserDetails from './pages/admin-panel/user-details';
 import UserManagement from './pages/admin-panel/user-management';
-import Authenticate from './pages/authenticate/Authenticate';
 import BuyCourse from './pages/buy-course';
 import CategorizedCoursesList from './pages/category-course';
 import ViewCourse from './pages/course';
 import CourseQuizz from './pages/course-quizz';
 import CoursesPage from './pages/courses-page';
-import EditProfile from './pages/edit-profile';
 import GoogleCallbackView from './pages/google-callback';
 import Logout from './pages/logout';
 import ContactTeacher from './pages/messages';
-import NotFound from './pages/not-found/NotFound';
-import PasswordForgotten from './pages/password-forgotten';
-import PermissionDeniedPage from './pages/permission-denied';
-import Profile from './pages/profile';
-import Invoices from './pages/profile-invoices';
-import EmailSendPage from './pages/send-email';
-import ContactSupport from './pages/support/contact';
-import FAQ from './pages/support/faq';
-import SubmitReport from './pages/support/report';
 import TeacherAddCourse from './pages/teacher-dashboard/add-course';
 import CourseDetailsTeacherDashboard from './pages/teacher-dashboard/course-details';
 import { TeacherCourses } from './pages/teacher-dashboard/courses/TeacherCourses';
@@ -42,9 +31,11 @@ import EditProfileTeacherDashboard from './pages/teacher-dashboard/edit-profile'
 import TeacherLandingPage from './pages/teacher-dashboard/landing-page';
 import TeacherMessages from './pages/teacher-dashboard/messages';
 import TeachersPage from './pages/teachers';
-import EmailValidationPage from './pages/validate-email';
 import ViewCertificate from './pages/view-certificate';
 import WatchCourse from './pages/view-course';
+import FullScreenLoadingFallback from './components/full-screen-loading-fallback';
+import { BlackNavbarLayout } from './components/black-navbar-layout';
+import { WhiteNavbarLayout } from './components/white-bar-layout';
 
 const LandingPageLazy = React.lazy(() => import('./pages/landing-page'));
 const AboutUsLazy = lazy(() => import('./pages/about-us/'));
@@ -53,152 +44,217 @@ const HashtagsAndCategoriesLazy = React.lazy(
 );
 const MoneyRequests = React.lazy(() => import('./pages/admin-panel/money-requests'));
 const PrivacyPolicy = React.lazy(() => import('./pages/privacy-policy'));
+const AuthenticateLazy = React.lazy(() => import('./pages/authenticate/'));
+const EmailSendPageLazy = React.lazy(() => import('./pages/send-email'));
+const EmailValidationPageLazy = React.lazy(() => import('./pages/validate-email'));
+const PasswordForgottenLazy = React.lazy(() => import('./pages/password-forgotten'));
+
+const ProfileLazy = React.lazy(() => import('./pages/profile'));
+const InvoicesLazy = React.lazy(() => import('./pages/profile-invoices'));
+const EditProfileLazy = React.lazy(() => import('./pages/edit-profile'));
+
+
+const ContactSupportLazy = React.lazy(() => import('./pages/support/contact'));
+const FAQLazy = React.lazy(() => import('./pages/support/faq'));
+const SubmitReportLazy = React.lazy(() => import('./pages/support/report'));
+
+
+const PermissionDeniedPageLazy = React.lazy(() => import('./pages/permission-denied'));
+const NotFoundLazy = React.lazy(() => import('./pages/not-found/NotFound'));
 
 function App() {
     return (
         <Routes>
             {/* User Application */}
             <Route
-                path=''
-                // element={<LandingPage />}
-                element={
-                    <Suspense fallback={<Skeleton height={'100dvh'} />}>
-                        <LandingPageLazy />
-                    </Suspense>
-                }
-            />
-            <Route
-                path='login'
-                element={<Authenticate startPanel={1} />}
-            />
-            <Route path='register'>
+                element={<WhiteNavbarLayout />}
+            >
                 <Route
-                    path=''
-                    element={<Authenticate startPanel={0} />}
+                    path='login'
+                    element={
+                        <Suspense fallback={
+                            <FullScreenLoadingFallback />
+                        }>
+                            <AuthenticateLazy startPanel={1} />
+                        </Suspense>
+                    }
                 />
-                <Route
-                    path='verify-email/'
-                    element={<EmailSendPage />}
-                />
-                <Route
-                    path='verify-email/:key/'
-                    element={<EmailValidationPage />}
-                />
-                <Route
-                    path='google'
-                    element={<GoogleCallbackView />}
-                />
-            </Route>
-
-            <Route
-                path='logout'
-                element={<Logout />}
-            />
-            <Route path='password'>
-                <Route path='reset'>
+                <Route path='register'>
                     <Route
                         path=''
-                        element={<PasswordForgotten />}
+                        element={
+                            <Suspense fallback={<FullScreenLoadingFallback />}>
+                                <AuthenticateLazy startPanel={0} />
+                            </Suspense>
+                        }
                     />
                     <Route
-                        path='confirm'
-                        element={<PasswordForgotten stage={1} />}
+                        path='verify-email/'
+                        element={<Suspense fallback={
+                            <FullScreenLoadingFallback />
+                        }>
+                            <EmailSendPageLazy />
+                        </Suspense>}
+                    />
+                    <Route
+                        path='verify-email/:key/'
+                        element={<Suspense fallback={<FullScreenLoadingFallback />}>
+                            <EmailValidationPageLazy />
+                        </Suspense>}
+                    />
+                    <Route
+                        path='google'
+                        element={<GoogleCallbackView />}
                     />
                 </Route>
+
+                <Route
+                    path='logout'
+                    element={<Logout />}
+                />
+                <Route path='password'>
+                    <Route path='reset'>
+                        <Route
+                            path=''
+                            element={
+                                <Suspense fallback={<FullScreenLoadingFallback />}>
+                                    <PasswordForgottenLazy />
+                                </Suspense>
+                            }
+                        />
+                        <Route
+                            path='confirm'
+                            element={
+                                <Suspense fallback={<FullScreenLoadingFallback />}>
+                                    <PasswordForgottenLazy stage={1} />
+                                </Suspense>
+                            }
+                        />
+                    </Route>
+                </Route>
             </Route>
-            <Route path='/profile'>
+            <Route
+                element={<BlackNavbarLayout />}
+            >
                 <Route
                     path=''
-                    element={<Profile />}
+                    // element={<LandingPage />}
+                    element={
+                        <Suspense fallback={
+                            <FullScreenLoadingFallback />
+                        }>
+                            <LandingPageLazy />
+                        </Suspense>
+                    }
                 />
-                <Route
-                    path='edit'
-                    element={<EditProfile />}
-                />
-                <Route
-                    path='cart'
-                    element={<Invoices />}
-                />
-            </Route>
-            <Route path='support'>
-                <Route
-                    path=''
-                    element={<FAQ />}
-                />
-                <Route
-                    path='report'
-                    element={<SubmitReport />}
-                />
-                <Route
-                    path='contact'
-                    element={<ContactSupport />}
-                />
-            </Route>
-            <Route path='/courses'>
-                <Route
-                    path=''
-                    element={<CoursesPage />}
-                />
-                <Route
-                    path='categorized'
-                    element={<CategorizedCoursesList />}
-                />
-                <Route path=':id'>
+                <Route path='/profile'>
                     <Route
                         path=''
-                        element={<ViewCourse />}
-                    />
-
-                    <Route
-                        path='watch'
-                        element={<WatchCourse />}
-                    />
-                    <Route
-                        path='quizz'
-                        element={<CourseQuizz />}
+                        element={
+                            <Suspense fallback={<FullScreenLoadingFallback />}>
+                                <ProfileLazy />
+                            </Suspense>
+                        }
                     />
                     <Route
-                        path='certificate'
-                        element={<ViewCertificate />}
+                        path='edit'
+                        element={<Suspense fallback={<FullScreenLoadingFallback />}>
+                            <EditProfileLazy />
+                        </Suspense>}
                     />
                     <Route
-                        path='buy'
-                        element={<BuyCourse />}
+                        path='cart'
+                        element={<Suspense fallback={<FullScreenLoadingFallback />}>
+                            <InvoicesLazy />
+                        </Suspense>}
+                    />
+                </Route>
+                <Route path='support'>
+                    <Route
+                        path=''
+                        element={
+                            <Suspense fallback={<FullScreenLoadingFallback />}>
+                                <FAQLazy />
+                            </Suspense>}
+                    />
+                    <Route
+                        path='report'
+                        element={
+                            <Suspense fallback={<FullScreenLoadingFallback />}>
+                                <SubmitReportLazy />
+                            </Suspense>}
                     />
                     <Route
                         path='contact'
-                        element={<ContactTeacher />}
+                        element={
+                            <Suspense fallback={<FullScreenLoadingFallback />}>
+                                <ContactSupportLazy />
+                            </Suspense>}
                     />
                 </Route>
+                <Route path='/courses'>
+                    <Route
+                        path=''
+                        element={<CoursesPage />}
+                    />
+                    <Route
+                        path='categorized'
+                        element={<CategorizedCoursesList />}
+                    />
+                    <Route path=':id'>
+                        <Route
+                            path=''
+                            element={<ViewCourse />}
+                        />
+
+                        <Route
+                            path='watch'
+                            element={<WatchCourse />}
+                        />
+                        <Route
+                            path='quizz'
+                            element={<CourseQuizz />}
+                        />
+                        <Route
+                            path='certificate'
+                            element={<ViewCertificate />}
+                        />
+                        <Route
+                            path='buy'
+                            element={<BuyCourse />}
+                        />
+                        <Route
+                            path='contact'
+                            element={<ContactTeacher />}
+                        />
+                    </Route>
+                </Route>
+
+                <Route
+                    path={'about'}
+                    element={
+                        <Suspense fallback={<FullScreenLoadingFallback />}>
+                            <AboutUsLazy />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path={'privacy'}
+                    //     element={
+                    //     <AboutUs />
+                    // }
+                    element={
+                        <Suspense fallback={<FullScreenLoadingFallback />}>
+                            <PrivacyPolicy />
+                        </Suspense>
+                    }
+                />
+
+                <Route
+                    path={'teachers'}
+                    element={<TeachersPage />}
+                />
             </Route>
-
-            <Route
-                path={'about'}
-                //     element={
-                //     <AboutUs />
-                // }
-                element={
-                    <Suspense fallback={<Skeleton sx={{ height: '100%' }} />}>
-                        <AboutUsLazy />
-                    </Suspense>
-                }
-            />
-            <Route
-                path={'privacy'}
-                //     element={
-                //     <AboutUs />
-                // }
-                element={
-                    <Suspense fallback={<Skeleton sx={{ height: '100%' }} />}>
-                        <PrivacyPolicy />
-                    </Suspense>
-                }
-            />
-
-            <Route
-                path={'teachers'}
-                element={<TeachersPage />}
-            />
 
             {/* Teacher Dashboard */}
             <Route path='/dashboard'>
@@ -314,11 +370,19 @@ function App() {
 
             <Route
                 path='/permission-denied/'
-                element={<PermissionDeniedPage />}
+                element={
+                    <Suspense fallback={<FullScreenLoadingFallback />}>
+                        <PermissionDeniedPageLazy />
+                    </Suspense>
+                }
+
             />
             <Route
                 path='*'
-                element={<NotFound />}
+                element={<Suspense fallback={<FullScreenLoadingFallback />}>
+                    <NotFoundLazy />
+                </Suspense>
+                }
             />
         </Routes>
     );

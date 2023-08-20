@@ -1,4 +1,5 @@
 import { Avatar, Box, Button, Card, Typography, useTheme } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
 import { ChangeEvent, useState } from 'react';
 import { useMutation } from 'react-query';
 import { MainButton } from '../../../../components/ui/MainButton';
@@ -29,6 +30,9 @@ function AddAdmin() {
     const createUserMutation = useMutation({
         mutationFn: (data: FormData) => createAdmin(data),
         mutationKey: ['admin', 'create'],
+        onSuccess: () => {
+            enqueueSnackbar('تمت إضافة المرشد بنجاح', { variant: 'success' })
+        }
     });
     function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();

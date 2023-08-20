@@ -4,9 +4,9 @@ import { useQuery } from 'react-query';
 import { NavLink, useNavigate } from 'react-router-dom';
 import TopNavigationBar from '../../components/top-bar';
 import { Course } from '../../types/course';
-import { CoursesGrid } from '../courses-page';
 import { getCourses } from '../courses-page/api/getAllCourses';
 import { useIsBanned } from '../banned-page/BannedPage';
+import { CoursesGrid } from '../courses-page/courses-grid';
 
 function CategorizedCoursesList() {
     const [urlParams, setURLParams] = useState<URLSearchParams>();

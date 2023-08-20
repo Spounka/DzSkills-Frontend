@@ -143,7 +143,7 @@ function ViewCertificate() {
                             variant={'h4'}
                             fontWeight={600}
                         >
-                            {certificate.data?.course.quizz ? '100/100' : '0/0'}
+                            100/100
                         </Typography>
                         <Typography variant={'h6'}>
                             ألف مبروك, لقد أتممت الدورة بنجاح

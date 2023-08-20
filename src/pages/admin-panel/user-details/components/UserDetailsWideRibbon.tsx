@@ -38,10 +38,6 @@ export function UserDetailsWideRibbon({ user }: UserDetailsWideRibbonProps) {
     const [banDate, setBanDate] = useState<Dayjs | null>(null);
     const { enqueueSnackbar } = useSnackbar();
 
-    useEffect(() => {
-        console.log(banDate);
-    }, [banDate]);
-
     const queryClient = useQueryClient();
     const makeUserFavoriteMutation = useMutation({
         mutationKey: ['users', 'favorite'],

@@ -1,4 +1,8 @@
-import { Box, Grid, Slider, Stack, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Slider from '@mui/material/Slider';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import TopNavigationBar from '../../components/top-bar';
@@ -6,7 +10,6 @@ import { MainButton } from '../../components/ui/MainButton';
 import theme from '../../theme';
 import { QuizzAnswer } from './QuizzAnswer';
 import { getQuizz } from './getQuizz';
-import { useIsBanned } from '../banned-page/BannedPage';
 import { useRouteID } from '../../globals/hooks';
 
 function CourseQuizz() {
@@ -16,8 +19,6 @@ function CourseQuizz() {
         queryKey: ['courses', id, 'quizz'],
     });
     const navigate = useNavigate();
-    const { banned, BannedPageComponent } = useIsBanned();
-    if (banned) return <BannedPageComponent />;
 
     return (
         <Grid

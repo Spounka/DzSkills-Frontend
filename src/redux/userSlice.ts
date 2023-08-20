@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { defaultUser } from '../globals/default-values';
 import { RootState } from '../stores/store';
 import { User } from '../types/user';
 
@@ -9,22 +10,7 @@ export interface LoginUser {
 }
 
 const initialState = {
-    access: '',
-    refresh: '',
-    user: {
-        pk: 1,
-        username: '',
-        email: '',
-        email_valid: false,
-        first_name: '',
-        last_name: '',
-        profile_image: '',
-        date_joined: '',
-        description: '',
-        speciality: '',
-        nationality: '',
-        average_rating: 0,
-    },
+    ...defaultUser
 };
 
 const userSlice = createSlice({
@@ -39,25 +25,8 @@ const userSlice = createSlice({
                 user: { ...action.payload.user },
             };
         },
-        removeUser: state => {
-            return {
-                access: '',
-                refresh: '',
-                user: {
-                    pk: 1,
-                    username: '',
-                    email: '',
-                    email_valid: false,
-                    first_name: '',
-                    last_name: '',
-                    profile_image: '',
-                    date_joined: '',
-                    description: '',
-                    speciality: '',
-                    nationality: '',
-                    average_rating: 0,
-                },
-            };
+        removeUser: () => {
+            return { ...defaultUser };
         },
     },
 });

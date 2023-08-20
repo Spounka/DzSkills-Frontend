@@ -16,13 +16,7 @@ interface props {
 export function BestCourseCard({ data, index, currentCourseIndex }: props) {
     const theme = useTheme();
     function getTransformValue() {
-        if (index === currentCourseIndex) return 'translate(0, 0)';
-        if (index > currentCourseIndex) {
-            return 'translate(200%, 0)';
-        }
-        if (index < currentCourseIndex) {
-            return 'translate(-200%, 0)';
-        }
+        return `translate(${110 * (index - currentCourseIndex)}%, 0)`;
     }
     if (!data) return <></>;
     return (
@@ -34,15 +28,15 @@ export function BestCourseCard({ data, index, currentCourseIndex }: props) {
                     xs: 'column-reverse',
                     md: 'row',
                 },
-                height: '100%',
                 width: '100%',
+                height: '100%',
+                flexShrink: 0,
                 borderRadius: 0,
                 gap: 0,
-                zIndex: 2,
-                position: 'absolute',
+                zIndex: index,
                 transition: 'all ease-in 200ms',
+                position: 'absolute',
                 transform: getTransformValue(),
-                overflow: 'hidden',
             }}
         >
             <Box
@@ -54,7 +48,7 @@ export function BestCourseCard({ data, index, currentCourseIndex }: props) {
                     width: '100%',
                     display: 'flex',
                     flexDirection: 'column',
-                    py: 2,
+                    py: 4,
                     px: 4,
                     gap: 2,
                 }}
@@ -136,21 +130,6 @@ export function BestCourseCard({ data, index, currentCourseIndex }: props) {
                     </Box>
                 </Box>
             </Box>
-            {/* <Box
-                sx={{
-                    zIndex: 3,
-                    flexGrow: '1',
-                    flexBasis: '50%',
-                    width: '100%',
-                    height: '100%',
-                    minHeight: '100%',
-                    bgcolor: 'white',
-                    backgroundImage: `url('${data.thumbnail}')`,
-                    backgroundSize: 'contain',
-                    backgroundRepeat: 'no-repeat',
-                    // backgroundPosition: '50% 50%',
-                }}
-            ></Box> */}
             <Box
                 flex={{
                     xs: '1 1 60%',

@@ -359,7 +359,6 @@ export function CourseFields({
                 />
             ) : (
                 <UploadFileInput
-                    required
                     sx={{ gridRow: '10 / span 5', gridColumn: '2', height: '100%' }}
                     inputName="presentation_file"
                     inputFileTypes=".pdf,.pptx,.ppt,.pptm"

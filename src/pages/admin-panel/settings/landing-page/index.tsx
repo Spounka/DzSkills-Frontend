@@ -163,7 +163,6 @@ function RatingsSection() {
     };
 
     useEffect(() => {
-        console.log('rating changed');
         setSelectedRating(ratings[currentRatingIndex]);
     }, [currentRatingIndex]);
 

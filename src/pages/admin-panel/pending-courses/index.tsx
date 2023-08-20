@@ -1,22 +1,18 @@
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 import { User } from '../../../types/user';
 import useLogin from '../../authenticate/hooks/useLogin';
-import { CoursesGrid } from '../../courses-page';
 import { getCourses } from '../../courses-page/api/getAllCourses';
 import AdminDashboardLayout from '../layout';
+import { CoursesGrid } from '../../courses-page/courses-grid';
 
 function PendingCoursesAdmin() {
-    const theme = useTheme();
     useLogin();
 
     const query = useQuery({
         queryKey: ['courses'],
         queryFn: () => getCourses(),
     });
-
-    const navigate = useNavigate();
 
     if (query.isError) return <Typography>Error Occured</Typography>;
     if (query.isLoading) return <Typography>Loading...</Typography>;
@@ -34,6 +30,9 @@ function PendingCoursesAdmin() {
             }
         }
     }
+    const pending_courses = query.data?.filter(
+        course => course.status === 'pend'
+    )
     return (
         <AdminDashboardLayout topbar_title={'الكورسات'}>
             <Box
@@ -51,19 +50,33 @@ function PendingCoursesAdmin() {
                         flex: '1 0 60%',
                         overflowY: 'scroll',
                         width: '100%',
-                        maxHeight: '90vh',
+                        maxHeight: '90dvh',
                         px: 2,
                     }}
                 >
-                    <CoursesGrid
-                        activeCourses={query.data?.filter(
-                            course => course.status !== 'app'
-                        )}
-                        sx={{
-                            px: 0,
-                        }}
-                        cardsPerRow={{ md: 3, xl: 4 }}
-                    />
+                    {(pending_courses?.length ?? 0) > 0 ?
+                        <CoursesGrid
+                            activeCourses={query.data?.filter(
+                                course => course.status === 'pend'
+                            )}
+                            sx={{
+                                px: 0,
+                            }}
+                            cardsPerRow={{ md: 3, xl: 4 }}
+                        /> : (
+                            <Box sx={{
+                                height: '100%',
+                                textAlign: 'center',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}>
+                                <Typography variant="h5">
+                                    لا توجد دورات معلقة
+                                </Typography>
+                            </Box>
+                        )
+                    }
                 </Box>
             </Box>
         </AdminDashboardLayout>

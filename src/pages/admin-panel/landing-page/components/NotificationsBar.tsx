@@ -143,6 +143,10 @@ function Notification({ notification }: { notification: NotificationType }) {
                     notification.sender.profile_image,
                     dateString,
                 ];
+            case 'course_favourite':
+                return []
+            case 'course_blocked':
+                return []
             default:
                 return [];
         }

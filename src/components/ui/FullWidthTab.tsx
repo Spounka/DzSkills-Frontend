@@ -27,7 +27,7 @@ function FullWidthTab({ tabLabels, panels, startState, sx }: props) {
 
     return (
         <Box sx={{ width: '100%', height: '100%', ...sx }}>
-            <Box sx={{}}>
+            <Box>
                 <Tabs
                     variant="fullWidth"
                     indicatorColor="primary"

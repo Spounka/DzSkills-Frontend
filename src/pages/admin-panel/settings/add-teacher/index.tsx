@@ -8,6 +8,7 @@ import { AdminInfoSidebar } from '../AdminInfoSidebar';
 import { AddAdminUserInfo } from '../add-admin/AddAdminUserInfo';
 import { AddAdminUserPassword } from '../add-admin/AddAdminUserPassword';
 import axiosInstance from '../../../../globals/axiosInstance';
+import { enqueueSnackbar } from 'notistack';
 
 async function createTeacher(data: FormData) {
     return await axiosInstance.post('/users/teacher/create/', data);
@@ -33,6 +34,9 @@ function AddTeacher() {
     const createUserMutation = useMutation({
         mutationFn: (data: FormData) => createTeacher(data),
         mutationKey: ['admin', 'create'],
+        onSuccess: () => {
+            enqueueSnackbar('تمت إضافة المرشد بنجاح', { variant: 'success' })
+        }
     });
     function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();

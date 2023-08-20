@@ -17,6 +17,7 @@ function Logout() {
             localStorage.removeItem('access');
             localStorage.removeItem('refresh');
             queryClient.invalidateQueries({ queryKey: ['user'] });
+            dispatch(removeUser)
             navigate('/');
         },
     });

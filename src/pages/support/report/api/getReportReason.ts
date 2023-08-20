@@ -9,7 +9,5 @@ export async function getReportTypes() {
     const { data } = await axiosInstance.options('/tickets/', {
         headers: { 'Accept-Language': 'ar' },
     });
-    console.log(data);
     return data.actions.POST.report_reason.choices as Choice[];
-    // return data as Choice[];
 }

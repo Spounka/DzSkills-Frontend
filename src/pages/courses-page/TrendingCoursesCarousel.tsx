@@ -6,9 +6,11 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { BestCourseCard } from './BestCourseCard';
 import { getTrendingCourses } from './api/getAllCourses';
+import useTheme from '@mui/system/useTheme';
 
-export function TrendingCoursesCarousel({}: any) {
+export function TrendingCoursesCarousel({ }: any) {
     const [activeCourse, setActiveCourse] = useState<number>(0);
+    const theme = useTheme();
 
     const query = useQuery({
         queryKey: ['courses', 'trending'],
@@ -24,21 +26,23 @@ export function TrendingCoursesCarousel({}: any) {
             id={'carouselContainer'}
             sx={{
                 height: '100%',
+                flex: '1 0 100%',
                 position: 'relative',
                 width: '100%',
+                maxWidth: `calc(100vw - ${theme.spacing(8)})`,
                 zIndex: 0,
                 display: 'flex',
                 flexDirection: {
                     xs: 'column',
-                    lg: 'row',
+                    lg: 'row-reverse',
                 },
-                oveflow: 'hidden',
+                pt: 4,
             }}
         >
             <IconButton
                 disableRipple
-                disabled={activeCourse >= query.data?.length - 1}
-                onClick={() => setActiveCourse((l: any) => (l < 2 ? l + 1 : 2))}
+                // disabled={activeCourse >= query.data?.length - 1}
+                onClick={() => setActiveCourse((l: any) => ((l + 1) % 3))}
                 sx={{
                     zIndex: 4,
                     position: 'absolute',
@@ -47,10 +51,7 @@ export function TrendingCoursesCarousel({}: any) {
                         xs: '25%',
                         md: '50%',
                     },
-                    bgcolor:
-                        activeCourse === 2 || activeCourse >= query.data?.length - 1
-                            ? 'gray.main'
-                            : 'primary.main',
+                    bgcolor: 'primary.main',
                     borderRadius: 0,
                     '&.Mui-disabled': {
                         bgcolor: 'gray.main',

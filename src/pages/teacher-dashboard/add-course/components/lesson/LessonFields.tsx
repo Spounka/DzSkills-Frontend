@@ -275,7 +275,6 @@ export function LessonFields({
                     )
                 ) : (
                     <UploadFileInput
-                        required
                         inputName={`chapters[${chapterIndex}]videos[${videoIndex}]presenation_file`}
                         sx={{ bgcolor: 'white' }}
                     />

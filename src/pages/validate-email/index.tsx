@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar';
-import { getUser } from '../edit-profile/api/getUser';
+import { useGetUser } from '../../globals/hooks';
 import { validateEmail } from './api/query';
 
 function EmailValidationPage() {
@@ -16,12 +16,7 @@ function EmailValidationPage() {
     const key = params.key;
     if (!params || !params.key) return <>...</>;
 
-    const token = localStorage.getItem('access');
-    const refresh = localStorage.getItem('refresh');
-    const userQuery = useQuery({
-        queryKey: ['user'],
-        queryFn: () => getUser(token, refresh),
-    });
+    useGetUser({})
 
     const theme = useTheme();
     const [enabled, setEnabled] = useState<boolean>(false);
@@ -29,7 +24,7 @@ function EmailValidationPage() {
     const [error, setError] = useState<any>(null);
     const navigate = useNavigate();
 
-    const getEmailStatus = useQuery({
+    useQuery({
         queryKey: ['verify', 'email'],
         queryFn: () => validateEmail(key),
         onSuccess: () => {

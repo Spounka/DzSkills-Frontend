@@ -25,7 +25,7 @@ function GoogleCallbackView() {
             setTimeout(() => navigate('/profile/'), 3000);
         },
         onError: (errorM: AxiosError) => {
-            console.table(errorM);
+            console.error(errorM);
         },
     });
 

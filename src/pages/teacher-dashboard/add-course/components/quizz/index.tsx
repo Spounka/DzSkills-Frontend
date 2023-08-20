@@ -34,26 +34,6 @@ function Quizz({ quizzData, color, readonly, setQuizzData }: quizzProps) {
         if (setQuizzData && quizz) setQuizzData(quizz);
     }, [quizz]);
 
-    useEffect(() => {
-        if (!quizzData?.questions) {
-            setQuizz({
-                questions: [
-                    {
-                        key: uuidv4(),
-                        content: 'سؤال',
-                        choices: [
-                            {
-                                key: uuidv4(),
-                                content: 'الاختيار',
-                                is_correct_answer: true,
-                            },
-                        ],
-                    },
-                ],
-            });
-        }
-    }, []);
-
     return (
         <Stack gap={2}>
             <Typography

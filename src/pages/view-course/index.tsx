@@ -101,10 +101,10 @@ function WatchCourse() {
         const video = progression.last_video_index;
 
         if (
-            (!chapter && chapter !== 0) ||
-            (!video && video !== 0) ||
+            (chapter && chapter !== 0) ||
+            (video && video !== 0) ||
             !currentVideo ||
-            !currentCourse.data
+            !currentCourse.isSuccess
         )
             return;
         const last_video = currentCourse.data?.chapters[chapter].videos[video];

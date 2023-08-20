@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { MainButton } from '../../components/ui/MainButton';
 import axiosInstance from '../../globals/axiosInstance';
 import { Course } from '../../types/course';
-import { CoursesGrid } from '../courses-page';
+
+import { CoursesGrid } from '../courses-page/courses-grid';
 
 export async function getMostSoldCourses() {
     const { data } = await axiosInstance.get('/courses/most-sold/');

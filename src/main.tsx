@@ -31,8 +31,8 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
         <ThemeProvider theme={theme}>
-            <BrowserRouter>
-                <Provider store={store}>
+            <Provider store={store}>
+                <BrowserRouter>
                     <QueryClientProvider client={queryClient}>
                         <SnackbarProvider
                             autoHideDuration={2000}
@@ -40,7 +40,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                         >
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DevSupport ComponentPreviews={ComponentPreviews}
-                                            useInitialHook={useInitial}
+                                    useInitialHook={useInitial}
                                 >
                                     <App />
                                 </DevSupport>
@@ -50,8 +50,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                             <ReactQueryDevtools />
                         </div>
                     </QueryClientProvider>
-                </Provider>
-            </BrowserRouter>
+                </BrowserRouter>
+            </Provider>
         </ThemeProvider>
     </React.StrictMode>,
 );

@@ -26,7 +26,7 @@ export function LandingPageSection({
             <Box
                 display={'flex'}
                 flexDirection={'column'}
-                flex={'1 1'}
+                flex={'1 1 25%'}
                 width={'100%'}
                 onMouseLeave={() => setHovering(false)}
                 gap={2}
@@ -36,6 +36,12 @@ export function LandingPageSection({
                 onClick={() => navigate(`/courses/categorized/?category=${title}`)}
                 sx={{
                     cursor: 'pointer',
+                    transition: 'all 200ms ease-in-out',
+                    p: theme.spacing(2),
+                    ":hover": {
+                        backgroundColor: 'white',
+                        transition: 'all 200ms ease-in-out',
+                    }
                 }}
             >
                 {isLoading ? (
@@ -51,11 +57,12 @@ export function LandingPageSection({
                 ) : (
                     <Image
                         fit="contain"
-                        src={image ?? `https://picsum.photos/300/300/?random=1`}
+                        src={image}
                         width={'100%'}
                         style={{
                             aspectRatio: '1/1',
                             height: '100%',
+                            borderRadius: theme.spacing(),
                             flex: '1 0 60%',
                             opacity: hovering ? 1 : '.7',
                             transition: 'opacity 200ms ease-in-out',
@@ -110,6 +117,7 @@ export function LandingPageSection({
                 <MainButton
                     color={theme.palette.primary.main}
                     text={'المزيد'}
+                    fullWidth
                     {...{
                         onClick: () => {
                             navigate(`/courses/categorized/?category=${title}`);

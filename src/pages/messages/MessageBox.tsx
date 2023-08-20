@@ -30,7 +30,6 @@ export function MessageBox({
         queryKey: ['users', 'admin'],
         queryFn: () => getDzSkillsUser(),
     });
-    console.log(messages?.pages);
     if (!messages?.pages?.length) return <></>;
     return (
         <Box

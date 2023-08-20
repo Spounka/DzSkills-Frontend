@@ -51,7 +51,6 @@ export function AdminConversationPanel({
     // for both Course and Ticket ID, since this panel
     // display conversations for both
     const id = useMemo(() => {
-        console.log('Memo conversation: ', selectedConversation);
         if (selectedConversation.course) return selectedConversation.course;
         return 0;
     }, [selectedConversation.id]);

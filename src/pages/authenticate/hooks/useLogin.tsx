@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { updateUser } from '../../../redux/userSlice';
 import { getUser } from '../../edit-profile/api/getUser';
 import { useEffect, useState } from 'react';
+import { useGetUser } from '../../../globals/hooks';
+import { User } from '../../../types/user';
 
 function useLogin() {
     const [url, setUrl] = useState<string>('');

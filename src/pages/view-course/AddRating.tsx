@@ -21,9 +21,9 @@ export function AddRating({ video }: addProps) {
         mutationKey: ['video', video.id, 'rating', user.data?.pk],
         mutationFn: (value: number) =>
             postRating(user.data?.pk, value, video.id, shouldUpdateOnSubmit),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['video', video.id, 'ratings'] });
-            queryClient.invalidateQueries({ queryKey: ['courses', id] });
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['video', video.id, 'ratings'] });
+            await queryClient.invalidateQueries({ queryKey: ['courses', id] });
         },
     });
 
