@@ -39,10 +39,10 @@ export function LandingPageSection({
                     transition: 'all 200ms ease-in-out',
                     px: theme.spacing(2),
                     py: theme.spacing(4),
-                    ":hover": {
+                    ':hover': {
                         backgroundColor: 'white',
                         transition: 'all 200ms ease-in-out',
-                    }
+                    },
                 }}
             >
                 {isLoading ? (

@@ -34,7 +34,8 @@ function TeacherDashboardLayout({
             !user?.groups.some(
                 group => group.name === 'TeacherGroup' || group.name === 'AdminGroup'
             )
-        ) navigate('/permission-denied/');
+        )
+            navigate('/permission-denied/');
     }, [user]);
 
     function toggleDrawer() {

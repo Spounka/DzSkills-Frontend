@@ -30,9 +30,7 @@ function PendingCoursesAdmin() {
             }
         }
     }
-    const pending_courses = query.data?.filter(
-        course => course.status === 'pend'
-    )
+    const pending_courses = query.data?.filter(course => course.status === 'pend');
     return (
         <AdminDashboardLayout topbar_title={'الكورسات'}>
             <Box
@@ -54,7 +52,7 @@ function PendingCoursesAdmin() {
                         px: 2,
                     }}
                 >
-                    {(pending_courses?.length ?? 0) > 0 ?
+                    {(pending_courses?.length ?? 0) > 0 ? (
                         <CoursesGrid
                             activeCourses={query.data?.filter(
                                 course => course.status === 'pend'
@@ -63,20 +61,20 @@ function PendingCoursesAdmin() {
                                 px: 0,
                             }}
                             cardsPerRow={{ md: 3, xl: 4 }}
-                        /> : (
-                            <Box sx={{
+                        />
+                    ) : (
+                        <Box
+                            sx={{
                                 height: '100%',
                                 textAlign: 'center',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                            }}>
-                                <Typography variant="h5">
-                                    لا توجد دورات معلقة
-                                </Typography>
-                            </Box>
-                        )
-                    }
+                            }}
+                        >
+                            <Typography variant="h5">لا توجد دورات معلقة</Typography>
+                        </Box>
+                    )}
                 </Box>
             </Box>
         </AdminDashboardLayout>

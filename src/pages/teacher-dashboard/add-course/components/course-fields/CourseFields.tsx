@@ -205,7 +205,7 @@ export function CourseFields({
                     onChange={
                         readonly
                             ? () => {}
-                            : (e, newValue) => {
+                            : (_, newValue) => {
                                   setLocalHashtags(newValue);
                               }
                     }

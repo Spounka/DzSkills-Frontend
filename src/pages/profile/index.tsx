@@ -32,7 +32,6 @@ function Profile() {
             >
                 <ProfileContent />
             </Box>
-
         </>
     );
 }

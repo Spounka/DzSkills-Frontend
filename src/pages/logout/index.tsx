@@ -17,13 +17,13 @@ function Logout() {
             localStorage.removeItem('access');
             localStorage.removeItem('refresh');
             await queryClient.invalidateQueries({ queryKey: ['user'] });
-            dispatch(removeUser)
+            dispatch(removeUser);
             navigate('/');
         },
     });
     useEffect(() => {
         (async () => await logoutQuery.refetch())();
-    },);
+    });
     return <div>Logout</div>;
 }
 

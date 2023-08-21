@@ -5,7 +5,7 @@ import { UploadFileInput } from '../../../../../components/form/UploadFileInput'
 import { MainButton } from '../../../../../components/ui/MainButton';
 import { createReceipt } from '../api/queries';
 
-import {Receipt} from "../../../../../types/AdminConfig";
+import { Receipt } from '../../../../../types/AdminConfig';
 
 interface AddReceiptFormProps {
     id: number;

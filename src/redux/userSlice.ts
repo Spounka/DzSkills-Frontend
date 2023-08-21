@@ -10,7 +10,7 @@ export interface LoginUser {
 }
 
 const initialState = {
-    ...defaultUser
+    ...defaultUser,
 };
 
 const userSlice = createSlice({
@@ -22,7 +22,11 @@ const userSlice = createSlice({
                 ...state,
                 access: action.payload.access || state.access,
                 refresh: action.payload.refresh || state.refresh,
-                user: { ...state.user, ...action.payload.user, groups: [...state.user.groups, ...action.payload.user.groups] },
+                user: {
+                    ...state.user,
+                    ...action.payload.user,
+                    groups: [...state.user.groups, ...action.payload.user.groups],
+                },
             };
         },
         removeUser: () => {

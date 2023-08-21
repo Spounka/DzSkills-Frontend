@@ -13,11 +13,11 @@ import EditProfileField from './components/fields';
 import EditProfileColumn from './components/fields-column';
 import useReduxData from '../../stores/reduxUser';
 
-export default function EditProfileContent({ }) {
+export default function EditProfileContent({}) {
     const theme = useTheme();
     const [imageLink, setImageLink] = useState<string>();
-    const [imageFile, setImageFile] = useState<File | null>(null)
-    const user = useReduxData().user.user
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const user = useReduxData().user.user;
     const queryClient = useQueryClient();
     const { enqueueSnackbar } = useSnackbar();
 
@@ -44,12 +44,11 @@ export default function EditProfileContent({ }) {
         e.preventDefault();
         const formData = new FormData();
         for (let _field of e.currentTarget) {
-            const field = _field as HTMLInputElement
-            if (field.value)
-                formData.set(field.name, field.value)
+            const field = _field as HTMLInputElement;
+            if (field.value) formData.set(field.name, field.value);
         }
         if (imageFile) {
-            formData.set('profile_image', imageFile)
+            formData.set('profile_image', imageFile);
         }
         updateProfileMutation.mutate(formData);
         e.currentTarget.reset();
@@ -127,7 +126,7 @@ export default function EditProfileContent({ }) {
                                 if (files?.item(0)) {
                                     //@ts-expect-error
                                     setImageLink(URL.createObjectURL(files.item(0)));
-                                    setImageFile(files.item(0))
+                                    setImageFile(files.item(0));
                                 }
                             }}
                         />

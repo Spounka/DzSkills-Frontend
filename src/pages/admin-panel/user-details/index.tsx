@@ -71,7 +71,7 @@ const columns: GridColDef[] = [
                     </Typography>
                     <Switch
                         sx={{ scale: '-1 1' }}
-                        color='secondary'
+                        color="secondary"
                         checked={params.value.checked}
                         onChange={params.value.handleChange}
                         disabled={params.value.isSubmitting}
@@ -123,7 +123,7 @@ const UserDetails = () => {
         (e: GridRowParams<Course>) => {
             setSelectedCourseID(e.row.id);
         },
-        [selectedCourseID],
+        [selectedCourseID]
     );
     const courseStateMutation = useMutation({
         mutationKey: ['course', user?.pk, 'state', 'mutation'],
@@ -163,7 +163,7 @@ const UserDetails = () => {
                         },
                     },
                 };
-            },
+            }
         );
     else if (
         studentRelatedCoursesQuery.data &&
@@ -185,7 +185,7 @@ const UserDetails = () => {
                             course?.status !== 'app' ||
                             (course?.state === 'blocked' &&
                                 !user?.groups.some(
-                                    group => group.name === 'AdminGroup',
+                                    group => group.name === 'AdminGroup'
                                 )),
                         handleChange: () => {
                             setIsSubmitting(true);
@@ -193,7 +193,7 @@ const UserDetails = () => {
                         },
                     },
                 };
-            },
+            }
         );
 
     return (

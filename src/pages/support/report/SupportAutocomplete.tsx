@@ -10,11 +10,11 @@ import { useQuery } from 'react-query';
 import useReduxData from '../../../stores/reduxUser';
 import { getUsernames } from './api/getUsernames';
 
-export function SupportAutocomplete({ }: {}) {
+export function SupportAutocomplete({}: {}) {
     const theme = useTheme();
     const [enabled, setEnabled] = useState<boolean>(false);
     const [reported, setReported] = useState<string | number>(2);
-    const user = useReduxData().user.user
+    const user = useReduxData().user.user;
 
     const usernamesQuery = useQuery({
         queryKey: ['usernames'],
@@ -65,10 +65,10 @@ export function SupportAutocomplete({ }: {}) {
                 options={
                     enabled
                         ? usernamesQuery.data?.filter(
-                            u =>
-                                user?.username !== u.username &&
-                                !u.groups.some(g => g.name === 'AdminGroup')
-                        )
+                              u =>
+                                  user?.username !== u.username &&
+                                  !u.groups.some(g => g.name === 'AdminGroup')
+                          )
                         : []
                 }
                 getOptionLabel={o => o.username}

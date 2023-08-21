@@ -1,34 +1,29 @@
 import Card from '@mui/material/Card';
-import OutlinedInput, {
-    OutlinedInputProps,
-} from '@mui/material/OutlinedInput';
+import OutlinedInput, { OutlinedInputProps } from '@mui/material/OutlinedInput';
 import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/system';
 
-const StyledOutline = styled(OutlinedInput)<OutlinedInputProps>(
-    ({ theme }) => ({
-        input: {},
-        '[type="file"]': {
-            display: 'flex',
-            border: 'purple 1px dashed',
-            clip: 'rect(0, 0, 0, 0)',
-            overflow: 'hidden',
-            padding: 0,
-            // position: "absolute!important",
-            // whiteSpace: "nowrap",
-        },
-        '&.MuiInputBase-adornedEnd': {},
-        '.the-dude': {
-            width: 'full',
-            height: 'full',
-            backgroundImage:
-                'linear-gradient(black 33%, rgba(255, 255, 255, 0) 0%)',
-            backgroundPosition: 'right',
-            backgroundSize: '1px 3px',
-            backgroundRepeat: 'repeat-y',
-        },
-    })
-);
+const StyledOutline = styled(OutlinedInput)<OutlinedInputProps>(({ theme }) => ({
+    input: {},
+    '[type="file"]': {
+        display: 'flex',
+        border: 'purple 1px dashed',
+        clip: 'rect(0, 0, 0, 0)',
+        overflow: 'hidden',
+        padding: 0,
+        // position: "absolute!important",
+        // whiteSpace: "nowrap",
+    },
+    '&.MuiInputBase-adornedEnd': {},
+    '.the-dude': {
+        width: 'full',
+        height: 'full',
+        backgroundImage: 'linear-gradient(black 33%, rgba(255, 255, 255, 0) 0%)',
+        backgroundPosition: 'right',
+        backgroundSize: '1px 3px',
+        backgroundRepeat: 'repeat-y',
+    },
+}));
 
 function Playground() {
     const theme = useTheme();

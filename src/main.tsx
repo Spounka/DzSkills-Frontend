@@ -39,19 +39,20 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                             maxSnack={5}
                         >
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DevSupport ComponentPreviews={ComponentPreviews}
+                                <DevSupport
+                                    ComponentPreviews={ComponentPreviews}
                                     useInitialHook={useInitial}
                                 >
                                     <App />
                                 </DevSupport>
                             </LocalizationProvider>
                         </SnackbarProvider>
-                        <div dir='ltr'>
+                        <div dir="ltr">
                             <ReactQueryDevtools />
                         </div>
                     </QueryClientProvider>
                 </BrowserRouter>
             </Provider>
         </ThemeProvider>
-    </React.StrictMode>,
+    </React.StrictMode>
 );

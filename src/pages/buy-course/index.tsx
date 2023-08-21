@@ -1,4 +1,12 @@
-import { Backdrop, Button, Card, CircularProgress, Divider, Typography, useTheme } from '@mui/material';
+import {
+    Backdrop,
+    Button,
+    Card,
+    CircularProgress,
+    Divider,
+    Typography,
+    useTheme,
+} from '@mui/material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { AxiosError } from 'axios';
@@ -22,7 +30,7 @@ import { useRouteID } from '../../globals/hooks';
 function BuyCourse() {
     const id: number = useRouteID();
     const theme = useTheme();
-    useLogin()
+    useLogin();
     const [fileName, setFileName] = useState<File>();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const navigate = useNavigate();
@@ -107,7 +115,7 @@ function BuyCourse() {
             </Backdrop>
             <Grid
                 container
-                direction='column'
+                direction="column"
                 spacing={5}
                 id={'main grid container'}
                 columns={14}
@@ -158,12 +166,12 @@ function BuyCourse() {
                                 variant={'h6'}
                                 fontWeight={600}
                                 flexGrow={1}
-                                width='100%'
+                                width="100%"
                             >
                                 تأكيد الشراء
                             </Typography>
                             <Box
-                                display='flex'
+                                display="flex"
                                 flexDirection={{
                                     xs: 'column-reverse',
                                     lg: 'row',
@@ -374,7 +382,7 @@ function BuyCourse() {
                                                         color: 'gray.main',
                                                     },
                                                 }}
-                                            // endIcon={ }
+                                                // endIcon={ }
                                             >
                                                 رفع
                                                 <img
@@ -398,7 +406,7 @@ function BuyCourse() {
                                                     onChange={handleFilechange}
                                                     name={'payment.receipt'}
                                                     accept={'image/*,.pdf'}
-                                                    type='file'
+                                                    type="file"
                                                 />
                                             </Button>
                                         </Box>

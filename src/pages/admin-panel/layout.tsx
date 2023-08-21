@@ -25,7 +25,7 @@ function AdminDashboardLayout({
 
     const toggleDrawer = () => {
         setDrawerOpen(val => !val);
-    }
+    };
 
     if (!user?.groups.some(group => group.name === 'AdminGroup'))
         navigate('/permission-denied/');
@@ -91,8 +91,7 @@ function AdminDashboardLayout({
                             width: drawerOpen ? '100%' : '0',
                             overflow: 'hidden',
                         }}
-                    >
-                    </Box>
+                    ></Box>
                 </Box>
             </Box>
         </>

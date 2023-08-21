@@ -5,7 +5,7 @@ import { useGetUser } from '../../globals/hooks';
 import useReduxData from '../../stores/reduxUser';
 
 export function BannedPage() {
-    const user = useReduxData().user.user
+    const user = useReduxData().user.user;
     return (
         <Stack
             gap={2}
@@ -34,7 +34,7 @@ export function BannedPage() {
 }
 
 export function useIsBanned() {
-    const user = useGetUser({})
+    const user = useGetUser({});
     return {
         banned: user?.is_banned,
         BannedPageComponent: BannedPage,

@@ -24,7 +24,7 @@ function CourseQuizz() {
         <Grid
             container
             columns={14}
-            direction='column'
+            direction="column"
             spacing={5}
             id={'main-grid-container'}
             sx={{
@@ -83,8 +83,7 @@ function CourseQuizz() {
                     <Slider
                         size={'medium'}
                         value={100}
-                        onChange={() => {
-                        }}
+                        onChange={() => {}}
                         sx={{
                             // scale: '-1 1',
                             height: 6,
@@ -135,7 +134,7 @@ function CourseQuizz() {
                                 width={'100%'}
                                 alignItems={'center'}
                             >
-                                <Typography variant='h6'>
+                                <Typography variant="h6">
                                     {`${i + 1} - ${q.content}`}
                                 </Typography>
                                 <Grid

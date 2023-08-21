@@ -15,26 +15,28 @@ function useRouteID() {
     return parseInt(params.id as string);
 }
 interface GetUserProps {
-    onSuccess?: (b?: any) => void,
-    onError?: (b?: any) => void,
+    onSuccess?: (b?: any) => void;
+    onError?: (b?: any) => void;
 }
 
 function useGetUser({ onSuccess, onError }: GetUserProps) {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const token = localStorage.getItem('access');
     const refresh = localStorage.getItem('refresh');
     const userQuery = useQuery({
         queryKey: ['user'],
         queryFn: () => getUser(token, refresh),
-        onSuccess: (user) => {
-            dispatch(updateUser({ access: token ?? '', refresh: refresh ?? '', user: user }));
+        onSuccess: user => {
+            dispatch(
+                updateUser({ access: token ?? '', refresh: refresh ?? '', user: user })
+            );
             onSuccess?.(user);
         },
-        onError: (err) => {
+        onError: err => {
             onError?.(err);
         },
     });
-    return userQuery.data
+    return userQuery.data;
 }
 
 export { useRouteID, useGetUser };

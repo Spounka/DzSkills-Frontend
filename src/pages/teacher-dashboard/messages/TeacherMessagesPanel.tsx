@@ -18,9 +18,7 @@ interface MessagesPanelProps {
     selectedConversation: Partial<Conversation>;
     startConversation?: () => void;
 }
-export function TeacherMessagesPanel({
-    selectedConversation,
-}: MessagesPanelProps) {
+export function TeacherMessagesPanel({ selectedConversation }: MessagesPanelProps) {
     const theme = useTheme();
     const navigate = useNavigate();
     const user = useReduxData().user.user;

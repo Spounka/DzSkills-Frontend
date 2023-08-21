@@ -29,7 +29,7 @@ function ViewCourse() {
         <Grid
             container
             columns={14}
-            direction='column'
+            direction="column"
             spacing={0}
             id={'main-grid-container'}
             sx={{

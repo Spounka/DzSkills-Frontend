@@ -11,7 +11,13 @@ interface gridProps {
     useBoxShadow?: boolean;
 }
 
-export function CoursesGrid({ activeCourses, cardsPerRow, baseUrl, useBoxShadow, sx }: gridProps) {
+export function CoursesGrid({
+    activeCourses,
+    cardsPerRow,
+    baseUrl,
+    useBoxShadow,
+    sx,
+}: gridProps) {
     const theme = useTheme();
     return (
         <Box

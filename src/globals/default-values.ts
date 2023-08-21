@@ -1,5 +1,5 @@
-import { User } from '../types/user'
-export const defaultUser: { access: string, refresh: string, user: User } = {
+import { User } from '../types/user';
+export const defaultUser: { access: string; refresh: string; user: User } = {
     access: '',
     refresh: '',
     user: {
@@ -16,12 +16,12 @@ export const defaultUser: { access: string, refresh: string, user: User } = {
         nationality: '',
         average_rating: 0,
         is_favorite: false,
-        facebook_link: "",
-        instagram_link: "",
-        twitter_link: "",
-        linkedin_link: "",
+        facebook_link: '',
+        instagram_link: '',
+        twitter_link: '',
+        linkedin_link: '',
         is_banned: false,
         last_ban: new Date(),
         groups: [],
     },
-}
+};

@@ -5,7 +5,11 @@ import SocialMediaButton from '../social-media-button';
 import { Circle, HighlightOff } from '@mui/icons-material';
 import { Box, Paper, Snackbar, Typography, useTheme } from '@mui/material';
 import { useState } from 'react';
-import { LoginSocialFacebook, LoginSocialGoogle, objectType } from 'reactjs-social-login';
+import {
+    LoginSocialFacebook,
+    LoginSocialGoogle,
+    objectType,
+} from 'reactjs-social-login';
 import { ReactComponent as GoogleSVG } from '../../../../assets/svg/icons8-google.svg';
 
 import SvgIcon from '../svg-icon';

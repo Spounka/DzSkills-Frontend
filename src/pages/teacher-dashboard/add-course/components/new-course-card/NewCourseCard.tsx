@@ -8,7 +8,13 @@ import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { MainButton } from '../../../../../components/ui/MainButton';
 import axiosInstance from '../../../../../globals/axiosInstance';
-import { Category, Course, CreationChapter, Hashtag, Level } from '../../../../../types/course';
+import {
+    Category,
+    Course,
+    CreationChapter,
+    Hashtag,
+    Level,
+} from '../../../../../types/course';
 import { CourseQuizz } from '../../../../../types/quizz';
 import AddChapterButton from '../add-chapter-button';
 import { ChapterDetails } from '../chapter/ChapterDetails';

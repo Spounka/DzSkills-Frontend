@@ -1,6 +1,6 @@
 import axiosInstance from '../../../../../globals/axiosInstance';
 
-import {Receipt} from "../../../../../types/AdminConfig";
+import { Receipt } from '../../../../../types/AdminConfig';
 
 export async function getAllReceipts() {
     const { data } = await axiosInstance.get('/configs/receipts/');

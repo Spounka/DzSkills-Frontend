@@ -42,7 +42,6 @@ function EmailSendPage() {
                 my: '5%',
             }}
         >
-
             <Card
                 elevation={0}
                 sx={{

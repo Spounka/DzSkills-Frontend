@@ -22,7 +22,7 @@ export function SupportPanels() {
     const createTicketMutation = useMutation({
         mutationKey: ['conversation', 'create', 'ticket'],
         mutationFn: () => createTicket(),
-        onSuccess: async (res) => {
+        onSuccess: async res => {
             enqueueSnackbar('تم إنشاء المحادثة بنجاح', {
                 variant: 'success',
                 autoHideDuration: 1000 * 3,

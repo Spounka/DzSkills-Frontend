@@ -14,7 +14,7 @@ interface Props {
 const UserLayout = ({ allowOffScreen, navBar }: Props) => {
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
     const { banned, BannedPageComponent } = useIsBanned();
-    useGetUser({ onSuccess: () => setLoggedIn(true) })
+    useGetUser({ onSuccess: () => setLoggedIn(true) });
     if (loggedIn && banned) return <BannedPageComponent />;
     return (
         <Box
@@ -24,7 +24,6 @@ const UserLayout = ({ allowOffScreen, navBar }: Props) => {
                 flexDirection: 'column',
                 width: '100%',
                 maxWidth: allowOffScreen ? 'auto' : '100vw',
-
             }}
         >
             {navBar}

@@ -1,5 +1,14 @@
 import { MoreHoriz, Star } from '@mui/icons-material';
-import { Avatar, Divider, IconButton, Menu, MenuItem, Stack, Typography, useTheme } from '@mui/material';
+import {
+    Avatar,
+    Divider,
+    IconButton,
+    Menu,
+    MenuItem,
+    Stack,
+    Typography,
+    useTheme,
+} from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 import Image from 'mui-image';
 import React from 'react';
@@ -236,9 +245,10 @@ function CourseDetailsTeacherDashboard() {
                                 />
                                 <TeacherCourseDetailsRow
                                     title={'أرباح الكورس'}
-                                    value={`${(courseQuery.data?.price ?? 0) *
+                                    value={`${
+                                        (courseQuery.data?.price ?? 0) *
                                         (courseQuery.data?.students_count ?? 0)
-                                        }DA`}
+                                    }DA`}
                                 />
                             </Stack>
                             <Divider />

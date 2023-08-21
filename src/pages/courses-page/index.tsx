@@ -96,13 +96,16 @@ function CoursesPage() {
     if (query.isLoading) return <Typography>Loading...</Typography>;
 
     return (
-        <Stack gap={5} px={2} maxWidth={'100%'} overflow={'hidden'}>
-
+        <Stack
+            gap={5}
+            px={2}
+            maxWidth={'100%'}
+            overflow={'hidden'}
+        >
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>DzSkills | Courses</title>
             </Helmet>
-
 
             <Box
                 sx={{
@@ -112,7 +115,6 @@ function CoursesPage() {
                     height: '50dvh',
                     position: 'relative',
                     px: {
-
                         xs: theme.spacing(2),
                         lg: theme.spacing(14),
                     },
@@ -121,12 +123,14 @@ function CoursesPage() {
             >
                 <TrendingCoursesCarousel />
             </Box>
-            <Box sx={{
-                px: {
-                    xs: theme.spacing(4),
-                    lg: theme.spacing(14),
-                }
-            }}>
+            <Box
+                sx={{
+                    px: {
+                        xs: theme.spacing(4),
+                        lg: theme.spacing(14),
+                    },
+                }}
+            >
                 <FilterComponent
                     activeLevels={activeLevels}
                     activeCategories={activeCategories}
@@ -139,8 +143,7 @@ function CoursesPage() {
                 activeCourses={activeCourses
                     ?.filter(course => course.status === 'app')
                     ?.filter(
-                        course =>
-                            !ownedCoursesQuery.data?.some(c => c.id === course.id),
+                        course => !ownedCoursesQuery.data?.some(c => c.id === course.id)
                     )
                     ?.filter(course => !course.trending)}
             />
@@ -149,4 +152,3 @@ function CoursesPage() {
 }
 
 export default CoursesPage;
-

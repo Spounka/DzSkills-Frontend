@@ -13,8 +13,7 @@ export function AboutUs() {
             gap={2}
             minHeight={'100dvh'}
             bgcolor={theme.palette.gray.secondary}
-            sx={{
-            }}
+            sx={{}}
         >
             <TopNavigationBar />
             <Container sx={{ height: '80dvh' }}>

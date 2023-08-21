@@ -1,5 +1,12 @@
 import { Send } from '@mui/icons-material';
-import { Divider, IconButton, InputAdornment, OutlinedInput, Pagination, Stack } from '@mui/material';
+import {
+    Divider,
+    IconButton,
+    InputAdornment,
+    OutlinedInput,
+    Pagination,
+    Stack,
+} from '@mui/material';
 import React, { useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
@@ -23,8 +30,7 @@ export function VideoComments({ videoID }: VideoCommentsProps) {
         mutationKey: ['video', 'comments', 'create'],
         mutationFn: ({ content, id }: any) => submitComment(content, id),
         onSuccess: async () => {
-            if (inputRef.current)
-                inputRef.current.value = '';
+            if (inputRef.current) inputRef.current.value = '';
             await videoCommentsQuery.refetch();
         },
     });

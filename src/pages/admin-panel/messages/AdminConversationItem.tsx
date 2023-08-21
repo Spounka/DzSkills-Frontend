@@ -59,7 +59,10 @@ export function AdminConversationItem({
                         {conversation.student_data && (
                             <Avatar src={conversation.student_data.profile_image} />
                         )}
-                        <Stack alignItems={'flex-end'} textAlign={'left'}>
+                        <Stack
+                            alignItems={'flex-end'}
+                            textAlign={'left'}
+                        >
                             {conversation.course_title && (
                                 <Typography
                                     sx={{

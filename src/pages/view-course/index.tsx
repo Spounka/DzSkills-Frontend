@@ -26,7 +26,6 @@ import { useIsBanned } from '../banned-page/BannedPage';
 import { fileNameFromPath } from '../../globals/utils';
 import { useRouteID } from '../../globals/hooks';
 
-
 function WatchCourse() {
     const id: number = useRouteID();
     const theme = useTheme();
@@ -83,7 +82,7 @@ function WatchCourse() {
     });
 
     const [currentVideo, setCurrentVideo] = useState<Video>(
-        currentCourse.data?.chapters[0].videos[0] ?? defaultVideo,
+        currentCourse.data?.chapters[0].videos[0] ?? defaultVideo
     );
     const [activeTab, setActiveTab] = useState<number>(0);
 
@@ -91,7 +90,7 @@ function WatchCourse() {
         (video: any) => {
             setCurrentVideo(video);
         },
-        [currentVideo],
+        [currentVideo]
     );
 
     function updateStudentProgression(progression: Progression | undefined) {
@@ -138,7 +137,7 @@ function WatchCourse() {
         <Grid
             container
             columns={14}
-            direction='column'
+            direction="column"
             spacing={5}
             id={'main-grid-container'}
             sx={{
@@ -324,8 +323,8 @@ function WatchCourse() {
                     >
                         <Tabs
                             variant={'fullWidth'}
-                            indicatorColor='secondary'
-                            textColor='inherit'
+                            indicatorColor="secondary"
+                            textColor="inherit"
                             value={activeTab}
                             onChange={(e, value) => setActiveTab(value)}
                             sx={{
@@ -436,7 +435,7 @@ function WatchCourse() {
                         index={1}
                     >
                         <Box
-                            display='flex'
+                            display="flex"
                             justifyContent={'space-between'}
                             gap={8}
                             alignItems={'center'}
@@ -448,14 +447,14 @@ function WatchCourse() {
                                 >
                                     {currentVideo.presentation_file
                                         ? fileNameFromPath(
-                                            currentVideo.presentation_file ?? '',
-                                        )
+                                              currentVideo.presentation_file ?? ''
+                                          )
                                         : 'لا توجد مرفقات'}
                                 </Typography>
                             </Box>
                             <MainButton
                                 href={currentVideo.presentation_file ?? ''}
-                                text='تحميل'
+                                text="تحميل"
                                 color={theme.palette.primary.main}
                                 disabled={!currentVideo.presentation_file}
                                 {...{ component: 'a' }}
@@ -486,11 +485,11 @@ function TabPanel(props: TabPanelProps) {
 
     return (
         <div
-            role='tabpanel'
+            role="tabpanel"
             hidden={value !== index}
             id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
-            dir='rtl'
+            dir="rtl"
             {...other}
         >
             {value === index && <Box sx={{ p: 3 }}>{children}</Box>}

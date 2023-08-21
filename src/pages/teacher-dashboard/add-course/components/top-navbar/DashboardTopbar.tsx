@@ -1,5 +1,6 @@
 import {
-    Avatar, Badge,
+    Avatar,
+    Badge,
     IconButton,
     Menu,
     MenuItem,
@@ -14,9 +15,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as NotificationsIcon } from '../../../../../assets/svg/notification purple.svg';
 import { ReactComponent as UploadIcon } from '../../../../../assets/svg/upload.svg';
 import { MainButton } from '../../../../../components/ui/MainButton';
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import axiosInstance from "../../../../../globals/axiosInstance";
-import { Notification as NotificationType } from "../../../../../types/notifications";
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import axiosInstance from '../../../../../globals/axiosInstance';
+import { Notification as NotificationType } from '../../../../../types/notifications';
 import { NotificationsMenu } from '../../../../../components/notifications-menu/NotificationsMenu';
 import useReduxData from '../../../../../stores/reduxUser';
 
@@ -27,7 +28,12 @@ interface props {
     onNotificationClick: () => void;
 }
 
-export function DashboardTopbar({ isOpen, title, subtitle, onNotificationClick }: props) {
+export function DashboardTopbar({
+    isOpen,
+    title,
+    subtitle,
+    onNotificationClick,
+}: props) {
     const user = useReduxData().user.user;
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>(undefined);
@@ -39,11 +45,11 @@ export function DashboardTopbar({ isOpen, title, subtitle, onNotificationClick }
     const notificationsQuery = useQuery({
         queryKey: ['notifications'],
         queryFn: async () => {
-            const { data } = await axiosInstance.get('/notifications/')
+            const { data } = await axiosInstance.get('/notifications/');
             return data as NotificationType[];
         },
         refetchInterval: 1000 * 60 * 5,
-    })
+    });
     const queryClient = useQueryClient();
     const notificationsReadMutation = useMutation({
         mutationKey: ['notifications', 'read'],
@@ -60,7 +66,8 @@ export function DashboardTopbar({ isOpen, title, subtitle, onNotificationClick }
                 notificationsQuery={notificationsQuery}
                 menuRef={menuRef}
                 onClickAway={() => onNotificationClick()}
-                handleMarkAsReadClick={() => notificationsReadMutation.mutate()} />
+                handleMarkAsReadClick={() => notificationsReadMutation.mutate()}
+            />
             <Card
                 elevation={0}
                 sx={{
@@ -147,14 +154,16 @@ export function DashboardTopbar({ isOpen, title, subtitle, onNotificationClick }
                     style={{
                         gridColumn: '-3 / span 1',
                         cursor: 'pointer',
-                    }}>
+                    }}
+                >
                     <Badge
                         color={'error'}
-                        badgeContent={notificationsQuery.data
-                            ?.filter(n => !n.is_read).length} sx={{}}>
-                        <NotificationsIcon
-                            fill={theme.palette.purple.main}
-                        />
+                        badgeContent={
+                            notificationsQuery.data?.filter(n => !n.is_read).length
+                        }
+                        sx={{}}
+                    >
+                        <NotificationsIcon fill={theme.palette.purple.main} />
                     </Badge>
                 </span>
                 <IconButton
@@ -190,11 +199,7 @@ export function DashboardTopbar({ isOpen, title, subtitle, onNotificationClick }
                         }}
                     >
                         <Link to={'/profile/'}>
-                            <Typography
-                                variant={'body1'}
-                            >
-                                الملف الشخصي
-                            </Typography>
+                            <Typography variant={'body1'}>الملف الشخصي</Typography>
                         </Link>
                     </MenuItem>
 
@@ -206,9 +211,7 @@ export function DashboardTopbar({ isOpen, title, subtitle, onNotificationClick }
                             }}
                         >
                             <Link to={'/admin/'}>
-                                <Typography
-                                    variant={'body1'}
-                                >
+                                <Typography variant={'body1'}>
                                     لوحة تحكم المسؤول
                                 </Typography>
                             </Link>
@@ -231,7 +234,6 @@ export function DashboardTopbar({ isOpen, title, subtitle, onNotificationClick }
                     </MenuItem>
                 </Menu>
             </Card>
-
         </>
     );
 }

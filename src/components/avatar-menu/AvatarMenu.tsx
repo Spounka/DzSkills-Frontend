@@ -6,10 +6,10 @@ import Typography from '@mui/material/Typography';
 import { Link, NavLink } from 'react-router-dom';
 
 interface AvatarMenuProps {
-    active: boolean
-    navRef: RefObject<HTMLElement>,
-    user: User,
-    onClick: (b: boolean) => void
+    active: boolean;
+    navRef: RefObject<HTMLElement>;
+    user: User;
+    onClick: (b: boolean) => void;
 }
 export function AvatarMenu({ active, navRef, user, onClick }: AvatarMenuProps) {
     return (
@@ -18,7 +18,7 @@ export function AvatarMenu({ active, navRef, user, onClick }: AvatarMenuProps) {
                 clickAway={() => onClick(false)}
                 isOpen={active}
                 cardRef={navRef}
-                placement='bottom-end'
+                placement="bottom-end"
             >
                 <Stack
                     gap={2}
@@ -62,7 +62,7 @@ export function AvatarMenu({ active, navRef, user, onClick }: AvatarMenuProps) {
                     </Typography>
 
                     {user.groups.some(
-                        g => g.name == 'TeacherGroup' || g.name == 'AdminGroup',
+                        g => g.name == 'TeacherGroup' || g.name == 'AdminGroup'
                     ) ? (
                         <Typography
                             onClick={() => onClick(false)}
@@ -103,5 +103,5 @@ export function AvatarMenu({ active, navRef, user, onClick }: AvatarMenuProps) {
                 </Stack>
             </DropdownPopper>
         </>
-    )
+    );
 }

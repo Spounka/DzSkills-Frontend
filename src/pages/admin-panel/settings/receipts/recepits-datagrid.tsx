@@ -168,11 +168,11 @@ function ReceiptsDatagrid() {
             );
             return data;
         },
-        onSuccess:async  () => {
+        onSuccess: async () => {
             await queryClient.invalidateQueries(['receipts']);
             enqueueSnackbar('تمت إزالة الوصل بنجاح', { variant: 'success' });
         },
-        onError:async  () => {
+        onError: async () => {
             await queryClient.invalidateQueries(['receipts']);
             enqueueSnackbar('حدث خطأ ، حاول مرة أخرى في وقت لاحق', {
                 variant: 'error',

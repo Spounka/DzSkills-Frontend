@@ -73,7 +73,7 @@ function CourseDetails() {
         mutationFn: async (body: FormData) => {
             const { data } = await axiosInstance.patch(
                 `/courses/${id}/students/remove/`,
-                body,
+                body
             );
             return data;
         },
@@ -93,7 +93,7 @@ function CourseDetails() {
         mutationKey: ['course', course.data?.id, 'trending'],
         mutationFn: async () => {
             return (await axiosInstance.patch(
-                `/courses/${id}/flip-trending/`,
+                `/courses/${id}/flip-trending/`
             )) as Course;
         },
         onSuccess: async () => {
@@ -176,17 +176,17 @@ function CourseDetails() {
 
                 <>
                     <IconButton
-                        aria-label='more'
-                        id='long-button'
+                        aria-label="more"
+                        id="long-button"
                         aria-controls={open ? 'long-menu' : undefined}
                         aria-expanded={open ? 'true' : undefined}
-                        aria-haspopup='true'
+                        aria-haspopup="true"
                         onClick={handleClick}
                     >
                         <MoreHoriz />
                     </IconButton>
                     <Menu
-                        id='long-menu'
+                        id="long-menu"
                         anchorEl={anchorEl}
                         open={open}
                         onClose={handleClose}
@@ -255,7 +255,7 @@ function CourseDetails() {
                             }}
                         >
                             <Box>
-                                <Typography variant='h6'>
+                                <Typography variant="h6">
                                     {course.data?.title}
                                 </Typography>
                                 <Typography
@@ -285,7 +285,7 @@ function CourseDetails() {
                                     emptyIcon={
                                         <Star
                                             style={{ opacity: 0.55 }}
-                                            fontSize='inherit'
+                                            fontSize="inherit"
                                         />
                                     }
                                 />
@@ -327,14 +327,14 @@ function CourseDetails() {
                             display={'flex'}
                             gap={3}
                             flexDirection={'column'}
-                            height='100%'
+                            height="100%"
                         >
-                            <Typography variant='h6'>
+                            <Typography variant="h6">
                                 {course.data?.owner.first_name +
                                     ' ' +
                                     course.data?.owner.last_name}
                             </Typography>
-                            <Typography variant='body2'>
+                            <Typography variant="body2">
                                 Lorem ipsum dolor sit, amet consectetur adipisicing elit.
                                 Dolor eveniet deserunt provident numquam animi suscipit
                                 id! Consectetur, ea a. Saepe vero ea quae placeat enim
@@ -367,7 +367,7 @@ function CourseDetails() {
                     >
                         <form onSubmit={handleRemoveStudentsFormSubmission}>
                             <Stack
-                                direction='row'
+                                direction="row"
                                 justifyContent={'space-between'}
                                 sx={{
                                     alignItems: 'center',
@@ -391,7 +391,7 @@ function CourseDetails() {
                                             },
                                         }}
                                     >
-                                        <DeleteIcon fill='inherit' />
+                                        <DeleteIcon fill="inherit" />
                                     </IconButton>
                                 </Tooltip>
                             </Stack>
@@ -404,16 +404,16 @@ function CourseDetails() {
                                 key={uuidv4()}
                                 student={student}
                                 checked={checkedStudents.some(
-                                    cs => cs === student.user.pk,
+                                    cs => cs === student.user.pk
                                 )}
                                 handleChecked={(id: number) => {
                                     if (
                                         checkedStudents.some(
-                                            cs => cs === student.user.pk,
+                                            cs => cs === student.user.pk
                                         )
                                     )
                                         setCheckedStudents(list =>
-                                            list.filter(u => u !== student.user.pk),
+                                            list.filter(u => u !== student.user.pk)
                                         );
                                     else
                                         setCheckedStudents(list => [

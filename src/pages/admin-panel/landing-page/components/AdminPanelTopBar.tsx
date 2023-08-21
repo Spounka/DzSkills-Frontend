@@ -1,4 +1,12 @@
-import { Avatar, Badge, Card, Menu, MenuItem, OutlinedInput, Typography } from '@mui/material';
+import {
+    Avatar,
+    Badge,
+    Card,
+    Menu,
+    MenuItem,
+    OutlinedInput,
+    Typography,
+} from '@mui/material';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import { useEffect, useRef, useState } from 'react';
@@ -32,7 +40,7 @@ export function AdminPanelTopBar({
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>(undefined);
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
-    const menuRef = useRef<HTMLElement>(null)
+    const menuRef = useRef<HTMLElement>(null);
 
     const coursesQuery = useQuery({
         queryKey: ['courses'],
@@ -68,7 +76,8 @@ export function AdminPanelTopBar({
                 notificationsQuery={notificationsQuery}
                 menuRef={menuRef}
                 onClickAway={onNotificationClick}
-                handleMarkAsReadClick={() => notificationsReadMutation.mutate()} />
+                handleMarkAsReadClick={() => notificationsReadMutation.mutate()}
+            />
             <Card
                 elevation={0}
                 sx={{
@@ -129,7 +138,9 @@ export function AdminPanelTopBar({
                     }
                 />
                 <Badge
-                    badgeContent={coursesQuery.data?.filter(c => c.status === 'pend').length ?? 0}
+                    badgeContent={
+                        coursesQuery.data?.filter(c => c.status === 'pend').length ?? 0
+                    }
                     anchorOrigin={{
                         vertical: 'top',
                         horizontal: 'left',
@@ -149,7 +160,7 @@ export function AdminPanelTopBar({
                 >
                     <MainButton
                         color={theme.palette.secondary.light}
-                        text='للمراجعة'
+                        text="للمراجعة"
                         onClick={() => navigate('/admin/courses/pending/')}
                         sx={{
                             width: '100%',
@@ -167,8 +178,13 @@ export function AdminPanelTopBar({
                         cursor: 'pointer',
                     }}
                 >
-                    <Badge badgeContent={notificationsQuery.data?.filter(n => !n.is_read).length} color={'error'}
-                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+                    <Badge
+                        badgeContent={
+                            notificationsQuery.data?.filter(n => !n.is_read).length
+                        }
+                        color={'error'}
+                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                    >
                         <NotificationsIcon
                             width={'20'}
                             height={'26'}
@@ -211,7 +227,7 @@ export function AdminPanelTopBar({
                         <Link to={'/profile/'}>
                             <Typography
                                 variant={'body1'}
-                            // color={theme.palette.error.main}
+                                // color={theme.palette.error.main}
                             >
                                 الملف الشخصي
                             </Typography>
@@ -227,7 +243,7 @@ export function AdminPanelTopBar({
                         <Link to={'/dashboard/teacher/'}>
                             <Typography
                                 variant={'body1'}
-                            // color={theme.palette.error.main}
+                                // color={theme.palette.error.main}
                             >
                                 لوحة تحكم المرشد
                             </Typography>
@@ -250,7 +266,6 @@ export function AdminPanelTopBar({
                     </MenuItem>
                 </Menu>
             </Card>
-
         </>
     );
 }

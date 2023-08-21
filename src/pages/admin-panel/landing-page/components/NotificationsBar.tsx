@@ -144,9 +144,9 @@ function Notification({ notification }: { notification: NotificationType }) {
                     dateString,
                 ];
             case 'course_favourite':
-                return []
+                return [];
             case 'course_blocked':
-                return []
+                return [];
             default:
                 return [];
         }

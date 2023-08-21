@@ -8,7 +8,7 @@ import { BestCourseCard } from './BestCourseCard';
 import { getTrendingCourses } from './api/getAllCourses';
 import useTheme from '@mui/system/useTheme';
 
-export function TrendingCoursesCarousel({ }: any) {
+export function TrendingCoursesCarousel({}: any) {
     const [activeCourse, setActiveCourse] = useState<number>(0);
     const theme = useTheme();
 
@@ -42,7 +42,7 @@ export function TrendingCoursesCarousel({ }: any) {
             <IconButton
                 disableRipple
                 // disabled={activeCourse >= query.data?.length - 1}
-                onClick={() => setActiveCourse((l: any) => ((l + 1) % 3))}
+                onClick={() => setActiveCourse((l: any) => (l + 1) % 3)}
                 sx={{
                     zIndex: 4,
                     position: 'absolute',

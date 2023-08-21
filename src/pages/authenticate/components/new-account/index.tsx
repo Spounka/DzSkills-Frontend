@@ -59,7 +59,7 @@ function NewAccount() {
     return (
         <form onSubmit={formik.handleSubmit}>
             <Helmet>
-                <meta charSet='utf-8' />
+                <meta charSet="utf-8" />
                 <title>DzSkills | Register</title>
             </Helmet>
             <Stack
@@ -71,15 +71,15 @@ function NewAccount() {
                 }}
             >
                 <AuthFormsHeader
-                    title='أنشئ حسابك الآن'
+                    title="أنشئ حسابك الآن"
                     subheader={`بناء المهارات لليوم وغدًا وما بعده\n\ منصتك الأفضل لبدأ أولى خطواتك في العمل الحر`}
                 />
                 <TextField
-                    name='first_name'
-                    variant='outlined'
+                    name="first_name"
+                    variant="outlined"
                     fullWidth
-                    color='secondary'
-                    placeholder='الاسم'
+                    color="secondary"
+                    placeholder="الاسم"
                     value={formik.values.first_name}
                     onChange={formik.handleChange}
                     error={
@@ -102,11 +102,11 @@ function NewAccount() {
                 ) : null}
 
                 <TextField
-                    name='last_name'
-                    variant='outlined'
+                    name="last_name"
+                    variant="outlined"
                     fullWidth
-                    color='secondary'
-                    placeholder='اللقب'
+                    color="secondary"
+                    placeholder="اللقب"
                     value={formik.values.last_name}
                     onChange={formik.handleChange}
                     error={formik.touched.last_name && Boolean(formik.errors.last_name)}
@@ -127,12 +127,12 @@ function NewAccount() {
                 ) : null}
 
                 <TextField
-                    name='email'
+                    name="email"
                     type={'email'}
-                    variant='outlined'
+                    variant="outlined"
                     fullWidth
-                    color='secondary'
-                    placeholder='البريد الإلكتروني'
+                    color="secondary"
+                    placeholder="البريد الإلكتروني"
                     value={formik.values.email}
                     onChange={formik.handleChange}
                     error={formik.touched.email && Boolean(formik.errors.email)}
@@ -153,7 +153,7 @@ function NewAccount() {
                 ) : null}
 
                 <IconFormPassword
-                    name='password1'
+                    name="password1"
                     placeholder={'هنا كلمة السر'}
                     value={formik.values.password1}
                     onChange={formik.handleChange}
@@ -175,7 +175,7 @@ function NewAccount() {
                 ) : null}
 
                 <IconFormPassword
-                    name='password2'
+                    name="password2"
                     placeholder={'تأكيد كلمة السر'}
                     value={formik.values.password2}
                     onChange={formik.handleChange}
@@ -198,12 +198,12 @@ function NewAccount() {
 
                 <Typography
                     textAlign={'center'}
-                    variant='caption'
+                    variant="caption"
                     color={'gray.main'}
                 >
                     بالضغط على انشاء حساب انت توافق على
                     <Link
-                        to='/terms'
+                        to="/terms"
                         style={{
                             textDecoration: 'underline',
                         }}
@@ -212,7 +212,7 @@ function NewAccount() {
                     </Link>
                     و
                     <Link
-                        to='/privacy'
+                        to="/privacy"
                         style={{
                             textDecoration: 'underline',
                         }}

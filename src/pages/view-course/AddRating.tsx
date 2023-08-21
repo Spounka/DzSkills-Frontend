@@ -22,15 +22,15 @@ export function AddRating({ video }: addProps) {
         mutationFn: (value: number) =>
             postRating(user?.pk, value, video.id, shouldUpdateOnSubmit),
         onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['video', video.id, 'ratings'] });
+            await queryClient.invalidateQueries({
+                queryKey: ['video', video.id, 'ratings'],
+            });
             await queryClient.invalidateQueries({ queryKey: ['courses', id] });
         },
     });
 
     useEffect(() => {
-        let rating = video.ratings?.filter(
-            rating => rating.student === user?.pk,
-        )[0];
+        let rating = video.ratings?.filter(rating => rating.student === user?.pk)[0];
         if (rating) {
             setCurrentValue(rating.rating);
             setShouldUpdateOnSubmit(true);

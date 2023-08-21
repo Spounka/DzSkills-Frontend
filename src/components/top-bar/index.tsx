@@ -16,11 +16,10 @@ import { Notification } from '../../types/notifications';
 import { AvatarMenu } from '../avatar-menu/AvatarMenu';
 import { NotificationsMenu } from '../notifications-menu/NotificationsMenu';
 
-
 export default function TopNavigationBar() {
     const theme = useTheme();
 
-    const user = useReduxData().user
+    const user = useReduxData().user;
     const notificationsQuery = useQuery({
         queryKey: ['notifications'],
         queryFn: async () => {
@@ -47,7 +46,7 @@ export default function TopNavigationBar() {
         notificationsReadMutation.mutate();
     };
 
-    if (user.user.username === "") return <LandingPageNavbar />;
+    if (user.user.username === '') return <LandingPageNavbar />;
 
     return (
         <>
@@ -64,7 +63,7 @@ export default function TopNavigationBar() {
                 onClickAway={setNotificationsActive}
                 handleMarkAsReadClick={handleMarkAsReadClick}
             />
-            <nav style={{ width: '100%', zIndex: 1, }}>
+            <nav style={{ width: '100%', zIndex: 1 }}>
                 <Box
                     sx={{
                         backgroundColor: 'black',
@@ -90,7 +89,7 @@ export default function TopNavigationBar() {
                     <Link to={'/'}>
                         <img
                             src={logo}
-                            alt=''
+                            alt=""
                             style={{
                                 gridColumnStart: 1,
                                 gridColumnEnd: 3,
@@ -128,7 +127,7 @@ export default function TopNavigationBar() {
                             }}
                         >
                             <NavLink
-                                to='/courses'
+                                to="/courses"
                                 style={{}}
                             >
                                 كورسات
@@ -145,7 +144,7 @@ export default function TopNavigationBar() {
                                 },
                             }}
                         >
-                            <NavLink to='/about'>من نحن</NavLink>
+                            <NavLink to="/about">من نحن</NavLink>
                         </Typography>
 
                         <Typography
@@ -158,7 +157,7 @@ export default function TopNavigationBar() {
                                 },
                             }}
                         >
-                            <NavLink to='/teachers'>المدربون</NavLink>
+                            <NavLink to="/teachers">المدربون</NavLink>
                         </Typography>
 
                         <Typography
@@ -171,7 +170,7 @@ export default function TopNavigationBar() {
                                 },
                             }}
                         >
-                            <NavLink to='/support'>تواصل</NavLink>
+                            <NavLink to="/support">تواصل</NavLink>
                         </Typography>
                     </Box>
                     <Box

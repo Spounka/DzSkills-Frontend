@@ -1,9 +1,12 @@
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/system';
-import { get_notification_string_from_type, get_notification_subtitle_from_type } from '../../globals/utils';
+import {
+    get_notification_string_from_type,
+    get_notification_subtitle_from_type,
+} from '../../globals/utils';
 import { Notification } from '../../types/notifications';
 
-export function NotificationElement({ notification }: { notification: Notification; }) {
+export function NotificationElement({ notification }: { notification: Notification }) {
     return (
         <Stack
             direction={'row'}
@@ -36,4 +39,3 @@ export function NotificationElement({ notification }: { notification: Notificati
         </Stack>
     );
 }
-

@@ -29,8 +29,8 @@ function AddAdmin() {
         mutationFn: (data: FormData) => createAdmin(data),
         mutationKey: ['admin', 'create'],
         onSuccess: () => {
-            enqueueSnackbar('تمت إضافة المرشد بنجاح', { variant: 'success' })
-        }
+            enqueueSnackbar('تمت إضافة المرشد بنجاح', { variant: 'success' });
+        },
     });
     function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();

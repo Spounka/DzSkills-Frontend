@@ -10,7 +10,6 @@ import { TeacherMessagesPanel } from './TeacherMessagesPanel';
 import axiosInstance from '../../../globals/axiosInstance';
 import useReduxData from '../../../stores/reduxUser';
 
-
 export async function getTeacherOnlyConversations() {
     const { data } = await axiosInstance.get('/conversations/teacher/');
     return data as Conversation[];
@@ -32,7 +31,7 @@ function TeacherMessages({ id }: TeacherMessagesProps) {
     const createTicketMutation = useMutation({
         mutationKey: ['conversation', 'create'],
         mutationFn: () => createTicket(),
-        onSuccess: async (res) => {
+        onSuccess: async res => {
             enqueueSnackbar('تم إنشاء المحادثة بنجاح', {
                 variant: 'success',
                 autoHideDuration: 1000 * 3,

@@ -6,10 +6,7 @@ interface AdminInfoSidebarLinkProps {
     url: string;
     label: string;
 }
-export function AdminInfoSidebarLink({
-    url,
-    label,
-}: AdminInfoSidebarLinkProps) {
+export function AdminInfoSidebarLink({ url, label }: AdminInfoSidebarLinkProps) {
     const theme = useTheme();
     const commonStyle: CSSProperties = {
         display: 'flex',

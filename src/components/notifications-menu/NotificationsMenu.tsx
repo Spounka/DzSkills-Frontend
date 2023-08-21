@@ -10,21 +10,27 @@ import { NotificationElement } from './NotificationElement';
 import { Notification } from '../../types/notifications';
 
 interface NotificationsMenuProps {
-    isActive: boolean,
-    notificationsQuery: UseQueryResult<Notification[], unknown>,
-    menuRef: RefObject<HTMLElement>,
-    onClickAway: (b: boolean) => void,
-    handleMarkAsReadClick: () => void
+    isActive: boolean;
+    notificationsQuery: UseQueryResult<Notification[], unknown>;
+    menuRef: RefObject<HTMLElement>;
+    onClickAway: (b: boolean) => void;
+    handleMarkAsReadClick: () => void;
 }
 
-export function NotificationsMenu({ isActive: notificationsActive, onClickAway: setNotificationsActive, handleMarkAsReadClick, menuRef, notificationsQuery }: NotificationsMenuProps) {
+export function NotificationsMenu({
+    isActive: notificationsActive,
+    onClickAway: setNotificationsActive,
+    handleMarkAsReadClick,
+    menuRef,
+    notificationsQuery,
+}: NotificationsMenuProps) {
     return (
         <>
             <DropdownPopper
                 clickAway={() => setNotificationsActive(false)}
                 isOpen={notificationsActive}
                 cardRef={menuRef}
-                placement='bottom-end'
+                placement="bottom-end"
             >
                 <Stack
                     gap={2}
@@ -75,7 +81,5 @@ export function NotificationsMenu({ isActive: notificationsActive, onClickAway: 
                 </Stack>
             </DropdownPopper>
         </>
-    )
+    );
 }
-
-

@@ -13,7 +13,15 @@ import {
 } from '@mui/material';
 import { AxiosError } from 'axios';
 import { useSnackbar } from 'notistack';
-import { FormEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+    FormEvent,
+    KeyboardEvent,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from 'react-query';
 import { Conversation } from '../../types/messages';
 import { MessageBox } from './MessageBox';
@@ -78,7 +86,7 @@ function SupportConversationPanel({
                     autoHideDuration: 2500,
                 });
         },
-        [files],
+        [files]
     );
 
     const removeFile = useCallback(
@@ -87,7 +95,7 @@ function SupportConversationPanel({
                 return f.filter(file => file.uuid !== uuid);
             });
         },
-        [files],
+        [files]
     );
 
     const queryClient = useQueryClient();
@@ -133,7 +141,7 @@ function SupportConversationPanel({
     const onSubmit = (
         e:
             | FormEvent<HTMLFormElement>
-            | KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>,
+            | KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>
     ) => {
         e.preventDefault();
         const form = document.querySelector('form');
@@ -215,7 +223,7 @@ function SupportConversationPanel({
                 </DialogContent>
                 <DialogActions>
                     <Stack
-                        direction='row'
+                        direction="row"
                         sx={{
                             gap: 3,
                             width: '100%',
@@ -273,7 +281,9 @@ function SupportConversationPanel({
                         messages={messagesQuery.data}
                         hasNextPage={messagesQuery.hasNextPage}
                         loadMore={() => messagesQuery.fetchNextPage()}
-                        teacher_profile_image={selectedConversation.course_owner?.profile_image ?? ''}
+                        teacher_profile_image={
+                            selectedConversation.course_owner?.profile_image ?? ''
+                        }
                     />
                     {selectedConversation.ticket &&
                         selectedConversation.ticket.state === 'closed' && (
@@ -311,7 +321,7 @@ function SupportConversationPanel({
                         >
                             <form
                                 onSubmit={onSubmit}
-                                encType='multipart/form-data'
+                                encType="multipart/form-data"
                                 style={{
                                     width: '100%',
                                     display: 'flex',
@@ -364,11 +374,11 @@ function SupportConversationPanel({
                             </form>
                         </Box>
                         <Stack
-                            direction='row'
+                            direction="row"
                             alignContent={'center'}
                             flexShrink={'1'}
                             flexGrow={'2'}
-                            justifyContent='center'
+                            justifyContent="center"
                             gap={2}
                             px={2}
                         >
@@ -422,7 +432,7 @@ function SupportConversationPanel({
                             استلام انشغالكم و الرد عليه
                         </Typography>
                         <MainButton
-                            text='ابدأ'
+                            text="ابدأ"
                             color={theme.palette.secondary.lighter}
                             {...{
                                 onClick: () => startConversation(),

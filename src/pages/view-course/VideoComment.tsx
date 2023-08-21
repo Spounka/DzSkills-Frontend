@@ -8,7 +8,6 @@ export function VideoComment({
     comment: VideoComment;
     isLoading: boolean;
 }) {
-
     return (
         <Stack
             direction="row"

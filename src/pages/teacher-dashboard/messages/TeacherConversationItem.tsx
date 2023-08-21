@@ -54,14 +54,16 @@ export function TeacherConversationItem({
                         }}
                     >
                         {conversation.last_message &&
-                            new Date(conversation.last_message.date).toLocaleDateString()}
+                            new Date(
+                                conversation.last_message.date
+                            ).toLocaleDateString()}
                     </Typography>
                     <Stack
                         direction={'row-reverse'}
                         gap={2}
                         alignItems={'center'}
                     >
-                        <Avatar src={conversation.student_data?.profile_image ?? ""} />
+                        <Avatar src={conversation.student_data?.profile_image ?? ''} />
                         <Stack
                             alignItems={'flex-end'}
                             textAlign={'left'}

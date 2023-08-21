@@ -35,8 +35,8 @@ function AddTeacher() {
         mutationFn: (data: FormData) => createTeacher(data),
         mutationKey: ['admin', 'create'],
         onSuccess: () => {
-            enqueueSnackbar('تمت إضافة المرشد بنجاح', { variant: 'success' })
-        }
+            enqueueSnackbar('تمت إضافة المرشد بنجاح', { variant: 'success' });
+        },
     });
     function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();

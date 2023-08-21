@@ -16,7 +16,7 @@ function EmailValidationPage() {
     const key = params.key;
     if (!params || !params.key) return <>...</>;
 
-    useGetUser({})
+    useGetUser({});
 
     const theme = useTheme();
     const [enabled, setEnabled] = useState<boolean>(false);
