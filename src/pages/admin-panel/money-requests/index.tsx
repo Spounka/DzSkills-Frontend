@@ -178,9 +178,9 @@ function MoneyRequests() {
             );
             return data as MoneyRequest;
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries(['money', 'request']);
-            moneyRequestsQuery.refetch();
+        onSuccess: async () => {
+            await queryClient.invalidateQueries(['money', 'request']);
+            await moneyRequestsQuery.refetch();
         },
     });
 

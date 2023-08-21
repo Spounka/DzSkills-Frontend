@@ -19,8 +19,8 @@ export function TeacherCourses() {
     const courseStateMutation = useMutation({
         mutationKey: ['course', user?.pk, 'state', 'mutation'],
         mutationFn: ({ id }: { id: number }) => handleCourseStateChange(id),
-        onSuccess: () => {
-            relatedCoursesQuery.refetch();
+        onSuccess: async () => {
+            await relatedCoursesQuery.refetch();
             setIsSubmitting(false);
         },
         onError: () => setIsSubmitting(false),

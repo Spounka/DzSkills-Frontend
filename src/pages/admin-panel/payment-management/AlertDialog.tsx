@@ -146,11 +146,11 @@ export default function AlertDialog({ open, closeDialog, payment }: dialogProps)
                                         {...{
                                             onClick: () => {
                                                 const result = async () =>
-                                                    await acceptPayment(
+                                                    acceptPayment(
                                                         payment.id
                                                     ).finally(() => {
                                                         closeDialog();
-                                                        client.refetchQueries([
+                                                        client.invalidateQueries([
                                                             'payments',
                                                         ]);
                                                     });
@@ -168,7 +168,7 @@ export default function AlertDialog({ open, closeDialog, payment }: dialogProps)
                                                         payment.id
                                                     ).finally(() => {
                                                         closeDialog();
-                                                        client.refetchQueries([
+                                                        client.invalidateQueries([
                                                             'payments',
                                                         ]);
                                                     });

@@ -19,9 +19,9 @@ export function EditPasswordForm({}) {
     const changePasswordMutation = useMutation({
         mutationKey: ['profile', 'password', 'update'],
         mutationFn: (data: FormData) => changePassword(data, user.user.pk ?? 0),
-        onSuccess: () => {
+        onSuccess: async () => {
+            await queryClient.invalidateQueries(['user']);
             enqueueSnackbar('تم التحديث بنجاح', { variant: 'success' });
-            queryClient.invalidateQueries(['user']);
         },
         onError: () => {
             enqueueSnackbar('حدث خطأ ، يرجى المحاولة مرة أخرى', { variant: 'error' });

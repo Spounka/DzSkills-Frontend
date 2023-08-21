@@ -1,12 +1,4 @@
-import {
-    Box,
-    ButtonGroup,
-    IconButton,
-    Stack,
-    Tooltip,
-    Typography,
-    useTheme,
-} from '@mui/material';
+import { Box, ButtonGroup, IconButton, Stack, Tooltip, Typography, useTheme } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { FormEvent, useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -45,8 +37,8 @@ export function CategoriesSection() {
             );
             return data as Category;
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries('categories');
+        onSuccess: async () => {
+            await queryClient.invalidateQueries('categories');
             enqueueSnackbar('تم تحديث القسم بنجاح', { variant: 'success' });
         },
         onError: () => {
@@ -59,9 +51,9 @@ export function CategoriesSection() {
             const { data } = await axiosInstance.post(`/courses/categories/`, body);
             return data as Category;
         },
-        onSuccess: () => {
+        onSuccess: async () => {
             enqueueSnackbar('تم إنشاء القسم بنجاح', { variant: 'success' });
-            queryClient.invalidateQueries('categories');
+            await queryClient.invalidateQueries('categories');
         },
         onError: () => {
             enqueueSnackbar('حدث خطأ أثناء معالجة طلبك', { variant: 'error' });
@@ -74,9 +66,9 @@ export function CategoriesSection() {
             const { data } = await axiosInstance.delete(`/courses/categories/${id}/`);
             return data;
         },
-        onSuccess: () => {
+        onSuccess: async () => {
             enqueueSnackbar('تم حذف القسم بنجاح', { variant: 'success' });
-            queryClient.invalidateQueries('categories');
+            await queryClient.invalidateQueries('categories');
         },
         onError: () => {
             enqueueSnackbar('حدث خطأ أثناء معالجة طلبك', { variant: 'error' });

@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import { AxiosError } from 'axios';
 import { useSnackbar } from 'notistack';
 import { FormEvent, KeyboardEvent, useCallback, useRef, useState } from 'react';
-import { UseQueryResult, useInfiniteQuery, useMutation, useQuery } from 'react-query';
+import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactComponent as AttachementImage } from '../../assets/svg/attachement.svg';
@@ -61,7 +61,7 @@ export function CourseConversationPanel({ user, id }: props) {
     });
 
     const conversation = useQuery({
-        queryKey: ['conversations', id, user.data?.pk],
+        queryKey: ['conversations', id, user?.pk],
         queryFn: () => getConversation(id, true),
         onSuccess: () => setIsValid(true),
         onError: (err: AxiosError) => {
@@ -83,10 +83,10 @@ export function CourseConversationPanel({ user, id }: props) {
 
     const messageMutation = useMutation({
         mutationFn: ({ body }: { body: FormData }) => createMessage(body),
-        mutationKey: ['create', 'message', id, user.data?.pk, courseQuery.data?.id],
-        onSuccess: () => {
-            conversation.refetch();
-            messagesQuery.refetch();
+        mutationKey: ['create', 'message', id, user?.pk, courseQuery.data?.id],
+        onSuccess: async () => {
+            await conversation.refetch();
+            await messagesQuery.refetch();
             if (inputRef.current) inputRef.current.value = '';
         },
     });
@@ -205,7 +205,6 @@ export function CourseConversationPanel({ user, id }: props) {
                 messages={messagesQuery.data}
                 hasNextPage={messagesQuery.hasNextPage}
                 loadMore={() => messagesQuery.fetchNextPage()}
-                user={user}
                 teacher_profile_image={courseQuery.data?.owner.profile_image ?? ''}
             />
         </Card>

@@ -11,7 +11,6 @@ import { MainButton } from '../../../components/ui/MainButton';
 import theme from '../../../theme';
 import { getCourseRelatedStudents } from '../../admin-panel/course-details/api/relatedStudent';
 import { DisplayTableDataGrid } from '../../admin-panel/payment-management/DisplayTableDataGrid';
-import useLogin from '../../authenticate/hooks/useLogin';
 import { getCourse } from '../../course/api/getCourse';
 import TeacherDashboardLayout from '../layout';
 import { useRouteID } from '../../../globals/hooks';
@@ -162,7 +161,6 @@ function CourseDetailsTeacherDashboard() {
             actions: {
                 open: onMenuClick,
                 close: onMenuClose,
-                removeUser: removeUser,
                 anchor: anchorEl,
             },
         };

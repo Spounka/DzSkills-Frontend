@@ -47,7 +47,9 @@ export async function getUser(token: string | null, refresh: string | null) {
                 return localStorage.getItem('access');
             } else {
                 localStorage.setItem('access', response.data.access);
-                return response.data.acesss;
+                if ('access' in response.data)
+                    return response.data.acesss;
+                return '';
             }
         })
         .catch(error => {

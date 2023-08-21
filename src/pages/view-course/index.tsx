@@ -129,7 +129,7 @@ function WatchCourse() {
     if (progression.isError) return <>Error in data</>;
 
     const chaptersWithUUID = currentCourse.data?.chapters
-        ?.sort((a: Chapter, b: Chapter) => a.id)
+        ?.sort((a: Chapter, _: Chapter) => a.id)
         ?.map((chapter: any) => {
             return { ...chapter, key: uuidv4() };
         });

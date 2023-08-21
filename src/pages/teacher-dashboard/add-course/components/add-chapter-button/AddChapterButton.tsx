@@ -15,8 +15,7 @@ export function AddChapterButton({ bgcolor, setChapters }: AddChapterButtonProps
         <Box
             onClick={() => {
                 setChapters((chaps: CreationChapter[]) => {
-                    let f = [...chaps, { uuid: uuidv4(), title: '', description: '' }];
-                    return f;
+                    return [...chaps, { uuid: uuidv4(), title: '', description: '' }];
                 });
             }}
             gap={2}

@@ -1,4 +1,4 @@
-import { RefObject } from 'react';
+import React, { RefObject } from 'react';
 import { UseQueryResult } from 'react-query';
 import Stack from '@mui/material/Stack';
 import { DropdownPopper } from '../dropdown-popper';
@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import { MarkChatRead } from '@mui/icons-material';
-import React from 'react';
 import { NotificationElement } from './NotificationElement';
 import { Notification } from '../../types/notifications';
 
@@ -18,9 +17,7 @@ interface NotificationsMenuProps {
     handleMarkAsReadClick: () => void
 }
 
-export function NotificationsMenu({ isActive, onClickAway, handleMarkAsReadClick, menuRef, notificationsQuery }: NotificationsMenuProps) {
-    const setNotificationsActive = onClickAway;
-    const notificationsActive = isActive;
+export function NotificationsMenu({ isActive: notificationsActive, onClickAway: setNotificationsActive, handleMarkAsReadClick, menuRef, notificationsQuery }: NotificationsMenuProps) {
     return (
         <>
             <DropdownPopper

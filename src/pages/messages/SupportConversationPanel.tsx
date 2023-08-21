@@ -13,18 +13,9 @@ import {
 } from '@mui/material';
 import { AxiosError } from 'axios';
 import { useSnackbar } from 'notistack';
-import {
-    FormEvent,
-    KeyboardEvent,
-    useCallback,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
-} from 'react';
+import { FormEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from 'react-query';
 import { Conversation } from '../../types/messages';
-import useLogin from '../authenticate/hooks/useLogin';
 import { MessageBox } from './MessageBox';
 import { SendMessageInput } from './SendMessageInput';
 import { createMessage, getConversation, getMessages } from './api/queries';
@@ -35,7 +26,6 @@ import { ReactComponent as ChatWithSupport } from '../../assets/svg/chat-with-su
 import { MainButton } from '../../components/ui/MainButton';
 import axiosInstance from '../../globals/axiosInstance';
 import { User } from '../../types/user';
-import { getCourse } from '../course/api/getCourse';
 import useReduxData from '../../stores/reduxUser';
 
 export async function getDzSkillsUser() {
@@ -109,7 +99,7 @@ function SupportConversationPanel({
             console.error('Some random error ig?', err);
         },
         staleTime: 1000 * 60 * 60,
-        enabled: user.isFetched && (selectedConversation.id ?? 0) > 0,
+        enabled: user?.pk > 0 && (selectedConversation.id ?? 0) > 0,
     });
 
     const messagesQuery = useInfiniteQuery({
@@ -117,7 +107,7 @@ function SupportConversationPanel({
         queryFn: ({ pageParam }) => getMessages(selectedConversation.id, pageParam),
         queryKey: ['conversations', 'messages', selectedConversation.id, user?.pk],
         onError: () => setIsValid(false),
-        getNextPageParam: (lastPage, pages) => lastPage.next,
+        getNextPageParam: (lastPage, _) => lastPage.next,
         getPreviousPageParam: res => res.previous,
         refetchInterval: 3000,
     });
@@ -125,21 +115,16 @@ function SupportConversationPanel({
     const dzSkillsAdminQuery = useQuery({
         queryKey: ['users', 'admin'],
         queryFn: () => getDzSkillsUser(),
-        onSuccess: res => setRecievingUser(res),
         enabled: !id,
     });
-
-    useEffect(() => {
-        if (!id) setRecievingUser(dzSkillsAdminQuery.data);
-    }, [id]);
 
     const messageMutation = useMutation({
         mutationFn: ({ body }: { body: FormData }) => createMessage(body),
         mutationKey: ['create', 'message', selectedConversation.id, user?.pk],
-        onSuccess: () => {
-            conversation.refetch();
-            messagesQuery.refetch();
-            queryClient.invalidateQueries({
+        onSuccess: async () => {
+            await conversation.refetch();
+            await messagesQuery.refetch();
+            await queryClient.invalidateQueries({
                 queryKey: ['conversations', user?.pk],
             });
             if (inputRef.current) inputRef.current.value = '';
@@ -288,7 +273,7 @@ function SupportConversationPanel({
                         messages={messagesQuery.data}
                         hasNextPage={messagesQuery.hasNextPage}
                         loadMore={() => messagesQuery.fetchNextPage()}
-                        teacher_profile_image={recievingUser?.profile_image ?? ''}
+                        teacher_profile_image={selectedConversation.course_owner?.profile_image ?? ''}
                     />
                     {selectedConversation.ticket &&
                         selectedConversation.ticket.state === 'closed' && (

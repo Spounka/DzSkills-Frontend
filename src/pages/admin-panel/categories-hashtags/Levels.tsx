@@ -74,10 +74,10 @@ export function Levels() {
 
     const levelMutation = useMutation({
         mutationFn: (data: FormData) => createLevel(data),
-        onSuccess: () => {
+        onSuccess: async () => {
             enqueueSnackbar('تم إنشاء الهاشتاج بنجاح', { variant: 'success' });
             setOpen(false);
-            queryClient.invalidateQueries('levels');
+            await queryClient.invalidateQueries('levels');
         },
     });
 
@@ -87,12 +87,12 @@ export function Levels() {
             const { data } = await axiosInstance.delete(`/courses/levels/${id}/`);
             return data;
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries(['levels']);
+        onSuccess: async () => {
+            await queryClient.invalidateQueries(['levels']);
             enqueueSnackbar('تمت إزالة المستوى بنجاح', { variant: 'success' });
         },
-        onError: () => {
-            queryClient.invalidateQueries(['hashtags']);
+        onError: async () => {
+            await queryClient.invalidateQueries(['hashtags']);
             enqueueSnackbar('حدث خطأ ، حاول مرة أخرى في وقت لاحق', {
                 variant: 'error',
             });
@@ -108,14 +108,14 @@ export function Levels() {
             );
             return data;
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries(['hashtags']);
+        onSuccess: async () => {
+            await queryClient.invalidateQueries(['hashtags']);
             enqueueSnackbar('تمت إزالة المستويات بنجاح', { variant: 'success' });
             setSelectedRows([]);
             setSelectedLevel(undefined);
         },
-        onError: () => {
-            queryClient.invalidateQueries(['hashtags']);
+        onError: async () => {
+            await queryClient.invalidateQueries(['hashtags']);
             enqueueSnackbar('حدث خطأ ، حاول مرة أخرى في وقت لاحق', {
                 variant: 'error',
             });

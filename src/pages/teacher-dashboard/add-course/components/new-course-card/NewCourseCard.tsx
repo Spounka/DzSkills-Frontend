@@ -8,13 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { MainButton } from '../../../../../components/ui/MainButton';
 import axiosInstance from '../../../../../globals/axiosInstance';
-import {
-    Category,
-    Course,
-    CreationChapter,
-    Hashtag,
-    Level,
-} from '../../../../../types/course';
+import { Category, Course, CreationChapter, Hashtag, Level } from '../../../../../types/course';
 import { CourseQuizz } from '../../../../../types/quizz';
 import AddChapterButton from '../add-chapter-button';
 import { ChapterDetails } from '../chapter/ChapterDetails';
@@ -66,7 +60,7 @@ export function NewCourseCard({
                 return await axiosInstance.patch(`/courses/${course?.id}/${status}/`);
             })();
         },
-        onSuccess: ({ data }: { data: Course }) => {
+        onSuccess: async ({ data }: { data: Course }) => {
             if (data?.status === 'app')
                 enqueueSnackbar('تم قبول الدورة بنجاح', {
                     variant: 'success',
@@ -82,7 +76,7 @@ export function NewCourseCard({
                     variant: 'error',
                     anchorOrigin: { vertical: 'bottom', horizontal: 'center' },
                 });
-            client.refetchQueries({ queryKey: ['courses'] });
+            await client.refetchQueries({ queryKey: ['courses'] });
             navigate('/admin/courses/');
         },
         onError: () => {

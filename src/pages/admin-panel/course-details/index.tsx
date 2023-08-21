@@ -29,7 +29,7 @@ import axiosInstance from '../../../globals/axiosInstance';
 import { Course } from '../../../types/course';
 import { getCourse } from '../../course/api/getCourse';
 import AdminDashboardLayout from '../layout';
-import { RelatedStudent, getCourseRelatedStudents } from './api/relatedStudent';
+import { getCourseRelatedStudents, RelatedStudent } from './api/relatedStudent';
 import { CourseStudent } from './components/courseStudent';
 import { useRouteID } from '../../../globals/hooks';
 
@@ -77,9 +77,9 @@ function CourseDetails() {
             );
             return data;
         },
-        onSuccess: () => {
+        onSuccess: async () => {
             setCheckedStudents([]);
-            queryClient.invalidateQueries(['courses', id, 'students']);
+            await queryClient.invalidateQueries(['courses', id, 'students']);
             enqueueSnackbar('تمت إزالة الطلاب بنجاح', { variant: 'success' });
         },
         onError: () => {
@@ -96,9 +96,9 @@ function CourseDetails() {
                 `/courses/${id}/flip-trending/`,
             )) as Course;
         },
-        onSuccess: () => {
+        onSuccess: async () => {
             enqueueSnackbar('تم التحديث بنجاح', { variant: 'success' });
-            queryClient.invalidateQueries(['courses', id]);
+            await queryClient.invalidateQueries(['courses', id]);
         },
         onError: () => {
             enqueueSnackbar('فشل في تحديث', { variant: 'error' });

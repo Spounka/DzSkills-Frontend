@@ -5,11 +5,7 @@ import SocialMediaButton from '../social-media-button';
 import { Circle, HighlightOff } from '@mui/icons-material';
 import { Box, Paper, Snackbar, Typography, useTheme } from '@mui/material';
 import { useState } from 'react';
-import {
-    LoginSocialFacebook,
-    LoginSocialGoogle,
-    objectType,
-} from 'reactjs-social-login';
+import { LoginSocialFacebook, LoginSocialGoogle, objectType } from 'reactjs-social-login';
 import { ReactComponent as GoogleSVG } from '../../../../assets/svg/icons8-google.svg';
 
 import SvgIcon from '../svg-icon';
@@ -30,13 +26,13 @@ function ButtonSvg({ icon, ...other }: any) {
 }
 
 async function facebookLogin(access_token: string) {
-    const data = await axiosInstance.post('/rest-auth/facebook/', {
+    const { data } = await axiosInstance.post('/rest-auth/facebook/', {
         access_token: access_token,
     });
     return data;
 }
 async function googleLogin(access_token: string) {
-    const data = await axiosInstance.post('/rest-auth/google/', {
+    const { data } = await axiosInstance.post('/rest-auth/google/', {
         access_token: access_token,
     });
     return data;

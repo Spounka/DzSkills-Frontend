@@ -15,7 +15,7 @@ import { DisplayTableDataGrid } from '../../payment-management/DisplayTableDataG
 import AddItemPopup from '../AddItemPopup';
 import { createReceipt, getAllReceipts } from './api/queries';
 import { AddReceiptForm } from './components/AddReceiptFormProps';
-import {Receipt} from "../../../../types/AdminConfig";
+import { Receipt } from '../../../../types/AdminConfig';
 
 const columns: GridColDef[] = [
     {
@@ -113,9 +113,9 @@ function ReceiptsDatagrid() {
 
     const receiptMutation = useMutation({
         mutationFn: (data: FormData) => createReceipt(data),
-        onSuccess: () => {
+        onSuccess: async () => {
             setOpen(false);
-            queryClient.invalidateQueries('receipts');
+            await queryClient.invalidateQueries('receipts');
         },
     });
 
@@ -125,12 +125,12 @@ function ReceiptsDatagrid() {
             const { data } = await axiosInstance.delete(`/configs/receipts/${id}/`);
             return data;
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries(['receipts']);
+        onSuccess: async () => {
+            await queryClient.invalidateQueries(['receipts']);
             enqueueSnackbar('تمت إزالة الوصل بنجاح', { variant: 'success' });
         },
-        onError: () => {
-            queryClient.invalidateQueries(['receipts']);
+        onError: async () => {
+            await queryClient.invalidateQueries(['receipts']);
             enqueueSnackbar('حدث خطأ ، حاول مرة أخرى في وقت لاحق', {
                 variant: 'error',
             });
@@ -168,12 +168,12 @@ function ReceiptsDatagrid() {
             );
             return data;
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries(['receipts']);
+        onSuccess:async  () => {
+            await queryClient.invalidateQueries(['receipts']);
             enqueueSnackbar('تمت إزالة الوصل بنجاح', { variant: 'success' });
         },
-        onError: () => {
-            queryClient.invalidateQueries(['receipts']);
+        onError:async  () => {
+            await queryClient.invalidateQueries(['receipts']);
             enqueueSnackbar('حدث خطأ ، حاول مرة أخرى في وقت لاحق', {
                 variant: 'error',
             });

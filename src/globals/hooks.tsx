@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -28,14 +27,13 @@ function useGetUser({ onSuccess, onError }: GetUserProps) {
         queryKey: ['user'],
         queryFn: () => getUser(token, refresh),
         onSuccess: (user) => {
-            dispatch(updateUser({ access: token, refresh: refresh, user: user }))
+            dispatch(updateUser({ access: token ?? '', refresh: refresh ?? '', user: user }));
             onSuccess?.(user);
         },
         onError: (err) => {
             onError?.(err);
         },
     });
-    useEffect(() => { userQuery.refetch() }, [])
     return userQuery.data
 }
 

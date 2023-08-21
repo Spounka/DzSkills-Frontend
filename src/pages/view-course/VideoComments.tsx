@@ -1,12 +1,5 @@
 import { Send } from '@mui/icons-material';
-import {
-    Divider,
-    IconButton,
-    InputAdornment,
-    OutlinedInput,
-    Pagination,
-    Stack,
-} from '@mui/material';
+import { Divider, IconButton, InputAdornment, OutlinedInput, Pagination, Stack } from '@mui/material';
 import React, { useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
@@ -20,7 +13,7 @@ interface VideoCommentsProps {
 export function VideoComments({ videoID }: VideoCommentsProps) {
     const [page, setPage] = useState<number>(1);
     const [pageSize, _] = useState(8);
-    const inputRef = useRef(null);
+    const inputRef = useRef<any>(null);
     const videoCommentsQuery = useQuery({
         queryKey: ['video', 'comments', videoID],
         queryFn: () => getVideoComments(videoID),
@@ -29,10 +22,10 @@ export function VideoComments({ videoID }: VideoCommentsProps) {
     const videoCommentMutation = useMutation({
         mutationKey: ['video', 'comments', 'create'],
         mutationFn: ({ content, id }: any) => submitComment(content, id),
-        onSuccess: () => {
-            //@ts-expect-error
-            inputRef.current.value = '';
-            videoCommentsQuery.refetch();
+        onSuccess: async () => {
+            if (inputRef.current)
+                inputRef.current.value = '';
+            await videoCommentsQuery.refetch();
         },
     });
     const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
@@ -59,8 +52,7 @@ export function VideoComments({ videoID }: VideoCommentsProps) {
                 onSubmit={(e: React.FormEvent<HTMLFormElement> | undefined) => {
                     e?.preventDefault();
                     const data = {
-                        //@ts-expect-error
-                        content: inputRef.current.value,
+                        content: inputRef.current?.value,
                         id: videoID,
                     };
                     videoCommentMutation.mutate(data);

@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useLogin from '../authenticate/hooks/useLogin';
 import { AdminPanelTopBar } from './landing-page/components/AdminPanelTopBar';

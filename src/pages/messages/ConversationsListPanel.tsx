@@ -17,8 +17,7 @@ export async function getTeacherOnlyConversations() {
 }
 
 export function testLatin(text: string) {
-    if (/"^[\u0600-\u06FF]"/.test(text[0])) return false;
-    else return true;
+    return !/"[\u0600-\u06FF]"/.test(text[0]);
 }
 
 interface ConversationListProps {

@@ -37,9 +37,9 @@ function AdminPersonalDetails() {
         mutationFn: async (body: FormData) => {
             return (await axiosInstance.patch(`/rest-auth/user/`, body)) as User;
         },
-        onSuccess: () => {
+        onSuccess: async () => {
             enqueueSnackbar('تم تحديث الملف الشخصي بنجاح', { variant: 'success' });
-            queryClient.invalidateQueries(['user']);
+            await queryClient.invalidateQueries(['user']);
         },
         onError: () => {
             enqueueSnackbar('فشل التحديث', { variant: 'error' });

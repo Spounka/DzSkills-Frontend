@@ -1,13 +1,4 @@
-import {
-    Box,
-    Card,
-    Container,
-    IconButton,
-    Rating,
-    Stack,
-    Tooltip,
-    useTheme,
-} from '@mui/material';
+import { Box, Card, IconButton, Rating, Stack, Tooltip, useTheme } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { FormEvent, useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -109,8 +100,8 @@ function RatingsSection() {
             const { data } = await axiosInstance.post('/configs/ratings/', body);
             return data as UserRating;
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries(['admin', 'configs', 'ratings']);
+        onSuccess: async () => {
+            await queryClient.invalidateQueries(['admin', 'configs', 'ratings']);
             enqueueSnackbar('تم إنشاء التقييم بنجاح', { variant: 'success' });
         },
         onError: () => {
@@ -126,8 +117,8 @@ function RatingsSection() {
             const { data } = await axiosInstance.patch(`/configs/ratings/${id}/`, body);
             return data as UserRating;
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries(['admin', 'configs', 'ratings']);
+        onSuccess: async () => {
+            await queryClient.invalidateQueries(['admin', 'configs', 'ratings']);
             enqueueSnackbar('تم تحديث التقييم بنجاح', { variant: 'success' });
         },
         onError: () => {

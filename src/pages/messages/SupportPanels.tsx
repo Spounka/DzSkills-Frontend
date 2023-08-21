@@ -22,12 +22,12 @@ export function SupportPanels() {
     const createTicketMutation = useMutation({
         mutationKey: ['conversation', 'create', 'ticket'],
         mutationFn: () => createTicket(),
-        onSuccess: res => {
+        onSuccess: async (res) => {
             enqueueSnackbar('تم إنشاء المحادثة بنجاح', {
                 variant: 'success',
                 autoHideDuration: 1000 * 3,
             });
-            queryClient.invalidateQueries({
+            await queryClient.invalidateQueries({
                 queryKey: ['conversations', user?.pk],
             });
             if (typeof res.converesation !== 'number') {
@@ -50,13 +50,13 @@ export function SupportPanels() {
     const closeConversationMutation = useMutation({
         mutationKey: ['conversation', selectedConversation.id, 'close'],
         mutationFn: (id: number) => closeTicket(id),
-        onSuccess: () => {
+        onSuccess: async () => {
             enqueueSnackbar('تم إغلاق المحادثة بنجاح', {
                 variant: 'success',
                 autoHideDuration: 1000 * 3,
             });
             setSelectedConversation({ id: 0 });
-            queryClient.invalidateQueries({
+            await queryClient.invalidateQueries({
                 queryKey: ['conversations', user?.pk],
             });
         },
@@ -93,9 +93,9 @@ export function SupportPanels() {
         setSelectedConversation({ id: 0 });
     }, []);
 
-    const startConversation = useCallback(() => {
+    const startConversation = useCallback(async () => {
         createTicketMutation.mutate();
-        queryClient.invalidateQueries({ queryKey: ['conversations', user?.pk] });
+        await queryClient.invalidateQueries({ queryKey: ['conversations', user?.pk] });
     }, [selectedConversation.id]);
 
     useEffect(

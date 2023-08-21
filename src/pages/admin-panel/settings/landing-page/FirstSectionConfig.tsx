@@ -1,7 +1,7 @@
 import { Box, Stack, Typography, useTheme } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { FormEvent } from 'react';
-import { UseQueryResult, useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient, UseQueryResult } from 'react-query';
 import { v4 as uuid } from 'uuid';
 import { MainButton } from '../../../../components/ui/MainButton';
 import axiosInstance from '../../../../globals/axiosInstance';
@@ -29,9 +29,9 @@ export function FirstSectionConfig({ adminConfigQuery }: FirstSectionProps) {
             const { data } = await axiosInstance.patch('/configs/', formData);
             return data as AdminConfig;
         },
-        onSuccess: () => {
+        onSuccess: async () => {
             enqueueSnackbar('تم التحديث بنجاح', { variant: 'success' });
-            queryClient.invalidateQueries(['admin', 'configs']);
+            await queryClient.invalidateQueries(['admin', 'configs']);
         },
         onError: () => {
             enqueueSnackbar('حدث خطأ أثناء معالجة طلبك', { variant: 'error' });

@@ -92,10 +92,10 @@ export function TeacherMessagesPanel({
     const messageMutation = useMutation({
         mutationFn: ({ body }: { body: FormData }) => createMessage(body),
         mutationKey: ['create', 'message', id, user?.pk, courseQuery.data?.id],
-        onSuccess: () => {
-            client.invalidateQueries(['conversations', 'messages', id, user?.pk]);
-            client.invalidateQueries(['conversations', id, user?.pk]);
-            client.invalidateQueries(['conversations', user?.pk]);
+        onSuccess: async () => {
+            await client.invalidateQueries(['conversations', 'messages', id, user?.pk]);
+            await client.invalidateQueries(['conversations', id, user?.pk]);
+            await client.invalidateQueries(['conversations', user?.pk]);
             if (inputRef.current) inputRef.current.value = '';
         },
     });

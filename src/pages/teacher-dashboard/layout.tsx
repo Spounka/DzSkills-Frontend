@@ -4,7 +4,6 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Outlet, useNavigate } from 'react-router-dom';
 import useLogin from '../authenticate/hooks/useLogin';
-import { NotificationsBar } from './NotificationsBar';
 import DashboardSidebar from './add-course/components/side-navbar';
 import { DashboardTopbar } from './add-course/components/top-navbar/DashboardTopbar';
 import { useIsBanned } from '../banned-page/BannedPage';

@@ -128,9 +128,9 @@ const UserDetails = () => {
     const courseStateMutation = useMutation({
         mutationKey: ['course', user?.pk, 'state', 'mutation'],
         mutationFn: ({ id }: { id: number }) => handleCourseStateChange(id),
-        onSuccess: () => {
-            relatedCoursesQuery.refetch();
-            studentRelatedCoursesQuery.refetch();
+        onSuccess: async () => {
+            await relatedCoursesQuery.refetch();
+            await studentRelatedCoursesQuery.refetch();
             setIsSubmitting(false);
         },
         onError: () => setIsSubmitting(false),

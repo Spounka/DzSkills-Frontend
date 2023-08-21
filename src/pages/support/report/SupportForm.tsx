@@ -1,11 +1,4 @@
-import {
-    Card,
-    FormControl,
-    FormLabel,
-    OutlinedInput,
-    Stack,
-    useTheme,
-} from '@mui/material';
+import { Card, FormControl, FormLabel, OutlinedInput, Stack, useTheme } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
@@ -19,7 +12,7 @@ export function SupportForm() {
     const theme = useTheme();
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+    const { enqueueSnackbar } = useSnackbar();
 
     const reportChoicesQuery = useQuery({
         queryKey: ['report', 'choices'],
@@ -34,7 +27,7 @@ export function SupportForm() {
                 variant: 'success',
             });
         },
-        onError: err => {
+        onError: () => {
             setIsSubmitting(false);
             enqueueSnackbar('حدث خطأ', {
                 variant: 'error',

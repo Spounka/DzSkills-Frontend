@@ -45,7 +45,7 @@ export function AdminConversationPanel({
     });
 
     useEffect(() => {
-        courseQuery.refetch();
+        (async () => await courseQuery.refetch())();
     }, [id]);
 
     const clearFiles = useCallback(() => {
@@ -88,13 +88,13 @@ export function AdminConversationPanel({
     const messagesQuery = useInfiniteQuery({
         queryKey: ['conversations', 'messages', 'infinite', selectedConversation.id],
         queryFn: ({ pageParam }) => getMessages(selectedConversation.id, pageParam),
-        getNextPageParam: (lastPage, pages) => lastPage.next,
+        getNextPageParam: (lastPage, _) => lastPage.next,
         getPreviousPageParam: res => res.previous,
         enabled: isValid,
         refetchInterval: 3000,
     });
 
-    const dzSkillsAdminQuery = useQuery({
+    useQuery({
         queryKey: ['users', 'admin'],
         queryFn: () => getDzSkillsUser(),
         enabled: !id,

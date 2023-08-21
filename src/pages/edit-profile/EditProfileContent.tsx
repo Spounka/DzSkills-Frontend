@@ -27,9 +27,9 @@ export default function EditProfileContent({ }) {
             const { data } = await axiosInstance.patch(`/rest-auth/user/`, body);
             return data as User;
         },
-        onSuccess: () => {
+        onSuccess: async () => {
             enqueueSnackbar('تم التحديث بنجاح', { variant: 'success' });
-            queryClient.invalidateQueries(['user']);
+            await queryClient.invalidateQueries(['user']);
         },
         onError: () => {
             enqueueSnackbar('حدث خطأ ، يرجى المحاولة مرة أخرى', { variant: 'error' });

@@ -44,15 +44,14 @@ export function MessageBox({
                 return (
                     <React.Fragment key={i}>
                         {page.results?.map((message, index, arr) => {
-                            let isSender = false;
+                            let isSender: boolean;
 
-                            let avatarSrc = undefined;
+                            let avatarSrc: string;
                             isSender = message.sender === user?.pk;
                             if (
                                 user?.groups.some(g => g?.name === 'AdminGroup') &&
                                 message.sender === dzSkillsAdminQuery.data?.pk
                             ) {
-                                isSender = true;
                                 avatarSrc = dzSkillsAdminQuery.data?.profile_image;
                             } else {
                                 avatarSrc = isSender

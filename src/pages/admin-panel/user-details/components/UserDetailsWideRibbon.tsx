@@ -18,7 +18,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { AxiosError } from 'axios';
 import { Dayjs } from 'dayjs';
 import { useSnackbar } from 'notistack';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { ProfileSocialMedia } from '../../../../components/ProfileSocialMedia';
 import { MainButton } from '../../../../components/ui/MainButton';
@@ -48,11 +48,11 @@ export function UserDetailsWideRibbon({ user }: UserDetailsWideRibbonProps) {
             );
             return data as User;
         },
-        onSuccess: () => {
+        onSuccess: async () => {
             setIsSubmitting(false);
             enqueueSnackbar('تم التحديث بنجاح', { variant: 'success' });
-            queryClient.invalidateQueries('users');
-            queryClient.invalidateQueries(['users', user?.pk]);
+            await queryClient.invalidateQueries('users');
+            await queryClient.invalidateQueries(['users', user?.pk]);
         },
         onError: (err: AxiosError) => {
             setIsSubmitting(false);
@@ -80,10 +80,10 @@ export function UserDetailsWideRibbon({ user }: UserDetailsWideRibbonProps) {
             });
             return data;
         },
-        onSuccess: () => {
+        onSuccess: async () => {
             setIsSubmitting(false);
             enqueueSnackbar('تم حظر المستخدم بنجاح', { variant: 'success' });
-            queryClient.invalidateQueries(['users', user?.pk]);
+            await queryClient.invalidateQueries(['users', user?.pk]);
         },
         onError: (err: AxiosError) => {
             setIsSubmitting(false);

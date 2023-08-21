@@ -118,7 +118,7 @@ export function LessonFields({
 
                 <StyledOutline
                     required
-                    readOnly={video ? true : false}
+                    readOnly={!!video}
                     name={`chapters[${chapterIndex}]videos[${videoIndex}]title`}
                     type="text"
                     value={title}
@@ -151,7 +151,7 @@ export function LessonFields({
                     multiline
                     required
                     maxRows={3}
-                    readOnly={video ? true : false}
+                    readOnly={!!video}
                     onChange={handleDescriptionChange}
                     onBlur={() => updateVideo()}
                     name={`chapters[${chapterIndex}]videos[${videoIndex}]description`}

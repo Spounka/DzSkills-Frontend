@@ -2,11 +2,11 @@ import { Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import { NavLink } from 'react-router-dom';
-import useLogin from '../../authenticate/hooks/useLogin';
 import { AdminInfoNavbar } from './AdminInfoNavbar';
+import useReduxData from '../../../stores/reduxUser';
 
 export function AdminInfoSidebar({}) {
-    const user = useLogin();
+    const user = useReduxData().user.user;
     return (
         <Box
             display="flex"
@@ -29,7 +29,7 @@ export function AdminInfoSidebar({}) {
                 }}
             >
                 <Avatar
-                    src={user[0].data?.profile_image ?? ''}
+                    src={user?.profile_image ?? ''}
                     sx={{
                         width: '100%',
                         height: 'auto',

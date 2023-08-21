@@ -378,6 +378,7 @@ function BuyCourse() {
                                             >
                                                 رفع
                                                 <img
+                                                    alt={'icon for uploading an image'}
                                                     src={uploadImg}
                                                     style={{
                                                         width: '10%',
@@ -415,6 +416,7 @@ function BuyCourse() {
                                             }}
                                         >
                                             <img
+                                                alt={'icon for the pdf logo'}
                                                 src={pdf_icon}
                                                 style={{
                                                     height: theme.spacing(4),

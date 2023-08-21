@@ -77,10 +77,10 @@ export function Hashtags() {
     const queryClient = useQueryClient();
     const hashtagMutation = useMutation({
         mutationFn: (data: FormData) => createHashtag(data),
-        onSuccess: () => {
+        onSuccess: async () => {
             enqueueSnackbar('تم إنشاء الهاشتاج بنجاح', { variant: 'success' });
             setOpen(false);
-            queryClient.invalidateQueries('hashtags');
+            await queryClient.invalidateQueries('hashtags');
         },
     });
 
@@ -90,12 +90,12 @@ export function Hashtags() {
             const { data } = await axiosInstance.delete(`/courses/hashtags/${id}/`);
             return data;
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries(['hashtags']);
+        onSuccess: async () => {
+            await queryClient.invalidateQueries(['hashtags']);
             enqueueSnackbar('تمت إزالة الهاشتاج بنجاح', { variant: 'success' });
         },
-        onError: () => {
-            queryClient.invalidateQueries(['hashtags']);
+        onError: async () => {
+            await queryClient.invalidateQueries(['hashtags']);
             enqueueSnackbar('حدث خطأ ، حاول مرة أخرى في وقت لاحق', {
                 variant: 'error',
             });
@@ -111,12 +111,12 @@ export function Hashtags() {
             );
             return data;
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries(['hashtags']);
+        onSuccess: async () => {
+            await queryClient.invalidateQueries(['hashtags']);
             enqueueSnackbar('تمت إزالة الهاشتاج بنجاح', { variant: 'success' });
         },
-        onError: () => {
-            queryClient.invalidateQueries(['hashtags']);
+        onError: async () => {
+            await queryClient.invalidateQueries(['hashtags']);
             enqueueSnackbar('حدث خطأ ، حاول مرة أخرى في وقت لاحق', {
                 variant: 'error',
             });

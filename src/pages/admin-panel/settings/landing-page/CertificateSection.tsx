@@ -1,7 +1,7 @@
 import { Box, Stack, useTheme } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { FormEvent } from 'react';
-import { UseQueryResult, useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient, UseQueryResult } from 'react-query';
 import { MainButton } from '../../../../components/ui/MainButton';
 import axiosInstance from '../../../../globals/axiosInstance';
 import { AdminConfig } from '../../../../types/AdminConfig';
@@ -20,8 +20,8 @@ export function CertificateSection({ adminConfigQuery }: CertificateProps) {
             const { data } = await axiosInstance.patch(`/configs/`, formData);
             return data as AdminConfig;
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries(['admin', 'configs']);
+        onSuccess: async () => {
+            await queryClient.invalidateQueries(['admin', 'configs']);
             enqueueSnackbar('تم التحديث بنجاح', { variant: 'success' });
         },
         onError: () => {

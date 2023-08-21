@@ -3,7 +3,6 @@ import { useSnackbar } from 'notistack';
 import { useCallback, useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Conversation } from '../../../types/messages';
-import useLogin from '../../authenticate/hooks/useLogin';
 import { createTicket } from '../../messages/api/createTicket';
 import TeacherDashboardLayout from '../layout';
 import TeacherConversationsListPanel from './TeacherConversationListPanel';
@@ -33,12 +32,12 @@ function TeacherMessages({ id }: TeacherMessagesProps) {
     const createTicketMutation = useMutation({
         mutationKey: ['conversation', 'create'],
         mutationFn: () => createTicket(),
-        onSuccess: res => {
+        onSuccess: async (res) => {
             enqueueSnackbar('تم إنشاء المحادثة بنجاح', {
                 variant: 'success',
                 autoHideDuration: 1000 * 3,
             });
-            queryClient.invalidateQueries({ queryKey: ['conversations'] });
+            await queryClient.invalidateQueries({ queryKey: ['conversations'] });
             setSelectedConversation(
                 conversations.filter(c => c.id === res.converesation)[0] ?? { id: 0 }
             );
