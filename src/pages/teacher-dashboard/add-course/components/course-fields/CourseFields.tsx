@@ -2,8 +2,9 @@ import {
     Autocomplete,
     Box,
     FormControl,
+    MenuItem,
     OutlinedInput,
-    SxProps,
+    Select,
     TextField,
     Typography,
     useTheme,
@@ -12,14 +13,10 @@ import Image from 'mui-image';
 import { useSnackbar } from 'notistack';
 import React, { ChangeEvent, useEffect } from 'react';
 import { useQuery } from 'react-query';
-import { ReactComponent as UploadImage } from '../../../../../assets/svg/Download.svg';
 import { UploadFileInput } from '../../../../../components/form/UploadFileInput';
 import { Category, Course, Hashtag, Level } from '../../../../../types/course';
-import {
-    getCategories,
-    getHashtags,
-    getLevels,
-} from '../../../../admin-panel/categories-hashtags/api/queries';
+import { getCategories, getHashtags, getLevels } from '../../../../admin-panel/categories-hashtags/api/queries';
+import { FileUrlField } from '../file-url-field/FileUrlField';
 
 interface props {
     course?: Course;
@@ -31,6 +28,19 @@ interface props {
     setCategory?: (c: Category) => void;
 }
 
+function englishToArabicLang(lang: string): string {
+    switch (lang) {
+        case 'Arabic':
+            return 'العربية';
+        case 'English':
+            return 'الإنجليزية';
+        case 'French':
+            return 'الفرنسية';
+        default:
+            return lang;
+
+    }
+}
 export function CourseFields({
     color,
     stringColor,
@@ -43,6 +53,7 @@ export function CourseFields({
     const theme = useTheme();
     const { enqueueSnackbar } = useSnackbar();
 
+    const [courseLang, setCourseLang] = React.useState<string>(course?.language ?? 'Arabic');
     const [localHashtags, setLocalHashtags] = React.useState<Hashtag[]>([]);
     const [localLevel, setLocalLevel] = React.useState<Level | undefined>({
         courses: 0,
@@ -71,7 +82,7 @@ export function CourseFields({
     });
 
     useEffect(() => {
-        if (setHashtags) setHashtags(localHashtags);
+        setHashtags?.(localHashtags);
     }, [localHashtags]);
     useEffect(() => {
         if (setLevel && localLevel) setLevel(localLevel);
@@ -79,10 +90,6 @@ export function CourseFields({
     useEffect(() => {
         if (setCategory && localCategory) setCategory(localCategory);
     }, [localCategory?.name]);
-
-    if (!hashtagsQuery.data) return <>Error In Hashtags</>;
-    if (!categoriesQuery.data) return <>Error In Categories</>;
-    if (!levelsQuery.data) return <>Error In Levels</>;
 
     return (
         <>
@@ -204,10 +211,11 @@ export function CourseFields({
                     loading={hashtagsQuery.isFetching}
                     onChange={
                         readonly
-                            ? () => {}
+                            ? () => {
+                            }
                             : (_, newValue) => {
-                                  setLocalHashtags(newValue);
-                              }
+                                setLocalHashtags(newValue);
+                            }
                     }
                     renderOption={(props, option) => {
                         return (
@@ -264,10 +272,11 @@ export function CourseFields({
                     loading={levelsQuery.isFetching}
                     onChange={
                         readonly
-                            ? () => {}
-                            : (e, value) => {
-                                  setLocalLevel(value ?? undefined);
-                              }
+                            ? () => {
+                            }
+                            : (_, value) => {
+                                setLocalLevel(value ?? undefined);
+                            }
                     }
                     renderInput={params => (
                         <TextField
@@ -314,8 +323,9 @@ export function CourseFields({
                     loading={categoriesQuery.isFetching}
                     onChange={
                         readonly
-                            ? () => {}
-                            : (e, value) => setLocalCategory(value ?? undefined)
+                            ? () => {
+                            }
+                            : (_, value) => setLocalCategory(value ?? undefined)
                     }
                     renderInput={params => (
                         <TextField
@@ -353,7 +363,7 @@ export function CourseFields({
             </Typography>
 
             {readonly ? (
-                <DisplayFileUrl
+                <FileUrlField
                     sx={{ gridColumn: '2', gridRow: '10 / span 5' }}
                     url={course?.presentation_file ?? ''}
                 />
@@ -438,61 +448,88 @@ export function CourseFields({
                     }}
                 />
             )}
+
+            <Typography
+                variant={'subtitle2'}
+                color={'gray.main'}
+                sx={{
+                    gridColumn: '1',
+                }}
+            >
+                مدة الدورة
+            </Typography>
+            {
+                <TextField
+                    name={'duration'}
+                    disabled={readonly}
+                    value={readonly ? course?.duration : ''}
+                    //@ts-ignore
+                    color='purple'
+                    sx={{
+                        gridColumn: '1',
+                    }}
+                />
+            }
+            <Typography
+                variant={'subtitle2'}
+                color={'gray.main'}
+                sx={{
+                    gridColumn: '2',
+                    gridRow: '15',
+                }}
+            >
+                لغة الدورة
+            </Typography>
+            {
+                <Select
+                    displayEmpty
+                    name={'language'}
+                    disabled={readonly}
+                    onChange={(e) => {
+                        console.log(e.target.value);
+                        setCourseLang(e.target.value);
+                    }}
+                    value={course?.language ?? courseLang}
+                    //@ts-expect-error
+                    color='purple'
+                    sx={{
+                        gridColumn: '2',
+                    }}
+                >
+                    <MenuItem value={'Arabic'} color={'purple'}>
+                        {englishToArabicLang('Arabic')}
+                    </MenuItem>
+                    <MenuItem value={'English'}>
+                        {englishToArabicLang('English')}
+                    </MenuItem>
+                    <MenuItem value={'French'}>
+                        {englishToArabicLang('French')}
+                    </MenuItem>
+                </Select>
+            }
+            <Typography
+                variant={'subtitle2'}
+                color={'gray.main'}
+                sx={{
+                    gridColumn: '1',
+                }}
+            >
+                البرامج المستخدمة
+            </Typography>
+            {
+                <TextField
+                    disabled={readonly}
+                    name={'used_programs'}
+                    value={course?.used_programs ?? ""}
+                    //@ts-ignore
+                    color='purple'
+                    sx={{
+                        gridColumn: '1',
+                    }}
+                />
+            }
+
         </>
     );
 }
-export function DisplayFileUrl({ url, sx }: { url: string; sx?: SxProps }) {
-    const theme = useTheme();
-    function fileNameFromURL() {
-        return url.slice(url.lastIndexOf('/') + 1);
-    }
-    return (
-        <Box
-            component={'a'}
-            download
-            href={url}
-            sx={{
-                border: '1px solid #CCC',
-                padding: 1,
-                display: 'flex',
-                gap: 2,
-                p: theme.spacing(3),
-                borderRadius: theme.spacing(),
-                overflow: 'hidden',
-                px: 3,
-                ...sx,
-            }}
-        >
-            <UploadImage
-                style={{
-                    height: theme.spacing(8),
-                    width: theme.spacing(8),
-                    fill: theme.palette.gray.light,
-                }}
-            />
 
-            <Box
-                flexGrow={'1'}
-                display={'flex'}
-                flexDirection={'column'}
-                justifyContent={'center'}
-            >
-                <Typography
-                    color={'gray.dark'}
-                    variant={'caption'}
-                >
-                    إضغط هنا للتحميل
-                </Typography>
-                <Typography
-                    maxWidth={'250px'}
-                    noWrap
-                    color={'gray.main'}
-                    variant={'subtitle2'}
-                    fontWeight={400}
-                >
-                    {fileNameFromURL()}
-                </Typography>
-            </Box>
-        </Box>
-    );
-}

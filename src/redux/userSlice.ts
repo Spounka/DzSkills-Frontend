@@ -11,7 +11,7 @@ export interface LoginUser {
 
 const initialState = {
     ...defaultUser,
-};
+} as LoginUser;
 
 const userSlice = createSlice({
     name: 'user',
@@ -20,13 +20,7 @@ const userSlice = createSlice({
         updateUser: (state, action: PayloadAction<LoginUser>) => {
             return {
                 ...state,
-                access: action.payload.access || state.access,
-                refresh: action.payload.refresh || state.refresh,
-                user: {
-                    ...state.user,
-                    ...action.payload.user,
-                    groups: [...state.user.groups, ...action.payload.user.groups],
-                },
+                user: action.payload.user,
             };
         },
         removeUser: () => {

@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import { yellow } from '@mui/material/colors';
 import { GridColDef } from '@mui/x-data-grid';
 import { useSnackbar } from 'notistack';
-import { MouseEvent, useState } from 'react';
+import React, { MouseEvent, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { ReactComponent as DeleteIcon } from '../../../../assets/svg/delete-red.svg';
 import { ReactComponent as EditIcon } from '../../../../assets/svg/edit.svg';

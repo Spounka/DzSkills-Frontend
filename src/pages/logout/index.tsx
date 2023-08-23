@@ -1,30 +1,46 @@
-import { useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { logout } from './api/queries';
 import { useDispatch } from 'react-redux';
 import { removeUser } from '../../redux/userSlice';
 import { useEffect } from 'react';
+import { CircularProgress } from '@mui/material';
+import { Stack } from '@mui/system';
+
 
 function Logout() {
-    const token = localStorage.getItem('access');
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const queryClient = useQueryClient();
-    const logoutQuery = useQuery({
-        queryKey: ['user', 'logout'],
-        queryFn: () => logout(token),
+    const logoutMutation = useMutation({
+        mutationKey: ['user', 'logout'],
+        mutationFn: async () => {
+            const { data } = await logout()
+            return data;
+        },
         onSuccess: async () => {
             localStorage.removeItem('access');
             localStorage.removeItem('refresh');
             await queryClient.invalidateQueries({ queryKey: ['user'] });
-            dispatch(removeUser);
+            dispatch(removeUser());
             navigate('/');
-        },
-    });
+        }
+    })
     useEffect(() => {
-        (async () => await logoutQuery.refetch())();
-    });
-    return <div>Logout</div>;
+        logoutMutation.mutate()
+    }, []);
+    return (
+        <Stack
+            justifyContent={'center'}
+            alignItems={'center'}
+            sx={{
+                minHeight: '80dvh',
+                height: '100%'
+            }}
+        >
+            <CircularProgress sx={{ width: 24, height: 'auto' }} />
+        </Stack>
+    )
 }
 
 export default Logout;

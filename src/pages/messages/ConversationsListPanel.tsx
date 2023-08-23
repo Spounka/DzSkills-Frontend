@@ -11,11 +11,6 @@ export async function getAllConversations() {
     return data as Conversation[];
 }
 
-export async function getTeacherOnlyConversations() {
-    const { data } = await axiosInstance.get('/conversations/teacher/');
-    return data as Conversation[];
-}
-
 export function testLatin(text: string) {
     return !/"[\u0600-\u06FF]"/.test(text[0]);
 }

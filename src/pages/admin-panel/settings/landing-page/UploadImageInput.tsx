@@ -2,7 +2,7 @@ import { FileUpload } from '@mui/icons-material';
 import { Box, IconButton, Stack, useTheme } from '@mui/material';
 import Image from 'mui-image';
 import { useSnackbar } from 'notistack';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 interface props {
     src: string;
     name: string;

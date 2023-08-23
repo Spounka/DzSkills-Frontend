@@ -66,17 +66,16 @@ export function TeacherAddCourse() {
         window.scrollTo({ top: 0 });
         setIsSubmitting(true);
         e.preventDefault();
-        setTimeout(() => {
-            const form = document.querySelector('form');
-            if (form) {
-                let formData = new FormData(form);
+        const form = document.querySelector('form');
+        if (form) {
+            let formData = new FormData(form);
+            if (quizz)
                 formData.append('quizz', JSON.stringify(quizz));
-                formData.append('hashtags', JSON.stringify({ objs: hashtags }));
-                formData.append('category', category.id.toString());
-                formData.append('course_level', level.id.toString());
-                submitCourseMutation.mutate(formData);
-            }
-        }, 5000);
+            formData.append('hashtags', JSON.stringify({ objs: hashtags }));
+            formData.append('category', category.id.toString());
+            formData.append('course_level', level.id.toString());
+            submitCourseMutation.mutate(formData);
+        }
     }
 
     return (

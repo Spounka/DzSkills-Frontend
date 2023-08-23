@@ -12,7 +12,7 @@ import { getCourses } from './api/getAllCourses';
 import FilterComponent from './components/filter';
 import { useIsBanned } from '../banned-page/BannedPage';
 import { CoursesGrid } from './courses-grid';
-import { Container, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 
 function CoursesPage() {
     const theme = useTheme();

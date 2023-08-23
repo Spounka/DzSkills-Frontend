@@ -1,7 +1,7 @@
 import { Stack, TextField, Typography, useTheme } from '@mui/material';
 import { useFormik } from 'formik';
 import { useEffect } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import IconFormPassword from '../../../../components/form/IconFormPassword';
@@ -9,13 +9,16 @@ import { MainButton } from '../../../../components/ui/MainButton';
 import { signUp } from '../../api/authenticate';
 import AuthFormsHeader from '../form-header';
 import { Helmet } from 'react-helmet';
+import { AxiosError } from 'axios';
+import { enqueueSnackbar } from 'notistack';
 
 const validationSchema = Yup.object({
     first_name: Yup.string().required('تعبئة الخانة اجبارية'),
     last_name: Yup.string().required('تعبئة الخانة اجبارية'),
     email: Yup.string()
         .email('البريد الإلكتروني غير صالح')
-        .required('تعبئة الخانة اجبارية'),
+        .required('تعبئة الخانة اجبارية')
+    ,
     password1: Yup.string()
         .min(8, 'يجب ألا يقل طول الحقل عن 8 أحرف')
         .required('تعبئة الخانة اجبارية'),
@@ -35,22 +38,41 @@ const initialValues = {
 function NewAccount() {
     const theme = useTheme();
     const navigate = useNavigate();
+    const queryClient = useQueryClient()
     const query = useMutation({
         mutationKey: ['signup'],
         mutationFn: async (values: any) => signUp(values),
-        onSuccess: values => {
+        onSuccess: async (values) => {
+            await queryClient.invalidateQueries(['login'])
+            await queryClient.invalidateQueries(['user'])
             localStorage.setItem('access', values.access || '');
             localStorage.setItem('refresh', values.refresh || '');
             return navigate('/register/verify-email/');
         },
+        onError: async (error: AxiosError) => {
+            const { status, response } = error;
+            console.log(response?.data)
+            if (status === 500)
+                enqueueSnackbar('حدث خطأ، الرجاء المحاولة مرة أخرى لاحقا', { variant: 'error' })
+            const data = response?.data as any
+            if ('email' in data) {
+                formik.errors.email = (data?.email ?? '')
+            }
+            if ('password1' in data) {
+                formik.errors.password1 = (data?.password1 ?? '')
+            }
+        }
+
     });
     const formik = useFormik({
         initialValues: initialValues,
         validationSchema: validationSchema,
         onSubmit: values => query.mutate(values),
+        validateOnMount: false,
     });
 
     useEffect(() => {
+        console.log('new')
         const url = new URL(window.location.href);
         const next = `?next=${url.searchParams.get('next') ?? ''}`;
         window.history.replaceState(null, '', `/register/${next}`);
@@ -80,11 +102,10 @@ function NewAccount() {
                     fullWidth
                     color="secondary"
                     placeholder="الاسم"
+                    onFocus={() => formik.touched.first_name = true}
                     value={formik.values.first_name}
                     onChange={formik.handleChange}
-                    error={
-                        formik.touched.first_name && Boolean(formik.errors.first_name)
-                    }
+                    error={formik.touched.first_name && Boolean(formik.errors.first_name)}
                 />
                 {formik.touched.first_name && formik.errors.first_name ? (
                     <>
@@ -107,6 +128,7 @@ function NewAccount() {
                     fullWidth
                     color="secondary"
                     placeholder="اللقب"
+                    onFocus={() => formik.touched.last_name = true}
                     value={formik.values.last_name}
                     onChange={formik.handleChange}
                     error={formik.touched.last_name && Boolean(formik.errors.last_name)}
@@ -134,6 +156,7 @@ function NewAccount() {
                     color="secondary"
                     placeholder="البريد الإلكتروني"
                     value={formik.values.email}
+                    onFocus={() => formik.touched.email = true}
                     onChange={formik.handleChange}
                     error={formik.touched.email && Boolean(formik.errors.email)}
                 />
@@ -156,6 +179,7 @@ function NewAccount() {
                     name="password1"
                     placeholder={'هنا كلمة السر'}
                     value={formik.values.password1}
+                    onFocus={() => formik.touched.password1 = true}
                     onChange={formik.handleChange}
                     error={formik.touched.password1 && Boolean(formik.errors.password1)}
                 />
@@ -179,6 +203,7 @@ function NewAccount() {
                     placeholder={'تأكيد كلمة السر'}
                     value={formik.values.password2}
                     onChange={formik.handleChange}
+                    onFocus={() => formik.touched.password2 = true}
                     error={formik.touched.password2 && Boolean(formik.errors.password2)}
                 />
                 {formik.touched.password2 && formik.errors.password2 ? (

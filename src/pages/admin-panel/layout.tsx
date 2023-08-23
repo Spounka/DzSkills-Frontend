@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useLogin from '../authenticate/hooks/useLogin';
 import { AdminPanelTopBar } from './landing-page/components/AdminPanelTopBar';
@@ -27,8 +27,10 @@ function AdminDashboardLayout({
         setDrawerOpen(val => !val);
     };
 
-    if (!user?.groups.some(group => group.name === 'AdminGroup'))
-        navigate('/permission-denied/');
+    useEffect(() => {
+        if (!user?.groups.some(group => group.name === 'AdminGroup'))
+            navigate('/permission-denied/');
+    }, [])
 
     return (
         <>

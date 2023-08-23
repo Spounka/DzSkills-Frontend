@@ -1,5 +1,5 @@
 import { OutlinedInput, Stack, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface SettingsSectionRowInputProps {
     inputLabel: string;

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { StyledOutline } from '../../../../../components/form/StyledOutline';
 import { UploadFileInput } from '../../../../../components/form/UploadFileInput';
 import { CreationVideo } from '../../../../../types/course';
-import { DisplayFileUrl } from '../course-fields/CourseFields';
+import { FileUrlField } from '../file-url-field';
 
 export interface LessonProps {
     id: string | number;
@@ -262,7 +262,7 @@ export function LessonFields({
 
                 {video ? (
                     video.presentation_file ? (
-                        <DisplayFileUrl
+                        <FileUrlField
                             sx={{
                                 gridColumn: '-2 / span 1',
                                 gridRow: '9',

@@ -11,7 +11,7 @@ import { Notification } from '../../types/notifications';
 
 interface NotificationsMenuProps {
     isActive: boolean;
-    notificationsQuery: UseQueryResult<Notification[], unknown>;
+    notificationsQuery: UseQueryResult<Notification[]>;
     menuRef: RefObject<HTMLElement>;
     onClickAway: (b: boolean) => void;
     handleMarkAsReadClick: () => void;

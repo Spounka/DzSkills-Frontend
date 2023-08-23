@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import { useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
-import { User } from '../../types/user';
 import { getAllUsers } from '../admin-panel/user-management/api/getUsers';
 import axiosInstance from '../../globals/axiosInstance';
 import { AdminRating } from '../../types/AdminConfig';

@@ -3,6 +3,7 @@ import { IconButton, Typography } from '@mui/material';
 import { Box, useTheme } from '@mui/system';
 import { v4 as uuidv4 } from 'uuid';
 import { CreationChapter } from '../../../../../types/course';
+import React from 'react';
 
 interface AddChapterButtonProps {
     bgcolor?: string;

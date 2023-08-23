@@ -1,14 +1,14 @@
-import { Stack, TextField, Typography, useTheme } from '@mui/material';
+import { Alert, AlertTitle, Stack, TextField, Typography, useTheme } from '@mui/material';
+import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import IconFormPassword from '../../../../components/form/IconFormPassword';
 import { MainButton } from '../../../../components/ui/MainButton';
-import axiosInstance from '../../../../globals/axiosInstance';
 import { LoginUser, updateUser } from '../../../../redux/userSlice';
 import { login } from '../../api/authenticate';
 import AuthFormsHeader from '../form-header';
@@ -31,26 +31,17 @@ export default function Login() {
     const theme = useTheme();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const verifyEmail = useMutation({
-    //     mutationKey: ['verify', 'email', 'mutation'],
-    //     mutationFn: () => {
-    //         const result = async () => {
-    //             return axiosInstance.post('/rest-auth/registration/resend-email/', {
-    //                 email: formik.values.email,
-    //             });
-    //         };
-    //         return result();
-    //     },
-    //     onSuccess: () => {
-    //         navigate('/register/verify-email/');
-    //     },
-    // });
+    const [loginError, setLoginError] = useState<string>('')
+
+    const queryClient = useQueryClient()
     const query = useMutation({
         mutationKey: ['login'],
         mutationFn: ({ email, password }: any) => {
             return login({ email, password });
         },
-        onSuccess: (response: LoginUser) => {
+        onSuccess: async (response: LoginUser) => {
+            await queryClient.invalidateQueries(['login']);
+            await queryClient.invalidateQueries(['user']);
             dispatch(updateUser(response));
             localStorage.setItem('access', response.access || '');
             localStorage.setItem('refresh', response.refresh || '');
@@ -63,6 +54,12 @@ export default function Login() {
                 else navigate('/profile');
             }
         },
+        onError: async (error: AxiosError) => {
+            const { data } = error.response as any
+            if ('non_field_errors' in data) {
+                setLoginError(data.non_field_errors[0])
+            }
+        }
     });
 
     const formik = useFormik({
@@ -73,7 +70,7 @@ export default function Login() {
 
             async function fn() {
                 query.mutate({ email, password });
-                // actions.setSubmitting(false)
+                actions.setSubmitting(false)
             }
 
             await fn();
@@ -110,6 +107,14 @@ export default function Login() {
                     spacing={2}
                     width={'100%'}
                 >
+                    {loginError !== "" ? (
+                        <Alert severity='error'>
+                            <AlertTitle>
+                                {loginError}
+                            </AlertTitle>
+
+                        </Alert>
+                    ) : null}
                     <TextField
                         name="email"
                         type={'email'}
@@ -117,6 +122,7 @@ export default function Login() {
                         fullWidth
                         color="secondary"
                         placeholder="البريد الإلكتروني"
+                        onBlur={() => formik.touched.email = true}
                         value={formik.values.email}
                         onChange={formik.handleChange}
                         error={formik.touched.email && Boolean(formik.errors.email)}
@@ -137,6 +143,7 @@ export default function Login() {
                     ) : null}
                     <IconFormPassword
                         value={formik.values.password}
+                        onBlur={() => formik.touched.password = true}
                         onChange={formik.handleChange}
                         error={
                             formik.touched.password && Boolean(formik.errors.password)

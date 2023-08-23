@@ -4,7 +4,7 @@ import { Divider, Stack, Typography } from '@mui/material';
 // import SocialMediaButton from '../social-media-button';
 // import SvgIcon from '../svg-icon';
 import SocialLoginButtons from '../social-login-buttons';
-import SocialMediaButton from '../social-media-button';
+// import SocialMediaButton from '../social-media-button';
 
 interface props {
     title: string;

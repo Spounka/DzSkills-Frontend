@@ -1,4 +1,3 @@
-import upload from '../../assets/svg/upload.svg';
 
 export default function UploadSvgIcon({ img, fill, ...other }: any) {
     return (

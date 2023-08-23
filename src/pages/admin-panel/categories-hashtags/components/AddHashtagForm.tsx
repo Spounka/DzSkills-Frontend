@@ -1,10 +1,9 @@
 import { CloseOutlined } from '@mui/icons-material';
 import { Box, Button, Stack, Typography, useTheme } from '@mui/material';
-import { useMutation } from 'react-query';
 import { StyledOutline } from '../../../../components/form/StyledOutline';
 import { MainButton } from '../../../../components/ui/MainButton';
-import { createHashtag } from '../api/queries';
 import { Hashtag } from '../../../../types/course';
+import React from 'react';
 
 interface AddHashtagFormProps {
     selectedHashtag?: Hashtag;

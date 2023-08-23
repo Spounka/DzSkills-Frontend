@@ -1,6 +1,5 @@
 import { Divider, Typography, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
-import Image from 'mui-image';
 // import logo from '../../assets/png/logo@2x.png';
 import logo from '../../assets/svg/DzSkills-white.svg';
 import { CategoriesFooterSection } from './CategoriesFooterSection';

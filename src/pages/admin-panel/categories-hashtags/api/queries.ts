@@ -28,7 +28,3 @@ export async function createLevel(level: FormData) {
     const { data } = await postObject('/courses/levels/', level);
     return data;
 }
-export async function createCategory(category: FormData) {
-    const { data } = await postObject('/courses/categories/', category);
-    return data;
-}

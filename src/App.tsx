@@ -36,6 +36,7 @@ import WatchCourse from './pages/view-course';
 import FullScreenLoadingFallback from './components/full-screen-loading-fallback';
 import { BlackNavbarLayout } from './components/black-navbar-layout';
 import { WhiteNavbarLayout } from './components/white-bar-layout';
+import { useGetUser } from './globals/hooks';
 
 const LandingPageLazy = React.lazy(() => import('./pages/landing-page'));
 const AboutUsLazy = lazy(() => import('./pages/about-us/'));
@@ -61,6 +62,7 @@ const PermissionDeniedPageLazy = React.lazy(() => import('./pages/permission-den
 const NotFoundLazy = React.lazy(() => import('./pages/not-found/NotFound'));
 
 function App() {
+    useGetUser({})
     return (
         <Routes>
             {/* User Application */}

@@ -12,7 +12,7 @@ import { SettingsSectionRowInput } from './SettingsSectionRowInput';
 import { UploadImageInput } from './UploadImageInput';
 
 interface FirstSectionProps {
-    adminConfigQuery: UseQueryResult<AdminConfig, unknown>;
+    adminConfigQuery: UseQueryResult<AdminConfig>;
 }
 export function FirstSectionConfig({ adminConfigQuery }: FirstSectionProps) {
     const theme = useTheme();

@@ -1,6 +1,5 @@
 import { createTheme } from '@mui/material';
 import { arSA } from '@mui/material/locale';
-import React from 'react';
 import { light, medium, regular, semibold } from './assets/fonts/fonts';
 
 declare module '@mui/material/styles' {

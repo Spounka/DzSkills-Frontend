@@ -119,7 +119,7 @@ function Notification({ notification }: { notification: NotificationType }) {
         notification: NotificationType
     ): string[] | null => {
         const dateDiffrence = dayjs().diff(notification.date_created, 'minutes');
-        let dateString = '';
+        let dateString: string;
         if (dateDiffrence < 60) dateString = `${dateDiffrence}m`;
         else if (dateDiffrence < 1440) dateString = `${dateDiffrence % 60}h`;
         else dateString = `${Math.floor(dateDiffrence / 60 / 24)}d`;

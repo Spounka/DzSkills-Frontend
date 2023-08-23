@@ -8,7 +8,7 @@ import { AdminConfig } from '../../../../types/AdminConfig';
 import { UploadImageInput } from './UploadImageInput';
 
 interface CertificateProps {
-    adminConfigQuery: UseQueryResult<AdminConfig, unknown>;
+    adminConfigQuery: UseQueryResult<AdminConfig>;
 }
 export function CertificateSection({ adminConfigQuery }: CertificateProps) {
     const theme = useTheme();

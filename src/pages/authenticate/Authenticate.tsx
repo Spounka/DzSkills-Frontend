@@ -1,4 +1,5 @@
 import { Card, Stack } from '@mui/material';
+import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import FullWidthTab from '../../components/ui/FullWidthTab';
@@ -17,7 +18,7 @@ function Autenticate({ startPanel }: props) {
     const access = localStorage.getItem('access');
     const refresh = localStorage.getItem('refresh');
     const navigate = useNavigate();
-    useQuery({
+    const user = useQuery({
         queryKey: ['login'],
         queryFn: () => verifyOrRefreshToken(access, refresh),
         onSuccess: () => {
@@ -27,9 +28,18 @@ function Autenticate({ startPanel }: props) {
                 navigate(searchParams.get('next') ?? '');
             navigate('/profile/');
         },
-        onError: error => console.error(error),
         enabled: !!access && !!refresh,
     });
+
+    useEffect(() => {
+        if (user.isSuccess) {
+            const url = new URL(window.location.href);
+            const searchParams = url.searchParams;
+            if (searchParams.get('next') !== null)
+                navigate(searchParams.get('next') ?? '');
+            navigate('/profile/');
+        }
+    }, [])
 
     return (
         <Stack
@@ -38,7 +48,7 @@ function Autenticate({ startPanel }: props) {
             pb={'100px'}
             py={8}
             sx={{
-                height: '95dvh',
+                minHeight: '95dvh',
             }}
         >
             <Card

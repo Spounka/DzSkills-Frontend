@@ -6,7 +6,7 @@ import {
     Typography,
 } from '@mui/material';
 import { Box, useTheme } from '@mui/system';
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { MainButton } from '../../../../../components/ui/MainButton';
 import { CreationChapter } from '../../../../../types/course';

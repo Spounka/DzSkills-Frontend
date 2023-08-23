@@ -2,11 +2,6 @@ import axiosInstance from '../../../globals/axiosInstance';
 import { LoginUser } from '../../../redux/userSlice';
 import { User } from '../../../types/user';
 
-export async function updateProfile(values: LoginUser) {
-    const { data } = await axiosInstance.patch('/rest-auth/', values);
-    return data;
-}
-
 export async function refreshToken(refresh: string | any) {
     return await axiosInstance.post('/rest-auth/token/refresh/', {
         refresh: refresh,

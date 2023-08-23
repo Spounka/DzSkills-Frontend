@@ -5,13 +5,13 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/system';
 import { useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { shallowEqual, useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import logo from '../../assets/png/logo@2x.png';
 import { ReactComponent as Profile } from '../../assets/svg/Profile icon.svg';
 import axiosInstance from '../../globals/axiosInstance';
-import { defaultUser } from '../../globals/default-values';
 import { LandingPageNavbar } from '../../pages/landing-page/LandingPageNavbar';
-import useReduxData from '../../stores/reduxUser';
+import { selectUser } from '../../redux/userSlice';
 import { Notification } from '../../types/notifications';
 import { AvatarMenu } from '../avatar-menu/AvatarMenu';
 import { NotificationsMenu } from '../notifications-menu/NotificationsMenu';
@@ -19,7 +19,7 @@ import { NotificationsMenu } from '../notifications-menu/NotificationsMenu';
 export default function TopNavigationBar() {
     const theme = useTheme();
 
-    const user = useReduxData().user;
+    const user = useSelector(selectUser, shallowEqual)
     const notificationsQuery = useQuery({
         queryKey: ['notifications'],
         queryFn: async () => {
@@ -46,7 +46,7 @@ export default function TopNavigationBar() {
         notificationsReadMutation.mutate();
     };
 
-    if (user.user.username === '') return <LandingPageNavbar />;
+    if (!user) { console.log(user) }
 
     return (
         <>

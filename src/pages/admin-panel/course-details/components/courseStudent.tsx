@@ -4,7 +4,6 @@ import {
     Box,
     Checkbox,
     colors,
-    Theme,
     Typography,
     useTheme,
 } from '@mui/material';

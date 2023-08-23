@@ -36,7 +36,7 @@ function get_notification_subtitle_from_type(
     notification: Notification
 ): string[] | null {
     const dateDiffrence = dayjs().diff(notification.date_created, 'minutes');
-    let dateString = '';
+    let dateString: string;
     if (dateDiffrence < 60) dateString = `${dateDiffrence}m`;
     else if (dateDiffrence < 1440) dateString = `${dateDiffrence % 60}h`;
     else dateString = `${(dateDiffrence / 60 / 24).toFixed(0)}d`;

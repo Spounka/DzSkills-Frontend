@@ -26,11 +26,6 @@ function EmailSendPage() {
         },
     });
     if (user?.email === '') navigate('/login/');
-    useEffect(() => {
-        if (user?.email_valid) {
-            navigate('/profile/');
-        } else verifyEmail.mutate();
-    }, [user?.email]);
 
     return (
         <Box

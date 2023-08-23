@@ -1,11 +1,10 @@
 import { CloseOutlined } from '@mui/icons-material';
 import { Box, Button, Stack, Typography, useTheme } from '@mui/material';
-import { useMutation } from 'react-query';
 import { UploadFileInput } from '../../../../../components/form/UploadFileInput';
 import { MainButton } from '../../../../../components/ui/MainButton';
-import { createReceipt } from '../api/queries';
 
 import { Receipt } from '../../../../../types/AdminConfig';
+import React from 'react';
 
 interface AddReceiptFormProps {
     id: number;

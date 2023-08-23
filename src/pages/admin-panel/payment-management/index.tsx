@@ -1,11 +1,9 @@
 import { Button, colors } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-import { useTheme } from '@mui/material/styles';
 import { GridColDef } from '@mui/x-data-grid';
 import { useCallback, useState } from 'react';
 import { useQuery } from 'react-query';
 import { Payment } from '../../../types/payment';
-import useLogin from '../../authenticate/hooks/useLogin';
 import AdminDashboardLayout from '../layout';
 import AlertDialog from './AlertDialog';
 import { DisplayTableDataGrid } from './DisplayTableDataGrid';

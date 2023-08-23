@@ -4,15 +4,14 @@ import React, { useCallback } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { columns, handleCourseStateChange } from '.';
-import { Course } from '../../../types/course';
+import useReduxData from '../../../stores/reduxUser';
 import { getRelatedCourses } from '../../admin-panel/user-details/api/getUserById';
-import useLogin from '../../authenticate/hooks/useLogin';
 import TeacherDashboardLayout from '../layout';
 import { CoursesInformationCards } from './CoursesInformationCards';
 
 export function TeacherCourses() {
     const theme = useTheme();
-    const user = useLogin();
+    const user = useReduxData().user.user
     const [isSubmitting, setIsSubmitting] = React.useState(false);
     const navigate = useNavigate();
 
@@ -53,12 +52,13 @@ export function TeacherCourses() {
     );
 
     const rows = relatedCoursesQuery.data?.map(course => {
+        const multiplier = course.owner.username === 'dzskills' ? 1 : 0.6
         return {
             id: course?.id,
             name: course?.title,
             sales: course.students_count,
             rating: course?.average_rating.toFixed(1),
-            profit: course?.price * course.students_count,
+            profit: (course?.price * course.students_count * multiplier).toFixed(0),
             visits: 0,
             state: getStateFromString(course?.state),
             status: getStatusFromString(course?.status),
@@ -77,9 +77,10 @@ export function TeacherCourses() {
     });
 
     const handleRowClick: GridEventListener<'rowClick'> = (
-        params: GridRowParams<Course>
+        params: GridRowParams
     ) => {
-        navigate(`/dashboard/teacher/courses/${params.row.id}/`);
+        if (params.row.status !== 'مرفوض')
+            navigate(`/dashboard/teacher/courses/${params.row.id}/`);
     };
 
     return (
@@ -107,30 +108,17 @@ export function TeacherCourses() {
                 <CoursesInformationCards
                     user={user}
                     coursesCount={relatedCoursesQuery.data?.length ?? 0}
-                    //@ts-expect-error
                     studentsCount={
-                        //@ts-expect-error
-                        (relatedCoursesQuery.data?.length > 0 &&
+                        ((relatedCoursesQuery.data?.length ?? 0) > 0 ?
                             relatedCoursesQuery.data?.reduce((accumulator, curr) => {
-                                return {
-                                    ...accumulator,
-                                    students_count:
-                                        accumulator.students_count + curr.students_count,
-                                };
-                            }).students_count) ??
-                        0
+                                return accumulator + curr.students_count
+                            }, 0) : 0)
                     }
-                    //@ts-expect-error
                     earnings={
-                        //@ts-expect-error
-                        (relatedCoursesQuery.data?.length > 0 &&
+                        ((relatedCoursesQuery.data?.length ?? 0) > 0 ?
                             relatedCoursesQuery.data?.reduce((acc, curr) => {
-                                return {
-                                    ...acc,
-                                    price: acc.price + curr.price * curr.students_count,
-                                };
-                            }).price) ??
-                        0
+                                return acc + curr.price * curr.students_count
+                            }, 0) : 0)
                     }
                 />
                 <Box

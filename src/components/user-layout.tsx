@@ -1,9 +1,8 @@
-import { useState, ReactNode, Suspense } from 'react';
+import { ReactNode, Suspense } from 'react';
 import { useIsBanned } from '../pages/banned-page/BannedPage';
 import Box from '@mui/material/Box';
 import Footer from './footer';
 import { Outlet } from 'react-router-dom';
-import { useGetUser } from '../globals/hooks';
 import FullScreenLoadingFallback from './full-screen-loading-fallback';
 
 interface Props {
@@ -12,10 +11,8 @@ interface Props {
 }
 
 const UserLayout = ({ allowOffScreen, navBar }: Props) => {
-    const [loggedIn, setLoggedIn] = useState<boolean>(false);
     const { banned, BannedPageComponent } = useIsBanned();
-    useGetUser({ onSuccess: () => setLoggedIn(true) });
-    if (loggedIn && banned) return <BannedPageComponent />;
+    if (banned) return <BannedPageComponent />;
     return (
         <Box
             sx={{

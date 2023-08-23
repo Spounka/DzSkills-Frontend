@@ -95,13 +95,6 @@ export type CreationChapter = Partial<Chapter> & {
     uuid?: string;
 };
 
-export type CreationCourse = Partial<Course> & {
-    title: string;
-    description: string;
-    thumbnail: string;
-    price: number;
-    uuid?: string;
-};
 export type CreationVideo = Partial<Video> & {
     title: string;
     description: string;
