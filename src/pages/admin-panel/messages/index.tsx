@@ -1,3 +1,3 @@
 import { AdminMessages } from './AdminMessages';
 
-export default { AdminMessages };
+export default AdminMessages;

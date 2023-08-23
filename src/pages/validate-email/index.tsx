@@ -7,7 +7,6 @@ import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar';
 import { useGetUser } from '../../globals/hooks';
 import { validateEmail } from './api/query';
 
@@ -54,14 +53,7 @@ function EmailValidationPage() {
                 maxWidth: '100%',
             }}
         >
-            <Grid
-                container
-                item
-                xs={14}
-            >
-                <AuthenticationTopBar />
-            </Grid>
-
+        
             <Grid
                 item
                 xs={14}

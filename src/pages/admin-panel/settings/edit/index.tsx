@@ -50,7 +50,7 @@ function AdminPersonalDetails() {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         if (!formData.get('email')) {
-            formData.append('email', user[0].data?.email ?? '');
+            formData.append('email', user?.email ?? '');
         }
         for (const key of formData.keys()) {
             if (formData.get(key) === '' || !formData.get(key)) {
@@ -98,7 +98,7 @@ function AdminPersonalDetails() {
                             <Avatar
                                 id={'avatar-image'}
                                 ref={avatarImage}
-                                src={imageSrc?.toString() || user[0].data?.profile_image}
+                                src={imageSrc?.toString() || user?.profile_image}
                                 sx={{
                                     width: '50%',
                                     height: 'auto',
@@ -156,13 +156,13 @@ function AdminPersonalDetails() {
                                     name={'username'}
                                     type={'text'}
                                     label={'إسم المستخدم'}
-                                    placeholder={user[0].data?.username}
+                                    placeholder={user?.username}
                                 />
                                 <EditProfileField
                                     name={'email'}
                                     type={'email'}
                                     label={'البريد الإلكتروني'}
-                                    placeholder={user[0].data?.email}
+                                    placeholder={user?.email}
                                 />
 
                                 <Box
@@ -195,7 +195,7 @@ function AdminPersonalDetails() {
                                     const result = async () =>
                                         await changePassword(
                                             data,
-                                            user[0].data?.pk ?? 0
+                                            user?.pk ?? 0
                                         );
                                     result()
                                         .catch(error => Promise.reject(error))

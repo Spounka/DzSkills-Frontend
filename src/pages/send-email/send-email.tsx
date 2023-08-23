@@ -2,7 +2,6 @@ import useLogin from '../authenticate/hooks/useLogin';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import axiosInstance from '../../globals/axiosInstance';
-import { useEffect } from 'react';
 import { Box, Button, Card, Fab, Typography } from '@mui/material';
 import theme from '../../theme';
 import { Check } from '@mui/icons-material';

@@ -1,5 +1,4 @@
 import Stack from '@mui/material/Stack';
-import Footer from '../../../components/footer';
 import { FAQSection } from './FAQSection';
 import { SupportSection } from './SupportSection';
 
@@ -11,7 +10,6 @@ function FAQ() {
         >
             <SupportSection />
             <FAQSection />
-            <Footer />
         </Stack>
     );
 }

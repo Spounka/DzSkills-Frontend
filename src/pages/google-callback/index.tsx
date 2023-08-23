@@ -9,7 +9,7 @@ import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar';
 
-async function submitGoogle() {}
+async function submitGoogle() { }
 function GoogleCallbackView() {
     const [code, setCode] = useState<string | null>();
     const [error, setError] = useState();
@@ -53,14 +53,6 @@ function GoogleCallbackView() {
                 maxWidth: '100%',
             }}
         >
-            <Grid
-                container
-                item
-                xs={14}
-            >
-                <AuthenticationTopBar />
-            </Grid>
-
             <Grid
                 item
                 xs={14}

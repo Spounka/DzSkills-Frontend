@@ -1,8 +1,7 @@
 import { Box, Card, Grid, Stack, Typography, useTheme } from '@mui/material';
 import { FormEvent, useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
-import { Link, useNavigate } from 'react-router-dom';
-import logo from '../../assets/svg/DzSkills.svg';
+import { useNavigate } from 'react-router-dom';
 import IconFormPassword from '../../components/form/IconFormPassword';
 import { MainButton } from '../../components/ui/MainButton';
 import axiosInstance from '../../globals/axiosInstance';
@@ -164,39 +163,9 @@ function PasswordForgotten({ stage }: props) {
                 backgroundColor: 'white',
                 maxWidth: '100%',
                 height: '100%',
+                pt: 4,
             }}
         >
-            <Grid
-                item
-                xs={12}
-                container
-                p={0}
-            >
-                <Grid
-                    item
-                    xs={4}
-                ></Grid>
-                <Grid
-                    item
-                    xs={4}
-                ></Grid>
-                <Grid
-                    item
-                    xs={4}
-                    sx={{
-                        py: 4,
-                        px: 4,
-                    }}
-                >
-                    <Link to={'/'}>
-                        <img
-                            src={logo}
-                            alt=""
-                            className="max-h-10 w-32"
-                        />
-                    </Link>
-                </Grid>
-            </Grid>
 
             <Grid
                 item

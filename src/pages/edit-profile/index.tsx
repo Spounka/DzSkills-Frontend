@@ -4,7 +4,6 @@ import Grid from '@mui/material/Grid';
 import { Container } from '@mui/system';
 import SideBar from './components/side-bar';
 
-import TopNavigationBar from '../../components/top-bar';
 import { EditPasswordForm } from './EditPasswordForm';
 import EditProfileContent from './EditProfileContent';
 import { useIsBanned } from '../banned-page/BannedPage';
@@ -26,19 +25,6 @@ function EditProfile() {
                 minHeight: '100vh',
             }}
         >
-            <Grid
-                item
-                xs={14}
-                sx={{
-                    width: '100%',
-                }}
-                style={{
-                    paddingLeft: '0',
-                    paddingRight: '0',
-                }}
-            >
-                <TopNavigationBar />
-            </Grid>
 
             <Grid
                 item

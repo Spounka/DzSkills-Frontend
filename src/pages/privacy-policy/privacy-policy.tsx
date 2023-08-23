@@ -26,7 +26,6 @@ function PrivacyPolicy() {
                 pb: 2,
             }}
         >
-            <TopNavigationBar />
             <Container sx={{ height: '100%' }}>
                 <StyledCard
                     sx={{

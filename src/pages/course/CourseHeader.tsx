@@ -7,9 +7,9 @@ import { Course } from '../../types/course';
 import Image from 'mui-image';
 
 interface CourseHeaerProps {
-    data: Course;
+    course?: Course;
 }
-export function CourseHeader({ data }: CourseHeaerProps) {
+export function CourseHeader({ course }: CourseHeaerProps) {
     const theme = useTheme();
     const navigate = useNavigate();
     return (
@@ -30,7 +30,7 @@ export function CourseHeader({ data }: CourseHeaerProps) {
                     variant={'h3'}
                     fontWeight={600}
                 >
-                    {data.title}
+                    {course?.title}
                 </Typography>
                 <Typography
                     color={'#707070'}
@@ -39,7 +39,7 @@ export function CourseHeader({ data }: CourseHeaerProps) {
                     fontWeight={400}
                     flexGrow={0}
                 >
-                    {data.description}
+                    {course?.description}
                 </Typography>
                 <Box
                     display="flex"
@@ -55,7 +55,7 @@ export function CourseHeader({ data }: CourseHeaerProps) {
                         color={theme.palette.primary.main}
                         {...{
                             onClick: () => {
-                                navigate('/courses/' + data.id + '/buy/');
+                                navigate('/courses/' + course?.id + '/buy/');
                             },
                         }}
                     />
@@ -67,22 +67,10 @@ export function CourseHeader({ data }: CourseHeaerProps) {
                             direction: 'ltr',
                         }}
                     >
-                        {`${data.price} DA`}
+                        {`${course?.price} DA`}
                     </Typography>
                 </Box>
             </Box>
-            {/* <Box
-                sx={{
-                    backgroundImage: `url('${data.thumbnail}')`,
-                    width: '100%',
-                    height: 'auto',
-                    flexBasis: '50%',
-                    flexGrow: '1',
-                    flexShrink: '0',
-                    backgroundSize: 'cover',
-                    backgroundPosition: '50% 50%',
-                }}
-            ></Box> */}
             <Box
                 sx={{
                     flex: '1 1 50%',
@@ -90,7 +78,7 @@ export function CourseHeader({ data }: CourseHeaerProps) {
                     height: '100%',
                 }}
             >
-                <Image src={data.thumbnail} />
+                <Image src={course?.thumbnail ?? ''} />
             </Box>
         </>
     );

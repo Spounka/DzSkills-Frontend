@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import AuthenticationTopBar from '../../../components/ui/AuthenticationTopBar';
 import { ContactContent } from '../../messages/ContactContent';
 import { Helmet } from 'react-helmet';
 import useReduxData from '../../../stores/reduxUser';
@@ -15,6 +14,7 @@ function ContactSupport() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: { xs: 4, md: 2, lg: 4, xl: 6 },
+                pt: 5,
             }}
             bgcolor={'gray.secondary'}
         >
@@ -22,7 +22,6 @@ function ContactSupport() {
                 <meta charSet="UTF-8" />
                 <title>DzSkills | Contact </title>
             </Helmet>
-            <AuthenticationTopBar />
             <ContactContent user={user} />
         </Box>
     );

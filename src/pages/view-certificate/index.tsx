@@ -48,20 +48,6 @@ function ViewCertificate() {
             }}
         >
             <Grid
-                item
-                xs={14}
-                sx={{
-                    width: '100%',
-                }}
-                style={{
-                    paddingLeft: '0',
-                    paddingRight: '0',
-                }}
-            >
-                <TopNavigationBar />
-            </Grid>
-
-            <Grid
                 xs={13}
                 item
                 container
@@ -174,7 +160,6 @@ function ViewCertificate() {
                     />
                 </Box>
             </Grid>
-            <Footer />
         </Grid>
     );
 }

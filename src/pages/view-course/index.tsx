@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import messagesBlue from '../../assets/svg/message-blue.svg';
 import messagesWhite from '../../assets/svg/message-white.svg';
-import TopNavigationBar from '../../components/top-bar';
 import { MainButton } from '../../components/ui/MainButton';
 import { Chapter, Progression, Video } from '../../types/course';
 import useLogin from '../authenticate/hooks/useLogin';
@@ -146,19 +145,6 @@ function WatchCourse() {
                 minHeight: '100vh',
             }}
         >
-            <Grid
-                item
-                xs={14}
-                sx={{
-                    width: '100%',
-                }}
-                style={{
-                    paddingLeft: '0',
-                    paddingRight: '0',
-                }}
-            >
-                <TopNavigationBar />
-            </Grid>
 
             <Grid
                 xs={13}
@@ -447,8 +433,8 @@ function WatchCourse() {
                                 >
                                     {currentVideo.presentation_file
                                         ? fileNameFromPath(
-                                              currentVideo.presentation_file ?? ''
-                                          )
+                                            currentVideo.presentation_file ?? ''
+                                        )
                                         : 'لا توجد مرفقات'}
                                 </Typography>
                             </Box>

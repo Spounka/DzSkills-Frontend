@@ -5,7 +5,6 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import TopNavigationBar from '../../components/top-bar';
 import { MainButton } from '../../components/ui/MainButton';
 import theme from '../../theme';
 import { QuizzAnswer } from './QuizzAnswer';
@@ -33,20 +32,6 @@ function CourseQuizz() {
                 minHeight: '100vh',
             }}
         >
-            <Grid
-                item
-                xs={14}
-                sx={{
-                    width: '100%',
-                }}
-                style={{
-                    paddingLeft: '0',
-                    paddingRight: '0',
-                }}
-            >
-                <TopNavigationBar />
-            </Grid>
-
             <Grid
                 xs={13}
                 item

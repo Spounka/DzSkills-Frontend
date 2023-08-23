@@ -2,7 +2,6 @@ import { Box, Card, Container, Divider, Grid } from '@mui/material';
 import React from 'react';
 import { useQuery } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
-import TopNavigationBar from '../../components/top-bar';
 import theme from '../../theme';
 import { Order } from '../../types/payment';
 import SideBar from '../edit-profile/components/side-bar';
@@ -36,20 +35,6 @@ function Invoices() {
                 minHeight: '100vh',
             }}
         >
-            <Grid
-                item
-                xs={14}
-                sx={{
-                    width: '100%',
-                }}
-                style={{
-                    paddingLeft: '0',
-                    paddingRight: '0',
-                }}
-            >
-                <TopNavigationBar />
-            </Grid>
-
             <Grid
                 item
                 xs={13}

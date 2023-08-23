@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { AdminInfoNavbar } from './AdminInfoNavbar';
 import useReduxData from '../../../stores/reduxUser';
 
-export function AdminInfoSidebar({}) {
+export function AdminInfoSidebar({ }) {
     const user = useReduxData().user.user;
     return (
         <Box
@@ -16,7 +16,6 @@ export function AdminInfoSidebar({}) {
             width={'100%'}
             sx={{
                 flexBasis: '40%',
-                // position: 'fixed',
             }}
         >
             <AdminInfoNavbar />
@@ -42,10 +41,10 @@ export function AdminInfoSidebar({}) {
                     flexDirection={'column'}
                 >
                     <Typography variant="body2">
-                        {`${user[0].data?.first_name} ${user[0].data?.last_name}`}
+                        {`${user?.first_name} ${user?.last_name}`}
                     </Typography>
                     <Typography variant="caption">
-                        {`ID: ${user[0].data?.pk}`}
+                        {`ID: ${user?.pk}`}
                     </Typography>
                     <NavLink to={'/logout'}>
                         <Typography

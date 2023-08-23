@@ -3,7 +3,7 @@ import { Course } from '../../types/course';
 import { CourseCellDetails } from './CourseCellDetails';
 
 interface CourseCellsProps {
-    data: Course;
+    data?: Course;
 }
 export function CourseCells({ data }: CourseCellsProps) {
     function getCourseLevel(level: string) {
@@ -28,7 +28,7 @@ export function CourseCells({ data }: CourseCellsProps) {
         <>
             <CourseCellDetails
                 title={'المستوى'}
-                text={getCourseLevel(data.course_level?.name) || ''}
+                text={getCourseLevel(data?.course_level?.name ?? '') ?? ''}
             />
             <Divider
                 orientation="vertical"
@@ -37,7 +37,7 @@ export function CourseCells({ data }: CourseCellsProps) {
 
             <CourseCellDetails
                 title={'الدروس'}
-                text={data.videos_count.toString()}
+                text={data?.videos_count.toString() ?? ''}
             />
 
             <Divider
@@ -47,7 +47,7 @@ export function CourseCells({ data }: CourseCellsProps) {
 
             <CourseCellDetails
                 title={'المدة'}
-                text={data.duration}
+                text={data?.duration ?? ''}
             />
 
             <Divider
@@ -57,7 +57,7 @@ export function CourseCells({ data }: CourseCellsProps) {
 
             <CourseCellDetails
                 title={'البرامج المستعملة'}
-                text={data.used_programs}
+                text={data?.used_programs ?? ""}
             />
 
             <Divider
@@ -67,7 +67,7 @@ export function CourseCells({ data }: CourseCellsProps) {
 
             <CourseCellDetails
                 title={'اللغة'}
-                text={getCourseLanguage(data.language)}
+                text={getCourseLanguage(data?.language ?? '')}
             />
         </>
     );

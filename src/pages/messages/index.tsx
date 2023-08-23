@@ -19,6 +19,7 @@ function ContactTeacher() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: { xs: 1, md: 2, lg: 4, xl: 6 },
+                pt: 6,
             }}
             bgcolor={'gray.secondary'}
         >
@@ -26,7 +27,6 @@ function ContactTeacher() {
                 <meta charSet="UTF-8" />
                 <title>DzSkills | Contact </title>
             </Helmet>
-            <AuthenticationTopBar />
             <ContactContent user={user} />
         </Box>
     );

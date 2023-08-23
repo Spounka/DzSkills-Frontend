@@ -4,7 +4,7 @@ import { ProfileSocialMedia } from '../../components/ProfileSocialMedia';
 import { User } from '../../types/user';
 
 interface AboutMentorProps {
-    user: User;
+    user?: User;
 }
 
 export function AboutMentor({ user }: AboutMentorProps) {
@@ -42,7 +42,7 @@ export function AboutMentor({ user }: AboutMentorProps) {
                     color={'gray.secondary'}
                     display={{ xs: 'none', lg: 'block' }}
                 >
-                    {user.description}
+                    {user?.description}
                 </Typography>
                 <ProfileSocialMedia user={user} />
             </Box>
@@ -57,7 +57,7 @@ export function AboutMentor({ user }: AboutMentorProps) {
                 }}
             >
                 <Avatar
-                    src={user.profile_image}
+                    src={user?.profile_image}
                     sx={{
                         width: '50%',
                         height: 'auto',

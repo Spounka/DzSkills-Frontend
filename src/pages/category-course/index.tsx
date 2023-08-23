@@ -44,7 +44,6 @@ function CategorizedCoursesList() {
                 gap: { xs: 4, lg: theme.spacing(24) },
             }}
         >
-            <TopNavigationBar />
             {!query.isLoading && !query.isSuccess && courses.length === 0 && (
                 <Stack
                     textAlign={'center'}

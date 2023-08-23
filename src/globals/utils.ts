@@ -69,7 +69,7 @@ function get_notification_subtitle_from_type(
             return [];
         case 'user_registration':
             return [
-                `${notification.sender.first_name} ${notification.sender.last_name}`,
+                `${notification.sender?.first_name} ${notification.sender?.last_name}`,
                 dateString,
             ];
         default:

@@ -17,7 +17,6 @@ import { useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import pdf_icon from '../../assets/png/pdf@2x.png';
 import uploadImg from '../../assets/svg/upload gray.svg';
-import AuthenticationTopBar from '../../components/ui/AuthenticationTopBar';
 import DownloadSvgIcon from '../../components/ui/DownloadSvgIcon';
 import { MainButton } from '../../components/ui/MainButton';
 import { getCourse } from '../course/api/getCourse';
@@ -123,15 +122,9 @@ function BuyCourse() {
                     backgroundColor: 'white',
                     maxWidth: '100%',
                     height: '100%',
+                    pt: 4,
                 }}
             >
-                <Grid
-                    container
-                    item
-                    xs={14}
-                >
-                    <AuthenticationTopBar />
-                </Grid>
 
                 <Grid
                     item
@@ -382,7 +375,7 @@ function BuyCourse() {
                                                         color: 'gray.main',
                                                     },
                                                 }}
-                                                // endIcon={ }
+                                            // endIcon={ }
                                             >
                                                 رفع
                                                 <img
