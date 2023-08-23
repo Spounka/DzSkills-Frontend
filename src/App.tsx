@@ -1,42 +1,40 @@
 import React, { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { Skeleton } from '@mui/material';
-import CourseDetails from './pages/admin-panel/course-details';
-import AdminCourses from './pages/admin-panel/courses';
-import AdminLandingPage from './pages/admin-panel/landing-page';
-import { AdminMessages } from './pages/admin-panel/messages/AdminMessages';
-import PaymentManagement from './pages/admin-panel/payment-management';
-import PendingCourse from './pages/admin-panel/pending-course';
-import PendingCoursesAdmin from './pages/admin-panel/pending-courses';
-import AddAdmin from './pages/admin-panel/settings/add-admin';
-import AddTeacher from './pages/admin-panel/settings/add-teacher';
-import AdminPersonalDetails from './pages/admin-panel/settings/edit';
-import LandingPageSettings from './pages/admin-panel/settings/landing-page';
-import Receipts from './pages/admin-panel/settings/receipts';
-import UserDetails from './pages/admin-panel/user-details';
-import UserManagement from './pages/admin-panel/user-management';
-import BuyCourse from './pages/buy-course';
-import CategorizedCoursesList from './pages/category-course';
-import ViewCourse from './pages/course';
-import CourseQuizz from './pages/course-quizz';
-import CoursesPage from './pages/courses-page';
-import GoogleCallbackView from './pages/google-callback';
-import Logout from './pages/logout';
-import ContactTeacher from './pages/messages';
-import TeacherAddCourse from './pages/teacher-dashboard/add-course';
-import CourseDetailsTeacherDashboard from './pages/teacher-dashboard/course-details';
-import { TeacherCourses } from './pages/teacher-dashboard/courses/TeacherCourses';
-import EditProfileTeacherDashboard from './pages/teacher-dashboard/edit-profile';
-import TeacherLandingPage from './pages/teacher-dashboard/landing-page';
-import TeacherMessages from './pages/teacher-dashboard/messages';
-import TeachersPage from './pages/teachers';
-import ViewCertificate from './pages/view-certificate';
-import WatchCourse from './pages/view-course';
+const CourseDetailsLazy = React.lazy(() => import('./pages/admin-panel/course-details'))
+const AdminCoursesLazy = React.lazy(() => import('./pages/admin-panel/courses'))
+const AdminLandingPageLazy = React.lazy(() => import('./pages/admin-panel/landing-page'))
+const AdminMessagesLazy = React.lazy(() => import('./pages/admin-panel/messages/'))
+const PaymentManagementLazy = React.lazy(() => import('./pages/admin-panel/payment-management'))
+const PendingCourseLazy = React.lazy(() => import('./pages/admin-panel/pending-course'))
+const AddAdminLazy = React.lazy(() => import('./pages/admin-panel/settings/add-admin'))
+const AddTeacherLazy = React.lazy(() => import('./pages/admin-panel/settings/add-teacher'));
+const AdminPersonalDetailsLazy = React.lazy(() => import('./pages/admin-panel/settings/edit'))
+const LandingPageSettingsLazy = React.lazy(() => import('./pages/admin-panel/settings/landing-page'))
+const ReceiptsLazy = React.lazy(() => import('./pages/admin-panel/settings/receipts'))
+const UserDetailsLazy = React.lazy(() => import('./pages/admin-panel/user-details'))
+const UserManagementLazy = React.lazy(() => import('./pages/admin-panel/user-management'))
+const BuyCourseLazy = React.lazy(() => import('./pages/buy-course'))
+const CategorizedCoursesListLazy = React.lazy(() => import('./pages/category-course'))
+const ViewCourseLazy = React.lazy(() => import('./pages/course'))
+const CourseQuizzLazy = React.lazy(() => import('./pages/course-quizz'))
+const CoursesPageLazy = React.lazy(() => import('./pages/courses-page'))
+const GoogleCallbackViewLazy = React.lazy(() => import('./pages/google-callback'))
+const LogoutLazy = React.lazy(() => import('./pages/logout'))
+const ContactTeacherLazy = React.lazy(() => import('./pages/messages'))
+const TeacherAddCourseLazy = React.lazy(() => import('./pages/teacher-dashboard/add-course'))
+const CourseDetailsTeacherDashboardLazy = React.lazy(() => import('./pages/teacher-dashboard/course-details'))
+const TeacherCoursesLazy = React.lazy(() => import('./pages/teacher-dashboard/courses/'))
+const EditProfileTeacherDashboardLazy = React.lazy(() => import('./pages/teacher-dashboard/edit-profile'))
+const TeacherLandingPageLazy = React.lazy(() => import('./pages/teacher-dashboard/landing-page'));
+const TeacherMessagesLazy = React.lazy(() => import('./pages/teacher-dashboard/messages'));
+const ViewCertificateLazy = React.lazy(() => import('./pages/view-certificate'))
+const WatchCourseLazy = React.lazy(() => import('./pages/view-course'))
 import FullScreenLoadingFallback from './components/full-screen-loading-fallback';
 import { BlackNavbarLayout } from './components/black-navbar-layout';
 import { WhiteNavbarLayout } from './components/white-bar-layout';
 import { useGetUser } from './globals/hooks';
+const PendingCoursesAdminLazy = React.lazy(() => import('./pages/admin-panel/pending-courses'))
 
 const LandingPageLazy = React.lazy(() => import('./pages/landing-page'));
 const AboutUsLazy = lazy(() => import('./pages/about-us/'));
@@ -60,6 +58,8 @@ const SubmitReportLazy = React.lazy(() => import('./pages/support/report'));
 
 const PermissionDeniedPageLazy = React.lazy(() => import('./pages/permission-denied'));
 const NotFoundLazy = React.lazy(() => import('./pages/not-found/NotFound'));
+
+const TeachersPage = React.lazy(() => import('./pages/teachers'));
 
 function App() {
     useGetUser({})
@@ -102,13 +102,21 @@ function App() {
                     />
                     <Route
                         path="google"
-                        element={<GoogleCallbackView />}
+                        element={
+                            <Suspense fallback={<FullScreenLoadingFallback />}>
+                                <GoogleCallbackViewLazy />
+                            </Suspense>
+                        }
                     />
                 </Route>
 
                 <Route
                     path="logout"
-                    element={<Logout />}
+                    element={
+                        <Suspense fallback={<FullScreenLoadingFallback />}>
+                            <LogoutLazy />
+                        </Suspense>
+                    }
                 />
                 <Route path="password">
                     <Route path="reset">
@@ -134,7 +142,6 @@ function App() {
             <Route element={<BlackNavbarLayout />}>
                 <Route
                     path=""
-                    // element={<LandingPage />}
                     element={
                         <Suspense fallback={<FullScreenLoadingFallback />}>
                             <LandingPageLazy />
@@ -196,37 +203,37 @@ function App() {
                 <Route path="/courses">
                     <Route
                         path=""
-                        element={<CoursesPage />}
+                        element={<CoursesPageLazy />}
                     />
                     <Route
                         path="categorized"
-                        element={<CategorizedCoursesList />}
+                        element={<CategorizedCoursesListLazy />}
                     />
                     <Route path=":id">
                         <Route
                             path=""
-                            element={<ViewCourse />}
+                            element={<ViewCourseLazy />}
                         />
 
                         <Route
                             path="watch"
-                            element={<WatchCourse />}
+                            element={<WatchCourseLazy />}
                         />
                         <Route
                             path="quizz"
-                            element={<CourseQuizz />}
+                            element={<CourseQuizzLazy />}
                         />
                         <Route
                             path="certificate"
-                            element={<ViewCertificate />}
+                            element={<ViewCertificateLazy />}
                         />
                         <Route
                             path="buy"
-                            element={<BuyCourse />}
+                            element={<BuyCourseLazy />}
                         />
                         <Route
                             path="contact"
-                            element={<ContactTeacher />}
+                            element={<ContactTeacherLazy />}
                         />
                     </Route>
                 </Route>
@@ -241,9 +248,6 @@ function App() {
                 />
                 <Route
                     path={'privacy'}
-                    //     element={
-                    //     <AboutUs />
-                    // }
                     element={
                         <Suspense fallback={<FullScreenLoadingFallback />}>
                             <PrivacyPolicy />
@@ -262,29 +266,41 @@ function App() {
                 <Route path="teacher">
                     <Route
                         path={''}
-                        element={<TeacherLandingPage />}
+                        element={<Suspense fallback={<FullScreenLoadingFallback />}>
+                            <TeacherLandingPageLazy />
+                        </Suspense>}
                     />
                     <Route path="courses/*">
                         <Route
                             path=""
-                            element={<TeacherCourses />}
+                            element={<Suspense fallback={<FullScreenLoadingFallback />}>
+                                <TeacherCoursesLazy />
+                            </Suspense>}
                         />
                         <Route
                             path="add"
-                            element={<TeacherAddCourse />}
+                            element={<Suspense fallback={<FullScreenLoadingFallback />}>
+                                <TeacherAddCourseLazy />
+                            </Suspense>}
                         />
                         <Route
                             path=":id"
-                            element={<CourseDetailsTeacherDashboard />}
+                            element={<Suspense fallback={<FullScreenLoadingFallback />}>
+                                <CourseDetailsTeacherDashboardLazy />
+                            </Suspense>}
                         />
                     </Route>
                     <Route
                         path="messages"
-                        element={<TeacherMessages />}
+                        element={<Suspense fallback={<FullScreenLoadingFallback />}>
+                            <TeacherMessagesLazy />
+                        </Suspense>}
                     />
                     <Route
                         path="account"
-                        element={<EditProfileTeacherDashboard />}
+                        element={<Suspense fallback={<FullScreenLoadingFallback />}>
+                            <EditProfileTeacherDashboardLazy />
+                        </Suspense>}
                     />
                 </Route>
             </Route>
@@ -293,78 +309,121 @@ function App() {
             <Route path="/admin">
                 <Route
                     path=""
-                    element={<AdminLandingPage />}
+                    element={<Suspense fallback={<FullScreenLoadingFallback />}>
+                        <AdminLandingPageLazy />
+                    </Suspense>}
                 />
                 <Route
                     path="courses"
-                    element={<AdminCourses />}
+                    element={<Suspense fallback={<FullScreenLoadingFallback />}>
+                        <AdminCoursesLazy />
+                    </Suspense>}
                 />
                 <Route
                     path="courses/pending"
-                    element={<PendingCoursesAdmin />}
+                    element={<Suspense fallback={<FullScreenLoadingFallback />}>
+                        <PendingCoursesAdminLazy />
+                    </Suspense>}
                 />
                 <Route
                     path="courses/pending/:id/"
-                    element={<PendingCourse />}
+                    element={<Suspense fallback={<FullScreenLoadingFallback />}>
+                        <PendingCourseLazy />
+                    </Suspense>}
                 />
                 <Route
                     path="courses/:id/"
-                    element={<CourseDetails />}
+                    element={<Suspense fallback={<FullScreenLoadingFallback />}>
+                        <CourseDetailsLazy />
+                    </Suspense>}
                 />
 
                 <Route
                     path="messages"
-                    element={<AdminMessages />}
+                    element={<Suspense fallback={<FullScreenLoadingFallback />}>
+                        <AdminMessagesLazy />
+                    </Suspense>}
                 />
                 <Route
                     path="hashtags-categories"
-                    // element={<HashtagsAndCategories />}
                     element={
-                        <Suspense fallback={<Skeleton />}>
+                        <Suspense fallback={<FullScreenLoadingFallback />}>
                             <HashtagsAndCategoriesLazy />
                         </Suspense>
                     }
                 />
                 <Route
                     path="payments"
-                    element={<PaymentManagement />}
+                    element={
+                        <Suspense fallback={<FullScreenLoadingFallback />}>
+                            <PaymentManagementLazy />
+                        </Suspense>
+                    }
                 />
                 <Route
                     path="money-requests"
                     element={
-                        <Suspense fallback={<>Loading...</>}>
+                        <Suspense fallback={<FullScreenLoadingFallback />}>
                             <MoneyRequests />
                         </Suspense>
                     }
                 />
                 <Route
                     path="users"
-                    element={<UserManagement />}
+                    element={
+                        <Suspense fallback={<FullScreenLoadingFallback />}>
+                            <UserManagementLazy />
+                        </Suspense>
+                    }
                 />
                 <Route
                     path="users/:id/"
-                    element={<UserDetails />}
+                    element={
+                        <Suspense fallback={<FullScreenLoadingFallback />}>
+                            <UserDetailsLazy />
+                        </Suspense>
+                    }
                 />
                 <Route
                     path="settings/"
-                    element={<AdminPersonalDetails />}
+                    element={
+                        <Suspense fallback={<FullScreenLoadingFallback />}>
+                            <AdminPersonalDetailsLazy />
+                        </Suspense>
+                    }
                 />
                 <Route path="settings">
                     <Route
                         path="add-admin"
-                        element={<AddAdmin />}
+                        element={
+                            <Suspense fallback={<FullScreenLoadingFallback />}>
+                                <AddAdminLazy />
+                            </Suspense>
+                        }
                     />
                     <Route
                         path="add-teacher"
-                        element={<AddTeacher />}
+                        element={
+                            <Suspense fallback={<FullScreenLoadingFallback />}>
+                                <AddTeacherLazy />
+                            </Suspense>
+                        }
                     />
                     <Route
                         path="receipts"
-                        element={<Receipts />}
+                        element={
+                            <Suspense fallback={<FullScreenLoadingFallback />}>
+                                <ReceiptsLazy />
+                            </Suspense>
+                        }
                     />
                     <Route
                         path={'landing-page'}
-                        element={<LandingPageSettings />}
+                        element={
+                            <Suspense fallback={<FullScreenLoadingFallback />}>
+                                <LandingPageSettingsLazy />
+                            </Suspense>
+                        }
                     />
                 </Route>
             </Route>
@@ -385,7 +444,7 @@ function App() {
                     </Suspense>
                 }
             />
-        </Routes>
+        </Routes >
     );
 }
 
