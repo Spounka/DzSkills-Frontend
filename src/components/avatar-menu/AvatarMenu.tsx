@@ -61,7 +61,7 @@ export function AvatarMenu({ active, navRef, user, onClick }: AvatarMenuProps) {
                         <Link to={'/support/'}>مساعدة</Link>
                     </Typography>
 
-                    {user.groups.some(
+                    {user?.groups.some(
                         g => g.name == 'TeacherGroup' || g.name == 'AdminGroup'
                     ) ? (
                         <Typography
@@ -78,7 +78,7 @@ export function AvatarMenu({ active, navRef, user, onClick }: AvatarMenuProps) {
                     ) : (
                         <></>
                     )}
-                    {user.groups.some(g => g.name == 'AdminGroup') ? (
+                    {user?.groups.some(g => g.name == 'AdminGroup') ? (
                         <Typography
                             onClick={() => onClick(false)}
                             sx={{

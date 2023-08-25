@@ -67,8 +67,17 @@ function NewAccount() {
     const formik = useFormik({
         initialValues: initialValues,
         validationSchema: validationSchema,
-        onSubmit: values => query.mutate(values),
-        validateOnMount: false,
+        onSubmit: async (values) => {
+            await import('disposable-email').then(disposable => {
+                if (!disposable.validate(values.email)) {
+                    formik.errors.email = "الرجاء إدخال عنوان بريد إلكتروني حقيقي"
+                }
+                else
+                    query.mutate(values)
+            })
+        },
+        validateOnBlur: true,
+        validateOnMount: true,
     });
 
     useEffect(() => {
@@ -102,7 +111,6 @@ function NewAccount() {
                     fullWidth
                     color="secondary"
                     placeholder="الاسم"
-                    onFocus={() => formik.touched.first_name = true}
                     value={formik.values.first_name}
                     onChange={formik.handleChange}
                     error={formik.touched.first_name && Boolean(formik.errors.first_name)}
@@ -128,7 +136,6 @@ function NewAccount() {
                     fullWidth
                     color="secondary"
                     placeholder="اللقب"
-                    onFocus={() => formik.touched.last_name = true}
                     value={formik.values.last_name}
                     onChange={formik.handleChange}
                     error={formik.touched.last_name && Boolean(formik.errors.last_name)}
@@ -156,7 +163,6 @@ function NewAccount() {
                     color="secondary"
                     placeholder="البريد الإلكتروني"
                     value={formik.values.email}
-                    onFocus={() => formik.touched.email = true}
                     onChange={formik.handleChange}
                     error={formik.touched.email && Boolean(formik.errors.email)}
                 />
@@ -179,7 +185,6 @@ function NewAccount() {
                     name="password1"
                     placeholder={'هنا كلمة السر'}
                     value={formik.values.password1}
-                    onFocus={() => formik.touched.password1 = true}
                     onChange={formik.handleChange}
                     error={formik.touched.password1 && Boolean(formik.errors.password1)}
                 />
@@ -203,7 +208,6 @@ function NewAccount() {
                     placeholder={'تأكيد كلمة السر'}
                     value={formik.values.password2}
                     onChange={formik.handleChange}
-                    onFocus={() => formik.touched.password2 = true}
                     error={formik.touched.password2 && Boolean(formik.errors.password2)}
                 />
                 {formik.touched.password2 && formik.errors.password2 ? (

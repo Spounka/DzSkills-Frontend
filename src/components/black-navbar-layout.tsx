@@ -10,14 +10,14 @@ function BlackNavbarLayout() {
     const user = useSelector(selectUser)
     const navigate = useNavigate()
     useEffect(() => {
-        if (user.user.username !== "" && !user.user.email_valid)
+        if (user.user?.username !== "" && !user.user.email_valid)
             navigate('/register/verify-email/')
     }, [user.user?.email])
 
     return (
         <React.Fragment>
             <UserLayout
-                navBar={user.user.username !== "" ? <TopNavigationBar /> : <LandingPageNavbar />}
+                navBar={user.user?.username !== "" ? <TopNavigationBar /> : <LandingPageNavbar />}
             />
         </React.Fragment>
     );
