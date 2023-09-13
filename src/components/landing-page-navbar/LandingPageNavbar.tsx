@@ -3,11 +3,11 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import { Link, NavLink } from 'react-router-dom';
 import logo from '../../assets/png/logo@2x.png';
-import { LoginButton } from './LoginButton';
-import { RegisterButton } from './RegisterButton';
+import { LoginButton } from '../../pages/landing-page/LoginButton';
+import { RegisterButton } from '../../pages/landing-page/RegisterButton';
 
-interface LandingPageNavbarProps {}
-export function LandingPageNavbar({}: LandingPageNavbarProps) {
+interface LandingPageNavbarProps { }
+export function LandingPageNavbar({ }: LandingPageNavbarProps) {
     const theme = useTheme();
 
     return (

@@ -19,6 +19,7 @@ function AnimatedIconButton({ src, text, hoverImage, sx, buttonProps }: props) {
             endIcon={
                 <Image
                     src={hoverImage && isHovered ? hoverImage : src}
+                    errorIcon={false}
                     style={{
                         transition: 'all 80ms ease-in-out',
                     }}

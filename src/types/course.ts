@@ -80,6 +80,10 @@ export type Progression = {
     finished: boolean;
     percentage: number;
 };
+export type EditRequest = {
+    course: Course,
+    reason: string,
+}
 
 export type Certificate = {
     pk: number;

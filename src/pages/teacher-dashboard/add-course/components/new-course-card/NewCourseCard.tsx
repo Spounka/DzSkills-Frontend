@@ -2,7 +2,7 @@ import { Backdrop, CircularProgress, Divider, Stack, Typography } from '@mui/mat
 import Card from '@mui/material/Card';
 import { Box, useTheme } from '@mui/system';
 import { useSnackbar } from 'notistack';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
@@ -16,6 +16,7 @@ import {
     Level,
 } from '../../../../../types/course';
 import { CourseQuizz } from '../../../../../types/quizz';
+import { EditCourseRequestDialog } from '../../../../admin-panel/pending-course/EditCourseRequestDialog';
 import AddChapterButton from '../add-chapter-button';
 import { ChapterDetails } from '../chapter/ChapterDetails';
 import { CourseFields } from '../course-fields/CourseFields';
@@ -44,9 +45,10 @@ export function NewCourseCard({
     updateQuizzCallback,
 }: props) {
     const theme = useTheme();
-    const [chapters, setChapters] = useState<CreationChapter[]>([]);
+    const [chapters, setChapters] = useState<CreationChapter[]>(course?.chapters ?? []);
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [dialogOpen, setDialogOpen] = useState<boolean>(false)
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
     const client = useQueryClient();
@@ -60,10 +62,10 @@ export function NewCourseCard({
 
     const statusMutation = useMutation({
         mutationKey: ['course', 'accept'],
-        mutationFn: ({ status }: { status: string }) => {
+        mutationFn: ({ status, reason }: { status: string, reason?: string }) => {
             setIsSubmitting(true);
             return (async () => {
-                return await axiosInstance.patch(`/courses/${course?.id}/${status}/`);
+                return await axiosInstance.patch(`/courses/${course?.id}/${status}/`, { reason: reason });
             })();
         },
         onSuccess: async ({ data }: { data: Course }) => {
@@ -94,6 +96,11 @@ export function NewCourseCard({
         },
     });
 
+    const closeDialog = useCallback(() => setDialogOpen(false), [dialogOpen])
+    const submitEditRequest = useCallback((reason: string) => {
+        statusMutation.mutate({ status: 'edit', reason: reason })
+    }, [])
+
     useEffect(() => {
         if (course)
             setChapters(
@@ -105,6 +112,12 @@ export function NewCourseCard({
 
     return (
         <>
+            <EditCourseRequestDialog
+                open={dialogOpen}
+                closeDialog={closeDialog}
+                course={course}
+                confirm={submitEditRequest}
+            />
             <Backdrop
                 open={isSubmitting}
                 sx={{ zIndex: 100 }}
@@ -168,7 +181,7 @@ export function NewCourseCard({
                                 uuid={value.uuid ?? ''}
                                 key={value.uuid ?? index}
                                 color={color}
-                                courseChapter={value || null}
+                                courseChapter={value}
                                 setChapters={setChapters}
                                 removeChapter={removeChapter}
                             />
@@ -223,7 +236,8 @@ export function NewCourseCard({
                                         disabled: isSubmitting || globalSubmitting,
                                     }}
                                     onClick={() =>
-                                        statusMutation.mutate({ status: 'edit' })
+                                        // statusMutation.mutate({ status: 'edit' })
+                                        setDialogOpen(true)
                                     }
                                 />
 

@@ -1,8 +1,11 @@
+import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getUser } from '../pages/edit-profile/api/getUser';
 import { updateUser } from '../redux/userSlice';
+import { User } from '../types/user';
+import { defaultUser } from './default-values';
 
 function useRouteID() {
     const params = useParams();
@@ -14,6 +17,18 @@ function useRouteID() {
 
     return parseInt(params.id as string);
 }
+
+function useSetUserOptimistic() {
+    const dispatch = useDispatch()
+    const token = localStorage.getItem('token')
+    useEffect(() => {
+        if (token && token !== '') {
+            console.log('kayen access')
+            dispatch(updateUser({ access: token ?? '', refresh: '', user: { ...defaultUser.user, username: 'username', email_valid: true } }))
+        }
+    }, [])
+}
+
 interface GetUserProps {
     onSuccess?: (b?: any) => void;
     onError?: (b?: any) => void;
@@ -26,7 +41,7 @@ function useGetUser({ onSuccess, onError }: GetUserProps) {
     const userQuery = useQuery({
         queryKey: ['user'],
         queryFn: () => getUser(token, refresh),
-        onSuccess: user => {
+        onSuccess: (user: User) => {
             dispatch(
                 updateUser({ access: token ?? '', refresh: refresh ?? '', user: user })
             );
@@ -39,4 +54,4 @@ function useGetUser({ onSuccess, onError }: GetUserProps) {
     return userQuery.data;
 }
 
-export { useRouteID, useGetUser };
+export { useRouteID, useGetUser, useSetUserOptimistic };

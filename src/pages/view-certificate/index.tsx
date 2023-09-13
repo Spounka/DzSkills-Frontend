@@ -149,6 +149,8 @@ function ViewCertificate() {
                         />
                     </Stack>
                     <Image
+                        src={certificate.data?.certificate_image ?? ''}
+                        errorIcon={false}
                         style={{
                             flexShrink: 1,
                             width: '100%',
@@ -156,7 +158,6 @@ function ViewCertificate() {
                             flexBasis: '50%',
                             // maxHeight: '50%',
                         }}
-                        src={certificate.data?.certificate_image ?? ''}
                     />
                 </Box>
             </Grid>

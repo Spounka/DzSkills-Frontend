@@ -1,9 +1,10 @@
-import { ReactNode, Suspense } from 'react';
+import React, { ReactNode, Suspense } from 'react';
 import { useIsBanned } from '../pages/banned-page/BannedPage';
 import Box from '@mui/material/Box';
-import Footer from './footer';
+const Footer = React.lazy(() => import('./footer'));
 import { Outlet } from 'react-router-dom';
 import FullScreenLoadingFallback from './full-screen-loading-fallback';
+import { Skeleton } from '@mui/material';
 
 interface Props {
     allowOffScreen?: boolean;
@@ -20,14 +21,20 @@ const UserLayout = ({ allowOffScreen, navBar }: Props) => {
                 display: 'flex',
                 flexDirection: 'column',
                 width: '100%',
-                maxWidth: allowOffScreen ? 'auto' : '100vw',
+                maxWidth: allowOffScreen ? '100%' : '100vw',
+                boxSizing: 'border-box',
             }}
         >
-            {navBar}
+
+            <Suspense fallback={<Skeleton variant='rectangular' animation='pulse' sx={{ minHeight: '10dvh' }} />}>
+                {navBar}
+            </Suspense>
             <Suspense fallback={<FullScreenLoadingFallback />}>
                 <Outlet />
             </Suspense>
-            <Footer />
+            <Suspense fallback={<Skeleton variant='rectangular' animation='pulse' sx={{ minHeight: '10dvh' }} />}>
+                <Footer />
+            </Suspense>
         </Box>
     );
 };

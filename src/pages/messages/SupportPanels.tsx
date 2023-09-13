@@ -2,14 +2,14 @@ import { useSnackbar } from 'notistack';
 import { useCallback, useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Conversation, Ticket } from '../../types/messages';
-import useLogin from '../authenticate/hooks/useLogin';
 import ConversationsListPanel, { getAllConversations } from './ConversationsListPanel';
 import SupportConversationPanel from './SupportConversationPanel';
 import { closeTicket } from './api/closeTicket';
 import { createTicket } from './api/createTicket';
+import useReduxData from '../../stores/reduxUser';
 
 export function SupportPanels() {
-    const user = useLogin();
+    const user = useReduxData().user.user;
     const { enqueueSnackbar } = useSnackbar();
 
     const queryClient = useQueryClient();

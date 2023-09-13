@@ -32,10 +32,35 @@ import AdminDashboardLayout from '../layout';
 import { getCourseRelatedStudents, RelatedStudent } from './api/relatedStudent';
 import { CourseStudent } from './components/courseStudent';
 import { useRouteID } from '../../../globals/hooks';
+import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 function CourseDetails() {
     const id: number = useRouteID();
     const theme = useTheme();
+    const navigate = useNavigate()
+
+    const deleteCourseMutation = useMutation({
+        mutationKey: ['course', 'delete'],
+        mutationFn: async (id: number) => {
+            return await axiosInstance.delete(`/courses/${id}/`)
+        },
+        onSuccess: async () => {
+            enqueueSnackbar('تم حذف الدورة بنجاح', { variant: 'success' })
+            await queryClient.invalidateQueries('courses')
+            navigate('/admin/courses/')
+        },
+        onError: (error: AxiosError) => {
+            const { status } = error;
+            if (status === 403)
+                enqueueSnackbar('ليس لديك الإذن بحذف هذه الدورة', { variant: 'error' })
+            else if (status === 500)
+                enqueueSnackbar('حدث خطأ ما', { variant: 'error' })
+            else
+                enqueueSnackbar('حدث خطأ أثناء معالجة طلبك', { variant: 'error' })
+            console.error(error)
+        }
+    })
 
     const [checkedStudents, setCheckedStudents] = useState<number[]>([]);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -88,6 +113,10 @@ function CourseDetails() {
             });
         },
     });
+
+    const deleteCourse = (id: number) => {
+        deleteCourseMutation.mutate(id)
+    }
 
     const flipCourseTrending = useMutation({
         mutationKey: ['course', course.data?.id, 'trending'],
@@ -200,12 +229,22 @@ function CourseDetails() {
                         }}
                     >
                         <MenuItem onClick={handleClose}>
-                            <IconButton
-                                onClick={handleCourseTrendingMutation}
-                                color={course.data?.trending ? 'error' : 'default'}
-                            >
-                                <Favorite />
-                            </IconButton>
+                            <Tooltip title={'اجعل الدورة مشهورة'}>
+                                <IconButton
+                                    onClick={handleCourseTrendingMutation}
+                                    color={course.data?.trending ? 'error' : 'default'}
+                                >
+                                    <Favorite />
+                                </IconButton>
+                            </Tooltip>
+                        </MenuItem>
+                        <MenuItem onClick={handleClose}>
+                            <Tooltip title={'حذف الدورة'}>
+
+                                <IconButton onClick={() => deleteCourse(id)}>
+                                    <DeleteIcon fill={'gray'} />
+                                </IconButton>
+                            </Tooltip>
                         </MenuItem>
                     </Menu>
                 </>
@@ -231,6 +270,7 @@ function CourseDetails() {
                         <Image
                             width={'auto'}
                             src={course.data?.thumbnail ?? ''}
+                            errorIcon={false}
                             {...{
                                 sx: {
                                     aspectRatio: '16/9',
@@ -335,10 +375,7 @@ function CourseDetails() {
                                     course.data?.owner.last_name}
                             </Typography>
                             <Typography variant="body2">
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                                Dolor eveniet deserunt provident numquam animi suscipit
-                                id! Consectetur, ea a. Saepe vero ea quae placeat enim
-                                amet quasi quisquam beatae maxime!
+                                {course.data?.owner.description}
                             </Typography>
 
                             <ProfileSocialMedia user={course.data?.owner} />

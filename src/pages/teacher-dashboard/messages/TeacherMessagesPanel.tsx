@@ -69,8 +69,8 @@ export function TeacherMessagesPanel({ selectedConversation }: MessagesPanelProp
         queryFn: () => getConversation(id, true),
         onSuccess: () => setIsValid(true),
         onError: (err: AxiosError) => {
-            if (err.response?.status === 403) navigate(`/courses/${id}/buy/`);
-            else console.error('Some random error ig?', err);
+            console.error('Some random error ig?', err);
+            setIsValid(false)
         },
         staleTime: 1000 * 60 * 5,
         enabled: user?.pk > 0 && id > 0,
@@ -79,7 +79,7 @@ export function TeacherMessagesPanel({ selectedConversation }: MessagesPanelProp
     const messagesQuery = useInfiniteQuery({
         enabled: isValid,
         queryKey: ['conversations', 'messages', id, user?.pk],
-        queryFn: ({ pageParam }) => getMessages(conversation.data?.id, pageParam),
+        queryFn: ({ pageParam }) => getMessages(selectedConversation.id, pageParam),
         onError: () => setIsValid(false),
         getNextPageParam: (lastPage, _) => lastPage.next,
         getPreviousPageParam: res => res.previous,
@@ -218,7 +218,7 @@ export function TeacherMessagesPanel({ selectedConversation }: MessagesPanelProp
                 messages={messagesQuery.data}
                 hasNextPage={messagesQuery.hasNextPage}
                 loadMore={() => messagesQuery.fetchNextPage()}
-                teacher_profile_image={courseQuery.data?.owner.profile_image ?? ''}
+                teacher_profile_image={conversation.data?.student_data?.profile_image ?? ''}
             />
         </Card>
     );

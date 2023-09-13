@@ -2,10 +2,10 @@ import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import { ReactNode, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useLogin from '../authenticate/hooks/useLogin';
 import { AdminPanelTopBar } from './landing-page/components/AdminPanelTopBar';
 import { AdminPanelSidebar } from './landing-page/components/Sidebar';
 import { Helmet } from 'react-helmet';
+import useReduxData from '../../stores/reduxUser';
 
 interface AdminDashboardLayoutProps {
     topbar_title: string;
@@ -19,7 +19,7 @@ function AdminDashboardLayout({
     children,
 }: AdminDashboardLayoutProps) {
     const theme = useTheme();
-    const user = useLogin();
+    const user = useReduxData().user?.user;
     const [drawerOpen, setDrawerOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -28,6 +28,7 @@ function AdminDashboardLayout({
     };
 
     useEffect(() => {
+        if (user === undefined || user === null) navigate('/login/?next=/admin/');
         if (!user?.groups.some(group => group.name === 'AdminGroup'))
             navigate('/permission-denied/');
     }, [])

@@ -1,4 +1,4 @@
-import { Button, colors } from '@mui/material';
+import { Button, colors, Typography, useTheme } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { GridColDef } from '@mui/x-data-grid';
 import { useCallback, useState } from 'react';
@@ -10,6 +10,7 @@ import { DisplayTableDataGrid } from './DisplayTableDataGrid';
 import { getAllPayments } from './api/payments';
 
 function PaymentManagement() {
+    const theme = useTheme()
     const columns: GridColDef[] = [
         {
             field: 'avatar',
@@ -52,6 +53,7 @@ function PaymentManagement() {
             headerName: 'تاريخ التسجيل',
             width: 160,
             headerClassName: 'super-app-theme--header',
+            sortable: true,
         },
         {
             field: 'username',
@@ -69,7 +71,15 @@ function PaymentManagement() {
             field: 'status',
             headerName: 'الحالة',
             width: 100,
+            sortable: true,
             headerClassName: 'super-app-theme--header',
+            renderCell: (params) => {
+                return <Typography variant={'body2'} color={
+                    params.value.code === 'r' ? 'error' : params.value.code === 'a' ? 'primary' : theme.palette.warning.light
+                }>
+                    {params.value.value}
+                </Typography>
+            }
         },
         {
             field: 'link',
@@ -131,7 +141,9 @@ function PaymentManagement() {
         }
     }
 
-    const rows = paymentsQuery.data?.map((payment: any, index: number) => {
+    const rows = paymentsQuery.data?.sort((a, b) => {
+        return b.id - a.id
+    }).map((payment: any, index: number) => {
         return {
             id: index,
             avatar: payment.order.buyer.profile_image,
@@ -140,7 +152,7 @@ function PaymentManagement() {
             date: new Date(payment.order.date_issued).toDateString(),
             username: payment.order.buyer.username,
             price: payment.order.course.price,
-            status: statusFromCode(payment.status),
+            status: { code: payment.status, value: statusFromCode(payment.status) },
             link: payment,
         };
     });

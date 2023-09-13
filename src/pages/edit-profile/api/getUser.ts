@@ -1,5 +1,4 @@
 import axiosInstance from '../../../globals/axiosInstance';
-import { LoginUser } from '../../../redux/userSlice';
 import { User } from '../../../types/user';
 
 export async function refreshToken(refresh: string | any) {
@@ -18,7 +17,7 @@ export async function verifyOrRefreshToken(token: any, refresh: any) {
     return await verifyToken(token).catch(async (error: any) => {
         if (error.response && error.response.status === 401) {
             return await refreshToken(refresh).catch(error => {
-                throw Error(error);
+                console.error(error)
             });
         }
     });
@@ -46,13 +45,10 @@ export async function getUser(token: string | null, refresh: string | null) {
                 return '';
             }
         })
-        .catch(error => {
-            throw Error(error);
-        })
         .then(async access => {
             return await fetchUser(access);
         })
-        .catch(error => {
-            throw Error(error);
+        .catch(() => {
+
         });
 }

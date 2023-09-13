@@ -74,7 +74,7 @@ export function ChapterAccordion({
                     height: '100%',
                 }}
             >
-                {videosWithUUID?.map((video: any, index: number) => {
+                {videosWithUUID?.map((video: (Video & { key: string }), index: number) => {
                     return (
                         <React.Fragment key={video.key}>
                             <VideoChapterItem

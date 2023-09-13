@@ -184,6 +184,7 @@ function BuyCourse() {
                                     <Image
                                         src={query.data?.thumbnail || ''}
                                         height={'40%'}
+                                        errorIcon={false}
                                     />
 
                                     <Box

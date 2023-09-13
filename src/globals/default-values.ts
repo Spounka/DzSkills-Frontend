@@ -21,7 +21,7 @@ export const defaultUser: { access: string; refresh: string; user: User } = {
         twitter_link: '',
         linkedin_link: '',
         is_banned: false,
-        last_ban: new Date(),
+        last_ban: null,
         groups: [],
     },
 };

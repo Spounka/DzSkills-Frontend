@@ -300,7 +300,7 @@ export function UserDetailsWideRibbon({ user }: UserDetailsWideRibbonProps) {
                         display={'flex'}
                         justifyContent={'center'}
                     >
-                        <Typography>{`تم حظر المستخدم لغاية ${user.last_ban.toLocaleString()}`}</Typography>
+                        <Typography>{`تم حظر المستخدم لغاية ${user?.last_ban?.toLocaleString()}`}</Typography>
                     </Box>
                 )}
             </Box>

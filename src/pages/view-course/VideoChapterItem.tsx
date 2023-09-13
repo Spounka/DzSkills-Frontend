@@ -46,6 +46,7 @@ export function VideoChapterItem({
         >
             <Image
                 src={video.thumbnail ?? ''}
+                errorIcon={false}
                 style={{
                     flex: '1 1 30%',
                     width: '100%',

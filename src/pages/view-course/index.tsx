@@ -24,12 +24,13 @@ import { useSnackbar } from 'notistack';
 import { useIsBanned } from '../banned-page/BannedPage';
 import { fileNameFromPath } from '../../globals/utils';
 import { useRouteID } from '../../globals/hooks';
+import useReduxData from '../../stores/reduxUser';
 
 function WatchCourse() {
     const id: number = useRouteID();
     const theme = useTheme();
     const navigate = useNavigate();
-    const user = useLogin();
+    const user = useReduxData().user.user;
     const { enqueueSnackbar } = useSnackbar();
 
     const currentCourse = useQuery({
@@ -76,6 +77,7 @@ function WatchCourse() {
         staleTime: 1000 * 60 * 2,
         onError: (err: AxiosError) => {
             if (err.response?.status === 403) navigate(`/courses/${id}/buy/`);
+            console.error(err)
         },
         enabled: !!(currentCourse.data && user?.pk),
     });
@@ -118,13 +120,13 @@ function WatchCourse() {
         progression.data,
     ]);
 
-    if (currentCourse.isError) return <Typography>Error</Typography>;
-    if (currentCourse.isLoading) return <Typography>Loading...</Typography>;
-    if (!currentCourse.data) return <>Error in data</>;
+    if (currentCourse.isError) return <Typography>Course Error</Typography>;
+    if (currentCourse.isLoading) return <Typography>Course Loading...</Typography>;
+    if (!currentCourse.data) return <>Error in course data</>;
 
-    if (!progression.data) return <>Error in data</>;
-    if (progression.isLoading) return <Typography>Loading...</Typography>;
-    if (progression.isError) return <>Error in data</>;
+    if (!progression.data) return <>Error in progression data</>;
+    if (progression.isLoading) return <Typography>Progression Loading...</Typography>;
+    if (progression.isError) return <>Error in progression</>;
 
     const chaptersWithUUID = currentCourse.data?.chapters
         ?.sort((a: Chapter, _: Chapter) => a.id)
@@ -312,7 +314,7 @@ function WatchCourse() {
                             indicatorColor="secondary"
                             textColor="inherit"
                             value={activeTab}
-                            onChange={(e, value) => setActiveTab(value)}
+                            onChange={(_, value) => setActiveTab(value)}
                             sx={{
                                 width: '100%',
                                 // color: 'black !important',

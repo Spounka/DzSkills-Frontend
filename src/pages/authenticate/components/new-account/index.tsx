@@ -11,6 +11,7 @@ import AuthFormsHeader from '../form-header';
 import { Helmet } from 'react-helmet';
 import { AxiosError } from 'axios';
 import { enqueueSnackbar } from 'notistack';
+import { resetAxiosInstances } from '../../../../globals/axiosInstance';
 
 const validationSchema = Yup.object({
     first_name: Yup.string().required('تعبئة الخانة اجبارية'),
@@ -47,6 +48,7 @@ function NewAccount() {
             await queryClient.invalidateQueries(['user'])
             localStorage.setItem('access', values.access || '');
             localStorage.setItem('refresh', values.refresh || '');
+            resetAxiosInstances()
             return navigate('/register/verify-email/');
         },
         onError: async (error: AxiosError) => {

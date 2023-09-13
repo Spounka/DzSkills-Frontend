@@ -1,16 +1,11 @@
 import { Divider, Typography, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
-// import logo from '../../assets/png/logo@2x.png';
 import logo from '../../assets/svg/DzSkills-white.svg';
 import { CategoriesFooterSection } from './CategoriesFooterSection';
 import { ContactUsFooterSection } from './ContactUsFooterSection';
 import { CopyrightFooterSection } from './CopyrightFooterSection';
 import { MiscLinksFooterSection } from './MiscLinksFooterSection';
 import { WhoAreWeFooterSection } from './WhoAreWeFooterSection';
-
-function FooterSection() {
-    return <></>;
-}
 
 function Footer() {
     const theme = useTheme();

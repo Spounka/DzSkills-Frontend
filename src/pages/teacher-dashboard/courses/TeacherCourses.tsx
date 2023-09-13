@@ -1,9 +1,12 @@
 import { Box, CircularProgress, Stack, Typography, useTheme } from '@mui/material';
 import { DataGrid, GridEventListener, GridRowParams } from '@mui/x-data-grid';
+import { AxiosError } from 'axios';
+import { enqueueSnackbar } from 'notistack';
 import React, { useCallback } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { columns, handleCourseStateChange } from '.';
+import axiosInstance from '../../../globals/axiosInstance';
 import useReduxData from '../../../stores/reduxUser';
 import { getRelatedCourses } from '../../admin-panel/user-details/api/getUserById';
 import TeacherDashboardLayout from '../layout';
@@ -14,6 +17,7 @@ export function TeacherCourses() {
     const user = useReduxData().user.user
     const [isSubmitting, setIsSubmitting] = React.useState(false);
     const navigate = useNavigate();
+    const queryClient = useQueryClient()
 
     const courseStateMutation = useMutation({
         mutationKey: ['course', user?.pk, 'state', 'mutation'],
@@ -31,6 +35,28 @@ export function TeacherCourses() {
         staleTime: 1000 * 60 * 60 * 24,
         enabled: !!user?.pk,
     });
+    const deleteCourseMutation = useMutation({
+        mutationKey: ['course', 'delete'],
+        mutationFn: async (id: number) => {
+            return await axiosInstance.delete(`/courses/${id}/`)
+        },
+        onSuccess: async () => {
+            enqueueSnackbar('تم حذف الدورة بنجاح', { variant: 'success' })
+            setIsSubmitting(false)
+            await queryClient.invalidateQueries(['users', user?.pk, 'courses'])
+        },
+        onError: (error: AxiosError) => {
+            setIsSubmitting(false)
+            const { status } = error;
+            if (status === 403)
+                enqueueSnackbar('ليس لديك الإذن بحذف هذه الدورة', { variant: 'error' })
+            else if (status === 500)
+                enqueueSnackbar('حدث خطأ ما', { variant: 'error' })
+            else
+                enqueueSnackbar('حدث خطأ أثناء معالجة طلبك', { variant: 'error' })
+            console.error(error)
+        }
+    })
 
     const getStateFromString = (state: string) => {
         if (state === 'running') return 'جار';
@@ -50,6 +76,11 @@ export function TeacherCourses() {
         },
         [relatedCoursesQuery.isFetching]
     );
+
+    const deleteCourse = (id: number) => {
+        setIsSubmitting(true)
+        deleteCourseMutation.mutate(id)
+    }
 
     const rows = relatedCoursesQuery.data?.map(course => {
         const multiplier = course.owner.username === 'dzskills' ? 1 : 0.6
@@ -72,6 +103,7 @@ export function TeacherCourses() {
                     (course?.state === 'blocked' &&
                         !user?.groups.some(group => group.name === 'AdminGroup')),
                 handleChange: () => handleChange(course.id),
+                destroy: () => deleteCourse(course.id),
             },
         };
     });

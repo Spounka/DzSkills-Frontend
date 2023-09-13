@@ -29,6 +29,13 @@ function Quizz({ quizzData, color, readonly, setQuizzData }: quizzProps) {
     };
 
     const updateQuizzCallback = useCallback(updateQuizz, [quizz]);
+    const removeQuestion = useCallback((uuid: string) => {
+        console.log(uuid)
+        const qu = { ...quizz }
+        qu.questions = qu.questions?.filter(q => q.key !== uuid)
+        console.table(qu)
+        setQuizz(qu)
+    }, [quizz])
 
     useEffect(() => {
         if (setQuizzData && quizz) setQuizzData(quizz);
@@ -53,6 +60,7 @@ function Quizz({ quizzData, color, readonly, setQuizzData }: quizzProps) {
                         question={question}
                         readonly={readonly}
                         updateQuizz={updateQuizzCallback}
+                        removeQuestion={removeQuestion}
                     />
                 );
             })}

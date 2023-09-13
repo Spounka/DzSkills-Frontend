@@ -139,6 +139,7 @@ export function BestCourseCard({ data, index, currentCourseIndex }: props) {
                 <Image
                     fit="contain"
                     src={data.thumbnail}
+                    errorIcon={false}
                 />
             </Box>
         </Card>

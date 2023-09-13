@@ -31,7 +31,7 @@ function TeacherDashboardLayout({
     useEffect(() => {
         if (!user) return;
         if (
-            !user?.groups.some(
+            !user.groups.some(
                 group => group.name === 'TeacherGroup' || group.name === 'AdminGroup'
             )
         )
@@ -46,6 +46,10 @@ function TeacherDashboardLayout({
     if (banned) return <BannedPageComponent />;
     return (
         <>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>DzSkills | Teacher Dashboard</title>
+            </Helmet>
             <DashboardSidebar />
             <Box
                 sx={{
@@ -59,10 +63,6 @@ function TeacherDashboardLayout({
                     bgcolor: theme.palette.gray.secondary,
                 }}
             >
-                <Helmet>
-                    <meta charSet="utf-8" />
-                    <title>DzSkills | Teacher Dashboard</title>
-                </Helmet>
                 <Box
                     display={'grid'}
                     gridTemplateColumns={'repeat(26 , 1fr)'}
@@ -75,39 +75,27 @@ function TeacherDashboardLayout({
                     // height={'100dvh'}
                     width={'100%'}
                 >
-                    <DashboardTopbar
-                        title={topbar_title}
-                        subtitle={topbar_subtitle}
-                        onNotificationClick={toggleDrawer}
-                        isOpen={drawerOpen}
-                    />
+                    <Box sx={{
+                        gridColumn: '1 / -3',
+                        gridRow: 'span 1',
+                    }}>
+
+                        <DashboardTopbar
+                            title={topbar_title}
+                            subtitle={topbar_subtitle}
+                            onNotificationClick={toggleDrawer}
+                            isOpen={drawerOpen}
+                        />
+                    </Box>
                     <Box
                         sx={{
                             gridColumn: fullScreen ? '1 / -3' : '1 / -8',
                             height: '100%',
-                            gridRow: '2 / span 11',
+                            gridRow: '2 / -1',
                         }}
                     >
                         {children}
-                        <Outlet />
                     </Box>
-                    {
-                        //     <Box
-                        //     sx={{
-                        //         gridColumn: '-1 / -7',
-                        //         gridRow: '2 / span 11',
-                        //         display: 'flex',
-                        //         justifyContent: 'center',
-                        //         width: drawerOpen ? '100%' : '0',
-                        //         height: '100%',
-                        //         overflow: 'hidden',
-                        //         transition: 'width 300ms ease-in-out, position 300ms ease-ou'
-                        //     }}
-                        // >
-                        //     <NotificationsBar drawerOpen={drawerOpen} />
-                        //
-                        // </Box>
-                    }
                 </Box>
             </Box>
         </>

@@ -1,8 +1,10 @@
-import { Grid, IconButton, Typography, useTheme } from '@mui/material';
+import { Delete } from '@mui/icons-material';
+import { Grid, IconButton, Stack, Typography, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import React, { useCallback, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactComponent as AddButtonBlue } from '../../../../../assets/svg/add-button-blue.svg';
+import { ReactComponent as DeleteIcon } from '../../../../../assets/svg/delete-red.svg';
 import { StyledOutline } from '../../../../../components/form/StyledOutline';
 import { QuizzChoice, QuizzQuestion } from '../../../../../types/quizz';
 import { QuizzAccordion } from './QuizzAccordion';
@@ -14,6 +16,7 @@ interface QuizzQuestionProps {
     color?: string;
     stringColor?: string;
     updateQuizz: (question: QuizzQuestion) => void;
+    removeQuestion: (uuid: string) => void
 }
 export function QuizzQuestionComponent({
     question,
@@ -21,6 +24,7 @@ export function QuizzQuestionComponent({
     readonly,
     stringColor,
     updateQuizz,
+    removeQuestion,
 }: QuizzQuestionProps) {
     const theme = useTheme();
     const [expanded, setExpanded] = React.useState<boolean>(false);
@@ -66,6 +70,7 @@ export function QuizzQuestionComponent({
         });
     };
 
+
     const removeChoice = (c: QuizzChoice) => {
         if (localQuestion?.choices?.length === 1) return;
         const q = { ...localQuestion };
@@ -96,12 +101,12 @@ export function QuizzQuestionComponent({
                     readOnly={readonly}
                     onBlur={
                         readonly
-                            ? () => {}
+                            ? () => { }
                             : e => {
-                                  setLocalQuestion(q => {
-                                      return { ...q, content: e.currentTarget.value };
-                                  });
-                              }
+                                setLocalQuestion(q => {
+                                    return { ...q, content: e.currentTarget.value };
+                                });
+                            }
                     }
                     multiline
                     color={'secondary'}
@@ -142,15 +147,27 @@ export function QuizzQuestionComponent({
                     {!readonly && (
                         <Grid
                             item
-                            xs={2}
-                            textAlign={'center'}
+                            xs={8}
                         >
-                            <IconButton
-                                sx={{ placeSelf: 'center', justifySelf: 'center' }}
-                                onClick={appendChoiceCallback}
+                            <Stack
+                                textAlign={'center'}
+                                justifyContent={'center'}
+                                gap={8}
+                                direction={'row'}
                             >
-                                <AddButtonBlue />
-                            </IconButton>
+                                <IconButton
+                                    sx={{ placeSelf: 'center', justifySelf: 'center' }}
+                                    onClick={appendChoiceCallback}
+                                >
+                                    <AddButtonBlue />
+                                </IconButton>
+                                <IconButton
+                                    sx={{ placeSelf: 'center', justifySelf: 'center' }}
+                                    onClick={() => removeQuestion(question.key ?? "")}
+                                >
+                                    <DeleteIcon fill={'white'} />
+                                </IconButton>
+                            </Stack>
                         </Grid>
                     )}
                 </Grid>

@@ -3,6 +3,7 @@ import { useSnackbar } from 'notistack';
 import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { StyledCard } from '../../../components/StyledCard';
+import useReduxData from '../../../stores/reduxUser';
 import { Conversation } from '../../../types/messages';
 import useLogin from '../../authenticate/hooks/useLogin';
 import { getAllConversations } from '../../messages/ConversationsListPanel';
@@ -11,7 +12,7 @@ import { AdminConversationItem } from './AdminConversationItem';
 import { AdminConversationPanel } from './AdminConversationPanel';
 
 export function AdminMessages() {
-    const user = useLogin();
+    const user = useReduxData().user.user;
     const { enqueueSnackbar } = useSnackbar();
 
     const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -20,7 +21,7 @@ export function AdminMessages() {
     >({ id: 0, student: 0 });
 
     const conversationListQuery = useQuery({
-        queryKey: ['conversations', user?.pk],
+        queryKey: ['conversations', 'admin', user?.pk],
         queryFn: () => getAllConversations(),
         onSuccess: res => setConversations(res),
         onError: () => {
@@ -103,6 +104,7 @@ export function AdminMessages() {
                         gridRow: '1 / span 4',
                         gridColumn: '3 / -1',
                         height: '100%',
+                        width: '100%',
                     }}
                 >
                     <AdminConversationPanel

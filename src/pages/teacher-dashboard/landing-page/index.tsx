@@ -2,6 +2,7 @@ import { Divider, Stack, Typography } from '@mui/material';
 import { useQuery } from 'react-query';
 import { StyledCard } from '../../../components/StyledCard';
 import axiosInstance from '../../../globals/axiosInstance';
+import useReduxData from '../../../stores/reduxUser';
 import { AccountBalance } from '../../../types/account-balance';
 import { getRelatedCourses } from '../../admin-panel/user-details/api/getUserById';
 import useLogin from '../../authenticate/hooks/useLogin';
@@ -75,7 +76,8 @@ export const data = [
 ];
 
 function TeacherLandingPage() {
-    const user = useLogin();
+    useLogin()
+    const user = useReduxData().user.user;
 
     const accountBalanceQuery = useQuery({
         //@ts-ignore

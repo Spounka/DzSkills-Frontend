@@ -1,4 +1,5 @@
-import { Switch, Typography } from '@mui/material';
+import { Box, IconButton, Stack, Switch, Typography } from '@mui/material';
+import { ReactComponent as DeleteIcon } from '../../../assets/svg/delete-red.svg'
 
 import { GridColDef } from '@mui/x-data-grid';
 import axiosInstance from '../../../globals/axiosInstance';
@@ -58,28 +59,42 @@ export const columns: GridColDef[] = [
         flex: 1,
         renderCell: params => {
             return (
-                <>
-                    <Typography
-                        variant={'subtitle2'}
-                        color={params.value.checked ? 'gray.main' : 'inherit'}
+                <Stack
+                    width={'100%'}
+                    direction={'row'}
+                    alignItems={'center'}
+                    justifyContent={'space-between'}
+                    gap={4}
+                >
+                    <Box
+                        display={'flex'}
+                        alignItems={'center'}
                     >
-                        {params.value.state === 'blocked' ? 'محظور' : 'متوقف مؤقتا'}
-                    </Typography>
-                    <Switch
-                        sx={{ scale: '-1 1' }}
-                        //@ts-expect-error
-                        color="purple"
-                        checked={params.value.checked}
-                        onChange={params.value.handleChange}
-                        disabled={params.value.blocked || params.value.isSubmitting}
-                    />
-                    <Typography
-                        variant={'subtitle2'}
-                        color={params.value.checked ? 'inherit' : 'gray.main'}
-                    >
-                        جار
-                    </Typography>
-                </>
+                        <Typography
+                            variant={'subtitle2'}
+                            color={params.value.checked ? 'gray.main' : 'inherit'}
+                        >
+                            {params.value.state === 'blocked' ? 'محظور' : 'متوقف مؤقتا'}
+                        </Typography>
+                        <Switch
+                            sx={{ scale: '-1 1' }}
+                            //@ts-expect-error
+                            color="purple"
+                            checked={params.value.checked}
+                            onChange={params.value.handleChange}
+                            disabled={params.value.blocked || params.value.isSubmitting}
+                        />
+                        <Typography
+                            variant={'subtitle2'}
+                            color={params.value.checked ? 'inherit' : 'gray.main'}
+                        >
+                            جار
+                        </Typography>
+                    </Box>
+                    <IconButton onClick={() => params.value.destroy()}>
+                        <DeleteIcon fill={'red'} />
+                    </IconButton>
+                </Stack>
             );
         },
     },

@@ -1,23 +1,21 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { LandingPageNavbar } from '../pages/landing-page/LandingPageNavbar';
-import { selectUser } from '../redux/userSlice';
-import TopNavigationBar from './top-bar';
+import { useSetUserOptimistic } from '../globals/hooks';
+const LandingPageNavbar = React.lazy(() => import('./landing-page-navbar'));
+import { RootState } from '../stores/store';
+const TopNavigationBar = React.lazy(() => import('./top-bar'));
 import UserLayout from './user-layout';
 
 function BlackNavbarLayout() {
-    const user = useSelector(selectUser)
-    const navigate = useNavigate()
-    useEffect(() => {
-        if (user.user?.username !== "" && !user.user.email_valid)
-            navigate('/register/verify-email/')
-    }, [user.user?.email])
-
+    useSetUserOptimistic()
+    const user = useSelector((state: RootState) => state.user)
+    const token = localStorage.getItem('access')
     return (
         <React.Fragment>
             <UserLayout
-                navBar={user.user?.username !== "" ? <TopNavigationBar /> : <LandingPageNavbar />}
+                allowOffScreen={false}
+                navBar={(token || (user.user && user.user.username !== "")) ?
+                    <TopNavigationBar /> : <LandingPageNavbar />}
             />
         </React.Fragment>
     );

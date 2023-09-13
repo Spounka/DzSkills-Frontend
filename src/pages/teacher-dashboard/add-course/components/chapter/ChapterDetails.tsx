@@ -33,7 +33,7 @@ export function ChapterDetails({
     setChapters,
 }: props) {
     const [expanded, setExpanded] = useState<boolean>(false);
-    const [hasAddedLessons, setHasAddedLessons] = useState<boolean>(readonly ?? false);
+    const [hasAddedLessons, setHasAddedLessons] = useState<boolean>((readonly || (courseChapter?.videos?.length ?? 0) > 0) ?? false);
     const [chapter, setChapter] = useState<CreationChapter>(
         courseChapter ?? {
             title: '',

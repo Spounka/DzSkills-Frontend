@@ -23,8 +23,8 @@ const userSlice = createSlice({
                 user: action.payload.user,
             };
         },
-        removeUser: () => {
-            return { ...defaultUser };
+        removeUser: (state) => {
+            return { ...state, ...defaultUser };
         },
     },
 });

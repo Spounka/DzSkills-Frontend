@@ -30,6 +30,7 @@ import { MessageBox } from '../../messages/MessageBox';
 import { SendMessageInput } from '../../messages/SendMessageInput';
 import { getDzSkillsUser } from '../../messages/SupportConversationPanel';
 import { createMessage, getConversation, getMessages } from '../../messages/api/queries';
+import useReduxData from '../../../stores/reduxUser';
 
 interface ConversationPanelProps {
     selectedConversation: Partial<Conversation>;
@@ -39,7 +40,7 @@ export function AdminConversationPanel({
     selectedConversation,
 }: ConversationPanelProps) {
     const theme = useTheme();
-    const user = useLogin();
+    const user = useReduxData().user.user;
 
     const inputRef = useRef<HTMLInputElement>(null);
     const [isValid, setIsValid] = useState(false);
@@ -210,13 +211,13 @@ export function AdminConversationPanel({
                 }}
             >
                 {(selectedConversation.id ?? 0) > 0 ||
-                (selectedConversation.ticket &&
-                    selectedConversation.ticket.state !== 'closed') ? (
+                    (selectedConversation.ticket &&
+                        selectedConversation.ticket.state !== 'closed') ? (
                     <Box
                         flexShrink={'1'}
                         display={
                             selectedConversation.ticket &&
-                            selectedConversation.ticket.state === 'closed'
+                                selectedConversation.ticket.state === 'closed'
                                 ? 'none'
                                 : 'flex'
                         }

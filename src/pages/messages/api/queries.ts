@@ -11,7 +11,7 @@ export async function getMessages(
     conversationID: number | undefined,
     cursor: any = undefined
 ) {
-    if (!conversationID || conversationID === 0) return Promise.reject('No ID');
+    if (conversationID === undefined || conversationID === 0) return Promise.reject('No ID');
     const url = cursor ?? `/conversations/${conversationID}/`;
 
     const { data } = await axiosBare.get(url);

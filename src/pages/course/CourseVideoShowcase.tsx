@@ -61,7 +61,10 @@ export function CourseVideoShowcase({ video }: { video?: Video }) {
                     },
                 }}
             >
-                <Image src={video?.thumbnail ?? VideoPlaceholder} />
+                <Image
+                    src={video?.thumbnail ?? VideoPlaceholder}
+                    errorIcon={false}
+                />
             </Box>
         </Stack>
     );

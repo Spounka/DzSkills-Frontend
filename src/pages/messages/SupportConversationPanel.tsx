@@ -71,8 +71,6 @@ function SupportConversationPanel({
         return 0;
     }, [selectedConversation.id]);
 
-    const [recievingUser, setRecievingUser] = useState<User | undefined>(undefined);
-
     const clearFiles = useCallback(() => {
         setFiles([]);
     }, [files]);
@@ -120,18 +118,13 @@ function SupportConversationPanel({
         refetchInterval: 3000,
     });
 
-    const dzSkillsAdminQuery = useQuery({
-        queryKey: ['users', 'admin'],
-        queryFn: () => getDzSkillsUser(),
-        enabled: !id,
-    });
-
     const messageMutation = useMutation({
         mutationFn: ({ body }: { body: FormData }) => createMessage(body),
         mutationKey: ['create', 'message', selectedConversation.id, user?.pk],
         onSuccess: async () => {
             await conversation.refetch();
             await messagesQuery.refetch();
+            await queryClient.invalidateQueries('conversations')
             await queryClient.invalidateQueries({
                 queryKey: ['conversations', user?.pk],
             });

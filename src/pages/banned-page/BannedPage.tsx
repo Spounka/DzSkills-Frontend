@@ -24,7 +24,7 @@ export function BannedPage() {
                             variant="h6"
                             color={'error.main'}
                         >
-                            {user?.last_ban.toString()}
+                            {user?.last_ban?.toString()}
                         </Typography>
                     </Stack>
                 </StyledCard>

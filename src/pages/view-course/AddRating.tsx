@@ -2,9 +2,9 @@ import { Rating, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { Video } from '../../types/course';
-import useLogin from '../authenticate/hooks/useLogin';
 import { postRating } from './api/postRating';
 import { useRouteID } from '../../globals/hooks';
+import useReduxData from '../../stores/reduxUser';
 
 interface addProps {
     video: Video;
@@ -12,7 +12,7 @@ interface addProps {
 
 export function AddRating({ video }: addProps) {
     const id: number = useRouteID();
-    const user = useLogin();
+    const user = useReduxData().user.user;
     const [currentValue, setCurrentValue] = useState<any>(null);
     const [shouldUpdateOnSubmit, setShouldUpdateOnSubmit] = useState<boolean>(true);
 
@@ -26,6 +26,7 @@ export function AddRating({ video }: addProps) {
                 queryKey: ['video', video.id, 'ratings'],
             });
             await queryClient.invalidateQueries({ queryKey: ['courses', id] });
+            await queryClient.invalidateQueries('progression');
         },
     });
 

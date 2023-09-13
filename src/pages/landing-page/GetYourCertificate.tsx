@@ -78,9 +78,7 @@ export function GetYourCertificate({ certificate }: any) {
                     <Image
                         src={certificate ?? ''}
                         fit="contain"
-                        {...{
-                            showLoading: 'true',
-                        }}
+                        errorIcon={false}
                     />
                 )}
             </Box>

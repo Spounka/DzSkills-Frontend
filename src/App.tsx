@@ -23,6 +23,7 @@ const GoogleCallbackViewLazy = React.lazy(() => import('./pages/google-callback'
 const LogoutLazy = React.lazy(() => import('./pages/logout'))
 const ContactTeacherLazy = React.lazy(() => import('./pages/messages'))
 const TeacherAddCourseLazy = React.lazy(() => import('./pages/teacher-dashboard/add-course'))
+const EditCourse = React.lazy(() => import('./pages/teacher-dashboard/edit-course'));
 const CourseDetailsTeacherDashboardLazy = React.lazy(() => import('./pages/teacher-dashboard/course-details'))
 const TeacherCoursesLazy = React.lazy(() => import('./pages/teacher-dashboard/courses/'))
 const EditProfileTeacherDashboardLazy = React.lazy(() => import('./pages/teacher-dashboard/edit-profile'))
@@ -34,6 +35,7 @@ import FullScreenLoadingFallback from './components/full-screen-loading-fallback
 import { BlackNavbarLayout } from './components/black-navbar-layout';
 import { WhiteNavbarLayout } from './components/white-bar-layout';
 import { useGetUser } from './globals/hooks';
+import { useIsBanned } from './pages/banned-page/BannedPage';
 const PendingCoursesAdminLazy = React.lazy(() => import('./pages/admin-panel/pending-courses'))
 
 const LandingPageLazy = React.lazy(() => import('./pages/landing-page'));
@@ -63,6 +65,9 @@ const TeachersPage = React.lazy(() => import('./pages/teachers'));
 
 function App() {
     useGetUser({})
+    const { banned, BannedPageComponent } = useIsBanned()
+    if (banned) return <BannedPageComponent />
+
     return (
         <Routes>
             {/* User Application */}
@@ -270,7 +275,7 @@ function App() {
                             <TeacherLandingPageLazy />
                         </Suspense>}
                     />
-                    <Route path="courses/*">
+                    <Route path="courses">
                         <Route
                             path=""
                             element={<Suspense fallback={<FullScreenLoadingFallback />}>
@@ -287,6 +292,12 @@ function App() {
                             path=":id"
                             element={<Suspense fallback={<FullScreenLoadingFallback />}>
                                 <CourseDetailsTeacherDashboardLazy />
+                            </Suspense>}
+                        />
+                        <Route
+                            path=":id/edit"
+                            element={<Suspense fallback={<FullScreenLoadingFallback />}>
+                                <EditCourse />
                             </Suspense>}
                         />
                     </Route>
@@ -430,20 +441,22 @@ function App() {
 
             <Route
                 path="/permission-denied/"
-                element={
-                    <Suspense fallback={<FullScreenLoadingFallback />}>
-                        <PermissionDeniedPageLazy />
-                    </Suspense>
-                }
-            />
-            <Route
-                path="*"
-                element={
-                    <Suspense fallback={<FullScreenLoadingFallback />}>
+                element={<BlackNavbarLayout />}>
+
+                <Route
+                    path=""
+                    element={<PermissionDeniedPageLazy />}
+                />
+            </Route>
+            <Route path={'*'} element={<BlackNavbarLayout />}>
+
+                <Route
+                    path="*"
+                    element={
                         <NotFoundLazy />
-                    </Suspense>
-                }
-            />
+                    }
+                />
+            </Route>
         </Routes >
     );
 }

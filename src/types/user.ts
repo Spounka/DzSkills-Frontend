@@ -19,7 +19,7 @@ export type User = {
     twitter_link: string;
     linkedin_link: string;
     is_banned: boolean;
-    last_ban: Date;
+    last_ban: Date | null;
     groups: Group[];
     average_rating: number;
 };

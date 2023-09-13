@@ -22,6 +22,7 @@ function AuthenticationTopBar() {
         >
             <Link to={'/'}>
                 <Image
+                    errorIcon={false}
                     src={logo}
                     fit="contain"
                     alt=""

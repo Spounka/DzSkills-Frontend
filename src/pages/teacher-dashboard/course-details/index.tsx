@@ -1,28 +1,22 @@
-import { MoreHoriz, Star } from '@mui/icons-material';
+import { Star } from '@mui/icons-material';
 import {
     Avatar,
     Divider,
-    IconButton,
-    Menu,
-    MenuItem,
     Stack,
     Typography,
     useTheme,
 } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 import Image from 'mui-image';
-import React from 'react';
 import { useQuery } from 'react-query';
-import { ReactComponent as DeleteIcon } from '../../../assets/svg/delete-red.svg';
-import { ReactComponent as MessageIcon } from '../../../assets/svg/message-blue.svg';
 import { StyledCard } from '../../../components/StyledCard';
 import { MainButton } from '../../../components/ui/MainButton';
-import theme from '../../../theme';
 import { getCourseRelatedStudents } from '../../admin-panel/course-details/api/relatedStudent';
 import { DisplayTableDataGrid } from '../../admin-panel/payment-management/DisplayTableDataGrid';
 import { getCourse } from '../../course/api/getCourse';
 import TeacherDashboardLayout from '../layout';
 import { useRouteID } from '../../../globals/hooks';
+import { useNavigate } from 'react-router-dom';
 
 const columns: GridColDef[] = [
     {
@@ -75,68 +69,13 @@ const columns: GridColDef[] = [
         flex: 2,
         headerClassName: 'super-app-theme--header',
     },
-    {
-        field: 'actions',
-        headerName: '',
-        align: 'left',
-        flex: 0,
-        filterable: false,
-        sortable: false,
-        headerClassName: 'super-app-theme--header',
-        renderCell: params => {
-            return (
-                <div>
-                    <IconButton onClick={params.value.open}>
-                        <MoreHoriz />
-                    </IconButton>
-                    <Menu
-                        anchorEl={params.value.anchor}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}
-                        open={Boolean(params.value.anchor)}
-                        onClose={() => params.value.close()}
-                        sx={{
-                            px: 5,
-                            py: 2,
-                        }}
-                    >
-                        <MenuItem onClick={() => params.value.close(params.row.id)}>
-                            {/* <IconButton color={'primary'}> */}
-                            <DeleteIcon
-                                style={{
-                                    fill: theme.palette.error.main,
-                                }}
-                            />
-                            {/* </IconButton> */}
-                        </MenuItem>
-                        <MenuItem onClick={params.value.close}>
-                            <IconButton color={'secondary'}>
-                                <MessageIcon
-                                    style={{
-                                        fill: theme.palette.primary.main,
-                                    }}
-                                />
-                            </IconButton>
-                        </MenuItem>
-                    </Menu>
-                </div>
-            );
-        },
-    },
 ];
 
 function CourseDetailsTeacherDashboard() {
     const id: number = useRouteID();
 
     const theme = useTheme();
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const navigate = useNavigate();
 
     const courseQuery = useQuery({
         queryKey: ['courses', id],
@@ -148,17 +87,7 @@ function CourseDetailsTeacherDashboard() {
         queryFn: () => getCourseRelatedStudents(id),
     });
 
-    const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
 
-    const handleClose = (value: any) => {
-        setAnchorEl(null);
-        if (value) alert(value);
-    };
-
-    const onMenuClick = React.useCallback(handleMenuClick, [anchorEl]);
-    const onMenuClose = React.useCallback(handleClose, [anchorEl]);
 
     const rows = relatedStudentsQuery.data?.map(user => {
         return {
@@ -167,11 +96,6 @@ function CourseDetailsTeacherDashboard() {
             fullName: user.user.first_name + ' ' + user.user.last_name,
             username: user.user.username,
             email: user.user.email,
-            actions: {
-                open: onMenuClick,
-                close: onMenuClose,
-                anchor: anchorEl,
-            },
         };
     });
 
@@ -193,7 +117,10 @@ function CourseDetailsTeacherDashboard() {
                             gap: 3,
                         }}
                     >
-                        <Image src={courseQuery.data?.thumbnail ?? ''} />
+                        <Image
+                            src={courseQuery.data?.thumbnail ?? ''}
+                            errorIcon={false}
+                        />
                         <Divider />
                         <Typography variant="h4">{courseQuery.data?.title}</Typography>
                         <Stack
@@ -226,6 +153,9 @@ function CourseDetailsTeacherDashboard() {
                             color={theme.palette.primary.main}
                             text="تعديل الكورس"
                             sx={{ alignSelf: 'flex-end' }}
+                            onClick={() => {
+                                navigate('edit')
+                            }}
                         />
                         <StyledCard sx={{ gap: 4 }}>
                             <Stack gap={2}>
@@ -245,10 +175,10 @@ function CourseDetailsTeacherDashboard() {
                                 />
                                 <TeacherCourseDetailsRow
                                     title={'أرباح الكورس'}
-                                    value={`${
-                                        (courseQuery.data?.price ?? 0) *
-                                        (courseQuery.data?.students_count ?? 0)
-                                    }DA`}
+                                    value={`${(courseQuery.data?.price ?? 0) *
+                                        (courseQuery.data?.students_count ?? 0) *
+                                        (courseQuery.data?.owner.groups?.some(g => g.name === 'AdminGroup') ? 1 : 0.6)
+                                        }DA`}
                                 />
                             </Stack>
                             <Divider />

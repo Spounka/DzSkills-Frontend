@@ -24,9 +24,9 @@ function CoursesPage() {
     });
 
     const ownedCoursesQuery = useQuery({
-        queryKey: ['courses', 'student', user.user.pk],
+        queryKey: ['courses', 'student', user.user?.pk],
         queryFn: () => getStudentRelatedCourses(),
-        enabled: user.user.pk > 0,
+        enabled: user.user?.pk > 0,
     });
 
     const [activeCategories, setActiveCategories] = useState<Category[]>([]);

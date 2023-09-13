@@ -172,7 +172,7 @@ function ImageSwitcher({
             src={source}
             showLoading
             alt={'image'}
-            errorIcon={null}
+            errorIcon={false}
             fit="contain"
             duration={650}
             easing="ease-in-out"

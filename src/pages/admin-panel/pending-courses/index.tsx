@@ -30,7 +30,7 @@ function PendingCoursesAdmin() {
             }
         }
     }
-    const pending_courses = query.data?.filter(course => course.status === 'pend');
+    const pending_courses = query.data?.filter(course => course.status !== 'app').sort((a, _) => a.status === 'pend' ? -1 : a.status === 'edi' ? -1 : 0);
     return (
         <AdminDashboardLayout topbar_title={'الكورسات'}>
             <Box
@@ -54,9 +54,7 @@ function PendingCoursesAdmin() {
                 >
                     {(pending_courses?.length ?? 0) > 0 ? (
                         <CoursesGrid
-                            activeCourses={query.data?.filter(
-                                course => course.status === 'pend'
-                            )}
+                            activeCourses={pending_courses}
                             sx={{
                                 px: 0,
                             }}

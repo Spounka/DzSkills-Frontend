@@ -10,7 +10,6 @@ import { Link, NavLink } from 'react-router-dom';
 import logo from '../../assets/png/logo@2x.png';
 import { ReactComponent as Profile } from '../../assets/svg/Profile icon.svg';
 import axiosInstance from '../../globals/axiosInstance';
-import { LandingPageNavbar } from '../../pages/landing-page/LandingPageNavbar';
 import { selectUser } from '../../redux/userSlice';
 import { Notification } from '../../types/notifications';
 import { AvatarMenu } from '../avatar-menu/AvatarMenu';
@@ -27,6 +26,7 @@ export default function TopNavigationBar() {
             return data as Notification[];
         },
         refetchInterval: 1000 * 60 * 5,
+        enabled: !!user.user
     });
 
     const queryClient = useQueryClient();

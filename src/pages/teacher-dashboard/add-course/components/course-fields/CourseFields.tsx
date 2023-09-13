@@ -54,13 +54,13 @@ export function CourseFields({
     const { enqueueSnackbar } = useSnackbar();
 
     const [courseLang, setCourseLang] = React.useState<string>(course?.language ?? 'Arabic');
-    const [localHashtags, setLocalHashtags] = React.useState<Hashtag[]>([]);
-    const [localLevel, setLocalLevel] = React.useState<Level | undefined>({
+    const [localHashtags, setLocalHashtags] = React.useState<Hashtag[]>(course?.hashtags ?? []);
+    const [localLevel, setLocalLevel] = React.useState<Level | undefined>(course?.course_level ?? {
         courses: 0,
         id: 0,
         name: '',
     });
-    const [localCategory, setLocalCategory] = React.useState<Category | undefined>({
+    const [localCategory, setLocalCategory] = React.useState<Category | undefined>(course?.category ?? {
         courses: 0,
         description: '',
         image: '',
@@ -71,14 +71,17 @@ export function CourseFields({
     const hashtagsQuery = useQuery({
         queryFn: () => getHashtags(),
         queryKey: ['hashtags'],
+        enabled: !readonly,
     });
     const categoriesQuery = useQuery({
         queryKey: ['categories'],
         queryFn: () => getCategories(),
+        enabled: !readonly,
     });
     const levelsQuery = useQuery({
         queryKey: ['levels'],
         queryFn: () => getLevels(),
+        enabled: !readonly,
     });
 
     useEffect(() => {
@@ -108,7 +111,7 @@ export function CourseFields({
                 name={'title'}
                 color={'secondary'}
                 readOnly={readonly}
-                placeholder={course?.title ?? ''}
+                defaultValue={course?.title ?? ''}
                 sx={{
                     gridColumn: '1',
                     gridRow: '2',
@@ -128,7 +131,7 @@ export function CourseFields({
             <OutlinedInput
                 required
                 readOnly={readonly}
-                placeholder={course?.description ?? ''}
+                defaultValue={course?.description ?? ''}
                 name={'description'}
                 color={'secondary'}
                 onBlur={e => {
@@ -159,13 +162,13 @@ export function CourseFields({
                 required
                 name={'price'}
                 readOnly={readonly}
+                defaultValue={course?.price ?? 0}
                 onBlur={e => {
                     if (isNaN(Number(e.target.value))) {
                         enqueueSnackbar('الرجاء إدخال رقم', { variant: 'warning' });
                         e.target.value = '';
                     }
                 }}
-                placeholder={course?.price.toFixed(0) ?? ''}
                 color={'secondary'}
                 sx={{
                     gridColumn: '2',
@@ -213,8 +216,11 @@ export function CourseFields({
                         readonly
                             ? () => {
                             }
-                            : (_, newValue) => {
-                                setLocalHashtags(newValue);
+                            : (_, newValue, reason) => {
+                                if (reason === 'clear')
+                                    setLocalHashtags([])
+                                else
+                                    setLocalHashtags(newValue);
                             }
                     }
                     renderOption={(props, option) => {
@@ -266,7 +272,7 @@ export function CourseFields({
                 <Autocomplete
                     readOnly={readonly}
                     options={levelsQuery.data ?? []}
-                    defaultValue={readonly ? course?.course_level : undefined}
+                    defaultValue={localLevel}
                     filterSelectedOptions
                     getOptionLabel={level => level.name}
                     loading={levelsQuery.isFetching}
@@ -274,13 +280,16 @@ export function CourseFields({
                         readonly
                             ? () => {
                             }
-                            : (_, value) => {
-                                setLocalLevel(value ?? undefined);
+                            : (_, value, reason) => {
+                                if (reason === 'clear')
+                                    setLocalLevel({ id: 0, name: '', courses: 0 })
+                                else
+                                    setLocalLevel(value ?? undefined);
                             }
                     }
                     renderInput={params => (
                         <TextField
-                            required={localLevel === null || localLevel?.id === 0}
+                            required={localLevel === undefined || localLevel?.id === 0}
                             {...params}
                             label="مستوى"
                             placeholder="مستوى"
@@ -317,7 +326,7 @@ export function CourseFields({
                 <Autocomplete
                     readOnly={readonly}
                     options={categoriesQuery.data ?? []}
-                    defaultValue={readonly ? course?.category : undefined}
+                    defaultValue={localCategory}
                     filterSelectedOptions
                     getOptionLabel={category => category.name}
                     loading={categoriesQuery.isFetching}
@@ -325,7 +334,12 @@ export function CourseFields({
                         readonly
                             ? () => {
                             }
-                            : (_, value) => setLocalCategory(value ?? undefined)
+                            : (_, value, reason) => {
+                                if (reason === 'clear')
+                                    setLocalCategory({ name: '', id: 0, image: '', courses: 0, description: '' })
+                                else
+                                    setLocalCategory(value ?? undefined)
+                            }
                     }
                     renderInput={params => (
                         <TextField
@@ -413,7 +427,10 @@ export function CourseFields({
                         gridRow: '8 / span 7',
                     }}
                 >
-                    <Image src={course?.thumbnail ?? ''} />
+                    <Image
+                        src={course?.thumbnail ?? ''}
+                        errorIcon={false}
+                    />
                 </Box>
             ) : (
                 <UploadFileInput
@@ -462,7 +479,7 @@ export function CourseFields({
                 <TextField
                     name={'duration'}
                     disabled={readonly}
-                    value={readonly ? course?.duration : ''}
+                    defaultValue={course?.duration}
                     //@ts-ignore
                     color='purple'
                     sx={{
@@ -489,7 +506,7 @@ export function CourseFields({
                         console.log(e.target.value);
                         setCourseLang(e.target.value);
                     }}
-                    value={course?.language ?? courseLang}
+                    value={courseLang}
                     //@ts-expect-error
                     color='purple'
                     sx={{
@@ -520,7 +537,7 @@ export function CourseFields({
                 <TextField
                     disabled={readonly}
                     name={'used_programs'}
-                    value={course?.used_programs ?? ""}
+                    defaultValue={course?.used_programs}
                     //@ts-ignore
                     color='purple'
                     sx={{

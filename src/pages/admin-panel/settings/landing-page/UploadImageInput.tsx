@@ -64,6 +64,7 @@ export function UploadImageInput({ src, name, required, maxSize, onUpdate }: pro
             {imageSrc ? (
                 <Image
                     src={imageSrc?.toString() ?? src}
+                    errorIcon={false}
                     fit="contain"
                     style={{
                         width: '100%',

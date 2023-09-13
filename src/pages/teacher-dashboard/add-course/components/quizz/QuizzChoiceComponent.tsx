@@ -1,6 +1,6 @@
 import { CheckBoxOutlineBlank } from '@mui/icons-material';
 import { Checkbox, IconButton, Stack, SvgIcon } from '@mui/material';
-import { ReactComponent as DeleteIcon } from '../../../../../assets/svg/delete-white.svg';
+import { ReactComponent as DeleteIcon } from '../../../../../assets/svg/delete-red.svg';
 import { StyledOutline } from '../../../../../components/form/StyledOutline';
 import { QuizzChoice } from '../../../../../types/quizz';
 

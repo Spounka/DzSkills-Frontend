@@ -20,8 +20,7 @@ export function MessageBox({
     hasNextPage,
     loadMore,
 }: MessageBoxProps) {
-    const theme = useTheme();
-    const user = useReduxData().user.user;
+    const theme = useTheme(); const user = useReduxData().user.user;
 
     const dzSkillsAdminQuery = useQuery({
         queryKey: ['users', 'admin'],
@@ -49,10 +48,11 @@ export function MessageBox({
                             let avatarSrc: string;
                             isSender = message.sender === user?.pk;
                             if (
-                                user?.groups.some(g => g?.name === 'AdminGroup') &&
                                 message.sender === dzSkillsAdminQuery.data?.pk
                             ) {
                                 avatarSrc = dzSkillsAdminQuery.data?.profile_image;
+                                if (user?.groups.some(g => g.name === 'AdminGroup'))
+                                    isSender = message.sender === dzSkillsAdminQuery.data?.pk
                             } else {
                                 avatarSrc = isSender
                                     ? user?.profile_image

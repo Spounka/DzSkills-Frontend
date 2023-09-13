@@ -6,6 +6,7 @@ import { removeUser } from '../../redux/userSlice';
 import { useEffect } from 'react';
 import { CircularProgress } from '@mui/material';
 import { Stack } from '@mui/system';
+import { resetAxiosInstances } from '../../globals/axiosInstance';
 
 
 function Logout() {
@@ -19,14 +20,15 @@ function Logout() {
             return data;
         },
         onSuccess: async () => {
-            localStorage.removeItem('access');
-            localStorage.removeItem('refresh');
-            await queryClient.invalidateQueries({ queryKey: ['user'] });
-            dispatch(removeUser());
             navigate('/');
-        }
+        },
     })
     useEffect(() => {
+        queryClient.clear()
+        dispatch(removeUser());
+        localStorage.removeItem('access');
+        localStorage.removeItem('refresh');
+        resetAxiosInstances();
         logoutMutation.mutate()
     }, []);
     return (

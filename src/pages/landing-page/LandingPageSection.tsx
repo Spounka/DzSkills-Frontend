@@ -57,6 +57,7 @@ export function LandingPageSection({
                     />
                 ) : (
                     <Image
+                        errorIcon={false}
                         fit="contain"
                         src={image}
                         width={'100%'}

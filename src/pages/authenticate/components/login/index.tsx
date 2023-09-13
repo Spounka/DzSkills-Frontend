@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import IconFormPassword from '../../../../components/form/IconFormPassword';
 import { MainButton } from '../../../../components/ui/MainButton';
+import { resetAxiosInstances } from '../../../../globals/axiosInstance';
 import { LoginUser, updateUser } from '../../../../redux/userSlice';
 import { login } from '../../api/authenticate';
 import AuthFormsHeader from '../form-header';
@@ -39,12 +40,13 @@ export default function Login() {
         mutationFn: ({ email, password }: any) => {
             return login({ email, password });
         },
-        onSuccess: async (response: LoginUser) => {
-            await queryClient.invalidateQueries(['login']);
-            await queryClient.invalidateQueries(['user']);
+        onSuccess: (response: LoginUser) => {
+            queryClient.removeQueries('courses')
+            queryClient.removeQueries(['courses', 'student', response.user.pk])
             dispatch(updateUser(response));
             localStorage.setItem('access', response.access || '');
             localStorage.setItem('refresh', response.refresh || '');
+            resetAxiosInstances();
             if (!response.user.email_valid) {
                 navigate('/register/verify-email/');
             } else {

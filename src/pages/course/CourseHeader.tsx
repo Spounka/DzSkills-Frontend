@@ -78,7 +78,10 @@ export function CourseHeader({ course }: CourseHeaerProps) {
                     height: '100%',
                 }}
             >
-                <Image src={course?.thumbnail ?? ''} />
+                <Image
+                    src={course?.thumbnail ?? ''}
+                    errorIcon={false}
+                />
             </Box>
         </>
     );

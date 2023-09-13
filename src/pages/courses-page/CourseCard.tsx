@@ -76,6 +76,7 @@ function CourseCard({ course, link }: props) {
                     distance={0}
                     duration={0}
                     height={'100%'}
+                    errorIcon={false}
                     style={{
                         borderRadius: `${theme.spacing(2)} ${theme.spacing(2)} 0 0`,
                         aspectRatio: '16/9',

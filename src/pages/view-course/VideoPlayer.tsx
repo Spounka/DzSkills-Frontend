@@ -12,6 +12,7 @@ export function VideoPlayer({ video, onVideoFinish: handleVideoFinish }: props) 
     const user = useLogin();
     return (
         <figure
+            onContextMenu={e => e.preventDefault()}
             style={{
                 width: '100%',
                 height: 'auto',
