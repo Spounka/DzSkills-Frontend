@@ -2,7 +2,7 @@ import { AxiosProgressEvent } from 'axios';
 import axiosInstance from '../../../../globals/axiosInstance';
 
 export async function submitCourse(
-    form: any,
+    form: FormData,
     uploadProgress?: (event: AxiosProgressEvent) => void,
 
 ) {
@@ -17,7 +17,7 @@ export async function submitCourse(
 
 export async function updateCourse(
     id: number,
-    form: any,
+    form: FormData,
     uploadProgress?: (event: AxiosProgressEvent) => void,
 
 ) {

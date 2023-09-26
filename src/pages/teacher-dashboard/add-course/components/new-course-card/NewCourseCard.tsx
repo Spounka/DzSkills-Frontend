@@ -2,7 +2,7 @@ import { Backdrop, CircularProgress, Divider, Stack, Typography } from '@mui/mat
 import Card from '@mui/material/Card';
 import { Box, useTheme } from '@mui/system';
 import { useSnackbar } from 'notistack';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
@@ -28,6 +28,7 @@ interface props {
     color?: string;
     hashtags?: Hashtag[];
     isSubmitting?: boolean;
+    quizz: CourseQuizz;
 
     setHashtags?: (h: Hashtag[]) => void;
     setLevel?: (l: Level) => void;
@@ -39,16 +40,23 @@ export function NewCourseCard({
     color,
     readonly,
     isSubmitting: globalSubmitting,
+    quizz,
     setHashtags,
     setLevel,
     setCategory,
     updateQuizzCallback,
 }: props) {
     const theme = useTheme();
-    const [chapters, setChapters] = useState<CreationChapter[]>(course?.chapters ?? []);
+    const [chapters, setChapters] = useState<CreationChapter[]>(() => {
+        if (course)
+            return course.chapters.map(c => {
+                return { ...c, uuid: uuidv4() };
+            });
+        return [];
+    });
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [dialogOpen, setDialogOpen] = useState<boolean>(false)
+    const [dialogOpen, setDialogOpen] = useState<boolean>(false);
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
     const client = useQueryClient();
@@ -62,10 +70,12 @@ export function NewCourseCard({
 
     const statusMutation = useMutation({
         mutationKey: ['course', 'accept'],
-        mutationFn: ({ status, reason }: { status: string, reason?: string }) => {
+        mutationFn: ({ status, reason }: { status: string; reason?: string }) => {
             setIsSubmitting(true);
             return (async () => {
-                return await axiosInstance.patch(`/courses/${course?.id}/${status}/`, { reason: reason });
+                return await axiosInstance.patch(`/courses/${course?.id}/${status}/`, {
+                    reason: reason,
+                });
             })();
         },
         onSuccess: async ({ data }: { data: Course }) => {
@@ -96,19 +106,10 @@ export function NewCourseCard({
         },
     });
 
-    const closeDialog = useCallback(() => setDialogOpen(false), [dialogOpen])
+    const closeDialog = useCallback(() => setDialogOpen(false), [dialogOpen]);
     const submitEditRequest = useCallback((reason: string) => {
-        statusMutation.mutate({ status: 'edit', reason: reason })
-    }, [])
-
-    useEffect(() => {
-        if (course)
-            setChapters(
-                course.chapters.map(c => {
-                    return { ...c, uuid: uuidv4() };
-                })
-            );
-    }, [course?.description]);
+        statusMutation.mutate({ status: 'edit', reason: reason });
+    }, []);
 
     return (
         <>
@@ -199,7 +200,7 @@ export function NewCourseCard({
                 <Quizz
                     color={color}
                     readonly={readonly}
-                    quizzData={course?.quizz}
+                    quizzData={quizz}
                     setQuizzData={updateQuizzCallback}
                 />
                 <Divider />
@@ -235,10 +236,10 @@ export function NewCourseCard({
                                         },
                                         disabled: isSubmitting || globalSubmitting,
                                     }}
-                                    onClick={() =>
-                                        // statusMutation.mutate({ status: 'edit' })
-                                        setDialogOpen(true)
-                                    }
+                                    onClick={() => {
+                                        // statusMutation.mutate({ status: 'edit' });
+                                        setDialogOpen(true);
+                                    }}
                                 />
 
                                 <MainButton

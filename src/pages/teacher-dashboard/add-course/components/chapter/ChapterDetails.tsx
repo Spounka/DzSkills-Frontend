@@ -33,7 +33,9 @@ export function ChapterDetails({
     setChapters,
 }: props) {
     const [expanded, setExpanded] = useState<boolean>(false);
-    const [hasAddedLessons, setHasAddedLessons] = useState<boolean>((readonly || (courseChapter?.videos?.length ?? 0) > 0) ?? false);
+    const [hasAddedLessons, setHasAddedLessons] = useState<boolean>(
+        (readonly || (courseChapter?.videos?.length ?? 0) > 0) ?? false
+    );
     const [chapter, setChapter] = useState<CreationChapter>(
         courseChapter ?? {
             title: '',
@@ -53,7 +55,7 @@ export function ChapterDetails({
 
     useEffect(() => {
         setChapters((chaps: CreationChapter[]) => {
-            let f = chaps.filter(chap => chap.uuid !== chapter.uuid);
+            const f = chaps.filter(chap => chap.uuid !== chapter.uuid);
             f.push({ ...chapter });
             return f;
         });
@@ -69,11 +71,9 @@ export function ChapterDetails({
                 display: 'flex',
                 flexDirection: 'column',
                 bgcolor: 'gray.secondary',
-                // height: 'auto',
                 borderRadius: theme.spacing(),
                 width: '100%',
                 overflowX: 'hidden',
-                // overflowY: 'clip',
             }}
         >
             <Box
@@ -96,8 +96,6 @@ export function ChapterDetails({
                         borderTop: 'none',
                         color: 'white',
                         width: '100%',
-                        // px: expanded ? 4 : 2,
-                        // py: expanded ? 4 : 0,
                         px: 2,
                         py: 2,
                         ':before': { display: 'none' },

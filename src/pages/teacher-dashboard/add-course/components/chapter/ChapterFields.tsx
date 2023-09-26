@@ -1,8 +1,8 @@
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
+import { useSnackbar } from 'notistack';
 import { StyledOutline } from '../../../../../components/form/StyledOutline';
 import { CreationChapter } from '../../../../../types/course';
-import { useSnackbar } from 'notistack';
 
 interface props {
     index: number;
@@ -23,10 +23,12 @@ export function ChapterFields({ index, chapter, readonly, setChapter }: props) {
             description: chapter.description,
         });
     }
-    function handleChapterDescriptionChange(e: any) {
-        if (e.target.value > 300) {
+    function handleChapterDescriptionChange(
+        e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) {
+        if (e.target.value.length > 300) {
             enqueueSnackbar('300 كلمة كحد أقصى', { variant: 'warning' });
-            e.target.value = '';
+            e.currentTarget.value = e.currentTarget.value.slice(0, 300);
         }
         setChapter({ description: e.target.value, title: chapter.title });
     }
@@ -41,7 +43,7 @@ export function ChapterFields({ index, chapter, readonly, setChapter }: props) {
 
             <StyledOutline
                 readOnly={readonly}
-                placeholder={chapter.title}
+                defaultValue={chapter.title}
                 name={`chapters[${index}]title`}
                 type="text"
                 color={'secondary'}
@@ -68,6 +70,11 @@ export function ChapterFields({ index, chapter, readonly, setChapter }: props) {
                     flexDirection={'column'}
                     gap={2}
                 >
+                    <input
+                        hidden
+                        name={`chapters[${index}]id`}
+                        value={chapter.id ?? 0}
+                    />
                     <Typography
                         variant={'subtitle2'}
                         px={1}
@@ -77,8 +84,8 @@ export function ChapterFields({ index, chapter, readonly, setChapter }: props) {
                     <StyledOutline
                         required
                         readOnly={readonly}
-                        placeholder={chapter.description || ''}
-                        onBlur={readonly ? () => {} : handleChapterDescriptionChange}
+                        defaultValue={chapter.description ?? ''}
+                        onBlur={handleChapterDescriptionChange}
                         name={`chapters[${index}]description`}
                         color="secondary"
                         multiline

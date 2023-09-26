@@ -34,17 +34,19 @@ export function LessonsAccordion({ expanded, chapterIndex, chapter, readonly }: 
 
     function handleChangeVideo(video: CreationVideo) {
         setVideos(v => {
-            let t = [...v];
+            const t = [...v];
             return t.map(n => (n.uuid === video.uuid ? { ...video, uuid: n.uuid } : n));
         });
     }
 
     useEffect(() => {
-        if (chapter?.videos) {
-            let x = chapter.videos?.map(vid => {
+        if (chapter?.videos?.length) {
+            const x = chapter.videos?.map(vid => {
                 return { ...vid, uuid: uuidv4() };
             });
-            setVideos(x ?? []);
+            setVideos(
+                x ?? [{ uuid: uuidv4(), title: '', description: '', video: undefined }]
+            );
         }
     }, []);
 
@@ -53,7 +55,7 @@ export function LessonsAccordion({ expanded, chapterIndex, chapter, readonly }: 
             expanded={isExpanded && expanded}
             onChange={(_, b) => setIsExpanded(b)}
             sx={{
-                // height: '100%',
+                height: '100%',
                 transform: expanded ? 'translate(0, 0)' : 'translate(-100%, -100%)',
                 bgcolor: 'transparent',
                 boxShadow: 'none',
@@ -90,7 +92,6 @@ export function LessonsAccordion({ expanded, chapterIndex, chapter, readonly }: 
                         display: `${expanded ? 'none' : 'block'}`,
                     }}
                 >
-                    <Typography></Typography>
                     <Typography>Kenobi!</Typography>
                 </Box>
             </AccordionSummary>
@@ -115,6 +116,7 @@ export function LessonsAccordion({ expanded, chapterIndex, chapter, readonly }: 
                         }}
                     >
                         <img
+                            alt={'white cirlce with green arrow pointing to the right'}
                             loading={'lazy'}
                             src={rightArrow}
                             style={{
@@ -129,7 +131,7 @@ export function LessonsAccordion({ expanded, chapterIndex, chapter, readonly }: 
                         <IconButton
                             onClick={() => {
                                 setVideos(vids => {
-                                    let v = [...vids];
+                                    const v = [...vids];
                                     v.push({
                                         uuid: uuidv4(),
                                         title: '',
@@ -146,6 +148,7 @@ export function LessonsAccordion({ expanded, chapterIndex, chapter, readonly }: 
                             }}
                         >
                             <img
+                                alt={''}
                                 loading={'lazy'}
                                 src={addButton}
                                 style={{
@@ -154,9 +157,7 @@ export function LessonsAccordion({ expanded, chapterIndex, chapter, readonly }: 
                                 }}
                             />
                         </IconButton>
-                    ) : (
-                        <></>
-                    )
+                    ) : null
                 ) : (
                     <IconButton
                         onClick={() =>
@@ -171,6 +172,7 @@ export function LessonsAccordion({ expanded, chapterIndex, chapter, readonly }: 
                         }}
                     >
                         <img
+                            alt={'white cirlce with green arrow pointing to the left'}
                             loading={'lazy'}
                             src={rightArrow}
                             style={{
@@ -204,7 +206,8 @@ export function LessonsAccordion({ expanded, chapterIndex, chapter, readonly }: 
                                 getVideo={getVideo}
                                 videoIndex={index}
                                 setVideo={handleChangeVideo}
-                                video={(readonly && video) || undefined}
+                                readonly={readonly}
+                                video={video.title !== '' ? video : undefined}
                             />
                         );
                     })}

@@ -7,7 +7,6 @@ import { getCourse } from '../../course/api/getCourse';
 import { NewCourseCard } from '../../teacher-dashboard/add-course/components/new-course-card/NewCourseCard';
 import AdminDashboardLayout from '../layout';
 import { useRouteID } from '../../../globals/hooks';
-import { useState } from 'react';
 
 function PendingCourse() {
     const theme = useTheme();
@@ -62,7 +61,7 @@ function PendingCourse() {
                                 <Stack
                                     gap={2}
                                     width={'100%'}
-                                // flex={'1 0 60%'}
+                                    // flex={'1 0 60%'}
                                 >
                                     <Stack>
                                         <Typography variant={'h6'}>
@@ -77,7 +76,7 @@ function PendingCourse() {
                                     </Stack>
                                     <Typography
                                         variant={'body2'}
-                                    // color={'gray.main'}
+                                        // color={'gray.main'}
                                     >
                                         {`${course.data?.description}`}
                                     </Typography>
@@ -86,7 +85,7 @@ function PendingCourse() {
                                     textAlign={'left'}
                                     variant={'h6'}
                                     flex={'1 1 40%'}
-                                // width={'100%'}
+                                    // width={'100%'}
                                 >
                                     {`${course.data?.price}DA`}
                                 </Typography>
@@ -95,6 +94,7 @@ function PendingCourse() {
                     </StyledCard>
                 </Stack>
                 <NewCourseCard
+                    quizz={course.data?.quizz}
                     readonly
                     course={course.data}
                     color={theme.palette.secondary.main}

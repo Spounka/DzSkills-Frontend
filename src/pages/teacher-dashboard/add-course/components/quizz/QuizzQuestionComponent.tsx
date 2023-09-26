@@ -1,4 +1,3 @@
-import { Delete } from '@mui/icons-material';
 import { Grid, IconButton, Stack, Typography, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import React, { useCallback, useEffect } from 'react';
@@ -16,7 +15,7 @@ interface QuizzQuestionProps {
     color?: string;
     stringColor?: string;
     updateQuizz: (question: QuizzQuestion) => void;
-    removeQuestion: (uuid: string) => void
+    removeQuestion: (uuid?: string | number) => void;
 }
 export function QuizzQuestionComponent({
     question,
@@ -42,7 +41,10 @@ export function QuizzQuestionComponent({
         const q = { ...localQuestion };
 
         if (q.choices) {
-            let index = q.choices.findIndex(x => x.key === choice.key);
+            const index = q.choices.findIndex(x => {
+                if (choice.key) return x.key === choice.key;
+                return x.id === choice.id;
+            });
             if (index >= 0) q.choices[index] = { ...choice };
             else q.choices = [...q.choices, choice];
         } else {
@@ -70,11 +72,14 @@ export function QuizzQuestionComponent({
         });
     };
 
-
     const removeChoice = (c: QuizzChoice) => {
+        // prevents from having 0 answers
         if (localQuestion?.choices?.length === 1) return;
         const q = { ...localQuestion };
-        const result = q.choices?.filter(choice => choice.key !== c.key);
+        const result = q.choices?.filter(choice => {
+            if (c.key) return choice.key !== c.key;
+            return choice.id !== c.id;
+        });
         if (result) setLocalQuestion({ ...q, choices: result });
     };
 
@@ -101,12 +106,12 @@ export function QuizzQuestionComponent({
                     readOnly={readonly}
                     onBlur={
                         readonly
-                            ? () => { }
+                            ? () => {}
                             : e => {
-                                setLocalQuestion(q => {
-                                    return { ...q, content: e.currentTarget.value };
-                                });
-                            }
+                                  setLocalQuestion(q => {
+                                      return { ...q, content: e.currentTarget.value };
+                                  });
+                              }
                     }
                     multiline
                     color={'secondary'}
@@ -135,7 +140,7 @@ export function QuizzQuestionComponent({
                             >
                                 <QuizzChoiceComponent
                                     color={stringColor}
-                                    key={c.key}
+                                    key={c.id}
                                     choice={c}
                                     readonly={readonly}
                                     updateQuestion={updateQuestionCallback}
@@ -163,7 +168,10 @@ export function QuizzQuestionComponent({
                                 </IconButton>
                                 <IconButton
                                     sx={{ placeSelf: 'center', justifySelf: 'center' }}
-                                    onClick={() => removeQuestion(question.key ?? "")}
+                                    onClick={() => {
+                                        if (question.key) removeQuestion(question.key);
+                                        else removeQuestion(question.id ?? 0);
+                                    }}
                                 >
                                     <DeleteIcon fill={'white'} />
                                 </IconButton>

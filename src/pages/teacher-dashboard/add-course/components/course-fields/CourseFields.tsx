@@ -212,6 +212,9 @@ export function CourseFields({
                     filterSelectedOptions
                     getOptionLabel={hashtag => hashtag.name}
                     loading={hashtagsQuery.isFetching}
+                    isOptionEqualToValue={(a, b) => {
+                        return a.id === b.id
+                    }}
                     onChange={
                         readonly
                             ? () => {
@@ -276,6 +279,9 @@ export function CourseFields({
                     filterSelectedOptions
                     getOptionLabel={level => level.name}
                     loading={levelsQuery.isFetching}
+                    isOptionEqualToValue={(a, b) => {
+                        return a.id === b.id
+                    }}
                     onChange={
                         readonly
                             ? () => {
@@ -330,6 +336,9 @@ export function CourseFields({
                     filterSelectedOptions
                     getOptionLabel={category => category.name}
                     loading={categoriesQuery.isFetching}
+                    isOptionEqualToValue={(a, b) => {
+                        return a.id === b.id
+                    }}
                     onChange={
                         readonly
                             ? () => {
@@ -434,7 +443,7 @@ export function CourseFields({
                 </Box>
             ) : (
                 <UploadFileInput
-                    required
+                    required={!course}
                     sx={{
                         gridColumn: 'auto',
                         gridRow: '8 / span 7',
@@ -478,6 +487,7 @@ export function CourseFields({
             {
                 <TextField
                     name={'duration'}
+                    required
                     disabled={readonly}
                     defaultValue={course?.duration}
                     //@ts-ignore
@@ -536,6 +546,7 @@ export function CourseFields({
             {
                 <TextField
                     disabled={readonly}
+                    required
                     name={'used_programs'}
                     defaultValue={course?.used_programs}
                     //@ts-ignore

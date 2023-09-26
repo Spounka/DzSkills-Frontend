@@ -3,6 +3,7 @@ import { ComponentPreview, Previews } from '@react-buddy/ide-toolbox';
 import { PaletteTree } from './palette';
 import FullScreenLoadingFallback from '../components/full-screen-loading-fallback';
 import CoursesPage from '../pages/courses-page';
+import EditCourse from '../pages/teacher-dashboard/edit-course';
 
 const ComponentPreviews = () => {
     return (
@@ -12,6 +13,9 @@ const ComponentPreviews = () => {
             </ComponentPreview>
             <ComponentPreview path="/CoursesPage">
                 <CoursesPage />
+            </ComponentPreview>
+            <ComponentPreview path='/EditCourse'>
+                <EditCourse />
             </ComponentPreview>
         </Previews>
     );

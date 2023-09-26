@@ -1,5 +1,5 @@
 import { Divider, Stack, Typography, useTheme } from '@mui/material';
-import React, { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { MainButton } from '../../../../../components/ui/MainButton';
 import { CourseQuizz, QuizzQuestion } from '../../../../../types/quizz';
@@ -13,33 +13,38 @@ interface quizzProps {
 }
 function Quizz({ quizzData, color, readonly, setQuizzData }: quizzProps) {
     const theme = useTheme();
-    const [quizz, setQuizz] = React.useState<CourseQuizz | undefined>(quizzData);
+    let quizz = { ...quizzData };
 
     const updateQuizz = (question: QuizzQuestion) => {
         const q = { ...quizz };
 
         if (q.questions) {
-            let index = q.questions.findIndex(x => x.key === question.key);
+            let index = -1;
+            index = q.questions.findIndex(x => {
+                if (x.key) return x.key === question.key;
+                return x.id === question.id;
+            });
             if (index >= 0) q.questions[index] = { ...question };
             else q.questions = [...q.questions, question];
         } else {
-            q.questions = [question];
+            q.questions = [question] as QuizzQuestion[];
         }
-        setQuizz(q);
+        setQuizzData?.(q);
     };
 
     const updateQuizzCallback = useCallback(updateQuizz, [quizz]);
-    const removeQuestion = useCallback((uuid: string) => {
-        console.log(uuid)
-        const qu = { ...quizz }
-        qu.questions = qu.questions?.filter(q => q.key !== uuid)
-        console.table(qu)
-        setQuizz(qu)
-    }, [quizz])
-
-    useEffect(() => {
-        if (setQuizzData && quizz) setQuizzData(quizz);
-    }, [quizz]);
+    const removeQuestion = useCallback(
+        (uuid?: string | number) => {
+            if (!uuid) return;
+            const qu = { ...quizz };
+            qu.questions = qu.questions?.filter(q => {
+                if (typeof uuid === 'number') return q.id !== uuid;
+                return q.key !== uuid;
+            });
+            setQuizzData?.(qu);
+        },
+        [quizz]
+    );
 
     return (
         <Stack gap={2}>
@@ -51,7 +56,7 @@ function Quizz({ quizzData, color, readonly, setQuizzData }: quizzProps) {
                 الكويز
             </Typography>
             <Divider />
-            {quizz?.questions?.map(question => {
+            {quizzData?.questions?.map(question => {
                 return (
                     <QuizzQuestionComponent
                         color={color}

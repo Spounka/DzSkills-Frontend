@@ -15,7 +15,7 @@ export function TeacherAddCourse() {
     useLogin();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [progress, setProgress] = useState<number>(0);
-    const [quizz, setQuizz] = React.useState<CourseQuizz>();
+    const [quizz, setQuizz] = React.useState<CourseQuizz>({});
     const updateQuizz = (q: CourseQuizz) => {
         setQuizz(q);
     };
@@ -38,14 +38,14 @@ export function TeacherAddCourse() {
         setProgress((e.loaded / (e.total ?? 1)) * 100);
     };
 
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
     const submitCourseMutation = useMutation({
         mutationFn: (p: any) => submitCourse(p, uploadProgress),
         mutationKey: ['course-submit'],
         onSuccess: async () => {
             setProgress(0);
             setIsSubmitting(false);
-            await queryClient.invalidateQueries('users')
+            await queryClient.invalidateQueries('users');
             x.enqueueSnackbar('تم تحميل الدورة بنجاح', {
                 variant: 'success',
                 anchorOrigin: { horizontal: 'center', vertical: 'bottom' },
@@ -69,8 +69,7 @@ export function TeacherAddCourse() {
         const form = document.querySelector('form');
         if (form) {
             let formData = new FormData(form);
-            if (quizz)
-                formData.append('quizz', JSON.stringify(quizz));
+            if (quizz) formData.append('quizz', JSON.stringify(quizz));
             formData.append('hashtags', JSON.stringify({ objs: hashtags }));
             formData.append('category', category.id.toString());
             formData.append('course_level', level.id.toString());
@@ -119,6 +118,7 @@ export function TeacherAddCourse() {
                     hashtags={hashtags}
                     updateQuizzCallback={updateQuizzCallback}
                     isSubmitting={isSubmitting}
+                    quizz={quizz}
                 />
             </form>
         </TeacherDashboardLayout>

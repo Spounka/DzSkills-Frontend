@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let axiosInstance = axios.create({
+const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_HOST || 'https://dzskills.com/api',
     headers: localStorage.getItem('access')
         ? {
@@ -13,7 +13,7 @@ let axiosInstance = axios.create({
             'Accept-Language': 'ar',
         },
 });
-let axiosBare = axios.create({
+const axiosBare = axios.create({
     baseURL: import.meta.env.VITE_HOST || 'https://dzskills.com/api',
     headers: localStorage.getItem('access')
         ? {
@@ -28,34 +28,9 @@ let axiosBare = axios.create({
 });
 
 function resetAxiosInstances() {
-    axiosInstance = axios.create({
-        baseURL: import.meta.env.VITE_HOST || 'https://dzskills.com/api',
-        headers: localStorage.getItem('access')
-            ? {
-                'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer ${localStorage.getItem('access')}`,
-                'Accept-Language': 'ar',
-            }
-            : {
-                'Content-Type': 'multipart/form-data',
-                'Accept-Language': 'ar',
-            },
-    });
-    axiosBare = axios.create({
-        baseURL: import.meta.env.VITE_HOST || 'https://dzskills.com/api',
-        headers: localStorage.getItem('access')
-            ? {
-                'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer ${localStorage.getItem('access')}`,
-                'Accept-Language': 'ar',
-            }
-            : {
-                'Content-Type': 'multipart/form-data',
-                'Accept-Language': 'ar',
-            },
-    });
-
-
+    const value = localStorage.getItem('access') ? `Bearer ${localStorage.getItem('access')}` : ''
+    axiosInstance.defaults.headers.common.Authorization = value
+    axiosBare.defaults.headers.common.Authorization = value
 }
 
 axiosInstance.interceptors.response.use(

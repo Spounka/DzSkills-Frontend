@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import { AxiosError } from 'axios';
+import { useSnackbar } from 'notistack';
 import React, { useCallback, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
@@ -11,8 +12,11 @@ import { v4 as uuidv4 } from 'uuid';
 import messagesBlue from '../../assets/svg/message-blue.svg';
 import messagesWhite from '../../assets/svg/message-white.svg';
 import { MainButton } from '../../components/ui/MainButton';
+import { useRouteID } from '../../globals/hooks';
+import { fileNameFromPath } from '../../globals/utils';
+import useReduxData from '../../stores/reduxUser';
 import { Chapter, Progression, Video } from '../../types/course';
-import useLogin from '../authenticate/hooks/useLogin';
+import { useIsBanned } from '../banned-page/BannedPage';
 import { getCourse } from '../course/api/getCourse';
 import AnimatedIconButton from './AnimatedIconButton';
 import { ChapterAccordion } from './ChapterAccordion';
@@ -20,11 +24,6 @@ import { VideoComments } from './VideoComments';
 import { VideoPlayer } from './VideoPlayer';
 import { VideoRatings } from './VideoRatings';
 import { getStudentProgress, updateStudentProgress } from './api/queries';
-import { useSnackbar } from 'notistack';
-import { useIsBanned } from '../banned-page/BannedPage';
-import { fileNameFromPath } from '../../globals/utils';
-import { useRouteID } from '../../globals/hooks';
-import useReduxData from '../../stores/reduxUser';
 
 function WatchCourse() {
     const id: number = useRouteID();
@@ -67,17 +66,17 @@ function WatchCourse() {
         queryKey: ['progression', id, user?.pk],
         queryFn: () => getStudentProgress(id),
         onSuccess: data => {
-            const currentChapter =
-                currentCourse.data?.chapters[data?.last_chapter_index || 0];
-            if (currentChapter && 'videos' in currentChapter) {
-                let currentVideo = currentChapter.videos[data?.last_video_index || 0];
+            const currentChapter: Chapter | undefined =
+                currentCourse.data?.chapters[data.last_chapter_index || 0];
+            if (currentChapter) {
+                const currentVideo = currentChapter.videos[data.last_video_index];
                 setCurrentVideo(currentVideo);
             } else setCurrentVideo(defaultVideo);
         },
         staleTime: 1000 * 60 * 2,
         onError: (err: AxiosError) => {
             if (err.response?.status === 403) navigate(`/courses/${id}/buy/`);
-            console.error(err)
+            console.error(err);
         },
         enabled: !!(currentCourse.data && user?.pk),
     });
@@ -95,30 +94,33 @@ function WatchCourse() {
     );
 
     function updateStudentProgression(progression: Progression | undefined) {
-        if (!progression) return;
+        const x = 0;
+        console.warn('Function being called');
+        console.table(progression);
+        if (!progression) {
+            console.error('no progression!');
+            console.trace();
+            return;
+        }
         const chapter = progression.last_chapter_index;
         const video = progression.last_video_index;
 
         if (
-            (chapter && chapter !== 0) ||
-            (video && video !== 0) ||
             !currentVideo ||
             !currentCourse.isSuccess
         )
             return;
         const last_video = currentCourse.data?.chapters[chapter].videos[video];
+        if (!last_video) return;
         if (last_video.id === currentVideo.id) {
             progressionMutation.mutate();
         }
     }
 
-    const onVideofinishedPlaying = () => {
+    const handleVideoFinish = useCallback(() => {
+        console.warn('Updating Progression...');
         updateStudentProgression(progression.data);
-    };
-    const handleVideoFinish = useCallback(onVideofinishedPlaying, [
-        currentVideo,
-        progression.data,
-    ]);
+    }, [currentVideo.id, progression.data?.last_video_index]);
 
     if (currentCourse.isError) return <Typography>Course Error</Typography>;
     if (currentCourse.isLoading) return <Typography>Course Loading...</Typography>;
@@ -147,7 +149,6 @@ function WatchCourse() {
                 minHeight: '100vh',
             }}
         >
-
             <Grid
                 xs={13}
                 item
@@ -435,7 +436,7 @@ function WatchCourse() {
                                 >
                                     {currentVideo.presentation_file
                                         ? fileNameFromPath(
-                                            currentVideo.presentation_file ?? ''
+                                            currentVideo.presentation_file ?? '',
                                         )
                                         : 'لا توجد مرفقات'}
                                 </Typography>

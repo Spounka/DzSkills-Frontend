@@ -2,7 +2,7 @@ import { useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useLogin from '../authenticate/hooks/useLogin';
 import DashboardSidebar from './add-course/components/side-navbar';
 import { DashboardTopbar } from './add-course/components/top-navbar/DashboardTopbar';

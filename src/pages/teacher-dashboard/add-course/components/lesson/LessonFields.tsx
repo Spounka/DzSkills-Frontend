@@ -70,7 +70,7 @@ export function LessonFields({
     }
 
     function updateVideo() {
-        let x = {
+        const x = {
             ...vid,
             title: title,
             description: description,
@@ -87,6 +87,9 @@ export function LessonFields({
             return 'translate(-200%, 0)';
         }
     }
+    let requiredCondition = true;
+
+    if (video) requiredCondition = video.video === '';
 
     return (
         <Box
@@ -101,6 +104,13 @@ export function LessonFields({
                 gap: 2,
             }}
         >
+            <input
+                hidden
+                id={`video-id-${video?.id}`}
+                type="hidden"
+                name={`chapters[${chapterIndex}]videos[${videoIndex}]id`}
+                value={video?.id ?? 0}
+            />
             <Box
                 sx={{
                     display: 'flex',
@@ -117,8 +127,7 @@ export function LessonFields({
                 </Typography>
 
                 <StyledOutline
-                    required
-                    readOnly={!!video}
+                    readOnly={readonly}
                     name={`chapters[${chapterIndex}]videos[${videoIndex}]title`}
                     type="text"
                     value={title}
@@ -151,7 +160,7 @@ export function LessonFields({
                     multiline
                     required
                     maxRows={3}
-                    readOnly={!!video}
+                    readOnly={readonly}
                     onChange={handleDescriptionChange}
                     onBlur={() => updateVideo()}
                     name={`chapters[${chapterIndex}]videos[${videoIndex}]description`}
@@ -170,6 +179,7 @@ export function LessonFields({
                     flexDirection: 'column',
                     gap: 2,
                     width: `calc(50% - ${theme.spacing()})`,
+                    height: 'auto',
                 }}
             >
                 <Typography
@@ -179,14 +189,14 @@ export function LessonFields({
                     فيديو الدرس
                 </Typography>
 
-                {video ? (
+                {readonly ? (
                     <video
                         preload={'metadata'}
-                        src={video.video ?? ''}
+                        src={video?.video ?? ''}
                     ></video>
                 ) : (
                     <UploadFileInput
-                        required
+                        required={requiredCondition}
                         inputName={`chapters[${chapterIndex}]videos[${videoIndex}]video`}
                         onChange={handleVideoChange}
                         sx={{
@@ -209,7 +219,7 @@ export function LessonFields({
                     display: 'flex',
                     flexDirection: 'column',
                     gap: 2,
-                    minWidth: `calc(50% - ${theme.spacing()})`,
+                    maxWidth: `calc(50% - ${theme.spacing()})`,
                 }}
             >
                 <Typography
@@ -218,14 +228,19 @@ export function LessonFields({
                 >
                     صورة مصغرة
                 </Typography>
-                {video ? (
+                {readonly ? (
                     <img
+                        alt={'thumbnail of course'}
                         loading="lazy"
-                        src={video.thumbnail ?? ''}
+                        src={video?.thumbnail ?? ''}
+                        style={{
+                            flexGrow: '0',
+                            flexShrink: '1',
+                        }}
                     />
                 ) : (
                     <UploadFileInput
-                        required
+                        required={requiredCondition}
                         inputName={`chapters[${chapterIndex}]videos[${videoIndex}]thumbnail`}
                         onChange={handleImageChange}
                         sx={{
@@ -260,8 +275,8 @@ export function LessonFields({
                     ملف التقديم
                 </Typography>
 
-                {video ? (
-                    video.presentation_file ? (
+                {readonly ? (
+                    video?.presentation_file ? (
                         <FileUrlField
                             sx={{
                                 gridColumn: '-2 / span 1',

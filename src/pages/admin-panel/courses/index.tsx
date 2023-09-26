@@ -141,7 +141,11 @@ function AdminCourses() {
                         sx={{
                             px: 0,
                         }}
-                        cardsPerRow={3}
+                        cardsPerRow={{
+                            xs: 1,
+                            md: 2,
+                            lg: 3,
+                        }}
                     />
                 </Box>
             </Box>

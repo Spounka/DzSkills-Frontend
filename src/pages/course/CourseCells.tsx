@@ -6,11 +6,6 @@ interface CourseCellsProps {
     data?: Course;
 }
 export function CourseCells({ data }: CourseCellsProps) {
-    function getCourseLevel(level: string) {
-        if (level === 'beg' || level === 'Beginner') return 'مبتدئ';
-        if (level === 'interm' || level === 'Intermediate') return 'متقدم';
-        return 'احترافي';
-    }
 
     function getCourseLanguage(language: string) {
         switch (language.toLowerCase()) {
@@ -28,7 +23,7 @@ export function CourseCells({ data }: CourseCellsProps) {
         <>
             <CourseCellDetails
                 title={'المستوى'}
-                text={getCourseLevel(data?.course_level?.name ?? '') ?? ''}
+                text={data?.course_level?.name ?? 'مبتدئ'}
             />
             <Divider
                 orientation="vertical"
