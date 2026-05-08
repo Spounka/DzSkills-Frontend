@@ -40,6 +40,7 @@ function CourseCard({ course, link }: props) {
                 aspectRatio: {
                     xs: '9/10',
                     md: '9/10',
+                    lg: 'auto',
                 },
                 pb: 2,
                 ':hover': {

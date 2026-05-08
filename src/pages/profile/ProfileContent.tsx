@@ -8,6 +8,7 @@ import { ProfileSocialMedia } from '../../components/ProfileSocialMedia';
 import useReduxData from '../../stores/reduxUser';
 import { getStudentRelatedCourses } from './getStudentRelatedCourses';
 import { CoursesGrid } from '../courses-page/courses-grid';
+import CourseCard from '../courses-page/CourseCard';
 
 export function ProfileContent() {
     const theme = useTheme();
@@ -173,52 +174,52 @@ export function ProfileContent() {
                 كورساتي
             </Typography>
 
-            <Box sx={{ width: '100%' }} aria-label={'course grid container'}>
-
-                <CoursesGrid activeCourses={ownedCoursesQuery.data}
-                             cardsPerRow={{ xs: 1, sm: 2, md: 3, lg: 3, xl: 3 }}
-                             sx={{
-                                 px: 0,
-                             }}
-                />
+            {/* <Box sx={{ width: '100%' }} aria-label={'course grid container'}> */}
+            {/**/}
+            {/*     <CoursesGrid activeCourses={ownedCoursesQuery.data} */}
+            {/*                  cardsPerRow={{ xs: 1, sm: 2, md: 3, lg: 3, xl: 3 }} */}
+            {/*                  sx={{ */}
+            {/*                      px: 0, */}
+            {/*                  }} */}
+            {/*     /> */}
+            {/* </Box> */}
+            <Box
+                display={'flex'}
+                gap={2}
+                flexWrap={'wrap'}
+                sx={{
+                    flex: '1',
+                    width: '100%',
+                    px: -2,
+                }}
+            >
+                {ownedCoursesQuery.data?.map(course => {
+                    return (
+                        <Box
+                            key={course.id}
+                            sx={{
+                                maxWidth: {
+                                    xs: '100%',
+                                    sm: '35%',
+                                    lg: '50%',
+                                },
+                                boxShadow: '0 5px 10px #0000001A',
+                                borderRadius: theme.spacing(2),
+                                flex: '1 1 30%',
+                                width: '100%',
+                                height: 'auto',
+                                // flexBasis: '30%',
+                                aspecRatio: '16/9',
+                            }}
+                        >
+                            <CourseCard
+                                course={course}
+                                link={`/courses/${course.id}/watch/`}
+                            />
+                        </Box>
+                    );
+                })}
             </Box>
-            {/*<Box*/}
-            {/*    display={'flex'}*/}
-            {/*    gap={2}*/}
-            {/*    flexWrap={'wrap'}*/}
-            {/*    sx={{*/}
-            {/*        flex: '1',*/}
-            {/*        width: '100%',*/}
-            {/*        px: -2,*/}
-            {/*    }}*/}
-            {/*>*/}
-            {/*    {ownedCoursesQuery.data?.map(course => {*/}
-            {/*        return (*/}
-            {/*            <Box*/}
-            {/*                key={uuidv4()}*/}
-            {/*                sx={{*/}
-            {/*                    maxWidth: {*/}
-            {/*                        xs: '100%',*/}
-            {/*                        sm: '35%',*/}
-            {/*                        lg: '50%',*/}
-            {/*                    },*/}
-            {/*                    boxShadow: '0 5px 10px #0000001A',*/}
-            {/*                    borderRadius: theme.spacing(2),*/}
-            {/*                    flex: '1 1 30%',*/}
-            {/*                    width: '100%',*/}
-            {/*                    height: 'auto',*/}
-            {/*                    // flexBasis: '30%',*/}
-            {/*                    aspecRatio: '16/9',*/}
-            {/*                }}*/}
-            {/*            >*/}
-            {/*                <CourseCard*/}
-            {/*                    course={course}*/}
-            {/*                    link={`/courses/${course.id}/watch/`}*/}
-            {/*                />*/}
-            {/*            </Box>*/}
-            {/*        );*/}
-            {/*    })}*/}
-            {/*</Box>*/}
         </Card>
     );
 }
